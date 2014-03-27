@@ -1,5 +1,12 @@
 *.class
 
 # Package Files #
+*.cache
+*.dex
+*.apk
+*.ap_
+*.properties
+*.classpath
+*.jar
 *.war
 *.ear
