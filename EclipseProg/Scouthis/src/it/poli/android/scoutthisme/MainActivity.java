@@ -56,17 +56,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      * time.
      */
     ViewPager mViewPager;
-    
-	private static Camera camera;
-    
-	@Override
-	protected void onStop() {
-		super.onStop();
- 
-		if (camera != null) {
-			camera.release();
-		}
-	}
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,11 +158,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             return titles[position];
         }
     }
-
- 
- 
-    
-
     
     public static class LaunchpadSectionFragment extends Fragment {
 
