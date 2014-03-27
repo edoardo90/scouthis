@@ -14,29 +14,32 @@
  * limitations under the License.
  */
 
-package com.example.android.scoutthisme;
+package it.poli.android.scoutthisme;
 
-import com.example.android.effectivenavigation.R;
-
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar.Tab;
+import it.poli.android.scoutthisme.tools.GpsSectionFragment;
+import it.poli.android.scoutthisme.tools.LumusSectionFragment;
+import it.poli.android.scoutthisme.tools.PedometerSectionFragment;
+import it.poli.android.scoutthisme.tools.WakeUpSectionFragment;
+import it.poli.android.scoutthisme.tools.WalkieTalkieSectionFragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.Tab;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.ToggleButton;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
-import android.util.Log;
-import android.content.Context;
+
+import com.example.android.effectivenavigation.R;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
@@ -54,7 +57,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      */
     ViewPager mViewPager;
     
-	private static boolean isLighOn = false;
 	private static Camera camera;
     
 	@Override
@@ -168,109 +170,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    /**
-     * A fragment that launches other parts of the demo application.
-     */
-    public static class GpsSectionFragment extends Fragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_gps, container, false);
-
-            return rootView;
-        }
-    }
+ 
+ 
     
-    /**
-     * A fragment that launches other parts of the demo application.
-     */
-    public static class PedometerSectionFragment extends Fragment {
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_pedometer, container, false);
-
-            return rootView;
-        }
-    }
-    
-    /**
-     * A fragment that launches other parts of the demo application.
-     */
-    public static class LumusSectionFragment extends Fragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_lumus, container, false);
-            Log.i("info", "sono qui");
-            if (camera == null)
-            	camera = Camera.open();
-    		final Parameters p = camera.getParameters();
-            
-            // Demonstration of a collection-browsing activity.
-            rootView.findViewById(R.id.toggleButton1)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-            				if (isLighOn) {
-            					 
-            					Log.i("info", "torch is turn off!");
-             
-            					p.setFlashMode(Parameters.FLASH_MODE_OFF);
-            					camera.setParameters(p);
-            					camera.stopPreview();
-            					isLighOn = false;
-
-            				} else {
-             
-            					Log.i("info", "torch is turn on!");
-             
-            					p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-             
-            					camera.setParameters(p);
-            					camera.startPreview();
-            					isLighOn = true;
-             
-            				}
-        					ToggleButton b = (ToggleButton) view;
-        					b.setChecked(isLighOn);
-                        }
-                    });
-            
-            return rootView;
-        }
-    }
-    
-    /**
-     * A fragment that launches other parts of the demo application.
-     */
-    public static class WalkieTalkieSectionFragment extends Fragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_walkietalkie, container, false);
-
-            return rootView;
-        }
-    }
-    
-    /**
-     * A fragment that launches other parts of the demo application.
-     */
-    public static class WakeUpSectionFragment extends Fragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_wakeup, container, false);
-
-            return rootView;
-        }
-    }
     
     public static class LaunchpadSectionFragment extends Fragment {
 
