@@ -8,4 +8,5 @@
 *.jar
 *.war
 *.ear
-EclipseProg/Scouthis/appcompat/**/
+EclipseProg/Scouthis/bin/**/
+EclipseProg/Scouthis/gen/**/
