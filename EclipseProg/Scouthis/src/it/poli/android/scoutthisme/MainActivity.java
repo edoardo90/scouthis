@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      * time.
      */
     ViewPager mViewPager;
-
+    int asdTOGLIMI;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
