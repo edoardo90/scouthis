@@ -10,5 +10,6 @@
 *.jar
 *.war
 *.ear
-*.properties
 EclipseProg/Scouthis/bin/
+EclipseProg/Scouthis/appcompat/
+EclipseProg/Scouthis/gen/
