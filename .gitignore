@@ -10,3 +10,5 @@
 *.jar
 *.war
 *.ear
+*.properties
+bin/
