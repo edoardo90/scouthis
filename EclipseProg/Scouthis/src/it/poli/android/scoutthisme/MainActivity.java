@@ -16,6 +16,7 @@
 
 package it.poli.android.scoutthisme;
 
+import it.poli.android.scoutthisme.tools.GpsSectionFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -157,19 +158,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
     
-    /**
-     * A fragment that launches the gps application
-     */
-    public static class GpsSectionFragment extends Fragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_gps, container, false);
-
-            return rootView;
-        }
-    }
     
     /**
      * A fragment that launches the pedometer application.
