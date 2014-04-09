@@ -1,4 +1,5 @@
 package it.poli.android.scoutthisme.tools;
+import it.poli.android.scouthisme.R;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,8 +14,6 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.android.effectivenavigation.R;
 
    /**
      * A fragment that launches other parts of the demo application.

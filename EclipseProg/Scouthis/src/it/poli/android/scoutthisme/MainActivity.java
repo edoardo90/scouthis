@@ -16,6 +16,7 @@
 
 package it.poli.android.scoutthisme;
 
+import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.tools.GpsSectionFragment;
 import android.content.Context;
 import android.content.Intent;
@@ -37,8 +38,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import com.example.android.effectivenavigation.R;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 

@@ -16,9 +16,7 @@
 
 package it.poli.android.scoutthisme;
 
-import com.example.android.effectivenavigation.R;
-
-import android.support.v7.app.ActionBarActivity;
+import it.poli.android.scouthisme.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +25,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
