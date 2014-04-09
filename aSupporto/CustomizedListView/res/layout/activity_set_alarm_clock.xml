@@ -1,0 +1,171 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".SetAlarmClockActivity" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scegli_ora" />
+
+    <TimePicker
+        android:id="@+id/timePicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/timePicker1"
+        android:layout_below="@+id/timePicker1"
+        android:layout_marginTop="20dp"
+        android:text="@string/scegli_giorni" />
+
+    <TextView
+        android:id="@+id/txtLun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/TextView02"
+        android:layout_below="@+id/TextView02"
+        android:clickable="true"
+        android:onClick="dayClicked"
+        android:textColor="#ffffff"
+        android:text="L"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+         />
+
+    <TextView
+        android:id="@+id/txtMar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtLun"
+        android:layout_alignBottom="@+id/txtLun"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/txtLun"
+        android:clickable="true"
+        android:onClick="dayClicked"
+        android:textColor="#ffffff"
+        android:text="M"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/txtMer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView1"
+        android:clickable="true"
+        android:layout_below="@+id/TextView02"
+        android:onClick="dayClicked"
+        android:textColor="#ffffff"
+        android:text="M"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/txtGiov"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtMer"
+        android:layout_alignBottom="@+id/txtMer"
+        android:layout_marginLeft="24dp"
+        android:layout_toRightOf="@+id/txtMer"
+        android:clickable="true"
+        android:onClick="dayClicked"
+        android:textColor="#ffffff"
+        android:text="G"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/txtVen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView02"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/txtGiov"
+        android:clickable="true"
+        android:onClick="dayClicked"
+        android:textColor="#ffffff"
+        android:text="V"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/txtSab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtVen"
+        android:layout_alignBottom="@+id/txtVen"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/txtVen"
+        android:clickable="true"
+        android:onClick="dayClicked"
+        android:textColor="#ffffff"
+        android:text="S"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/txtDom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtSab"
+        android:layout_alignBottom="@+id/txtSab"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/txtSab"
+        android:clickable="true"
+        android:onClick="dayClicked"
+        android:textColor="#ffffff"
+        android:text="D"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/TextView08"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtLun"
+        android:layout_below="@+id/txtLun"
+        android:layout_marginTop="31dp"
+        android:text="@string/scegli_uccello" />
+
+    <Button
+        android:id="@+id/button1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/view1"
+        android:layout_alignParentBottom="true"
+        android:onClick="addCurrentAlarmClock"
+        android:text="@string/fatto" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_above="@+id/button1"
+        android:layout_alignLeft="@+id/imgCardellino"
+        android:background="#ffffff" />
+
+    <ImageView
+        android:id="@+id/imgCardellino"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView08"
+        android:layout_toLeftOf="@+id/txtGiov"
+        android:src="@drawable/bird_cardellino_small" />
+
+    <ImageView
+        android:id="@+id/imgPasseraSc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgCardellino"
+        android:layout_alignRight="@+id/txtVen"
+        android:layout_marginBottom="23dp"
+        android:src="@drawable/bird_passera" />
+
+</RelativeLayout>

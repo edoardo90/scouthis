@@ -6,7 +6,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,32 +37,17 @@ import com.example.android.effectivenavigation.R;
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_gps, container, false);
-            
-            if(rootView == null)
-            	Log.i("create view", "root view is null!");
-            else
-            	Log.i("create view", "root view is not null! :) ");
-  		  
+          
     		// our compass image
     		image = (ImageView)   rootView.findViewById(R.id.imageViewCompass);
 
-    		if(image == null)
-    			Log.i("on create  ", " image è null dopo la sua creazione");
-    		
     		
     		// TextView that will tell the user what degree is he heading
     		tvHeading = (TextView) rootView.findViewById(R.id.tvHeading1);
     		
-    		if(tvHeading == null)
-    			Log.i("on create  ", " tvHeading è null dopo la sua creazione");
-    		
     		// initialize your android device sensor capabilities
     		mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
 
-    		if(mSensorManager == null)
-    			Log.i("on create  ", " mSensor MGR è null dopo la sua creazione");
-
-    		
     		
             return rootView;
         }
@@ -82,8 +66,6 @@ import com.example.android.effectivenavigation.R;
     		super.onResume();
     		
     		// for the system's orientation sensor registered listeners
-    		if(mSensorManager == null)
-    			Log.i("on resume ", " mSensor Mgr è null!!");
     		mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
     				SensorManager.SENSOR_DELAY_GAME);
     	}
@@ -102,8 +84,6 @@ import com.example.android.effectivenavigation.R;
     		// get the angle around the z-axis rotated
     		float degree = Math.round(event.values[0]);
     		
-    		if(tvHeading == null)
-    			Log.i("sensor changed ", "  tvHead is null!!");
     		
     		tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
 
