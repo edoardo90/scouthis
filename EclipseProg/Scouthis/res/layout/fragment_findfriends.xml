@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:hint="asd" />
+
+        <Button
+            android:id="@+id/btnFindFriends"
+            android:layout_width="0dp"
+            android:text="asd!"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/name"
+            android:layout_alignParentRight="true"
+            android:onClick="showFriends"
+            android:layout_alignParentTop="true" />
+    </RelativeLayout>
+    
+    <fragment 
+          android:id="@+id/map"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="lol" />
+    
+</LinearLayout>
