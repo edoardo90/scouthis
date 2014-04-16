@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-
    /**
      * A fragment that launches other parts of the demo application.
      */
@@ -30,14 +30,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
     	private GoogleMap gMap;
     	
     	@Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState)
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     	{
             View rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
-            //Button btnFnd = (Button) rootView.findViewById(R.id.btnFindFriends2);
             return rootView;
         }
     	
+    	@Override
     	public void onResume()
     	{
     		super.onResume();
@@ -55,9 +54,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 	        marker.showInfoWindow();
     	}
     	
+    	@Override
     	public void onPause()
     	{
-    		this.gMap = null;
+    		super.onPause();
+    	    
+    	    SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
+		    if(mapFragment != null) {
+		        FragmentManager fM = getFragmentManager();
+		        fM.beginTransaction().remove(mapFragment).commit();
+		    }
     	}
 
 		@Override
