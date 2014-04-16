@@ -1,14 +1,7 @@
 package it.poli.android.scoutthisme.tools;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import it.poli.android.scouthisme.R;
-
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,6 +11,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 
    /**
      * A fragment that launches other parts of the demo application.
@@ -26,27 +27,52 @@ import android.widget.Button;
     	
     	private GoogleMap gMap;
     	
-        
+
     	@Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_findfriends, container, false);
           
-    		Button btnFnd = (Button) rootView.findViewById(R.id.btnFindFriends);
-    		btnFnd.setOnClickListener(this);
+    		Button btnFnd = (Button) rootView.findViewById(R.id.btnFindFriends2);
+    		//btnFnd.setOnClickListener(this);
+    		
     		
             return rootView;
         }
-
+    	
+    	@Override
+    	public void onStart()
+    	{
+    		super.onStart();
+    	    
+    	}
     	
     	@Override
 		public void onCreate(Bundle savedInstanceState) {
     		super.onCreate(savedInstanceState);
     		
+    		
     	}
+    	
+    	    	
     	
 		@Override
 		public void onClick(View v) {
+			
+			Log.i("click", " hai cliccato");
+			
+/*    	    Intent intent = new Intent(getActivity(), DownloadService.class);
+    	    // add infos for the service which file to download and where to store
+    	    intent.putExtra(DownloadService.FILENAME, "index.html");
+    	    intent.putExtra(DownloadService.URL,
+    	        "http://superheroexperiments.com/wp-content/uploads/2013/04/elephant-painting-itself1.jpg");
+
+    		Context c = (Context) FindFriendsFragment.this.getActivity();
+    		c.startService(intent);  */
+
+    		if(false)
+    		{
+			
 			this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 	    	Log.i("fnd fr", " button clicked !");
 	    	
@@ -68,10 +94,8 @@ import android.widget.Button;
 	        
 	        marker.setTitle("edo si trova qui");
 	        marker.showInfoWindow();
-	        
-	        
 	    	
-			
+    		}//delete me - if false !!
 		}
     	
         

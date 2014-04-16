@@ -17,7 +17,11 @@
 package it.poli.android.scoutthisme;
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.tools.DownloadService;
+import it.poli.android.scoutthisme.tools.FindFriendsFragment;
 import it.poli.android.scoutthisme.tools.GpsSectionFragment;
+import android.app.LauncherActivity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -54,10 +58,19 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      * time.
      */
     ViewPager mViewPager;
-    int asdTOGLIMI;
+
+	private  FindFriendsFragment findFriendsFragm;
+    
+	public void bubu()
+	{
+		
+	}
+	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        Log.i("MAIN", "sono main");
         
     	Context context = this;
 		PackageManager pm = context.getPackageManager();
@@ -112,7 +125,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
      * sections of the app.
      */
-    public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+    public  class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
         public AppSectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -130,10 +143,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 case 2:
                 	return new PedometerSectionFragment();
                 case 3:
-                	return new LumusSectionFragment();
+                	{
+                		findFriendsFragm = new FindFriendsFragment();
+                		return  findFriendsFragm;
+                	}
                 case 4:
-                	return new WalkieTalkieSectionFragment();
+                	return new LumusSectionFragment();
                 case 5:
+                	return new WalkieTalkieSectionFragment();
+                case 6:
                 	return new WakeUpSectionFragment();
                 default:
                     // The other sections of the app are dummy placeholders.
@@ -152,9 +170,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         @Override
         public CharSequence getPageTitle(int position) {
-        	String[] titles = {"Home", "GPS", "Contapassi", "Lumus", "Walkie Talkie", "Wake Up!"};
+        	String[] titles = {"Home", "GPS", "Contapassi", "Trova-Mici", "Lumus", "Walkie Talkie", "Wake Up!"};
             return titles[position];
         }
+    }
+    
+    public void showFriends(View view)
+    {
+    	
     }
     
     
@@ -210,33 +233,37 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             	}
             }
 
-    		final Parameters p = camera.getParameters();
+    		final Parameters p ;
+    		if ( false) // STO PROVANDO LE MAPPE E DA' NP QUA!!
+    		{
+    			p = camera.getParameters();
             
-            // Demonstration of a collection-browsing activity.
-            rootView.findViewById(R.id.toggleButton1)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-            				if (isLighOn) {
-            					Log.i("info", "torch is turn off!");
-             
-            					p.setFlashMode(Parameters.FLASH_MODE_OFF);
-            					camera.setParameters(p);
-            					camera.stopPreview();
-            					isLighOn = false;
-            				} else {
-            					Log.i("info", "torch is turn on!");
-             
-            					p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-             
-            					camera.setParameters(p);
-            					camera.startPreview();
-            					isLighOn = true;
-            				}
-        					ToggleButton b = (ToggleButton) view;
-        					b.setChecked(isLighOn);
-                        }
-                    });
+	            // Demonstration of a collection-browsing activity.
+	            rootView.findViewById(R.id.toggleButton1)
+	                    .setOnClickListener(new View.OnClickListener() {
+	                        @Override
+	                        public void onClick(View view) {
+	            				if (isLighOn) {
+	            					Log.i("info", "torch is turn off!");
+	             
+	            					p.setFlashMode(Parameters.FLASH_MODE_OFF);
+	            					camera.setParameters(p);
+	            					camera.stopPreview();
+	            					isLighOn = false;
+	            				} else {
+	            					Log.i("info", "torch is turn on!");
+	             
+	            					p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+	             
+	            					camera.setParameters(p);
+	            					camera.startPreview();
+	            					isLighOn = true;
+	            				}
+	        					ToggleButton b = (ToggleButton) view;
+	        					b.setChecked(isLighOn);
+	                        }
+	                    });
+            }      
             
             return rootView;
         }
@@ -266,7 +293,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_walkietalkie,
             		container, false);
-
+            
+            
+            
+            
             return rootView;
         }
     }
@@ -275,7 +305,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                Bundle savedInstanceState) 
+        {
             View rootView = inflater.inflate(R.layout.fragment_section_launchpad, container, false);
 
             // Demonstration of a collection-browsing activity.
@@ -304,9 +335,43 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             startActivity(externalActivityIntent);
                         }
                     });
+            
+       	 Log.i(" launch pad - on create", " onCR ora parto il thread, contaci");
+         
+        Intent intent = new Intent(getActivity(), DownloadService.class);
+ 	    // add infos for the service which file to download and where to store
+ 	    intent.putExtra(DownloadService.FILENAME, "index.html");
+ 	    intent.putExtra(DownloadService.URL,
+ 	        "http://superheroexperiments.com/wp-content/uploads/2013/04/elephant-painting-itself1.jpg");
 
+ 	    
+ 		getActivity().startService(intent);
+ 		
             return rootView;
         }
+        
+        private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+              Log.i("onReceive", " i finished ");
+            	Bundle bundle = intent.getExtras();
+              if (bundle != null) {
+                String string = bundle.getString(DownloadService.FILEPATH);
+                int resultCode = bundle.getInt(DownloadService.RESULT);
+                if (resultCode == RESULT_OK) {
+                  Log.i(" launchpad ", " ");
+                } else {
+                  
+                  Log.i("  launch ", "Download failed");
+                }
+              }
+            }
+          };
+
+        
+        
+        
     }
 
     /**

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -15,28 +12,32 @@
             android:id="@+id/txtName2"
             android:layout_width="96dp"
             android:layout_height="wrap_content"
-            android:hint="asd" />
+            android:hint="asd" >
+
+            <requestFocus />
+        </EditText>
 
         <Button
             android:id="@+id/btnFindFriends2"
             android:layout_width="0dp"
-            android:text="asd!"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/txtName2"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/txtName2"
             android:onClick="showFriends"
-            android:layout_alignParentTop="true" />
+            android:text="asd!" />
     </RelativeLayout>
-    
-    <fragment 
-          android:id="@+id/map"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:name="com.google.android.gms.maps.SupportMapFragment"/>
-    
+
+    <fragment
+        android:id="@+id/mapSecond"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:ems="10"
         android:hint="lol" />
-    
+
 </LinearLayout>
