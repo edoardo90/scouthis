@@ -314,7 +314,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), CollectionDemoActivity.class);
+                            Intent intent = new Intent(getActivity(), FacebookActivity.class);
                             startActivity(intent);
                         }
                     });
@@ -367,11 +367,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 }
               }
             }
-          };
-
-        
-        
-        
+          };        
     }
 
     /**
