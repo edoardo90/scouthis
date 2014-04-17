@@ -1,5 +1,7 @@
-package it.poli.android.scoutthisme.tools;
+package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.tools.GpsHandler;
+import it.poli.android.scoutthisme.tools.GpsListener;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -22,24 +24,23 @@ import android.widget.TextView;
    /**
      * A fragment that launches other parts of the demo application.
      */
-    public class GpsSectionFragment extends Fragment implements SensorEventListener, LocationListener
+    public class GpsSectionFragment extends Fragment implements SensorEventListener, GpsListener
     {    	
     	ImageView imgCompass; // Define the display assembly compass picture
     	float currentDegree = 0f; // Record the compass picture angle turned
     	SensorManager mSensorManager; // Device sensor manager
-    	LocationManager locationManager;
+    	GpsHandler gpsHandler;
     	TextView txtDegrees;
     	
     	@Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     	{
+    		gpsHandler = new GpsHandler(this.getActivity().getBaseContext());
+    		mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE); // Initialize your android device sensor capabilities
+    		
             View rootView = inflater.inflate(R.layout.fragment_section_gps, container, false);
-
     		imgCompass = (ImageView) rootView.findViewById(R.id.imageViewCompass); // Our compass image
     		txtDegrees = (TextView) rootView.findViewById(R.id.txtDegrees); // TextView that will tell the user what degree is he heading
-    		
-    		mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE); // Initialize your android device sensor capabilities
-    	    locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
     		
             return rootView;
         }
@@ -51,7 +52,7 @@ import android.widget.TextView;
     		// For the system's orientation sensor registered listeners
     		mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
     				SensorManager.SENSOR_DELAY_GAME);
-    	    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    		gpsHandler.setListener(this);
     	}
 
     	@Override
@@ -59,7 +60,7 @@ import android.widget.TextView;
     		super.onPause();
     		
     		mSensorManager.unregisterListener(this); // To stop the listener and save battery
-    		locationManager.removeUpdates(this);
+    		gpsHandler.removeListener(this);
     	}
 
     	@Override
@@ -84,11 +85,6 @@ import android.widget.TextView;
     	}
 
     	@Override
-    	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    		// Not in use
-    	}
-
-    	@Override
     	public void onLocationChanged(Location location) {
     		View rootView = getView();
     		
@@ -103,19 +99,7 @@ import android.widget.TextView;
     	    txtLat.setText(String.valueOf(latitude));
     	    txtLong.setText(String.valueOf(longitude));
     	}
-
+    	
     	@Override
-    	public void onProviderDisabled(String provider) {
-    		// Not in use
-    	}
-
-    	@Override
-    	public void onProviderEnabled(String provider) {
-    		// Not in use
-    	}
-
-    	@Override
-    	public void onStatusChanged(String provider, int status, Bundle extras) {
-    		// Not in use
-    	}
+    	public void onAccuracyChanged(Sensor sensor, int accuracy) { }
     }

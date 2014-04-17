@@ -17,9 +17,9 @@
 package it.poli.android.scoutthisme;
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
+import it.poli.android.scoutthisme.fragments.GpsSectionFragment;
 import it.poli.android.scoutthisme.tools.DownloadService;
-import it.poli.android.scoutthisme.tools.FindFriendsFragment;
-import it.poli.android.scoutthisme.tools.GpsSectionFragment;
 import android.app.LauncherActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
