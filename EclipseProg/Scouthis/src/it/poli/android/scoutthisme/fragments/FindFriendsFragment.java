@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,19 +27,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
     	GpsHandler gpsHandler;
     	Location loc;
     	Marker marker;
+    	boolean needDefaultZoom;
+    	final int defaultZoom = 13;
     	
     	@Override
     	public void onCreate(Bundle savedInstanceState) {
     		super.onCreate(savedInstanceState);
-    		//gpsHandler = new GpsHandler(this.getActivity().getBaseContext());
+    		gpsHandler = new GpsHandler(this.getActivity().getBaseContext());
     	}
     	
     	@Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     	{
             View rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
-			
-            
+            this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
             return rootView;
         }
     	
@@ -56,44 +58,53 @@ import com.google.android.gms.maps.model.MarkerOptions;
     	public void onResume()
     	{
     		super.onResume();
-    		//gpsHandler.setListener(this);
-    		updateMap();
+    		needDefaultZoom = true;
+    		gpsHandler.setListener(this);
     	}
     	
     	@Override
     	public void onPause()
     	{
     		super.onPause();
-    		//gpsHandler.removeListener(this);
+    		gpsHandler.removeListener(this);
     	    clearMap();
     	}
     
 	    public void clearMap() {
-    		if (!gMap.equals(null))
-    		{
-    			gMap.clear();
-    		}
+   			gMap.clear();
 	    }
     	
     	public void updateMap() {
-   			//clearMap();
-    	     super.onResume();
-    	     this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-
-    	     MarkerOptions mo = new MarkerOptions().position(new LatLng(51.5072, -0.1275));
-    	     Marker marker = gMap.addMarker(mo);
-
-    	     gMap.setMyLocationEnabled(true);
-    	     gMap.moveCamera(CameraUpdateFactory.
-    	     newLatLngZoom(marker.getPosition(), 13));
-
-    	     marker.setTitle("edo si trova qui");
-    	     marker.showInfoWindow();
+			super.onResume();
+			
+   			clearMap();
+			
+			MarkerOptions mo = new MarkerOptions().position(new LatLng(loc.getLatitude(), loc.getLongitude()));
+			Marker marker = gMap.addMarker(mo);
+			
+			gMap.setMyLocationEnabled(true);
+			
+			if (needDefaultZoom) {
+				needDefaultZoom = false;
+				gMap.moveCamera(CameraUpdateFactory.
+						newLatLngZoom(marker.getPosition(), defaultZoom));
+			}
+			
+			marker.setTitle("Tu sei qui");
+			marker.showInfoWindow();
+			
+			View rootView = getView();
+			
+    	    TextView txtLat = (TextView) rootView.findViewById(R.id.txtLat); // Our compass image
+    	    TextView txtLong = (TextView) rootView.findViewById(R.id.txtLong); // TextView that will tell the user what degree is he heading
+    		
+    	    txtLat.setText(String.valueOf(loc.getLatitude()));
+    	    txtLong.setText(String.valueOf(loc.getLongitude()));
     	}
 
 		@Override
 		public void onLocationChanged(Location location) {
-			loc = location;			
-			//updateMap();
+			this.loc = location;			
+			updateMap();
 		}
     }
