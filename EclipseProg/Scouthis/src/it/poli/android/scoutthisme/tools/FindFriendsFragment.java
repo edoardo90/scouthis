@@ -25,9 +25,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
    /**
      * A fragment that launches other parts of the demo application.
      */
-    public  class FindFriendsFragment extends Fragment implements LocationListener  {
+    public  class FindFriendsFragment extends Fragment implements LocationListener, SMGpsListener  {
     	
     	private GoogleMap gMap;
+    	SMGpsInitiater gpsInit;
+    	Location loc;
+    	Marker marker;
+    	
+    	@Override
+    	public void onCreate(Bundle savedInstanceState) {
+    		super.onCreate(savedInstanceState);
+    		gpsInit = new SMGpsInitiater();
+    	}
     	
     	@Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -40,11 +49,29 @@ import com.google.android.gms.maps.model.MarkerOptions;
     	public void onResume()
     	{
     		super.onResume();
+    		gpsInit.addListener(this);
+    	}
+    	
+    	@Override
+    	public void onPause()
+    	{
+    		super.onPause();
+    		
+    		gpsInit.removeListener(this);
+    	    
+    	    SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
+		    if(mapFragment != null) {
+		        FragmentManager fM = getFragmentManager();
+		        fM.beginTransaction().remove(mapFragment).commit();
+		    }
+    	}
+    	
+    	public void updateMap() {
+    		gMap.clear();
 			this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-	        
-	        Marker marker = gMap.addMarker(
+	        marker = gMap.addMarker(
 	        			new MarkerOptions().
-	        				position(new LatLng(51.5072, -0.1275)));
+	        				position(new LatLng(loc.getLatitude(), loc.getLongitude())));
 	        
 	        gMap.setMyLocationEnabled(true);
 	        gMap.moveCamera(CameraUpdateFactory.
@@ -53,22 +80,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 	        marker.setTitle("edo si trova qui");
 	        marker.showInfoWindow();
     	}
-    	
-    	@Override
-    	public void onPause()
-    	{
-    		super.onPause();
-    	    
-    	    SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
-		    if(mapFragment != null) {
-		        FragmentManager fM = getFragmentManager();
-		        fM.beginTransaction().remove(mapFragment).commit();
-		    }
-    	}
 
 		@Override
 		public void onLocationChanged(Location location) {
-			// TODO Auto-generated method stub
+			loc = location;			
+			updateMap();
 		}
 
 		@Override
