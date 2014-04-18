@@ -89,21 +89,9 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 			gMap.moveCamera(CameraUpdateFactory.
 					newLatLngZoom(marker.getPosition(), defaultZoom));
 		}
-		else {
-			gMap.moveCamera(CameraUpdateFactory.
-					newLatLngZoom(marker.getPosition(), gMap.getCameraPosition().zoom));
-		}
 		
 		marker.setTitle("Tu sei qui");
 		marker.showInfoWindow();
-		
-		View rootView = getView();
-		
-	    TextView txtLat = (TextView) rootView.findViewById(R.id.txtLat); // Our compass image
-	    TextView txtLong = (TextView) rootView.findViewById(R.id.txtLong); // TextView that will tell the user what degree is he heading
-		
-	    txtLat.setText(String.valueOf(loc.getLatitude()));
-	    txtLong.setText(String.valueOf(loc.getLongitude()));
 	}
 
 	@Override

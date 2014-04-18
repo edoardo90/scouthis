@@ -7,24 +7,6 @@
     android:paddingRight="16dp"
     android:orientation="vertical" >
     
-    <TextView
-         android:id="@+id/txtLat"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="10dp"
-         android:text="Lat:"
-         android:layout_gravity="left"
-         android:textSize="12sp" />
-    
-    <TextView
-         android:id="@+id/txtLong"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="10dp"
-         android:text="Long:"
-         android:layout_gravity="left"
-         android:textSize="12sp" />
-    
     <fragment 
           android:id="@+id/map"
           android:layout_width="match_parent"
