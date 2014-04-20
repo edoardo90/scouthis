@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="300km/h"
+                android:text="..."
                 android:textSize="24sp" />
 
             <TextView
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="0.00"
+                android:text="..."
                 android:textSize="24sp" />
 
         </TableRow>
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="...attesa..."
+                android:text="..."
                 android:textSize="24sp" />
 
             <TextView
@@ -165,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="...attesa..."
+                android:text="..."
                 android:textSize="24sp" />
             
 			<TextView
@@ -208,13 +208,13 @@
 		    android:layout_height="wrap_content" >
 			
     	    <TextView
-                android:id="@+id/txtAltitude"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-			    android:text="...attesa..."
-			    android:textSize="24sp" />
+    	        android:id="@+id/txtAltitude"
+    	        android:layout_width="0dp"
+    	        android:layout_height="wrap_content"
+    	        android:layout_weight="1"
+    	        android:gravity="center"
+    	        android:text="..."
+    	        android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/txtBearing"
@@ -222,8 +222,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-			    android:text="...attesa..."
-			    android:textSize="24sp" />
+                android:text="..."
+                android:textSize="24sp" />
     	    
 		</TableRow>
 		

@@ -6,6 +6,7 @@ import it.poli.android.scoutthisme.tools.SensorHandler;
 import it.poli.android.scoutthisme.tools.SensorListener;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -70,8 +71,14 @@ import android.widget.TextView;
     	        float y = event.values[1];
     	        float z = event.values[2];
     	        
-        		TextView txtAcl = (TextView) getView().findViewById(R.id.txtAccel);
-        		txtAcl.setText(String.format("%.1f/%.1f/%.1f", x, y, z));  
+    	        double accel = Math.sqrt((x*x + y*y + z*z) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH)) - 1;
+    	        
+    	        TextView txtAcl = (TextView) getView().findViewById(R.id.txtAccel);
+    	        if (accel > 0)
+    	        	txtAcl.setText(String.format("%.2f", accel));
+    	        else
+    	        	txtAcl.setText(String.format("%.2f", 0.00));
+        		
     	    } else {
         		float degree = Math.round(event.values[0]); // Get the angle around the z-axis rotated
         		txtDegrees.setText(String.format("%.0f", degree)+"°");
@@ -104,7 +111,9 @@ import android.widget.TextView;
     	    double latitude = location.getLatitude();
     	    double longitude = location.getLongitude();
     	    double altitude = location.getAltitude();
+    	    double accuracy = location.getAccuracy();
     	    double bearing = location.getBearing();
+    	    double speed = location.getSpeed()*3.6;
 
     	    Log.i("Geo_Location", "Latitude: " + latitude + ", Longitude: " + longitude);
     	    
@@ -128,8 +137,8 @@ import android.widget.TextView;
     	    txtLat.setText(String.format("%d", Math.abs(locDegrees))+"°"+String.format("%.2f", Math.abs(locMinutes))+"'"+locOrient);
     	    txtLong.setText(String.format("%d", Math.abs(lonDegrees))+"°"+String.format("%.2f", Math.abs(lonMinutes))+"'"+lonOrient);
     	    txtAlt.setText(String.format("%.0f", altitude)+"m (WGS)");
-    	    txtSpd.setText(String.format("%.0f", location.getSpeed())+"km/h");
-    	    txtPrc.setText(String.format("%.0f", location.getAccuracy())+"m");
+    	    txtSpd.setText(String.format("%.0f", speed)+"km/h");
+    	    txtPrc.setText(String.format("%.0f", accuracy)+"m");
     	    txtBea.setText(String.format("%.0f", bearing)+"°"+" "+latlongOrient[orient]);
     	}
     }
