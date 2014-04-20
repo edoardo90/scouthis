@@ -275,6 +275,8 @@ public class FacebookActivity extends Activity {
         	  
         	  String userId = this.getUserIDFromJson(userInfoJson, UserInformation.USERID);
         	  
+        	  Log.i("user", userId);
+        	  
         	  List<String> myFriends = null;
         	  
         	  JSONObject jsonMyFriends = null;
