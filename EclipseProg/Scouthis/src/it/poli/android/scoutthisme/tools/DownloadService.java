@@ -24,7 +24,7 @@ public class DownloadService extends IntentService {
 
   public DownloadService() {
 	  
-    super("DownloadService");
+    super("GetFriendsPositionsService");
     Log.i(" download service ", "costructore");
   }
 

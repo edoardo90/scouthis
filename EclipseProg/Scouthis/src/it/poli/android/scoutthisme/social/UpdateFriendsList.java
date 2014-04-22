@@ -1,5 +1,7 @@
 package it.poli.android.scoutthisme.social;
 
+import it.poli.android.scoutthisme.constants.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +38,8 @@ import android.util.Log;
         
         // Building Parameters for POST METHOD 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("jfriendslist", listOfFriendsJson));
-		params.add(new BasicNameValuePair("userid", userId));
+        params.add(new BasicNameValuePair(Constants.UP_LIST_PARAM, listOfFriendsJson));
+		params.add(new BasicNameValuePair(Constants.UP_USERID_PARAM, userId));
 		
 		// getting JSON Object FROM PHP PAGE, WE UPDATE FRIENDS LIST USING PHP PAGE
         JSONObject json = jsonParser.makeHttpRequest(this.urlUpdateFriendList, "POST", params);
@@ -45,7 +47,7 @@ import android.util.Log;
         // check for success tag
         try {
             int success = json.getInt("success");
-            if(success!=0) {Log.i("update flist", "wooo! fatto!");}
+            
             
         } catch (JSONException e) {
             e.printStackTrace();

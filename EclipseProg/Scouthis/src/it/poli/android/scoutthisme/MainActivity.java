@@ -16,14 +16,21 @@
 
 package it.poli.android.scoutthisme;
 
+
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.constants.Constants;
 import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
 import it.poli.android.scoutthisme.fragments.GpsSectionFragment;
-import it.poli.android.scoutthisme.fragments.LaunchpadSectionFragment;
+import it.poli.android.scoutthisme.fragments.HomeSectionFragment;
 import it.poli.android.scoutthisme.fragments.LumusSectionFragment;
 import it.poli.android.scoutthisme.fragments.PedometerSectionFragment;
 import it.poli.android.scoutthisme.fragments.WakeUpSectionFragment;
 import it.poli.android.scoutthisme.fragments.WalkieTalkieSectionFragment;
+import it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -96,7 +103,25 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mAppSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-    }
+        
+        
+        scheduleFBUpdateFriendshipAlarm();
+	  }
+
+	  public void scheduleFBUpdateFriendshipAlarm() {
+	    // Construct an intent that will execute the AlarmReceiver
+	    Intent intent = new Intent(getApplicationContext(), FBNotifierAlarmReceiver.class);
+	    // Create a PendingIntent to be triggered when the alarm goes off
+	    final PendingIntent pIntent = PendingIntent.getBroadcast(this, FBNotifierAlarmReceiver.REQUEST_CODE,
+	        intent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    // Setup periodic alarm every TOT - SEE CONSTANTS  seconds
+	    long firstMillis = System.currentTimeMillis(); // first run of alarm is immediate
+	    
+	    AlarmManager fbUpdateFriendsAlarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+	    fbUpdateFriendsAlarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, Constants.UPDATE_USER_FRIENDS, pIntent);
+	  }
+	
+	  
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
@@ -114,7 +139,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 case 0:
                     // The first section of the app is the most interesting -- it offers
                     // a launchpad into the other demonstrations in this example application.
-                    return new LaunchpadSectionFragment();
+                    return new HomeSectionFragment();
                 case 1:
                 	return new GpsSectionFragment();
                 case 2:

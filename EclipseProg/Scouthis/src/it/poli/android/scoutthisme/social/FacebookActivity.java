@@ -61,14 +61,11 @@ import com.facebook.SessionState;
 import com.facebook.Settings;
 
 public class FacebookActivity extends Activity {
-    private static final String URL_PREFIX_FRIENDS = "https://graph.facebook.com/me/friends?access_token=";
-    private static final String URL_PREFIX_ME = "https://graph.facebook.com/me?access_token=";
-
+    
     private TextView textInstructionsOrLink;
     private Button buttonLoginLogout;
     private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
-    @SuppressLint("NewApi")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,28 +73,13 @@ public class FacebookActivity extends Activity {
         buttonLoginLogout = (Button)findViewById(R.id.buttonLoginLogout);
         textInstructionsOrLink = (TextView)findViewById(R.id.instructionsOrLink);
         
-        // solo per debug, genera la chiave hash, nel caso desse errore di accesso
-        try  {  
-        	   PackageInfo info = getPackageManager().  
-        			   getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
+        this.fbup(savedInstanceState, true);
 
-        	      for (Signature signature : info.signatures) {
-
-        	          MessageDigest md = MessageDigest.getInstance("SHA");
-        	          md.update(signature.toByteArray());
-        	          Log.d("====Hash Key===",Base64.encodeToString(md.digest(), 
-        	                   Base64.DEFAULT));
-        	      }
-
-        	  } catch (NameNotFoundException e) {
-        	      e.printStackTrace();
-        	  } catch (NoSuchAlgorithmException ex) {
-
-        	      ex.printStackTrace();        	  }
-        //fine parte solo per debug
-
-        
-        
+    }
+    
+    
+    public void fbup(Bundle savedInstanceState, boolean useButtons)
+    {
         
         Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
         //trova la sessione corrente di fb (es. già loggato)
@@ -114,8 +96,9 @@ public class FacebookActivity extends Activity {
                 session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
             }
         }
-
-        getFriendsAndUpdate();
+        
+        
+        getFriendsAndUpdate(useButtons);
     }
 
     @Override
@@ -143,36 +126,48 @@ public class FacebookActivity extends Activity {
         Session.saveSession(session, outState);
     }
 
-    private void getFriendsAndUpdate() {
+    
+    private void getFriendsAndUpdate(boolean useButtons)
+    {
         Session session = Session.getActiveSession();
         if (session.isOpened()) {
         	
         	//if everything goes fine, now we got the url with all our friends stuff
-        	String urlFriendsInfo = URL_PREFIX_FRIENDS + session.getAccessToken();
+        	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
         	
-        	String userInfo = URL_PREFIX_ME +	session.getAccessToken();
+        	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
         			
         	
         	
         	// call AsynTask to perform network operation on separate thread
         	// vedi: onPostExecute
-    		new HttpAsyncTask().execute(urlFriendsInfo, userInfo);
-    	
-        	
-            buttonLoginLogout.setText("Logout");
-            buttonLoginLogout.setOnClickListener(new OnClickListener() {
-                public void onClick(View view) { onClickLogout(); }
-            });
-        
-        
-        } else {
-            textInstructionsOrLink.setText("Facebook Login");
-            buttonLoginLogout.setText("Login");
-            buttonLoginLogout.setOnClickListener(new OnClickListener() {
-                public void onClick(View view) { onClickLogin(); }
-            });
+    		new NotifyServerFBFriendsAsyncTask().execute(urlFriendsInfo, userInfo);
+    		if(useButtons)
+    			this.setLoginButton();
+        }
+        else
+        {  if(useButtons)
+        	    this.setLogoutButton();
         }
     }
+    
+    private void setLoginButton()
+    {
+    	buttonLoginLogout.setText("Logout");
+        buttonLoginLogout.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) { onClickLogout(); }
+        });
+    }
+    
+    private void setLogoutButton()
+    {
+    	 textInstructionsOrLink.setText("Facebook Login");
+         buttonLoginLogout.setText("Login");
+         buttonLoginLogout.setOnClickListener(new OnClickListener() {
+             public void onClick(View view) { onClickLogin(); }
+         });
+    }
+    
 
     private void onClickLogin() {
         Session session = Session.getActiveSession();
@@ -189,149 +184,38 @@ public class FacebookActivity extends Activity {
             session.closeAndClearTokenInformation();
         }
     }
-
-
-	public static String getStringFromUrl(String url){
-		InputStream inputStream = null;
-		String result = "";
-		try {
-			
-			// create HttpClient
-			HttpClient httpclient = new DefaultHttpClient();
-			
-			// make GET request to the given URL
-			HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-			
-			// receive response as inputStream
-			inputStream = httpResponse.getEntity().getContent();
-			
-			// convert inputstream to string
-			if(inputStream != null)
-				result = convertInputStreamToString(inputStream);
-			else
-				result = "Did not work!";
-		
-		} catch (Exception e) {
-			Log.d("InputStream", e.getLocalizedMessage());
-		}
-		
-		return result;
-	}
-	
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null)
-            result += line;
-        
-        inputStream.close();
-        return result;
-        
-    }
-
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-              
-            return getStringFromUrl(urls[0]) + "@@@@@@" + getStringFromUrl(urls[1]); 
-        }
-
-        
-        private List<String> getMyFriendsFromJSON(JSONObject job)
-        {
-        	List<String> myFriends = new ArrayList<String>();
-        	String id = ""; String name = "";
-        	try {
-				
-        		JSONArray jarr = job.getJSONArray("data");
-        		
-        		for(int i =0; i<jarr.length(); i++)
-        		{
-        			JSONObject usr = jarr.getJSONObject(i);
-        			id =  usr.getString("id");
-        			name =  usr.getString("name");
-        			myFriends.add(id + "@@@@" + name);
-        		}
-        		
-			
-        	} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	
-        	
-        	return myFriends;
-        }
-        
-        
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-        	
-        	  
-        	  String listOfFriendsJson = result.split("@@@@@@")[0];
-        	  String userInfoJson = result.split("@@@@@@")[1];
-        	  
-        	  String userId = this.getUserIDFromJson(userInfoJson, UserInformation.USERID);
-        	  
-        	  Log.i("user", userId);
-        	  
-        	  List<String> myFriends = null;
-        	  
-        	  JSONObject jsonMyFriends = null;
-			try {
-				jsonMyFriends = new JSONObject(listOfFriendsJson);
-			
-			 } catch (JSONException e) {
-			
-				e.printStackTrace();
-			}
-        	  
-        	  myFriends = this.getMyFriendsFromJSON(jsonMyFriends);
-        	  
-			  UpdateFriendsList ufl = new UpdateFriendsList(listOfFriendsJson, userId, Constants.urlToUpdateFriends);
-				
-			  ufl.execute();
-				
-				
-			
-       }
-
-
-		private String getUserIDFromJson(String userInfoJson, UserInformation infoToGet) {
-				
-			String s = "";
-			try {
-				JSONObject job = new JSONObject(userInfoJson);
-				s = job.getString("id");
-				if(infoToGet == UserInformation.USERID_AND_NAME)
-				{
-					s = s + " ";
-					s = s + job.get("first_name");
-					s = s + " ";
-					s = s + job.get("last_name");
-				}
-			
-			
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			return s;
-		}
-    }
-
-
     
+    
+    @SuppressLint("NewApi")
+	private void debugShowSSHKey()
+    {
+        // solo per debug, genera la chiave hash, nel caso desse errore di accesso
+        try  {  
+        	   PackageInfo info = getPackageManager().  
+        			   getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
+
+        	      for (Signature signature : info.signatures) {
+
+        	          MessageDigest md = MessageDigest.getInstance("SHA");
+        	          md.update(signature.toByteArray());
+        	          Log.d("====Hash Key===",Base64.encodeToString(md.digest(), 
+        	                   Base64.DEFAULT));
+        	      }
+
+        	  } catch (NameNotFoundException e) {
+        	      e.printStackTrace();
+        	  } catch (NoSuchAlgorithmException ex) {
+
+        	      ex.printStackTrace();        	  }
+    
+
+    }
     
     
     private class SessionStatusCallback implements Session.StatusCallback {
         @Override
         public void call(Session session, SessionState state, Exception exception) {
-            getFriendsAndUpdate();
+            getFriendsAndUpdate(true);
         }
     }
     

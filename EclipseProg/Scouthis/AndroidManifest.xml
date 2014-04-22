@@ -75,6 +75,21 @@
         </activity>
         
         <activity android:name="it.poli.android.scoutthisme.social.FacebookActivity" android:label="@string/demo_collection" />
+    	
+         <receiver
+		    android:name="it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver"
+		    android:process=":remote" >
+		 </receiver>
+		 
+		 <service
+		           android:name="it.poli.android.scoutthisme.social.NotifyFacebookFriendsService"
+		    android:exported="false" />
+		 
+		  <service android:name="it.poli.android.scoutthisme.social.GetFriendsPositionsService" >
+          </service>
+ 
+    
+    
     </application>
 
 </manifest>

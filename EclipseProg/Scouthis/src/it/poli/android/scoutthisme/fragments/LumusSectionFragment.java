@@ -40,7 +40,6 @@ public class LumusSectionFragment extends Fragment
 			camera.release();
 			camera = null;
 			
-			Log.i("info", "Rilascio camera");
 		}
 	}
     
@@ -49,7 +48,6 @@ public class LumusSectionFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_section_lumus, container, false);
         
-        Log.i("info", "sono qui");
         
     	if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
     		Log.e("err", "Device has no camera!");
@@ -64,8 +62,6 @@ public class LumusSectionFragment extends Fragment
         	} catch(RuntimeException exception) {
         		Context cn = rootView.getContext();
         	    Toast.makeText(cn, "The camera and flashlight are in use by another app.", Toast.LENGTH_LONG).show();
-        	    Log.i("info", "errore");
-        	    // Exit gracefully
         	}
         }
         
