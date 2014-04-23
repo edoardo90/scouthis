@@ -3,21 +3,17 @@
 // include db connect class
 require_once __DIR__  . '/../db_connect.php';
 
-define("ADD", 1);
 define("REMOVE", 0);
+define("ADD", 1);
 
 $res = array();
-
-function cmp($fndA, $fndB)
-{
-  return strcmp($fndA['id'] , $fndB['id']);
-}
 
 function sanitize($var)
 {
 	$var = str_replace("'", "\'", $var);
 	$var = str_replace("\\'", "\'", $var);
 	$var = str_replace("\\'", "\'", $var);
+
 	return $var;
 }
 
@@ -81,8 +77,6 @@ function addFriends($friends_to_add, $userid)
   $add_friends_q2 = "INSERT INTO FRIENDSHIP(ID1, ID2) VALUES " . $id_and_id_add . " ON DUPLICATE KEY UPDATE ID1 = VALUES(ID1)";
 	$add_friends_q3 =  "INSERT INTO FRIENDSHIP(ID2, ID1) VALUES " . $id_and_id_add . " ON DUPLICATE KEY UPDATE ID1 = VALUES(ID1)";
 
-  $GLOBALS['addedID']=$GLOBALS['addedID'].",".$add_friends_q1;
-
   mysql_query($add_friends_q1);
   mysql_query($add_friends_q2);
   mysql_query($add_friends_q3);
@@ -116,8 +110,8 @@ if (isset($_POST['jfriendslist'])  && isset($_POST['userid'] )  )
 
 	$friends_to_remove = array_diff($saved_friends, $updatedFriends);
 	$to_remove_chunks = array_chunk($friends_to_remove, 1, true);
-	foreach ($to_remove_chunks as  $friends_to_remove) {
-		removeFriends($friends_to_remove, $userid);
+	foreach ($to_remove_chunks as  $f) {
+		removeFriends($f, $userid);
 	}
 
   $friends_to_add =  array_diff($updatedFriends, $saved_friends);

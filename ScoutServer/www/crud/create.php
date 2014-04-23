@@ -4,27 +4,23 @@
  * Following code will create a new product row
  * All product details are read from HTTP GET Request
  */
- 
+
+// include db connect class
+require_once __DIR__  . '/../db_connect.php';
+
 // array for JSON response
 $response = array();
- 
- 
+
 // check for required fields
-if (isset($_GET['friend1']) && isset($_GET['friend2']) && isset($_GET['lat'])  && isset($_GET['long']) ) {
- 
-    $friend1 = $_GET['friend1'];
-    $friend2 = $_GET['friend2'];
-    $lat = $_GET['lat'];
-    $long = $_GET['long'];
+if (isset($_GET['friend1']) && isset($_GET['friend2']) && isset($_GET['lat'])  && isset($_GET['long']) )
+{
+  $friend1 = $_GET['friend1'];
+  $friend2 = $_GET['friend2'];
+  $lat = $_GET['lat'];
+  $long = $_GET['long'];
 
-	
-
-    // include db connect class
-    require_once __DIR__  . '/../db_connect.php';
- 
-    // connecting to db
-    $db = new DB_CONNECT();
-	
+  // connecting to db
+  $db = new DB_CONNECT();
 	
 	$update_position_query =  "INSERT INTO POSITION
 						(ID, ONLINE, LATITUDE, LONGITUDE)
@@ -34,7 +30,7 @@ if (isset($_GET['friend1']) && isset($_GET['friend2']) && isset($_GET['lat'])  &
 						ONLINE = 1,
 						LATITUDE = $lat,
 						LONGITUDE = $long  ";
-	
+
 	//update position
 	$res = mysql_query($update_position_query);
 	
