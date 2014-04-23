@@ -7,11 +7,10 @@ define("ADD", 1);
 define("REMOVE", 0);
 
 $res = array();
-$addedID = "";
 
 function cmp($fndA, $fndB)
 {
-    return strcmp($fndA['id'] , $fndB['id']);
+  return strcmp($fndA['id'] , $fndB['id']);
 }
 
 function sanitize($var)
@@ -63,20 +62,14 @@ function removeFriends($friends_to_remove, $userid)
 {
 	$id_and_name_rem = array_to_query_id_name($friends_to_remove,  REMOVE);
 	$id_and_id_rem   = array_to_id_id($friends_to_remove, $userid, REMOVE);
-  $remove_friends_q1 = "DELETE FROM NAMES
-  					 WHERE (ID, NAME) IN " .  $id_and_name_rem ;
 
-	$remove_friends_q2 = "DELETE FROM FRIENDSHIP(ID1, ID2)
-						 WHERE (ID1, ID2) IN " . $id_and_id_rem;
+  $remove_friends_q1 = "DELETE FROM NAMES WHERE (ID, NAME) IN " .  $id_and_name_rem ;
+	$remove_friends_q2 = "DELETE FROM FRIENDSHIP(ID1, ID2) WHERE (ID1, ID2) IN " . $id_and_id_rem;
+  $remove_friends_q3 = "DELETE FROM FRIENDSHIP(ID1, ID2) WHERE (ID2, ID1) IN " . $id_and_id_rem;
 
-  $remove_friends_q3 = "DELETE FROM FRIENDSHIP(ID1, ID2)
-					  WHERE (ID2, ID1) IN " . $id_and_id_rem;
-
-  if(count($friends_to_remove) > 0) {
-    mysql_query($remove_friends_q1);
-    mysql_query($remove_friends_q2);
-    mysql_query($remove_friends_q3);
-  }
+  mysql_query($remove_friends_q1);
+  mysql_query($remove_friends_q2);
+  mysql_query($remove_friends_q3);
 }
 
 function addFriends($friends_to_add, $userid)
@@ -84,11 +77,11 @@ function addFriends($friends_to_add, $userid)
   $id_and_name_add = array_to_query_id_name($friends_to_add , ADD);
 	$id_and_id_add   = array_to_id_id($friends_to_add, $userid, ADD);
 
-	$add_friends_q1 = "INSERT INTO NAMES(ID, NAME) VALUES " . $id_and_name_add . " ON DUPLICATE KEY UPDATE NAME = VALUES(NAME) ";
-  $add_friends_q2 = "INSERT INTO FRIENDSHIP(ID1, ID2) VALUES " . $id_and_id_add . " ON DUPLICATE KEY UPDATE ID1 = VALUES(ID1) ";
-	$add_friends_q3 =  "INSERT INTO FRIENDSHIP(ID2, ID1) VALUES " . $id_and_id_add . " ON DUPLICATE KEY UPDATE ID1 = VALUES(ID1) ";
+	$add_friends_q1 = "INSERT INTO NAMES(ID, NAME) VALUES " . $id_and_name_add . " ON DUPLICATE KEY UPDATE NAME = VALUES(NAME)";
+  $add_friends_q2 = "INSERT INTO FRIENDSHIP(ID1, ID2) VALUES " . $id_and_id_add . " ON DUPLICATE KEY UPDATE ID1 = VALUES(ID1)";
+	$add_friends_q3 =  "INSERT INTO FRIENDSHIP(ID2, ID1) VALUES " . $id_and_id_add . " ON DUPLICATE KEY UPDATE ID1 = VALUES(ID1)";
 
-  //$GLOBALS['addedID']=$GLOBALS['addedID'].",".$friends_to_add[0];
+  $GLOBALS['addedID']=$GLOBALS['addedID'].",".$add_friends_q1;
 
   mysql_query($add_friends_q1);
   mysql_query($add_friends_q2);
@@ -129,21 +122,16 @@ if (isset($_POST['jfriendslist'])  && isset($_POST['userid'] )  )
 
   $friends_to_add =  array_diff($updatedFriends, $saved_friends);
 	$to_add_chunks = array_chunk($friends_to_add, 1, true);
-  //$res['add_array'] = $to_add_chunks;
 	foreach ($to_add_chunks as  $f) {
 		addFriends($f, $userid);
 	}
 
   $res['success'] = 1;
-  //$res['N'] = $GLOBALS['addedID'];
-  //$res['n_add'] = $j;
-  //$res['n_rem'] = $i;
- // $res['updated'] = count($updatedFriends);
   echo json_encode($res);
 }
 else
 {
-  $res = array('result' =>  0 );
+  $res['result'] = 0;
   echo json_encode($res);
 }
 
