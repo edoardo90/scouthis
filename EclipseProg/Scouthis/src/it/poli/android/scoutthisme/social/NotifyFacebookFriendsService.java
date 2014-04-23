@@ -14,26 +14,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-public class NotifyFacebookFriendsService extends IntentService {
-    
-	
+public class NotifyFacebookFriendsService extends IntentService
+{
 	public NotifyFacebookFriendsService() {
        super("NotifyFacebookFriendsService");
-    
 	}
 	
-	
     @Override
-    protected void onHandleIntent(Intent intent) {
-       
-       
+    protected void onHandleIntent(Intent intent)
+    {
        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-       
        this.getFriendsAndUpdate();
-       
     }
-    
-    
+
     private void getFriendsAndUpdate()
     {
         Session session = Session.openActiveSessionFromCache(getApplicationContext());
@@ -51,30 +44,17 @@ public class NotifyFacebookFriendsService extends IntentService {
         	Log.i("background service ", "we can't create session");
         	return ;
         }
-        else
-	        if (session.isOpened()) {
-	        	
-	        	//if everything goes fine, now we got the url with all our friends stuff
-	        	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
-	        	
-	        	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
-	        			
-	        	Log.i(" notify service background " , " userURL:" + userInfo);
-	        	
-	        	// call AsynTask to perform network operation on separate thread
-	        	// vedi: onPostExecute
-	    		  new NotifyServerFBFriendsAsyncTask().execute(urlFriendsInfo, userInfo);
-	        }
+        else if (session.isOpened()) {
+        	//if everything goes fine, now we got the url with all our friends stuff
+        	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
+        	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
+        			
+        	Log.i(" notify service background " , " userURL:" + userInfo);
+        	
+        	// call AsynTask to perform network operation on separate thread
+        	// vedi: onPostExecute
+        	new NotifyServerFBFriendsAsyncTask().execute(urlFriendsInfo, userInfo);
+        }
         
     }
-    
-    private class SessionStatusCallback implements Session.StatusCallback {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-            //getFriendsAndUpdate(true);
-        }
-    }
-    
-    
-    
 }

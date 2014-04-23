@@ -1,4 +1,11 @@
 package it.poli.android.scoutthisme.fragments;
+import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.constants.Constants;
+import it.poli.android.scoutthisme.social.GetFriendsPositionsService;
+import it.poli.android.scoutthisme.tools.GpsHandler;
+import it.poli.android.scoutthisme.tools.GpsListener;
+import it.poli.android.scoutthisme.tools.UserMarker;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -8,14 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.constants.Constants;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -24,7 +28,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,22 +35,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import it.poli.android.scoutthisme.social.GetFriendsPositionsService;
-import it.poli.android.scoutthisme.tools.GpsHandler;
-import it.poli.android.scoutthisme.tools.GpsListener;
-import it.poli.android.scoutthisme.tools.UserMarker;
-
 
 /**
  * A fragment that launches other parts of the demo application.
  */
-public  class FindFriendsFragment extends Fragment implements GpsListener  {
-
+public  class FindFriendsFragment extends Fragment implements GpsListener
+{
 	public static final String strLatitudeExtra = "it.poli.latitude";
 	public static final String strLongitudeExtra = "it.poli.longitude";
 	private GoogleMap gMap;
 	private Timer timer = null;
-	private TextView textView;
 
 	GpsHandler gpsHandler;
 	Location loc;
@@ -56,14 +53,28 @@ public  class FindFriendsFragment extends Fragment implements GpsListener  {
 	final int defaultZoom = 13;
 	private double userLatitude = 0 ;
 	private double userLongitude = 0 ;
-
+	
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				//what does the tread says me when finished .. say putExtra in GetFriendsPositionsService e getString..
+				Log.i("Find friends fragment onReceive", " i finished ");
+				Bundle bundle = intent.getExtras();
+				if (bundle != null) {
+					String gpsCoordJSONStr = bundle.getString(GetFriendsPositionsService.GPSCOORD);
+					int resultCode = bundle.getInt(GetFriendsPositionsService.RESULT);
+					if (resultCode == Constants.RESULT_OK) {
+						updateMarkers(gpsCoordJSONStr);
+					} 
+				}
+			}
+		};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		gpsHandler = new GpsHandler(this.getActivity().getBaseContext());
 	}
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -83,7 +94,6 @@ public  class FindFriendsFragment extends Fragment implements GpsListener  {
 		}
 	}
 
-
 	@Override
 	public void onResume() //dopo la creazione e a ogni ritorno
 	{
@@ -96,9 +106,6 @@ public  class FindFriendsFragment extends Fragment implements GpsListener  {
 
 		this.getActivity().registerReceiver(receiver, new IntentFilter(GetFriendsPositionsService.NOTIFICATION));
 
-
-		Log.i("res", "resumed");
-
 		//timer per lanciare ogni TOT (VEDI COSTANTI) tempo il servizio che trova le coordinate
 		//degli amici online
 		timer = new Timer();
@@ -108,40 +115,20 @@ public  class FindFriendsFragment extends Fragment implements GpsListener  {
 			@Override
 			public void run() {
 				handler.post(new Runnable() {
-
 					public void run() { 
 						try {
 							Log.i(" find friends ", "  i should call something..  " );
 							updatePosit(); //questo metodo contatta il nostro server e chiede le coord
 						}
 						catch (Exception e) {
-							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
 				});
 			}
 		};
 		timer.schedule(doAsynchronousTask, 0, Constants.UPDATE_FRIENDS_POSITION); 
-
 	}
-
-	private void stuff() //solo per provare la mappa
-	{
-
-		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-
-		Marker marker = gMap.addMarker(
-				new MarkerOptions().
-				position(new LatLng(51.5072, -0.1275)));
-
-		gMap.setMyLocationEnabled(true);
-		gMap.moveCamera(CameraUpdateFactory.
-				newLatLngZoom(marker.getPosition(), 13));
-
-		marker.setTitle("edo si trova qui");
-		marker.showInfoWindow();
-	}
-
 
 	@Override
 	public void onPause() //ogni volta che si cambia activity
@@ -155,7 +142,6 @@ public  class FindFriendsFragment extends Fragment implements GpsListener  {
 		Log.i("pause", "timer purged");
 
 		this.getActivity().unregisterReceiver(receiver);
-
 	}
 
 	private void clearMap() {
@@ -164,20 +150,16 @@ public  class FindFriendsFragment extends Fragment implements GpsListener  {
 
 	public void updateMap() {
 		super.onResume();
-
 		gMap.setMyLocationEnabled(true);
-
 	}
 
 	private void placeOnMap(UserMarker um)
 	{
-
 		MarkerOptions mo = new MarkerOptions().position(new LatLng(um.getLatitude(), um.getLongitude()));
 		Marker marker = gMap.addMarker(mo);
 		marker.setTitle(um.getName());
 		marker.showInfoWindow();
-		
-		
+
 		if (needDefaultZoom) {
 			needDefaultZoom = false;
 			gMap.moveCamera(CameraUpdateFactory.
@@ -187,24 +169,19 @@ public  class FindFriendsFragment extends Fragment implements GpsListener  {
 			gMap.moveCamera(CameraUpdateFactory.
 					newLatLngZoom(marker.getPosition(), gMap.getCameraPosition().zoom));
 		}
-		
 	}
 
-
-	protected void updateMarkers(String gpsCoordJSONStr) {
-
+	protected void updateMarkers(String gpsCoordJSONStr)
+	{
 		List<UserMarker> lum = this.lumFromJsonStr(gpsCoordJSONStr);
-		
 		for(UserMarker um : lum)
 		{
 			Log.w("i place markers", " placing " + um.toString());
 			this.placeOnMap(um);
 		}
-
-
 	}
 
-	private List<UserMarker>  lumFromJsonStr(String gpsCoordJSONStr)
+	private List<UserMarker> lumFromJsonStr(String gpsCoordJSONStr)
 	{
 		List<UserMarker> lum = new ArrayList<UserMarker>();
 		try {
@@ -220,10 +197,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener  {
 				UserMarker um = new UserMarker(latit, longit, name);
 				lum.add(um);
 			}
-
-
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -247,36 +221,27 @@ public  class FindFriendsFragment extends Fragment implements GpsListener  {
 		Intent intent = null;
 		if(this.userLatitude != 0 && this.userLongitude != 0)
 		{
-
 			intent =  new Intent(this.getActivity().getApplicationContext(), GetFriendsPositionsService.class);
 			intent.putExtra(FindFriendsFragment.strLatitudeExtra, this.userLatitude);
 			intent.putExtra(FindFriendsFragment.strLatitudeExtra, this.userLongitude);
 			Log.i(" updatePosit()", " now i start service ");
 			this.getActivity().startService(intent);
-		}     
-
-	}
-
-	private BroadcastReceiver receiver = new BroadcastReceiver() {
-
-		//what does the tread says me when finished .. say putExtra in GetFriendsPositionsService e getString..
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.i("Find friends fragment onReceive", " i finished ");
-			Bundle bundle = intent.getExtras();
-			if (bundle != null) {
-				String gpsCoordJSONStr = bundle.getString(GetFriendsPositionsService.GPSCOORD);
-
-				int resultCode = bundle.getInt(GetFriendsPositionsService.RESULT);
-				if (resultCode == Constants.RESULT_OK) {
-
-					updateMarkers(gpsCoordJSONStr);
-				} 
-			}
 		}
-	};
+	}
+	
+	private void stuff() //solo per provare la mappa
+	{
+		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
+		Marker marker = gMap.addMarker(
+				new MarkerOptions().
+				position(new LatLng(51.5072, -0.1275)));
 
+		gMap.setMyLocationEnabled(true);
+		gMap.moveCamera(CameraUpdateFactory.
+				newLatLngZoom(marker.getPosition(), 13));
 
-
+		marker.setTitle("edo si trova qui");
+		marker.showInfoWindow();
+	}
 }

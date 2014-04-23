@@ -1,7 +1,6 @@
 package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.tools.GpsHandler;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -39,7 +38,6 @@ public class LumusSectionFragment extends Fragment
 		if (camera != null) {
 			camera.release();
 			camera = null;
-			
 		}
 	}
     
@@ -47,7 +45,6 @@ public class LumusSectionFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_section_lumus, container, false);
-        
         
     	if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
     		Log.e("err", "Device has no camera!");

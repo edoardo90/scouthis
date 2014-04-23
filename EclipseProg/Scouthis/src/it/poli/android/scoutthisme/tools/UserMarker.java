@@ -37,5 +37,4 @@ public class UserMarker {
 	{
 		return "| " + this.getName() + "  |";
 	}
-
 }

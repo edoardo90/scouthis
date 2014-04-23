@@ -48,7 +48,7 @@ public class HomeSectionFragment extends Fragment {
         return rootView;
     }
     
-    }
+}
 
 
 

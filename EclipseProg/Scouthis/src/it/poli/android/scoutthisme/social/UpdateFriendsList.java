@@ -10,13 +10,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 
- class UpdateFriendsList extends AsyncTask<String, String, String> {
-
+class UpdateFriendsList extends AsyncTask<String, String, String>
+{
     private JSONParser jsonParser = new JSONParser();
 	private String listOfFriendsJson;
 	private String userId;
@@ -28,14 +25,9 @@ import android.util.Log;
 		this.userId = userId;
 		this.urlUpdateFriendList = urlUpdateFriendList;
 	}
-    
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
 
-    protected String doInBackground(String... args) {
-        
+    protected String doInBackground(String... args)
+    {    
         // Building Parameters for POST METHOD 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(Constants.UP_LIST_PARAM, listOfFriendsJson));
@@ -46,19 +38,11 @@ import android.util.Log;
         
         // check for success tag
         try {
-            int success = json.getInt("success");
-            
-            
+            json.getInt("success");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return null;
     }
-
-    protected void onPostExecute(String file_url) {
-        
-        
-    }
-
 }
