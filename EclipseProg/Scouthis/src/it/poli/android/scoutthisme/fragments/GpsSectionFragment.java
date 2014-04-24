@@ -36,8 +36,8 @@ import android.widget.TextView;
     	@Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     	{
-    		sensorHandler = new SensorHandler(this.getActivity().getBaseContext());
-    		gpsHandler = new GpsHandler(this.getActivity().getBaseContext());
+    		sensorHandler = new SensorHandler(getActivity());
+    		gpsHandler = new GpsHandler(getActivity());
     		
             View rootView = inflater.inflate(R.layout.fragment_section_gps, container, false);
     		imgCompass = (ImageView) rootView.findViewById(R.id.imageViewCompass); // Our compass image
@@ -140,5 +140,10 @@ import android.widget.TextView;
     	    txtSpd.setText(String.format("%.0f", speed)+"km/h");
     	    txtPrc.setText(String.format("%.0f", accuracy)+"m");
     	    txtBea.setText(String.format("%.0f", bearing)+"°"+" "+latlongOrient[orient]);
+    	}
+    	
+    	@Override
+    	public void onError(String string) {
+    		
     	}
     }

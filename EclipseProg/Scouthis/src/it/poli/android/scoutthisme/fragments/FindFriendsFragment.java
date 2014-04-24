@@ -51,29 +51,11 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	Marker marker;
 	boolean needDefaultZoom;
 	final int defaultZoom = 13;
-	private double userLatitude = 0 ;
-	private double userLongitude = 0 ;
-	
-	private BroadcastReceiver receiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				//what does the tread says me when finished .. say putExtra in GetFriendsPositionsService e getString..
-				Log.i("Find friends fragment onReceive", " i finished ");
-				Bundle bundle = intent.getExtras();
-				if (bundle != null) {
-					String gpsCoordJSONStr = bundle.getString(GetFriendsPositionsService.GPSCOORD);
-					int resultCode = bundle.getInt(GetFriendsPositionsService.RESULT);
-					if (resultCode == Constants.RESULT_OK) {
-						updateMarkers(gpsCoordJSONStr);
-					} 
-				}
-			}
-		};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		gpsHandler = new GpsHandler(this.getActivity().getBaseContext());
+		gpsHandler = new GpsHandler(getActivity());
 	}
 
 	@Override
@@ -95,16 +77,86 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	}
 
 	@Override
-	public void onResume() //dopo la creazione e a ogni ritorno
+	public void onResume()
 	{
 		super.onResume();
-
 		needDefaultZoom = true;
 		gpsHandler.setListener(this);
 
-		this.stuff(); //just for debug TOGLIMI!!! 
+		setReceiver();
+	}
 
-		this.getActivity().registerReceiver(receiver, new IntentFilter(GetFriendsPositionsService.NOTIFICATION));
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		gpsHandler.removeListener(this);
+		clearMap();
+
+		removeReceiver();
+	}
+
+	private void clearMap() {
+		gMap.clear();
+	}
+
+	public void updateMap() {
+		super.onResume();
+		
+		clearMap();
+
+		MarkerOptions mo = new MarkerOptions().position(new LatLng(loc.getLatitude(), loc.getLongitude()));
+		Marker marker = gMap.addMarker(mo);
+		
+		gMap.setMyLocationEnabled(true);
+		
+		if (needDefaultZoom) {
+		needDefaultZoom = false;
+		gMap.moveCamera(CameraUpdateFactory.
+		newLatLngZoom(marker.getPosition(), defaultZoom));
+		}
+		
+		marker.setTitle("Tu sei qui");
+		marker.showInfoWindow();
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		this.loc = location;
+		updateMap();
+	}
+	
+	@Override
+	public void onError(String string) {
+		
+	}
+	
+	private List<UserMarker> lumFromJsonStr(String gpsCoordJSONStr)
+	{
+		List<UserMarker> lum = new ArrayList<UserMarker>();
+		try {
+			JSONObject job = new JSONObject(gpsCoordJSONStr);
+			JSONArray markk = job.getJSONArray("markers");
+			for(int i=0; i<markk.length(); i++)
+			{
+				JSONObject juser = markk.getJSONObject(i);
+
+				String name = juser.getString("name");
+				double longit = juser.getDouble("longitude");
+				double latit = juser.getDouble("latitude");
+				UserMarker um = new UserMarker(latit, longit, name);
+				lum.add(um);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return lum;
+	}
+	
+	private void setReceiver()
+	{
+		getActivity().registerReceiver(receiver, new IntentFilter(GetFriendsPositionsService.NOTIFICATION));
 
 		//timer per lanciare ogni TOT (VEDI COSTANTI) tempo il servizio che trova le coordinate
 		//degli amici online
@@ -129,28 +181,13 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 		};
 		timer.schedule(doAsynchronousTask, 0, Constants.UPDATE_FRIENDS_POSITION); 
 	}
-
-	@Override
-	public void onPause() //ogni volta che si cambia activity
+	
+	private void removeReceiver()
 	{
-		super.onPause();
-		gpsHandler.removeListener(this);
-		clearMap();
-
 		timer.cancel();
 		timer.purge();
 		Log.i("pause", "timer purged");
-
 		this.getActivity().unregisterReceiver(receiver);
-	}
-
-	private void clearMap() {
-		gMap.clear();
-	}
-
-	public void updateMap() {
-		super.onResume();
-		gMap.setMyLocationEnabled(true);
 	}
 
 	private void placeOnMap(UserMarker um)
@@ -170,7 +207,22 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 					newLatLngZoom(marker.getPosition(), gMap.getCameraPosition().zoom));
 		}
 	}
+	
+	//what i ask the thread to do...  see putExtra
+	private void updatePosit() {
+		Log.i(" friends frag", " i should update postions instead i download a file, it'll be fine");
 
+		Intent intent = null;
+		if(loc.getLatitude() != 0 && loc.getLongitude() != 0)
+		{
+			intent =  new Intent(this.getActivity().getApplicationContext(), GetFriendsPositionsService.class);
+			intent.putExtra(FindFriendsFragment.strLatitudeExtra, loc.getLatitude());
+			intent.putExtra(FindFriendsFragment.strLatitudeExtra, loc.getLongitude());
+			Log.i(" updatePosit()", " now i start service ");
+			this.getActivity().startService(intent);
+		}
+	}
+	
 	protected void updateMarkers(String gpsCoordJSONStr)
 	{
 		List<UserMarker> lum = this.lumFromJsonStr(gpsCoordJSONStr);
@@ -180,68 +232,20 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 			this.placeOnMap(um);
 		}
 	}
-
-	private List<UserMarker> lumFromJsonStr(String gpsCoordJSONStr)
-	{
-		List<UserMarker> lum = new ArrayList<UserMarker>();
-		try {
-			JSONObject job = new JSONObject(gpsCoordJSONStr);
-			JSONArray markk = job.getJSONArray("markers");
-			for(int i=0; i<markk.length(); i++)
-			{
-				JSONObject juser = markk.getJSONObject(i);
-
-				String name = juser.getString("name");
-				double longit = juser.getDouble("longitude");
-				double latit = juser.getDouble("latitude");
-				UserMarker um = new UserMarker(latit, longit, name);
-				lum.add(um);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		return lum;
-	}
-
-
-	@Override
-	public void onLocationChanged(Location location) {
-		this.loc = location;	
-		this.userLatitude = loc.getLatitude();
-		this.userLongitude = loc.getLongitude();
-
-		updateMap();
-	}
-
-	//what i ask the thread to do...  see putExtra
-	private void updatePosit() {
-		Log.i(" friends frag", " i should update postions instead i download a file, it'll be fine");
-
-		Intent intent = null;
-		if(this.userLatitude != 0 && this.userLongitude != 0)
-		{
-			intent =  new Intent(this.getActivity().getApplicationContext(), GetFriendsPositionsService.class);
-			intent.putExtra(FindFriendsFragment.strLatitudeExtra, this.userLatitude);
-			intent.putExtra(FindFriendsFragment.strLatitudeExtra, this.userLongitude);
-			Log.i(" updatePosit()", " now i start service ");
-			this.getActivity().startService(intent);
-		}
-	}
 	
-	private void stuff() //solo per provare la mappa
-	{
-		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-
-		Marker marker = gMap.addMarker(
-				new MarkerOptions().
-				position(new LatLng(51.5072, -0.1275)));
-
-		gMap.setMyLocationEnabled(true);
-		gMap.moveCamera(CameraUpdateFactory.
-				newLatLngZoom(marker.getPosition(), 13));
-
-		marker.setTitle("edo si trova qui");
-		marker.showInfoWindow();
-	}
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			//what does the tread says me when finished .. say putExtra in GetFriendsPositionsService e getString..
+			Log.i("Find friends fragment onReceive", " i finished ");
+			Bundle bundle = intent.getExtras();
+			if (bundle != null) {
+				String gpsCoordJSONStr = bundle.getString(GetFriendsPositionsService.GPSCOORD);
+				int resultCode = bundle.getInt(GetFriendsPositionsService.RESULT);
+				if (resultCode == Constants.RESULT_OK) {
+					updateMarkers(gpsCoordJSONStr);
+				} 
+			}
+		}
+	};
 }
