@@ -1,5 +1,6 @@
 package it.poli.android.scoutthisme.tools;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
-import android.text.TextUtils;
 
 public class GpsHandler implements LocationListener
 {	
@@ -51,7 +51,9 @@ public class GpsHandler implements LocationListener
     	this.listener = null;
     }
     
-    public static boolean isGpsEnabled(Context context)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+	@SuppressWarnings("deprecation")
+	public static boolean isGpsEnabled(Context context)
     {        
 	    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
 	        String providers = Settings.Secure.getString(context.getContentResolver(),

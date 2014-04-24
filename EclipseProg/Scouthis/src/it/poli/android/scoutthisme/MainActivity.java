@@ -23,7 +23,7 @@ import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
 import it.poli.android.scoutthisme.fragments.GpsSectionFragment;
 import it.poli.android.scoutthisme.fragments.HomeSectionFragment;
 import it.poli.android.scoutthisme.fragments.LumusSectionFragment;
-import it.poli.android.scoutthisme.fragments.PedometerSectionFragment;
+import it.poli.android.scoutthisme.fragments.StepCounterSectionFragment;
 import it.poli.android.scoutthisme.fragments.WakeUpSectionFragment;
 import it.poli.android.scoutthisme.fragments.WalkieTalkieSectionFragment;
 import it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver;
@@ -143,9 +143,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 case 1:
                 	return new GpsSectionFragment();
                 case 2:
-                	return new PedometerSectionFragment();
+                	return new StepCounterSectionFragment();
                 case 3:
-                	return  new FindFriendsFragment();
+                	return new FindFriendsFragment();
                 case 4:
                 	return new LumusSectionFragment();
                 case 5:

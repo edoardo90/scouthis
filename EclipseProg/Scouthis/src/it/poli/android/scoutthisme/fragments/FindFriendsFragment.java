@@ -111,9 +111,9 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 		gMap.setMyLocationEnabled(true);
 		
 		if (needDefaultZoom) {
-		needDefaultZoom = false;
-		gMap.moveCamera(CameraUpdateFactory.
-		newLatLngZoom(marker.getPosition(), defaultZoom));
+			needDefaultZoom = false;
+			gMap.moveCamera(CameraUpdateFactory.
+			newLatLngZoom(marker.getPosition(), defaultZoom));
 		}
 		
 		marker.setTitle("Tu sei qui");
