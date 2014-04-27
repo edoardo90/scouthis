@@ -85,7 +85,7 @@ public class LegMovementDetector implements SensorEventListener
 		if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER){
 			return;
 		}
-		final float z = filter(event.values[2]);	
+		final float z = filter(event.values[1]); //Get y instead of z
 		if (Math.abs(z - mLastZ) > LEG_THRSHOLD_AMPLITUDE)
 		{
 			mInactivityCount = 0;

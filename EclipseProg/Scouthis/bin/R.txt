@@ -440,8 +440,8 @@ int id login_form 0x7f050047
 int id login_status 0x7f050045
 int id login_status_message 0x7f050046
 int id map 0x7f050061
-int id mapPedometer 0x7f050083
 int id mapSecond 0x7f050093
+int id mapStepCounter 0x7f050083
 int id middle 0x7f050012
 int id never 0x7f050009
 int id none 0x7f050010
@@ -557,7 +557,7 @@ int layout fragment_section_findfriends 0x7f03002c
 int layout fragment_section_gps 0x7f03002d
 int layout fragment_section_launchpad 0x7f03002e
 int layout fragment_section_lumus 0x7f03002f
-int layout fragment_section_pedometer 0x7f030030
+int layout fragment_section_stepcounter 0x7f030030
 int layout fragment_section_wakeup 0x7f030031
 int layout fragment_section_walkietalkie 0x7f030032
 int layout friends_act 0x7f030033

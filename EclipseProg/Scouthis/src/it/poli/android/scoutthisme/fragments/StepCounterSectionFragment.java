@@ -150,15 +150,18 @@ public  class StepCounterSectionFragment extends Fragment implements ILegMovemen
 
 	@Override
 	public void onLegActivity(int activity) {
-		if (loc != null && lastSensorLoc != null && activity == LegMovementDetector.LEG_MOVEMENT_FORWARD) {
-			Polyline line = gMap.addPolyline(new PolylineOptions()
-			.add(new LatLng(lastSensorLoc.getLatitude(), lastSensorLoc.getLongitude()), new LatLng(loc.getLatitude(), loc.getLongitude()))
-			.width(5)
-			.color(Color.RED));
+		if (loc != null && lastSensorLoc != null && !loc.equals(lastSensorLoc) && activity == LegMovementDetector.LEG_MOVEMENT_FORWARD) {
+			gMap.addPolyline(new PolylineOptions()
+				.add(new LatLng(lastSensorLoc.getLatitude(), lastSensorLoc.getLongitude()),
+						new LatLng(loc.getLatitude(), loc.getLongitude()))
+				.width(4)
+				.color(Color.WHITE));
 			passi++;
 				   
 			TextView txtPss = (TextView) getView().findViewById(R.id.txtPassi);    
 			txtPss.setText(String.format("%d", passi));
+			
+			lastSensorLoc = loc;
 		}
 	}
 }
