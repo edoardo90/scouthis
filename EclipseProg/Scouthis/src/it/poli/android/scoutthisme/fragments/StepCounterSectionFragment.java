@@ -1,39 +1,16 @@
 package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.constants.Constants;
-import it.poli.android.scoutthisme.social.GetFriendsPositionsService;
 import it.poli.android.scoutthisme.tools.GpsHandler;
 import it.poli.android.scoutthisme.tools.GpsListener;
 import it.poli.android.scoutthisme.tools.LegMovementDetector;
 import it.poli.android.scoutthisme.tools.LegMovementDetector.ILegMovementListener;
-import it.poli.android.scoutthisme.tools.ScalarKalmanFilter;
-import it.poli.android.scoutthisme.tools.SensorHandler;
-import it.poli.android.scoutthisme.tools.SensorListener;
-import it.poli.android.scoutthisme.tools.UserMarker;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +21,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 /**

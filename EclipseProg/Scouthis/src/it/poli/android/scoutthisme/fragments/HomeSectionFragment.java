@@ -2,7 +2,6 @@ package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.social.FacebookActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

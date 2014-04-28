@@ -7,14 +7,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,26 +26,6 @@ public class NotifyServerFBFriendsAsyncTask extends AsyncTask<String, Void, Stri
         return getStringFromUrl(urls[0]) + "@@@@@@" + getStringFromUrl(urls[1]); 
     }
         
-    private List<String> getMyFriendsFromJSON(JSONObject job)
-    {
-    	List<String> myFriends = new ArrayList<String>();
-    	String id = ""; String name = "";
-    	try {
-    		JSONArray jarr = job.getJSONArray("data");
-    		
-    		for(int i =0; i<jarr.length(); i++)
-    		{
-    			JSONObject usr = jarr.getJSONObject(i);
-    			id =  usr.getString("id");
-    			name =  usr.getString("name");
-    			myFriends.add(id + "@@@@" + name);
-    		}
-    	} catch (JSONException e) {
-			e.printStackTrace();
-		}
-    	
-    	return myFriends;
-    }
         
         
     
@@ -63,16 +40,8 @@ public class NotifyServerFBFriendsAsyncTask extends AsyncTask<String, Void, Stri
 	  
     	Log.i("user", userId);
 	  
-    	List<String> myFriends = null;
-	  
-    	JSONObject jsonMyFriends = null;
-		try {
-			jsonMyFriends = new JSONObject(listOfFriendsJson);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	    	  
-		myFriends = this.getMyFriendsFromJSON(jsonMyFriends);
+    	
+	    
 		UpdateFriendsList ufl = new UpdateFriendsList(listOfFriendsJson, userId, Constants.urlToUpdateFriends);
 		ufl.execute();
 	}

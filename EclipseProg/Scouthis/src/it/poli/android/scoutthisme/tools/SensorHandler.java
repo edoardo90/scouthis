@@ -34,7 +34,8 @@ public class SensorHandler implements SensorEventListener
 	@Override
 	public void onSensorChanged(SensorEvent event)
 	{
-		if (!listener.equals(null)) {
+		
+		if (listener != null) {
 			listener.onSensorChanged(event);
 		}
 	}

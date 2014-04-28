@@ -2,17 +2,13 @@ package it.poli.android.scoutthisme.social;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.constants.Constants;
+import android.app.IntentService;
+import android.content.Intent;
+import android.util.Log;
 
 import com.facebook.LoggingBehavior;
 import com.facebook.Session;
-import com.facebook.SessionState;
 import com.facebook.Settings;
-
-import android.app.Activity;
-import android.app.IntentService;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 
 public class NotifyFacebookFriendsService extends IntentService
 {

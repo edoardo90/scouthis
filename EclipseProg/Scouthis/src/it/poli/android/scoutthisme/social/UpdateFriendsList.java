@@ -14,11 +14,11 @@ import android.os.AsyncTask;
 
 class UpdateFriendsList extends AsyncTask<String, String, String>
 {
-    private JSONParser jsonParser = new JSONParser();
+	private JSONParser jsonParser = new JSONParser();
 	private String listOfFriendsJson;
 	private String userId;
 	private String urlUpdateFriendList;
-	
+
 	public UpdateFriendsList(String listOfFriendsJson, String userId, String urlUpdateFriendList)
 	{
 		this.listOfFriendsJson = listOfFriendsJson;
@@ -26,23 +26,24 @@ class UpdateFriendsList extends AsyncTask<String, String, String>
 		this.urlUpdateFriendList = urlUpdateFriendList;
 	}
 
-    protected String doInBackground(String... args)
-    {    
-        // Building Parameters for POST METHOD 
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(Constants.UP_LIST_PARAM, listOfFriendsJson));
+	protected String doInBackground(String... args)
+	{    
+		// Building Parameters for POST METHOD 
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair(Constants.UP_LIST_PARAM, listOfFriendsJson));
 		params.add(new BasicNameValuePair(Constants.UP_USERID_PARAM, userId));
-		
-		// getting JSON Object FROM PHP PAGE, WE UPDATE FRIENDS LIST USING PHP PAGE
-        JSONObject json = jsonParser.makeHttpRequest(this.urlUpdateFriendList, "POST", params);
-        
-        // check for success tag
-        try {
-            json.getInt("success");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        return null;
-    }
+		// getting JSON Object FROM PHP PAGE, WE UPDATE FRIENDS LIST USING PHP PAGE
+		JSONObject json = jsonParser.makeHttpRequest(this.urlUpdateFriendList, "POST", params);
+		if(json != null)
+		{
+			// check for success tag
+			try {
+				json.getInt("success");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}}
+
+		return null;
+	}
 }

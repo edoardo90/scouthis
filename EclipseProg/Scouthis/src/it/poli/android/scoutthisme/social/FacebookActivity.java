@@ -5,7 +5,7 @@ import it.poli.android.scoutthisme.constants.Constants;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import android.annotation.SuppressLint;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -143,27 +143,27 @@ public class FacebookActivity extends Activity
         }
     }    
     
-    @SuppressLint("NewApi")
-	private void debugShowSSHKey()
-    {
-        // solo per debug, genera la chiave hash, nel caso desse errore di accesso
-        try
-        {  
-    		PackageInfo info = getPackageManager().  
-    			getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
-
-			for (Signature signature : info.signatures)
-			{
-				MessageDigest md = MessageDigest.getInstance("SHA");
-				md.update(signature.toByteArray());
-				Log.d("====Hash Key===", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-			}
-        } catch (NameNotFoundException e) {
-        	e.printStackTrace();
-    	} catch (NoSuchAlgorithmException ex) {
-    	      ex.printStackTrace();
-    	}
-    }    
+//    @SuppressLint("NewApi")
+//	private void debugShowSSHKey()
+//    {
+//        // solo per debug, genera la chiave hash, nel caso desse errore di accesso
+//        try
+//        {  
+//    		PackageInfo info = getPackageManager().  
+//    			getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
+//
+//			for (Signature signature : info.signatures)
+//			{
+//				MessageDigest md = MessageDigest.getInstance("SHA");
+//				md.update(signature.toByteArray());
+//				Log.d("====Hash Key===", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//			}
+//        } catch (NameNotFoundException e) {
+//        	e.printStackTrace();
+//    	} catch (NoSuchAlgorithmException ex) {
+//    	      ex.printStackTrace();
+//    	}
+//    }    
     
     private class SessionStatusCallback implements Session.StatusCallback {
         @Override
