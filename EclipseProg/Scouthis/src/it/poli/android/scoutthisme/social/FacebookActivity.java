@@ -35,6 +35,7 @@ public class FacebookActivity extends Activity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity);
+
         buttonLoginLogout = (Button)findViewById(R.id.buttonLoginLogout);
         textInstructionsOrLink = (TextView)findViewById(R.id.instructionsOrLink);
         
@@ -86,7 +87,14 @@ public class FacebookActivity extends Activity
         Session session = Session.getActiveSession();
         Session.saveSession(session, outState);
     }
-
+    
+    /**
+     * Cambia l'aspetto del pulsante login una volta cliccato
+     * @param  useButtons  an absolute URL giving the base location of the image
+     * @param  name the location of the image, relative to the url argument
+     * @return      the image at the specified URL
+     * @see         Image
+     */
     private void getFriendsAndUpdate(boolean useButtons)
     {
         Session session = Session.getActiveSession();
@@ -106,8 +114,12 @@ public class FacebookActivity extends Activity
         }
     }
     
+    /**
+     * Cambia l'aspetto del pulsante login una volta cliccato
+     */
     private void setLoginButton()
     {
+    	textInstructionsOrLink.setText("Facebook Logout");
     	buttonLoginLogout.setText("Logout");
         buttonLoginLogout.setOnClickListener(
         	new OnClickListener() {
@@ -115,7 +127,10 @@ public class FacebookActivity extends Activity
         	}
         );
     }
-    
+
+    /**
+     * Cambia l'aspetto del pulsante logout una volta cliccato
+     */
     private void setLogoutButton()
     {
     	textInstructionsOrLink.setText("Facebook Login");
@@ -127,6 +142,9 @@ public class FacebookActivity extends Activity
         );
     }    
 
+    /**
+     * Effettua il login su richiesta dell'utente
+     */
     private void onClickLogin() {
         Session session = Session.getActiveSession();
         if (!session.isOpened() && !session.isClosed()) {
@@ -135,36 +153,20 @@ public class FacebookActivity extends Activity
             Session.openActiveSession(this, true, statusCallback);
         }
     }
-
+    
+    /**
+     * Effettua il logout su richiesta dell'utente
+     */
     private void onClickLogout() {
         Session session = Session.getActiveSession();
         if (!session.isClosed()) {
             session.closeAndClearTokenInformation();
         }
-    }    
+    }
     
-//    @SuppressLint("NewApi")
-//	private void debugShowSSHKey()
-//    {
-//        // solo per debug, genera la chiave hash, nel caso desse errore di accesso
-//        try
-//        {  
-//    		PackageInfo info = getPackageManager().  
-//    			getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
-//
-//			for (Signature signature : info.signatures)
-//			{
-//				MessageDigest md = MessageDigest.getInstance("SHA");
-//				md.update(signature.toByteArray());
-//				Log.d("====Hash Key===", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//			}
-//        } catch (NameNotFoundException e) {
-//        	e.printStackTrace();
-//    	} catch (NoSuchAlgorithmException ex) {
-//    	      ex.printStackTrace();
-//    	}
-//    }    
-    
+    /**
+     * Classe a servizio di Facebook
+     */    
     private class SessionStatusCallback implements Session.StatusCallback {
         @Override
         public void call(Session session, SessionState state, Exception exception) {

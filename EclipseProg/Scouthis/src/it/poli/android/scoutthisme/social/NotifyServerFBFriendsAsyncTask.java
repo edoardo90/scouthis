@@ -25,10 +25,7 @@ public class NotifyServerFBFriendsAsyncTask extends AsyncTask<String, Void, Stri
           
         return getStringFromUrl(urls[0]) + "@@@@@@" + getStringFromUrl(urls[1]); 
     }
-        
-        
-        
-    
+	
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result)
@@ -40,12 +37,9 @@ public class NotifyServerFBFriendsAsyncTask extends AsyncTask<String, Void, Stri
 	  
     	Log.i("user", userId);
 	  
-    	
-	    
 		UpdateFriendsList ufl = new UpdateFriendsList(listOfFriendsJson, userId, Constants.urlToUpdateFriends);
 		ufl.execute();
 	}
-
 
 	private String getStringFromUrl(String url)
 	{

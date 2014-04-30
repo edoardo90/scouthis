@@ -66,8 +66,14 @@ public  class StepCounterSectionFragment extends Fragment implements ILegMovemen
 	public void onDestroyView()
 	{
 		super.onDestroyView();
+		
+		gpsHandler.removeListener(this);
+		legDect.stopDetector();
+		
 		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapStepCounter));
 		if(mapFragment != null) {
+			clearMap();
+			
 			FragmentManager fM = getFragmentManager();
 			fM.beginTransaction().remove(mapFragment).commit();
 		}
@@ -82,23 +88,12 @@ public  class StepCounterSectionFragment extends Fragment implements ILegMovemen
 		legDect.startDetector();
 	}
 
-	@Override
-	public void onPause()
-	{
-		super.onPause();
-		
-		clearMap();
-		gpsHandler.removeListener(this);
-		legDect.stopDetector();
-	}
-
 	private void clearMap() {
 		gMap.clear();
 	}
 
 	public void updateMap() {
 		super.onResume();
-		
 		
 		if (needDefaultZoom) {
 			needDefaultZoom = false;

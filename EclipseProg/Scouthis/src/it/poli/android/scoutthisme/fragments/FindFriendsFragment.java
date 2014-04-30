@@ -2,6 +2,7 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.constants.Constants;
 import it.poli.android.scoutthisme.social.GetFriendsPositionsService;
+import it.poli.android.scoutthisme.social.NotifyServerFBFriendsAsyncTask;
 import it.poli.android.scoutthisme.tools.GpsHandler;
 import it.poli.android.scoutthisme.tools.GpsListener;
 import it.poli.android.scoutthisme.tools.UserMarker;
@@ -15,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +30,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.facebook.Session;
+import com.facebook.SessionState;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -51,28 +58,69 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	Marker marker;
 	boolean needDefaultZoom;
 	final int defaultZoom = 13;
+	
+	LayoutInflater inflater;
+	ViewGroup container;
+	Bundle savedInstanceState;
+	Session session;
+	
+	boolean needRepaint;
+	
+    private Session.StatusCallback statusCallback;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		gpsHandler = new GpsHandler(getActivity());
+		statusCallback = new SessionStatusCallback();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
-		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		View rootView;
+		this.inflater = inflater;
+		this.container = container;
+		session = Session.getActiveSession();
+        if (savedInstanceState != null) {
+            session = Session.restoreSession(getActivity(), null, statusCallback, savedInstanceState);
+        }
+        if (session == null) {
+            session = new Session(getActivity());
+        }
+        Session.setActiveSession(session);
+        if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+        }
+		rootView = showLayout();
+		return rootView;
+	}
+	
+	public View showLayout() 
+	{
+		needRepaint = false;
+		View rootView;
+		if (session.isOpened()) {
+			rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
+			this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+			setLogoutButton();
+		} else {
+			rootView = inflater.inflate(R.layout.activity, container, false);
+			setLoginButton();
+		}
 		return rootView;
 	}
 
 	public void onDestroyView()
 	{
 		super.onDestroyView();
-		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
-		if(mapFragment != null) {
-			FragmentManager fM = getFragmentManager();
-			fM.beginTransaction().remove(mapFragment).commit();
+		
+		if (session.isOpened()) {
+			SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
+			if(mapFragment != null) {
+				FragmentManager fM = getFragmentManager();
+				fM.beginTransaction().remove(mapFragment).commit();
+			}
 		}
 	}
 
@@ -80,20 +128,42 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	public void onResume()
 	{
 		super.onResume();
-		needDefaultZoom = true;
-		gpsHandler.setListener(this);
-
-		setReceiver();
+		if (session.isOpened()) {
+			needDefaultZoom = true;
+			gpsHandler.setListener(this);
+	
+			setReceiver();
+		}
+	}
+	
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		if (session != null) {
+			Session.getActiveSession().addCallback(statusCallback);
+		}
 	}
 
+	@Override
+	public void onStop()
+	{
+		super.onStop();
+		if (session != null) {
+			Session.getActiveSession().removeCallback(statusCallback);
+		}
+	}
+	
 	@Override
 	public void onPause()
 	{
 		super.onPause();
-		gpsHandler.removeListener(this);
-		clearMap();
-
-		removeReceiver();
+		if (session.isOpened()) {
+			gpsHandler.removeListener(this);
+			clearMap();
+	
+			removeReceiver();
+		}
 	}
 
 	private void clearMap() {
@@ -248,4 +318,78 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 			}
 		}
 	};
+	
+    /**
+     * Classe a servizio di Facebook
+     */    
+    private class SessionStatusCallback implements Session.StatusCallback {
+        @Override
+        public void call(Session sessionF, SessionState state, Exception exception) {
+        	Session session = Session.getActiveSession();
+    		if (needRepaint) {
+    			showLayout();
+    		}
+    		if (!session.isOpened()) {
+    			setLogoutButton();
+    			Session.getActiveSession().addCallback(statusCallback);
+    		}
+    		else {
+    			setLoginButton();
+    		}
+        }
+    }
+
+    /**
+     * Cambia l'aspetto del pulsante logout una volta cliccato
+     */
+    private void setLoginButton()
+    {    	
+		Button buttonLoginLogout = (Button)getActivity().findViewById(R.id.btnLogout);
+        buttonLoginLogout.setOnClickListener(
+            	new OnClickListener() {
+            		public void onClick(View view) { onClickLogout(); }
+            	}
+            );
+    } 
+    
+    /**
+     * Cambia l'aspetto del pulsante logout una volta cliccato
+     */
+    private void setLogoutButton()
+    {
+        TextView textInstructionsOrLink = (TextView)getActivity().findViewById(R.id.instructionsOrLink);
+    	textInstructionsOrLink.setText("Vuoi loggarti a Facebook? Non puoi usare il trovamici altrimenti.");
+    	
+    	Button buttonLoginLogout = (Button)getActivity().findViewById(R.id.buttonLoginLogout);
+        buttonLoginLogout.setText("Login");
+        buttonLoginLogout.setOnClickListener(
+        	new OnClickListener() {
+        		public void onClick(View view) { onClickLogin(); }
+        	}
+        );
+    }    
+
+    /**
+     * Effettua il login su richiesta dell'utente
+     */
+    private void onClickLogin() {
+    	needRepaint = true;
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(getActivity(), true, statusCallback);
+        }
+    }
+    
+    /**
+     * Effettua il logout su richiesta dell'utente
+     */
+    private void onClickLogout() {
+        Session session = Session.getActiveSession();
+        if (!session.isClosed()) {
+            session.closeAndClearTokenInformation();
+        }
+		inflater.inflate(R.layout.activity, container, false);
+    }
 }

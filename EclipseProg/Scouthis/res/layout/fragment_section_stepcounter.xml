@@ -16,7 +16,7 @@
     <fragment
         android:id="@+id/mapStepCounter"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="306dp"
+        android:layout_width="match_parent"
         android:layout_height="188dp"
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
@@ -32,10 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:gravity="right" >
+            android:gravity="right|center_vertical" >
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nuovo" />
@@ -63,6 +63,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="Passi effettuati" />
             
             <TextView
@@ -85,16 +86,17 @@
                 android:id="@+id/TextView01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="Distanza percorsa" />
             
             <TextView
-			    android:id="@+id/txtPrecision"
-			    android:layout_width="0dp"
-			    android:layout_height="wrap_content"
-			    android:layout_weight="2"
-			    android:gravity="center"
-			    android:text="150m"
-			    android:textSize="24sp" />
+                android:id="@+id/txtPrecision"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="0m"
+                android:textSize="24sp" />
 
         </TableRow>
 
@@ -107,16 +109,17 @@
                 android:id="@+id/TextView02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="Velocità media" />
             
             <TextView
-			    android:id="@+id/txtPrecision"
-			    android:layout_width="0dp"
-			    android:layout_height="wrap_content"
-			    android:layout_weight="2"
-			    android:gravity="center"
-			    android:text="10km/h"
-			    android:textSize="24sp" />
+                android:id="@+id/txtPrecision"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="0km/h"
+                android:textSize="24sp" />
 
         </TableRow>
 
@@ -129,16 +132,17 @@
                 android:id="@+id/TextView03"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="Tempo trascorso" />
             
            <TextView
-			    android:id="@+id/txtPrecision"
-			    android:layout_width="0dp"
-			    android:layout_height="wrap_content"
-			    android:layout_weight="2"
-			    android:gravity="center"
-			    android:text="15minuti"
-			    android:textSize="24sp" />
+               android:id="@+id/txtPrecision"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="2"
+               android:gravity="center"
+               android:text="0&apos;00&apos;"
+               android:textSize="24sp" />
 
         </TableRow>
 
