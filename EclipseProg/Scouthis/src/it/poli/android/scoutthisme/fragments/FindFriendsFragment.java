@@ -96,17 +96,25 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 		return rootView;
 	}
 	
-	public View showLayout() 
+	public void repaintLayout() 
 	{
 		needRepaint = false;
+		if (session.isOpened()) {
+			getView().inflate(getView().getContext(), R.layout.fragment_section_findfriends, container);
+			this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		} else {
+			getView().inflate(getView().getContext(), R.layout.activity, container);
+		}
+	}
+	
+	public View showLayout() 
+	{
 		View rootView;
 		if (session.isOpened()) {
 			rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
 			this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-			setLogoutButton();
 		} else {
 			rootView = inflater.inflate(R.layout.activity, container, false);
-			setLoginButton();
 		}
 		return rootView;
 	}
@@ -142,6 +150,11 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 		super.onStart();
 		if (session != null) {
 			Session.getActiveSession().addCallback(statusCallback);
+		}
+		if (session.isOpened()) {
+			setLogoutButton();
+		} else {
+			setLoginButton();
 		}
 	}
 
@@ -239,8 +252,8 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 				handler.post(new Runnable() {
 					public void run() { 
 						try {
-							Log.i(" find friends ", "  i should call something..  " );
-							updatePosit(); //questo metodo contatta il nostro server e chiede le coord
+							Log.i("Find friends", "Calling updatePosit()..." );
+							updatePosit();
 						}
 						catch (Exception e) {
 							e.printStackTrace();
@@ -278,9 +291,8 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 		}
 	}
 	
-	//what i ask the thread to do...  see putExtra
 	private void updatePosit() {
-		Log.i(" friends frag", " i should update postions instead i download a file, it'll be fine");
+		Log.i(" friends frag", "Updating friends positions...");
 
 		Intent intent = null;
 		if(loc.getLatitude() != 0 && loc.getLongitude() != 0)
@@ -325,27 +337,29 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
     private class SessionStatusCallback implements Session.StatusCallback {
         @Override
         public void call(Session sessionF, SessionState state, Exception exception) {
-        	Session session = Session.getActiveSession();
+        	//Session session = Session.getActiveSession();
     		if (needRepaint) {
-    			showLayout();
+    			repaintLayout();
     		}
-    		if (!session.isOpened()) {
-    			setLogoutButton();
-    			Session.getActiveSession().addCallback(statusCallback);
-    		}
-    		else {
+    		/*if (!session.isOpened()) {
     			setLoginButton();
-    		}
+    			//Session.getActiveSession().addCallback(statusCallback);
+    		} else {
+    			setLogoutButton();
+    		}*/
         }
     }
 
     /**
-     * Cambia l'aspetto del pulsante logout una volta cliccato
+     * Imposta l'aspetto del pulsante Logout
      */
-    private void setLoginButton()
-    {    	
-		Button buttonLoginLogout = (Button)getActivity().findViewById(R.id.btnLogout);
-        buttonLoginLogout.setOnClickListener(
+    private void setLogoutButton()
+    {    
+        TextView textInstructionsOrLink = (TextView)getActivity().findViewById(R.id.txtFFMessage);
+    	textInstructionsOrLink.setText(session.getState().toString());
+    	
+		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogout);
+		buttonLoginLogout.setOnClickListener(
             	new OnClickListener() {
             		public void onClick(View view) { onClickLogout(); }
             	}
@@ -353,14 +367,14 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
     } 
     
     /**
-     * Cambia l'aspetto del pulsante logout una volta cliccato
+     * Imposta l'aspetto del pulsante Login
      */
-    private void setLogoutButton()
+    private void setLoginButton()
     {
         TextView textInstructionsOrLink = (TextView)getActivity().findViewById(R.id.instructionsOrLink);
-    	textInstructionsOrLink.setText("Vuoi loggarti a Facebook? Non puoi usare il trovamici altrimenti.");
+    	textInstructionsOrLink.setText(session.getState().toString()/*"Vuoi loggarti a Facebook? Non puoi usare il trovamici altrimenti."*/);
     	
-    	Button buttonLoginLogout = (Button)getActivity().findViewById(R.id.buttonLoginLogout);
+    	Button buttonLoginLogout = (Button)getView().findViewById(R.id.buttonLoginLogout);
         buttonLoginLogout.setText("Login");
         buttonLoginLogout.setOnClickListener(
         	new OnClickListener() {
@@ -386,10 +400,10 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
      * Effettua il logout su richiesta dell'utente
      */
     private void onClickLogout() {
+    	needRepaint = true;
         Session session = Session.getActiveSession();
         if (!session.isClosed()) {
             session.closeAndClearTokenInformation();
         }
-		inflater.inflate(R.layout.activity, container, false);
     }
 }
