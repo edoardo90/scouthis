@@ -2,7 +2,6 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.constants.Constants;
 import it.poli.android.scoutthisme.social.GetFriendsPositionsService;
-import it.poli.android.scoutthisme.social.NotifyServerFBFriendsAsyncTask;
 import it.poli.android.scoutthisme.tools.GpsHandler;
 import it.poli.android.scoutthisme.tools.GpsListener;
 import it.poli.android.scoutthisme.tools.UserMarker;
@@ -16,12 +15,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.FragmentTransaction;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -29,13 +29,14 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.facebook.android.Util;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -59,10 +60,9 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	boolean needDefaultZoom;
 	final int defaultZoom = 13;
 	
-	LayoutInflater inflater;
 	ViewGroup container;
-	Bundle savedInstanceState;
 	Session session;
+	Activity mAct;
 	
 	boolean needRepaint;
 	
@@ -73,13 +73,26 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 		super.onCreate(savedInstanceState);
 		gpsHandler = new GpsHandler(getActivity());
 		statusCallback = new SessionStatusCallback();
+		mAct = getActivity();
 	}
+	
+	@Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession().onActivityResult(mAct, requestCode, resultCode, data);
+    }
+	
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        session = Session.getActiveSession();
+        Session.saveSession(session, outState);
+    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View rootView;
-		this.inflater = inflater;
 		this.container = container;
 		session = Session.getActiveSession();
         if (savedInstanceState != null) {
@@ -92,30 +105,8 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
         if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
             session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
         }
-		rootView = showLayout();
-		return rootView;
-	}
-	
-	public void repaintLayout() 
-	{
-		needRepaint = false;
-		if (session.isOpened()) {
-			getView().inflate(getView().getContext(), R.layout.fragment_section_findfriends, container);
-			this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		} else {
-			getView().inflate(getView().getContext(), R.layout.activity, container);
-		}
-	}
-	
-	public View showLayout() 
-	{
-		View rootView;
-		if (session.isOpened()) {
-			rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
-			this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		} else {
-			rootView = inflater.inflate(R.layout.activity, container, false);
-		}
+		rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
+		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		return rootView;
 	}
 
@@ -148,9 +139,10 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	public void onStart()
 	{
 		super.onStart();
-		if (session != null) {
-			Session.getActiveSession().addCallback(statusCallback);
-		}
+		
+		session = Session.getActiveSession();
+		session.addCallback(statusCallback);
+
 		if (session.isOpened()) {
 			setLogoutButton();
 		} else {
@@ -162,9 +154,9 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	public void onStop()
 	{
 		super.onStop();
-		if (session != null) {
-			Session.getActiveSession().removeCallback(statusCallback);
-		}
+		
+		session = Session.getActiveSession();
+		session.removeCallback(statusCallback);
 	}
 	
 	@Override
@@ -338,9 +330,9 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
         @Override
         public void call(Session sessionF, SessionState state, Exception exception) {
         	//Session session = Session.getActiveSession();
-    		if (needRepaint) {
+    		/*if (needRepaint) {
     			repaintLayout();
-    		}
+    		}*/
     		/*if (!session.isOpened()) {
     			setLoginButton();
     			//Session.getActiveSession().addCallback(statusCallback);
@@ -356,14 +348,19 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
     private void setLogoutButton()
     {    
         TextView textInstructionsOrLink = (TextView)getActivity().findViewById(R.id.txtFFMessage);
-    	textInstructionsOrLink.setText(session.getState().toString());
+        /*JSONObject json = Util.parseJson(facebook.request("me", params));
+        String userId = json.getString("id");*/
+    	textInstructionsOrLink.setText("Benvenuto! " + "https://graph.facebook.com/me/friends?access_token=" + session.getAccessToken());
     	
-		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogout);
+		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
+		buttonLoginLogout.setText("Logout");
 		buttonLoginLogout.setOnClickListener(
             	new OnClickListener() {
             		public void onClick(View view) { onClickLogout(); }
             	}
-            );
+        );
+		View mapp = getView().findViewById(R.id.map);
+		mapp.setVisibility(View.VISIBLE);
     } 
     
     /**
@@ -371,23 +368,24 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
      */
     private void setLoginButton()
     {
-        TextView textInstructionsOrLink = (TextView)getActivity().findViewById(R.id.instructionsOrLink);
-    	textInstructionsOrLink.setText(session.getState().toString()/*"Vuoi loggarti a Facebook? Non puoi usare il trovamici altrimenti."*/);
-    	
-    	Button buttonLoginLogout = (Button)getView().findViewById(R.id.buttonLoginLogout);
+        TextView textInstructionsOrLink = (TextView)getActivity().findViewById(R.id.txtFFMessage);
+    	textInstructionsOrLink.setText("Fai il login! " + session.getState().toString());
+
+    	Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
         buttonLoginLogout.setText("Login");
         buttonLoginLogout.setOnClickListener(
         	new OnClickListener() {
         		public void onClick(View view) { onClickLogin(); }
         	}
         );
+        View mapp = getView().findViewById(R.id.map);
+        mapp.setVisibility(View.GONE);
     }    
 
     /**
      * Effettua il login su richiesta dell'utente
      */
     private void onClickLogin() {
-    	needRepaint = true;
         Session session = Session.getActiveSession();
         if (!session.isOpened() && !session.isClosed()) {
             session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
@@ -400,7 +398,6 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
      * Effettua il logout su richiesta dell'utente
      */
     private void onClickLogout() {
-    	needRepaint = true;
         Session session = Session.getActiveSession();
         if (!session.isClosed()) {
             session.closeAndClearTokenInformation();
