@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_selector"
+    android:orientation="horizontal"
+    android:padding="5dip" >
+
+    <!-- ListRow Left sied Thumbnail image -->
+
+    <LinearLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/days"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/image_bg"
+        android:padding="3dip" >
+
+        <ImageView
+            android:id="@+id/list_image"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/bird_cardellino" />
+    </LinearLayout>
+
+    <!-- Title Of Song -->
+
+    <TextView
+        android:id="@+id/hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/switch_and_trash"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="12:34"
+        android:textColor="#040404"
+        android:textSize="15dip"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <!-- Artist Name -->
+
+
+    <!-- Rightend Duration -->
+
+
+    <!-- Rightend Arrow -->
+
+    <LinearLayout
+        android:id="@+id/switch_and_trash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/trash_interr_cont"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill_vertical"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/interrutt"
+                android:layout_width="85dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:onClick="switchAlarm"
+                android:scaleType="fitCenter"
+                android:src="@drawable/interr_off" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dip"
+                 />
+
+            <ImageView
+                android:id="@+id/trash_alarm"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:onClick="deleteAlarm"
+                android:src="@drawable/trash_dark" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/days"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/switch_and_trash"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="Lun Mar Mer Giov Ven Dom"
+        android:textColor="#646464"
+        android:textSize="14sp" />
+
+</RelativeLayout>
