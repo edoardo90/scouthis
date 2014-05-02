@@ -1,4 +1,4 @@
-package it.poli.android.scoutthisme.constants;
+package it.poli.android.scoutthisme;
 
 public class Constants
 {

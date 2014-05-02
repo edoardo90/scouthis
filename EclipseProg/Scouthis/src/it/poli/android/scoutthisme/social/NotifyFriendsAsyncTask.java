@@ -1,6 +1,6 @@
 package it.poli.android.scoutthisme.social;
 
-import it.poli.android.scoutthisme.constants.Constants;
+import it.poli.android.scoutthisme.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class NotifyServerFBFriendsAsyncTask extends AsyncTask<String, Void, String>
+public class NotifyFriendsAsyncTask extends AsyncTask<String, Void, String>
 {
 	String listOfFriendsJson;
 	String userInfoJson;

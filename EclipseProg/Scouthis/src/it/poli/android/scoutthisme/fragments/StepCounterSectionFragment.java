@@ -112,11 +112,6 @@ public  class StepCounterSectionFragment extends Fragment implements ILegMovemen
 		}
 		updateMap();
 	}
-	
-	@Override
-	public void onError(String string) {
-		
-	}
 
 	@Override
 	public void onLegActivity(int activity) {

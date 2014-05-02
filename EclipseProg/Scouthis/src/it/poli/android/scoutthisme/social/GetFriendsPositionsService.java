@@ -1,7 +1,7 @@
 package it.poli.android.scoutthisme.social;
 
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.constants.Constants;
+import it.poli.android.scoutthisme.Constants;
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
@@ -27,12 +27,12 @@ public class GetFriendsPositionsService extends IntentService
 	{
 	  Log.i("NotifyFacebookFriendsService", "Service running");
       
-	  this.userLatitude = intent.getDoubleExtra(Constants.PARAM_POSITION_LATITUDE, 0);
-	  this.userLongitude = intent.getDoubleExtra(Constants.PARAM_POSITION_LONGITUDE, 0);
+	  userLatitude = intent.getDoubleExtra(Constants.PARAM_POSITION_LATITUDE, 0);
+	  userLongitude = intent.getDoubleExtra(Constants.PARAM_POSITION_LONGITUDE, 0);
 	  
       Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
       
-      this.getFriendsPositions();
+      getFriendsPositions();
 	}
 
 	private void getFriendsPositions()
@@ -40,7 +40,6 @@ public class GetFriendsPositionsService extends IntentService
 		Session session = Session.openActiveSessionFromCache(getApplicationContext());
 		String userGPSCoords = "";
 	  
-		//SHALL WE TRY A SECOND TIME? MAYBE NOT
 		if (session == null) {
 			Log.i("friends position service",  "session cache is null, maybe the user is not logged");
 			session = new Session.Builder(getApplicationContext())

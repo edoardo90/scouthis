@@ -1,6 +1,6 @@
 package it.poli.android.scoutthisme.social;
 
-import it.poli.android.scoutthisme.constants.Constants;
+import it.poli.android.scoutthisme.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;

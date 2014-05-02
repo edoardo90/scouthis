@@ -11,7 +11,7 @@ public class FBNotifierAlarmReceiver extends BroadcastReceiver
 	// Triggered by the Alarm periodically (starts the service to run task)
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Intent i = new Intent(context, NotifyFacebookFriendsService.class);
+		Intent i = new Intent(context, FBNotifyFriendsService.class);
 		i.putExtra("foo", "bar");
 		context.startService(i);
 	}

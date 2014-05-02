@@ -82,7 +82,7 @@
 		 </receiver>
 		 
 		 <service
-		           android:name="it.poli.android.scoutthisme.social.NotifyFacebookFriendsService"
+		           android:name="it.poli.android.scoutthisme.social.FBNotifyFriendsService"
 		    android:exported="false" />
 		 
 		  <service android:name="it.poli.android.scoutthisme.social.GetFriendsPositionsService" >

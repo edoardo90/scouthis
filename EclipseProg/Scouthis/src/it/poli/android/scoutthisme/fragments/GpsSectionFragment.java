@@ -141,9 +141,4 @@ import android.widget.TextView;
     	    txtPrc.setText(String.format("%.0f", accuracy)+"m");
     	    txtBea.setText(String.format("%.0f", bearing)+"°"+" "+latlongOrient[orient]);
     	}
-    	
-    	@Override
-    	public void onError(String string) {
-    		
-    	}
     }

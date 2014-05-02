@@ -1,8 +1,7 @@
 package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.constants.Constants;
-import it.poli.android.scoutthisme.social.GetFriendsPositionsService;
-import it.poli.android.scoutthisme.social.NotifyServerFBFriendsAsyncTask;
+import it.poli.android.scoutthisme.Constants;
+import it.poli.android.scoutthisme.social.NotifyFriendsAsyncTask;
 import it.poli.android.scoutthisme.tools.FacebookHandler;
 import it.poli.android.scoutthisme.tools.FacebookListener;
 import it.poli.android.scoutthisme.tools.GpsHandler;
@@ -11,21 +10,15 @@ import it.poli.android.scoutthisme.tools.UserMarker;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -37,6 +30,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.Session;
+import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,7 +45,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public  class FindFriendsFragment extends Fragment implements GpsListener, FacebookListener
 {
 	private GoogleMap gMap;
-	private Timer timer = null;
 
 	GpsHandler gpsHandler;
 	FacebookHandler facebookHandler;
@@ -63,16 +56,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	Session session;
 	Activity mAct;
 	
-    private Session.StatusCallback statusCallback;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mAct = getActivity();
-		gpsHandler = new GpsHandler(mAct);
-		facebookHandler = new FacebookHandler(mAct);
-		statusCallback = new SessionStatusCallback();
-	}
+    private StatusCallback statusCallback;
 	
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -91,16 +75,20 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View rootView;
+		mAct = getActivity();
+		gpsHandler = new GpsHandler(mAct);
+		facebookHandler = new FacebookHandler(mAct);
+		statusCallback = new SessionStatusCallback();
 		session = Session.getActiveSession();
 		
 		rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
 		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		
-        if (session == null) {
-            session = new Session(mAct);
-        }
         if (savedInstanceState != null) {
             session = Session.restoreSession(mAct, null, statusCallback, savedInstanceState);
+        }
+        if (session == null) {
+            session = new Session(mAct);
         }
         Session.setActiveSession(session);
         if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
@@ -112,7 +100,6 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	public void onDestroyView()
 	{
 		super.onDestroyView();
-		
 		if (session.isOpened()) {
 			SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
 			if(mapFragment != null) {
@@ -127,44 +114,27 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	{
 		super.onResume();
 		if (session.isOpened()) {
+			setLogoutButton();
 			needDefaultZoom = true;
 			gpsHandler.setListener(this);
 			facebookHandler.setListener(this);
-		}
-	}
-	
-	@Override
-	public void onStart()
-	{
-		super.onStart();
-		
-		session = Session.getActiveSession();
-		session.addCallback(statusCallback);
-
-		if (session.isOpened()) {
-			setLogoutButton();
 		} else {
 			setLoginButton();
 		}
-	}
-
-	@Override
-	public void onStop()
-	{
-		super.onStop();
-		
 		session = Session.getActiveSession();
-		session.removeCallback(statusCallback);
+		session.addCallback(statusCallback);
 	}
 	
 	@Override
 	public void onPause()
 	{
 		super.onPause();
+		session = Session.getActiveSession();
+		session.removeCallback(statusCallback);
 		if (session.isOpened()) {
 			gpsHandler.removeListener();
 			facebookHandler.removeListener();
-			clearMap();
+			gMap.clear();
 		}
 	}
 	
@@ -174,7 +144,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
     private void setLoginButton()
     {
         TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFMessage);
-    	textInstructionsOrLink.setText("Fai il login! " + session.getState().toString());
+    	textInstructionsOrLink.setText("Fai il login!");
 
     	Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
         buttonLoginLogout.setText("Login");
@@ -195,7 +165,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
         TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFMessage);
         /*JSONObject json = Util.parseJson(facebook.request("me", params));
         String userId = json.getString("id");*/
-    	textInstructionsOrLink.setText("Benvenuto! " + "https://graph.facebook.com/me/friends?access_token=" + session.getAccessToken());
+    	textInstructionsOrLink.setText("Benvenuto!");
     	
 		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
 		buttonLoginLogout.setText("Logout");
@@ -230,14 +200,10 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
         }
     }
 
-	private void clearMap() {
-		gMap.clear();
-	}
-
 	public void updateMap() {
 		super.onResume();
 		
-		clearMap();
+		gMap.clear();
 
 		MarkerOptions mo = new MarkerOptions().position(new LatLng(loc.getLatitude(), loc.getLongitude()));
 		Marker marker = gMap.addMarker(mo);
@@ -259,11 +225,6 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		this.loc = location;
 		facebookHandler.updatePosition(location);
 		updateMap();
-	}
-	
-	@Override
-	public void onError(String string) {
-		
 	}
 
 	@Override
@@ -313,14 +274,13 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
 		return usersMarkers;
 	}
 	
     /**
      * Classe a servizio di Facebook
      */    
-    private class SessionStatusCallback implements Session.StatusCallback {
+    private class SessionStatusCallback implements StatusCallback {
         @Override
         public void call(Session sessionF, SessionState state, Exception exception) {
             session = Session.getActiveSession();
@@ -330,7 +290,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
             	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
             	// Call AsynTask to perform network operation on separate thread
             	// see: doInBackground and onPostExecute
-        		new NotifyServerFBFriendsAsyncTask().execute(urlFriendsInfo, userInfo);
+        		new NotifyFriendsAsyncTask().execute(urlFriendsInfo, userInfo);
             }
         }
     }

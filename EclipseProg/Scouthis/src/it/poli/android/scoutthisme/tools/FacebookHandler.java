@@ -1,6 +1,6 @@
 package it.poli.android.scoutthisme.tools;
 
-import it.poli.android.scoutthisme.constants.Constants;
+import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.social.GetFriendsPositionsService;
 
 import java.util.Timer;
@@ -27,7 +27,8 @@ public class FacebookHandler
     	this.mAct = mAct;
     }
 
-    public void setListener(FacebookListener l) {
+    public void setListener(FacebookListener l)
+    {
     	this.listener = l;
     	
 		mAct.registerReceiver(receiver, new IntentFilter(Constants.INTENT_NOTIFICATION));
@@ -60,7 +61,8 @@ public class FacebookHandler
 		timer.schedule(doAsynchronousTask, 0, Constants.TIME_UPDATE_FRIENDS_POSITION); 
     }
     
-    public void removeListener() {
+    public void removeListener()
+    {
     	this.listener = null;
     	
 		timer.cancel();
@@ -73,7 +75,8 @@ public class FacebookHandler
     	this.loc = loc;
     }
 	
-	private BroadcastReceiver receiver = new BroadcastReceiver() {
+	private BroadcastReceiver receiver = new BroadcastReceiver()
+	{
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// What does the tread says me when finished .. say putExtra in GetFriendsPositionsService e getString..
