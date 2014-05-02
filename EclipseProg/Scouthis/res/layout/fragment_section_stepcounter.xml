@@ -3,23 +3,15 @@
 	    android:layout_height="fill_parent"
 	    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/lblDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5sp"
-        android:layout_marginTop="10dp"
-        android:text="Il contapassi:"
-        android:textSize="18sp"
-        android:textStyle="bold|italic" />
-
     <fragment
         android:id="@+id/mapStepCounter"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="188dp"
+        android:layout_height="194dp"
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp" />
 
     <TableLayout
@@ -52,7 +44,9 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" >
 
         <TableRow
             android:id="@+id/tableRow3"
@@ -60,7 +54,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/txtFFMessage"
+                android:id="@+id/lblPassi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -83,7 +77,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/TextView01"
+                android:id="@+id/lblDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -106,7 +100,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/TextView02"
+                android:id="@+id/lblSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -129,7 +123,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/TextView03"
+                android:id="@+id/lbTimePassed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

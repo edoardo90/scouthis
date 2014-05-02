@@ -46,7 +46,7 @@ public class GpsHandler implements LocationListener
     	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
     
-    public void removeListener(GpsListener l) {
+    public void removeListener() {
 		locationManager.removeUpdates(this);
     	this.listener = null;
     }

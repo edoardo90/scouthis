@@ -14,54 +14,24 @@
   limitations under the License.
   -->
   
-  <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/textViewLumus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="32dp"
+        android:text="Lumus: la sezione dove ci saranno le funzioni per la torcia aka Segnali luminosi "
+        android:textSize="24sp" />
 
-    	<TableLayout
-    	    android:layout_width="match_parent"
-    	    android:layout_height="match_parent" >
+    <ToggleButton
+        android:id="@+id/tglOnOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="ToggleButton" />
 
-    	    <TableRow
-    	        android:id="@+id/tableRow1"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content"
-    	        android:gravity="center_vertical|center_horizontal" >
-
-    	        <TextView
-    	            android:id="@+id/textViewLumus"
-    	            android:layout_width="wrap_content"
-    	            android:layout_height="wrap_content"
-    	            android:padding="32dp"
-    	            android:text="Lumus: la sezione dove ci saranno le funzioni per la torcia aka Segnali luminosi "
-    	            android:textSize="24sp" />
-
-    	    </TableRow>
-
-    	    <TableRow
-    	        android:id="@+id/tblRow1"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content" >
-
-    	        <ToggleButton
-    	            android:id="@+id/toggleButton1"
-    	            android:layout_width="wrap_content"
-    	            android:layout_height="wrap_content"
-    	            android:text="ToggleButton" />
-
-    	    </TableRow>
-
-    	    <TableRow
-    	        android:id="@+id/tblRow2"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content" >
-    	    </TableRow>
-
-    	    <TableRow
-    	        android:id="@+id/tableRow4"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content" >
-    	    </TableRow>
-    	</TableLayout>
-
-</FrameLayout>
+</LinearLayout>

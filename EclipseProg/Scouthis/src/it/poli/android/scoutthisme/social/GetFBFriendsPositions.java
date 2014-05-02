@@ -1,7 +1,6 @@
 package it.poli.android.scoutthisme.social;
 
 import it.poli.android.scoutthisme.constants.Constants;
-import it.poli.android.scoutthisme.constants.UserInformation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,28 +22,27 @@ import android.util.Log;
 
 public class GetFBFriendsPositions
 {
-	private double userLatitude ;
+	private double userLatitude;
 	private double userLongitude;
 	private String userIDURL;
 
-	public GetFBFriendsPositions(String userIDURL, double userLat, double userLong)
+	public GetFBFriendsPositions(String userInfoURL, double userLat, double userLong)
 	{
-		this.userLatitude = userLat;
-		this.userLongitude = userLong;
-		this.userIDURL = userIDURL;
+		userLatitude = userLat;
+		userLongitude = userLong;
+		this.userIDURL = userInfoURL;
 	}
 
 	protected String getFriendsGPS()
 	{      
 		String result = getStringFromUrl(this.userIDURL) ;
 		String userInfoJson = result;
-		String userId = this.getUserIDFromJson(userInfoJson, UserInformation.USERID);
+		String userId = this.getUserIDFromJson(userInfoJson, Constants.PARAM_USERID);
 
 		Log.i("user", userId);
 
-		GetFriendsGPSFromURL ufl = new
-				GetFriendsGPSFromURL( userId, Constants.urlToGetCoords,
-						this.userLatitude , this.userLongitude);
+		GetFriendsGPSFromURL ufl = new GetFriendsGPSFromURL(userId, Constants.URL_GET_FRIENDSLIST,
+						userLatitude , userLongitude);
 		return ufl.getGPSFriends();
 	}
 
@@ -83,19 +81,16 @@ public class GetFBFriendsPositions
 	}
 
 
-	private String getUserIDFromJson(String userInfoJson, UserInformation infoToGet)
+	private String getUserIDFromJson(String userInfoJson, String infoToGet)
 	{		
 		String s = "";
 
 		try {
 			JSONObject job = new JSONObject(userInfoJson);
 			s = job.getString("id");
-			if(infoToGet == UserInformation.USERID_AND_NAME)
+			if(infoToGet == Constants.PARAM_USERID_AND_NAME)
 			{
-				s = s + " ";
-				s = s + job.get("first_name");
-				s = s + " ";
-				s = s + job.get("last_name");
+				s = s + " " + job.get("first_name") + " " + job.get("last_name");
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -125,9 +120,9 @@ public class GetFBFriendsPositions
 		{    
 			// Building Parameters for POST METHOD 
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair(Constants.UPDATE_POSTION_USER_PARAM, this.userId));
-			params.add(new BasicNameValuePair(Constants.UPDATE_POSTION_LATITUDE_PARAM, String.valueOf(this.latitude)));
-			params.add(new BasicNameValuePair(Constants.UPDATE_POSTION_LONGITUDE_PARAM, String.valueOf(this.longitude)));
+			params.add(new BasicNameValuePair(Constants.PARAM_USERID, this.userId));
+			params.add(new BasicNameValuePair(Constants.PARAM_POSITION_LATITUDE, String.valueOf(this.latitude)));
+			params.add(new BasicNameValuePair(Constants.PARAM_POSITION_LONGITUDE, String.valueOf(this.longitude)));
 
 			// getting JSON Object FROM PHP PAGE, WE GET GPS FRIENDS COORD USING PHP PAGE
 			JSONObject json = jsonParser.makeHttpRequest(this.urlGetGPSFriendList, "POST", params);
@@ -144,8 +139,8 @@ public class GetFBFriendsPositions
 				} catch (JSONException e) {
 					e.printStackTrace();
 					return "error";
-				}}
-
+				}
+			}
 			return "error requesting gps coords to php";
 		}
 	}

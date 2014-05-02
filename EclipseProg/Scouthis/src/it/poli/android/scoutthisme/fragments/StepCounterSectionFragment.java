@@ -67,7 +67,7 @@ public  class StepCounterSectionFragment extends Fragment implements ILegMovemen
 	{
 		super.onDestroyView();
 		
-		gpsHandler.removeListener(this);
+		gpsHandler.removeListener();
 		legDect.stopDetector();
 		
 		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapStepCounter));

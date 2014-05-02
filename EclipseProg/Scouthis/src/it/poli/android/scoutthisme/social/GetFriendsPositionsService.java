@@ -2,7 +2,6 @@ package it.poli.android.scoutthisme.social;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.constants.Constants;
-import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
@@ -13,9 +12,6 @@ import com.facebook.Settings;
 
 public class GetFriendsPositionsService extends IntentService
 {
-	public static final String GPSCOORD = "gpsCoord";
-	public static final String RESULT = "result";
-	public static final String NOTIFICATION = "it.poli.android.scoutthisme";
 	private double userLatitude;
 	private double userLongitude;
 
@@ -31,8 +27,8 @@ public class GetFriendsPositionsService extends IntentService
 	{
 	  Log.i("NotifyFacebookFriendsService", "Service running");
       
-	  this.userLatitude = intent.getDoubleExtra(FindFriendsFragment.strLatitudeExtra, 0);
-	  this.userLongitude = intent.getDoubleExtra(FindFriendsFragment.strLongitudeExtra, 0);
+	  this.userLatitude = intent.getDoubleExtra(Constants.PARAM_POSITION_LATITUDE, 0);
+	  this.userLongitude = intent.getDoubleExtra(Constants.PARAM_POSITION_LONGITUDE, 0);
 	  
       Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
       
@@ -61,16 +57,16 @@ public class GetFriendsPositionsService extends IntentService
 			
 			// call AsynTask to perform network operation on separate thread
 			// vedi: onPostExecute
-			userGPSCoords =  new GetFBFriendsPositions(userInfoURL, this.userLatitude, this.userLongitude).getFriendsGPS();
+			userGPSCoords =  new GetFBFriendsPositions(userInfoURL, userLatitude, userLongitude).getFriendsGPS();
 		}
       	this.publishResults(userGPSCoords, 1);
 	}
   
 	//what does the thread says back to caller
 	private void publishResults(String userGPSCoords, int result) {
-		Intent intent = new Intent(NOTIFICATION);
-		intent.putExtra(GPSCOORD, userGPSCoords);
-		intent.putExtra(RESULT, result);
+		Intent intent = new Intent(Constants.INTENT_NOTIFICATION);
+		intent.putExtra(Constants.PARAM_GPS_COORDINATES, userGPSCoords);
+		intent.putExtra(Constants.PARAM_RESULT, result);
 		
 		sendBroadcast(intent);
 	}

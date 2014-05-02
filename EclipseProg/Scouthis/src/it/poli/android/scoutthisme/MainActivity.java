@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      * time.
      */
     ViewPager mViewPager;
-    private final String[] titles = {"Home", "GPS", "Contapassi", "Trovamici", "Lumus", "Walkie Talkie", "Wake Up!"};
+    private final String[] tabTitles = {"Home", "GPS", "Contapassi", "Trovamici", "Lumus", "Walkie Talkie", "Wake Up!"};
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	    long firstMillis = System.currentTimeMillis(); // first run of alarm is immediate
 	    
 	    AlarmManager fbUpdateFriendsAlarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-	    fbUpdateFriendsAlarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, Constants.UPDATE_USER_FRIENDS, pIntent);
+	    fbUpdateFriendsAlarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, Constants.TIME_UPDATE_FRIENDSLIST, pIntent);
 	  }
 	
 	  
@@ -164,12 +164,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         @Override
         public int getCount() {
-            return titles.length;
+            return tabTitles.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return titles[position];
+            return tabTitles[position];
         }
     }
     
@@ -180,6 +180,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	public void onTabSelected(Tab arg0,
 			android.support.v4.app.FragmentTransaction arg1) {
 		mViewPager.setCurrentItem(arg0.getPosition());
+		setTitle(arg0.getText());
 	}
 
 	@Override

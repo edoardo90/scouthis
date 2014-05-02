@@ -59,7 +59,7 @@ import android.widget.TextView;
     		super.onPause();
     		
     		sensorHandler.removeListener(this);
-    		gpsHandler.removeListener(this);
+    		gpsHandler.removeListener();
     	}
 
     	@Override

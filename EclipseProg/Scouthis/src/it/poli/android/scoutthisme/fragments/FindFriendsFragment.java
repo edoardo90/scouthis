@@ -2,6 +2,9 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.constants.Constants;
 import it.poli.android.scoutthisme.social.GetFriendsPositionsService;
+import it.poli.android.scoutthisme.social.NotifyServerFBFriendsAsyncTask;
+import it.poli.android.scoutthisme.tools.FacebookHandler;
+import it.poli.android.scoutthisme.tools.FacebookListener;
 import it.poli.android.scoutthisme.tools.GpsHandler;
 import it.poli.android.scoutthisme.tools.GpsListener;
 import it.poli.android.scoutthisme.tools.UserMarker;
@@ -21,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -36,7 +38,6 @@ import android.widget.TextView;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.facebook.android.Util;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -47,33 +48,30 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * A fragment that launches other parts of the demo application.
  */
-public  class FindFriendsFragment extends Fragment implements GpsListener
+public  class FindFriendsFragment extends Fragment implements GpsListener, FacebookListener
 {
-	public static final String strLatitudeExtra = "it.poli.latitude";
-	public static final String strLongitudeExtra = "it.poli.longitude";
 	private GoogleMap gMap;
 	private Timer timer = null;
 
 	GpsHandler gpsHandler;
+	FacebookHandler facebookHandler;
 	Location loc;
 	Marker marker;
 	boolean needDefaultZoom;
 	final int defaultZoom = 13;
 	
-	ViewGroup container;
 	Session session;
 	Activity mAct;
-	
-	boolean needRepaint;
 	
     private Session.StatusCallback statusCallback;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		gpsHandler = new GpsHandler(getActivity());
-		statusCallback = new SessionStatusCallback();
 		mAct = getActivity();
+		gpsHandler = new GpsHandler(mAct);
+		facebookHandler = new FacebookHandler(mAct);
+		statusCallback = new SessionStatusCallback();
 	}
 	
 	@Override
@@ -93,20 +91,21 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View rootView;
-		this.container = container;
 		session = Session.getActiveSession();
-        if (savedInstanceState != null) {
-            session = Session.restoreSession(getActivity(), null, statusCallback, savedInstanceState);
-        }
+		
+		rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
+		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		
         if (session == null) {
-            session = new Session(getActivity());
+            session = new Session(mAct);
+        }
+        if (savedInstanceState != null) {
+            session = Session.restoreSession(mAct, null, statusCallback, savedInstanceState);
         }
         Session.setActiveSession(session);
         if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
             session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
         }
-		rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
-		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		return rootView;
 	}
 
@@ -130,8 +129,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 		if (session.isOpened()) {
 			needDefaultZoom = true;
 			gpsHandler.setListener(this);
-	
-			setReceiver();
+			facebookHandler.setListener(this);
 		}
 	}
 	
@@ -164,12 +162,73 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	{
 		super.onPause();
 		if (session.isOpened()) {
-			gpsHandler.removeListener(this);
+			gpsHandler.removeListener();
+			facebookHandler.removeListener();
 			clearMap();
-	
-			removeReceiver();
 		}
 	}
+	
+    /**
+     * Imposta l'aspetto del pulsante Login
+     */
+    private void setLoginButton()
+    {
+        TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFMessage);
+    	textInstructionsOrLink.setText("Fai il login! " + session.getState().toString());
+
+    	Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
+        buttonLoginLogout.setText("Login");
+        buttonLoginLogout.setOnClickListener(
+        	new OnClickListener() {
+        		public void onClick(View view) { onClickLogin(); }
+        	}
+        );
+        View mapp = getView().findViewById(R.id.map);
+        mapp.setVisibility(View.GONE);
+    } 
+	
+    /**
+     * Imposta l'aspetto del pulsante Logout
+     */
+    private void setLogoutButton()
+    {    
+        TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFMessage);
+        /*JSONObject json = Util.parseJson(facebook.request("me", params));
+        String userId = json.getString("id");*/
+    	textInstructionsOrLink.setText("Benvenuto! " + "https://graph.facebook.com/me/friends?access_token=" + session.getAccessToken());
+    	
+		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
+		buttonLoginLogout.setText("Logout");
+		buttonLoginLogout.setOnClickListener(
+            	new OnClickListener() {
+            		public void onClick(View view) { onClickLogout(); }
+            	}
+        );
+		View mapp = getView().findViewById(R.id.map);
+		mapp.setVisibility(View.VISIBLE);
+    }    
+
+    /**
+     * Effettua il login su richiesta dell'utente
+     */
+    private void onClickLogin() {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(mAct, true, statusCallback);
+        }
+    }
+    
+    /**
+     * Effettua il logout su richiesta dell'utente
+     */
+    private void onClickLogout() {
+        Session session = Session.getActiveSession();
+        if (!session.isClosed()) {
+            session.closeAndClearTokenInformation();
+        }
+    }
 
 	private void clearMap() {
 		gMap.clear();
@@ -198,6 +257,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	@Override
 	public void onLocationChanged(Location location) {
 		this.loc = location;
+		facebookHandler.updatePosition(location);
 		updateMap();
 	}
 	
@@ -205,67 +265,18 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 	public void onError(String string) {
 		
 	}
-	
-	private List<UserMarker> lumFromJsonStr(String gpsCoordJSONStr)
-	{
-		List<UserMarker> lum = new ArrayList<UserMarker>();
-		try {
-			JSONObject job = new JSONObject(gpsCoordJSONStr);
-			JSONArray markk = job.getJSONArray("markers");
-			for(int i=0; i<markk.length(); i++)
-			{
-				JSONObject juser = markk.getJSONObject(i);
 
-				String name = juser.getString("name");
-				double longit = juser.getDouble("longitude");
-				double latit = juser.getDouble("latitude");
-				UserMarker um = new UserMarker(latit, longit, name);
-				lum.add(um);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+	@Override
+	public void onFriendsUpdates(String gpsCoordJSONStr) {
+		List<UserMarker> lstUsersMarkers = usersMarkersFromJson(gpsCoordJSONStr);
+		for(UserMarker usrMarker : lstUsersMarkers)
+		{
+			Log.w("i place markers", " placing " + usrMarker.toString());
+			placeMarkerOnMap(usrMarker);
 		}
-
-		return lum;
 	}
 	
-	private void setReceiver()
-	{
-		getActivity().registerReceiver(receiver, new IntentFilter(GetFriendsPositionsService.NOTIFICATION));
-
-		//timer per lanciare ogni TOT (VEDI COSTANTI) tempo il servizio che trova le coordinate
-		//degli amici online
-		timer = new Timer();
-		final Handler handler = new Handler();
-
-		TimerTask doAsynchronousTask = new TimerTask() {       
-			@Override
-			public void run() {
-				handler.post(new Runnable() {
-					public void run() { 
-						try {
-							Log.i("Find friends", "Calling updatePosit()..." );
-							updatePosit();
-						}
-						catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		};
-		timer.schedule(doAsynchronousTask, 0, Constants.UPDATE_FRIENDS_POSITION); 
-	}
-	
-	private void removeReceiver()
-	{
-		timer.cancel();
-		timer.purge();
-		Log.i("pause", "timer purged");
-		this.getActivity().unregisterReceiver(receiver);
-	}
-
-	private void placeOnMap(UserMarker um)
+	private void placeMarkerOnMap(UserMarker um)
 	{
 		MarkerOptions mo = new MarkerOptions().position(new LatLng(um.getLatitude(), um.getLongitude()));
 		Marker marker = gMap.addMarker(mo);
@@ -283,45 +294,28 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
 		}
 	}
 	
-	private void updatePosit() {
-		Log.i(" friends frag", "Updating friends positions...");
-
-		Intent intent = null;
-		if(loc.getLatitude() != 0 && loc.getLongitude() != 0)
-		{
-			intent =  new Intent(this.getActivity().getApplicationContext(), GetFriendsPositionsService.class);
-			intent.putExtra(FindFriendsFragment.strLatitudeExtra, loc.getLatitude());
-			intent.putExtra(FindFriendsFragment.strLatitudeExtra, loc.getLongitude());
-			Log.i(" updatePosit()", " now i start service ");
-			this.getActivity().startService(intent);
-		}
-	}
-	
-	protected void updateMarkers(String gpsCoordJSONStr)
+	private List<UserMarker> usersMarkersFromJson(String gpsCoordJSONStr)
 	{
-		List<UserMarker> lum = this.lumFromJsonStr(gpsCoordJSONStr);
-		for(UserMarker um : lum)
-		{
-			Log.w("i place markers", " placing " + um.toString());
-			this.placeOnMap(um);
-		}
-	}
-	
-	private BroadcastReceiver receiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			//what does the tread says me when finished .. say putExtra in GetFriendsPositionsService e getString..
-			Log.i("Find friends fragment onReceive", " i finished ");
-			Bundle bundle = intent.getExtras();
-			if (bundle != null) {
-				String gpsCoordJSONStr = bundle.getString(GetFriendsPositionsService.GPSCOORD);
-				int resultCode = bundle.getInt(GetFriendsPositionsService.RESULT);
-				if (resultCode == Constants.RESULT_OK) {
-					updateMarkers(gpsCoordJSONStr);
-				} 
+		List<UserMarker> usersMarkers = new ArrayList<UserMarker>();
+		try {
+			JSONObject job = new JSONObject(gpsCoordJSONStr);
+			JSONArray markk = job.getJSONArray("markers");
+			for(int i=0; i<markk.length(); i++)
+			{
+				JSONObject juser = markk.getJSONObject(i);
+
+				String name = juser.getString("name");
+				double longit = juser.getDouble("longitude");
+				double latit = juser.getDouble("latitude");
+				UserMarker um = new UserMarker(latit, longit, name);
+				usersMarkers.add(um);
 			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-	};
+
+		return usersMarkers;
+	}
 	
     /**
      * Classe a servizio di Facebook
@@ -329,78 +323,15 @@ public  class FindFriendsFragment extends Fragment implements GpsListener
     private class SessionStatusCallback implements Session.StatusCallback {
         @Override
         public void call(Session sessionF, SessionState state, Exception exception) {
-        	//Session session = Session.getActiveSession();
-    		/*if (needRepaint) {
-    			repaintLayout();
-    		}*/
-    		/*if (!session.isOpened()) {
-    			setLoginButton();
-    			//Session.getActiveSession().addCallback(statusCallback);
-    		} else {
-    			setLogoutButton();
-    		}*/
-        }
-    }
-
-    /**
-     * Imposta l'aspetto del pulsante Logout
-     */
-    private void setLogoutButton()
-    {    
-        TextView textInstructionsOrLink = (TextView)getActivity().findViewById(R.id.txtFFMessage);
-        /*JSONObject json = Util.parseJson(facebook.request("me", params));
-        String userId = json.getString("id");*/
-    	textInstructionsOrLink.setText("Benvenuto! " + "https://graph.facebook.com/me/friends?access_token=" + session.getAccessToken());
-    	
-		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
-		buttonLoginLogout.setText("Logout");
-		buttonLoginLogout.setOnClickListener(
-            	new OnClickListener() {
-            		public void onClick(View view) { onClickLogout(); }
-            	}
-        );
-		View mapp = getView().findViewById(R.id.map);
-		mapp.setVisibility(View.VISIBLE);
-    } 
-    
-    /**
-     * Imposta l'aspetto del pulsante Login
-     */
-    private void setLoginButton()
-    {
-        TextView textInstructionsOrLink = (TextView)getActivity().findViewById(R.id.txtFFMessage);
-    	textInstructionsOrLink.setText("Fai il login! " + session.getState().toString());
-
-    	Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
-        buttonLoginLogout.setText("Login");
-        buttonLoginLogout.setOnClickListener(
-        	new OnClickListener() {
-        		public void onClick(View view) { onClickLogin(); }
-        	}
-        );
-        View mapp = getView().findViewById(R.id.map);
-        mapp.setVisibility(View.GONE);
-    }    
-
-    /**
-     * Effettua il login su richiesta dell'utente
-     */
-    private void onClickLogin() {
-        Session session = Session.getActiveSession();
-        if (!session.isOpened() && !session.isClosed()) {
-            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
-        } else {
-            Session.openActiveSession(getActivity(), true, statusCallback);
-        }
-    }
-    
-    /**
-     * Effettua il logout su richiesta dell'utente
-     */
-    private void onClickLogout() {
-        Session session = Session.getActiveSession();
-        if (!session.isClosed()) {
-            session.closeAndClearTokenInformation();
+            session = Session.getActiveSession();
+            if (session.isOpened()) {        	
+            	// If everything goes fine, now we got the url with all our friends stuff
+            	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
+            	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
+            	// Call AsynTask to perform network operation on separate thread
+            	// see: doInBackground and onPostExecute
+        		new NotifyServerFBFriendsAsyncTask().execute(urlFriendsInfo, userInfo);
+            }
         }
     }
 }
