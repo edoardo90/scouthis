@@ -32,7 +32,7 @@
         android:text="@string/scegli_giorni" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/btnHomeReload"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:id="@+id/view1"
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:layout_above="@+id/button1"
+        android:layout_above="@+id/btnHomeReload"
         android:background="#ffffff" />
 
     <LinearLayout

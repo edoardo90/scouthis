@@ -35,13 +35,7 @@ public class NotifyFriendsAsyncTask extends AsyncTask<String, Void, String>
 		userInfoJson = getContentFromUrl(urls[1]);
 		userId = getUserInfoFromJson(userInfoJson)[0];
 		
-		return null;
-    }
-	
-    // onPostExecute displays the results of the AsyncTask.
-    @Override
-    protected void onPostExecute(String result)
-    {
+		//BEGIN onPostExecute
     	JSONParser jsonParser = new JSONParser();
     	
 		// Building Parameters for POST METHOD 
@@ -60,7 +54,10 @@ public class NotifyFriendsAsyncTask extends AsyncTask<String, Void, String>
 				e.getLocalizedMessage();
 			}
 		}
-	}
+		//END onPostExecute
+		
+		return null;
+    }
 
 	private String getContentFromUrl(String url)
 	{

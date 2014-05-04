@@ -58,7 +58,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	 * time.
 	 */
 	ViewPager mViewPager;
-	private final String[] tabTitles = {"Home", "GPS", "Contapassi", "Trovamici", "Lumus", "Walkie Talkie", "Wake Up!"};
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -146,25 +145,19 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 			case 5:
 				return new WalkieTalkieSectionFragment();
 			case 6:
-				return new WakeUpSectionFragment();
 			default:
-				// The other sections of the app are dummy placeholders.
-				Fragment fragment = new DummySectionFragment();
-				Bundle args = new Bundle();
-				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-				fragment.setArguments(args);
-				return fragment;
+				return new WakeUpSectionFragment();
 			}
 		}
 
 		@Override
 		public int getCount() {
-			return tabTitles.length;
+			return Constants.TAB_TITLES.length;
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return tabTitles[position];
+			return Constants.TAB_TITLES[position];
 		}
 	}
 
@@ -181,23 +174,4 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	@Override
 	public void onTabUnselected(Tab arg0,
 			android.support.v4.app.FragmentTransaction arg1) { }
-
-	//TO REMOVE AS SOON AS POSSIBLE
-	/**
-	 * A dummy fragment representing a section of the app, but that simply displays dummy text.
-	 */
-	public static class DummySectionFragment extends Fragment {
-
-		public static final String ARG_SECTION_NUMBER = "section_number";
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
-			Bundle args = getArguments();
-			((TextView) rootView.findViewById(android.R.id.text1)).setText(
-					getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
-			return rootView;
-		}
-	}
 }

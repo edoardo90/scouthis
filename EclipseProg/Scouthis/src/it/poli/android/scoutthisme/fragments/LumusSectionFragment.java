@@ -20,7 +20,6 @@ import android.widget.ToggleButton;
 public class LumusSectionFragment extends Fragment
 {
 	PackageManager pm;
-	
     private Camera camera;
     Activity mAct;
 	
@@ -45,7 +44,6 @@ public class LumusSectionFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_section_lumus, container, false);     
-		
         mAct = getActivity();
 		pm = mAct.getPackageManager();
 
