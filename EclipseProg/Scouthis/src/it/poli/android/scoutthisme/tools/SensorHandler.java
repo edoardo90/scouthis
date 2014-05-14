@@ -19,7 +19,8 @@ public class SensorHandler implements SensorEventListener
 		senAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
-    public void setListener(SensorListener l) {
+    @SuppressWarnings("deprecation")
+	public void setListener(SensorListener l) {
     	this.listener = l;
 		mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
 				SensorManager.SENSOR_DELAY_GAME);

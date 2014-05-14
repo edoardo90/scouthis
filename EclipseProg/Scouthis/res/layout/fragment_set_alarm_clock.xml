@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SetAlarmClockActivity" >
+    tools:context=".SetAlarmClockFragment" >
 
     <TextView
         android:id="@+id/textView1"
@@ -18,7 +18,7 @@
     <TimePicker
         android:id="@+id/timePicker1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1" />
 
@@ -28,24 +28,23 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/timePicker1"
         android:layout_below="@+id/timePicker1"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/scegli_giorni" />
 
     <Button
-        android:id="@+id/btnHomeReload"
+        android:id="@+id/btnAlarmSetOk"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/view1"
         android:layout_alignParentBottom="true"
-        android:onClick="addCurrentAlarmClock"
         android:text="Fatto" />
 
     <View
         android:id="@+id/view1"
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:layout_above="@+id/btnHomeReload"
+        android:layout_above="@+id/button1"
         android:background="#ffffff" />
 
     <LinearLayout
@@ -63,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:onClick="dayClicked"
+            
             android:text="L"
             android:textColor="#ffffff"
             android:textSize="40sp" />
@@ -74,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:onClick="dayClicked"
+            
             android:text="M"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff"
@@ -86,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:onClick="dayClicked"
+            
             android:text="M"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff"
@@ -98,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:onClick="dayClicked"
+            
             android:text="G"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff" 
@@ -110,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:onClick="dayClicked"
+            
             android:text="V"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff" 
@@ -123,7 +122,7 @@
             android:layout_weight="1"
             
             android:clickable="true"
-            android:onClick="dayClicked"
+            
             android:text="S"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff"
@@ -135,7 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:onClick="dayClicked"
+            
             android:text="D"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff" 
@@ -161,7 +160,7 @@
             android:id="@+id/birdsll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -182,7 +181,6 @@
                     android:id="@+id/imgPasseraSc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/imgCardellino"
                     android:layout_marginBottom="23dp"
                     android:src="@drawable/bird_passera" />
 

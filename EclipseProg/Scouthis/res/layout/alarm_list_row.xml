@@ -71,7 +71,7 @@
                 android:layout_width="85dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
-                android:onClick="switchAlarm"
+                
                 android:scaleType="fitCenter"
                 android:src="@drawable/interr_off" />
 
@@ -85,7 +85,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:onClick="deleteAlarm"
+                
                 android:src="@drawable/trash_dark" />
 
         </LinearLayout>

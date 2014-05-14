@@ -1,5 +1,20 @@
 package it.poli.android.scoutthisme;
 
+import it.poli.android.scoutthisme.fragments.AlarmsHomeFragment;
+import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
+import it.poli.android.scoutthisme.fragments.GpsSectionFragment;
+import it.poli.android.scoutthisme.fragments.HomeSectionFragment;
+import it.poli.android.scoutthisme.fragments.LumusSectionFragment;
+import it.poli.android.scoutthisme.fragments.SetAlarmClockFragment;
+import it.poli.android.scoutthisme.fragments.StepCounterSectionFragment;
+import it.poli.android.scoutthisme.fragments.WalkieTalkieSectionFragment;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import android.support.v4.app.Fragment;
+
 public class Constants
 {
 	public static final String INTENT_NOTIFICATION = "it.poli.android.scoutthisme";
@@ -27,4 +42,25 @@ public class Constants
 	public static final int TIME_UPDATE_FRIENDSLIST = MINUTE_MILLISECONDS * 15;
 	
 	public static final int RESULT_OK = 1;
+	
+	
+	  public static final Map<String, Fragment> fragmentMap ;
+	    static {
+	        
+	        Map<String, Fragment> fragmentMapMod = new HashMap<String, Fragment>();
+	        fragmentMapMod.put(ScoutMiniAppEnum.GPS.toString(), new GpsSectionFragment());
+	        fragmentMapMod.put(ScoutMiniAppEnum.WalkieTalkie.toString(), new WalkieTalkieSectionFragment());
+			fragmentMapMod.put(ScoutMiniAppEnum.WakeUp.toString(), new AlarmsHomeFragment());
+			fragmentMapMod.put(ScoutMiniAppEnum.WakeSet.toString(), new SetAlarmClockFragment());
+			fragmentMapMod.put(ScoutMiniAppEnum.Lumus.toString(), new LumusSectionFragment());
+			fragmentMapMod.put(ScoutMiniAppEnum.News.toString(), new HomeSectionFragment());
+			fragmentMapMod.put(ScoutMiniAppEnum.Trovamici.toString(), new FindFriendsFragment());
+			fragmentMapMod.put(ScoutMiniAppEnum.Contapassi.toString(), new StepCounterSectionFragment() );
+			
+			fragmentMap = Collections.unmodifiableMap(fragmentMapMod);
+	        
+	    }
+	
+	
+	
 }

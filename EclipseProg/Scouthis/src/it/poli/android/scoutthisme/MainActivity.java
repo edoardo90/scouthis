@@ -18,14 +18,16 @@ package it.poli.android.scoutthisme;
 
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.fragments.AlarmsHomeFragment;
+import it.poli.android.scoutthisme.fragments.EmptyFragment;
 import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
 import it.poli.android.scoutthisme.fragments.GpsSectionFragment;
-import it.poli.android.scoutthisme.fragments.HomeSectionFragment;
 import it.poli.android.scoutthisme.fragments.LumusSectionFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterSectionFragment;
-import it.poli.android.scoutthisme.fragments.WakeUpSectionFragment;
 import it.poli.android.scoutthisme.fragments.WalkieTalkieSectionFragment;
 import it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver;
+
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -38,10 +40,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.util.Log;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
@@ -52,7 +51,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	 * intensive, it may be best to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
 	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
-
+	
 	/**
 	 * The {@link ViewPager} that will display the three primary sections of the app, one at a
 	 * time.
@@ -63,6 +62,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+	
 		// Create the adapter that will return a fragment for each of the three primary sections
 		// of the app.
 		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
@@ -105,7 +105,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	}
 
 	public void scheduleFBUpdateFriendshipAlarm() {
-		// Construct an intent that will execute the AlarmReceiver
+		// Construct an intent that will execute the MyAlarmReceiver
 		Intent intent = new Intent(getApplicationContext(), FBNotifierAlarmReceiver.class);
 		// Create a PendingIntent to be triggered when the alarm goes off
 		final PendingIntent pIntent = PendingIntent.getBroadcast(this, FBNotifierAlarmReceiver.REQUEST_CODE,
@@ -127,13 +127,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 			super(fm);
 		}
 
+
 		@Override
 		public Fragment getItem(int i) {
 			switch (i) {
 			case 0:
 				// The first section of the app is the most interesting -- it offers
 				// a launchpad into the other demonstrations in this example application.
-				return new HomeSectionFragment();
+				return new EmptyFragment();
 			case 1:
 				return new GpsSectionFragment();
 			case 2:
@@ -145,8 +146,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 			case 5:
 				return new WalkieTalkieSectionFragment();
 			case 6:
+				return new AlarmsHomeFragment();
 			default:
-				return new WakeUpSectionFragment();
+				return new AlarmsHomeFragment();
 			}
 		}
 
@@ -165,10 +167,37 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	public void onTabReselected(Tab arg0, android.support.v4.app.FragmentTransaction arg1) { }
 
 	@Override
-	public void onTabSelected(Tab arg0,
-			android.support.v4.app.FragmentTransaction arg1) {
-		mViewPager.setCurrentItem(arg0.getPosition());
-		setTitle(arg0.getText());
+	public void onTabSelected(Tab tab,
+			android.support.v4.app.FragmentTransaction ft)
+	{
+		/*
+		 * Log.i(" tab selected ", "text:" + tab.getText());
+		String tabText = (String) tab.getText();
+		Fragment fr = Constants.fragmentMap.get(tabText); 
+		if(fr == null)
+		{
+			Log.i(" main ", " fr is null, tabText:" + tabText );
+		}
+		
+		for(String tagFr : Constants.fragmentMap.keySet())
+		{
+			Fragment fragToDet = this.getSupportFragmentManager().findFragmentByTag(tagFr);
+			if ( fragToDet != null && !tagFr.equalsIgnoreCase(tabText))
+				//ft.detach(fragToDet);
+				ft.remove(fragToDet);
+				
+		}
+		
+		ft.add(android.R.id.content, fr,  tabText);
+		ft.attach( fr);
+		ft.show(fr);
+		*/
+		mViewPager.setCurrentItem(tab.getPosition());
+		
+		
+		
+		setTitle(tab.getText());
+
 	}
 
 	@Override

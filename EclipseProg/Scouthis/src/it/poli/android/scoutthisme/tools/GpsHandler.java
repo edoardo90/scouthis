@@ -28,7 +28,7 @@ public class GpsHandler implements LocationListener
     public void setListener(GpsListener l) {
     	this.listener = l;
 	    //Check if GPS is enabled and ask user to activate it
-    	if (!isGpsEnabled(mContext)) {
+    	if (false && !isGpsEnabled(mContext)) {
 	        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 	        
 	        builder.setTitle("Gps non attivo");  // GPS not found
