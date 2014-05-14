@@ -22,7 +22,7 @@ public class Utils {
     }
     
     
-	public static boolean[] strToBAR(String days)
+	public static boolean[] daysStringToBooleanArray(String days)
 	{
 		days = days.substring(1, days.length() - 1);
 		String [] bdays = days.split(",");

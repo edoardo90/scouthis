@@ -1,0 +1,239 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/set_alarm_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".AlarmsSetClockFragment" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scegli_ora" />
+
+    <TimePicker
+        android:id="@+id/timePicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1" />
+
+    <TextView
+        android:id="@+id/dayNoWork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/timePicker1"
+        android:layout_below="@+id/timePicker1"
+        android:layout_marginTop="10dp"
+        android:text="@string/scegli_giorni" />
+
+    <Button
+        android:id="@+id/btnAlarmSetOk"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/view1"
+        android:layout_alignParentBottom="true"
+        android:text="Fatto" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_above="@+id/button1"
+        android:background="#ffffff" />
+
+    <LinearLayout
+        android:id="@+id/weekdayll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/dayNoWork"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/txtLun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            
+            android:text="L"
+            android:textColor="#ffffff"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/txtMar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            
+            android:text="M"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/txtMer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            
+            android:text="M"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff"
+            android:textSize="40sp"  />
+
+        <TextView
+            android:id="@+id/txtGiov"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            
+            android:text="G"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff" 
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/txtVen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            
+            android:text="V"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff" 
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/txtSab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            
+            android:clickable="true"
+            
+            android:text="S"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff"
+            android:textSize="40sp"  />
+
+        <TextView
+            android:id="@+id/txtDom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            
+            android:text="D"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff" 
+            android:textSize="40sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/birdschoose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/weekdayll"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextView08"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/scegli_uccello" />
+
+        <LinearLayout
+            android:id="@+id/birdsll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/firstlinebird"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/imgCardellino"
+                    android:layout_width="59dp"
+                    android:layout_height="51dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/bird_cardellino_small" />
+
+                <ImageView
+                    android:id="@+id/imgPasseraSc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="23dp"
+                    android:src="@drawable/bird_passera" />
+
+                <ImageView
+                    android:id="@+id/ImageView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/imgCardellino"
+                    android:layout_below="@+id/imgCardellino"
+                    android:src="@drawable/bird_passera" />
+
+                <ImageView
+                    android:id="@+id/ImageView04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgPasseraSc"
+                    android:layout_toRightOf="@+id/imgCardellino"
+                    android:src="@drawable/bird_passera" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/secondlinebirds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/weekdayll"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/ImageView05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/ImageView04"
+                    android:layout_toRightOf="@+id/ImageView04"
+                    android:src="@drawable/bird_passera" />
+
+                <ImageView
+                    android:id="@+id/ImageView06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/ImageView05"
+                    android:layout_toRightOf="@+id/ImageView05"
+                    android:src="@drawable/bird_passera" />
+
+                <ImageView
+                    android:id="@+id/imgMerlo"
+                    android:layout_width="77px"
+                    android:layout_height="77px"
+                    android:layout_alignBottom="@+id/imgPasseraSc"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bird_merlo" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -43,7 +43,7 @@ public class LumusSectionFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.fragment_section_lumus, container, false);     
+        View rootView = inflater.inflate(R.layout.fragment_section_utility, container, false);     
         mAct = getActivity();
 		pm = mAct.getPackageManager();
 

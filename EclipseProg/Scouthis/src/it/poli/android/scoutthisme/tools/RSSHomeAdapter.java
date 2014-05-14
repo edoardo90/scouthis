@@ -18,7 +18,7 @@ public class RSSHomeAdapter extends ArrayAdapter<RSSItem>
  
         public RSSHomeAdapter(Context context, ArrayList<RSSItem> itemsTitlesList)
         {
-            super(context, R.layout.list_row, itemsTitlesList);
+            super(context, R.layout.newsfeed_list_row, itemsTitlesList);
             this.context = context;
             this.itemsList = itemsTitlesList;
         }
@@ -31,7 +31,7 @@ public class RSSHomeAdapter extends ArrayAdapter<RSSItem>
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
  
             // 2. Get rowView from inflater
-            View rowView = inflater.inflate(R.layout.list_row, parent, false);
+            View rowView = inflater.inflate(R.layout.newsfeed_list_row, parent, false);
 
             // 3. Get the two text view from the rowView
             TextView labelView = (TextView) rowView.findViewById(R.id.lblRSSItem);

@@ -26,8 +26,6 @@ import it.poli.android.scoutthisme.fragments.LumusSectionFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterSectionFragment;
 import it.poli.android.scoutthisme.fragments.WalkieTalkieSectionFragment;
 import it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver;
-
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -40,7 +38,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
@@ -170,32 +167,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	public void onTabSelected(Tab tab,
 			android.support.v4.app.FragmentTransaction ft)
 	{
-		/*
-		 * Log.i(" tab selected ", "text:" + tab.getText());
-		String tabText = (String) tab.getText();
-		Fragment fr = Constants.fragmentMap.get(tabText); 
-		if(fr == null)
-		{
-			Log.i(" main ", " fr is null, tabText:" + tabText );
-		}
-		
-		for(String tagFr : Constants.fragmentMap.keySet())
-		{
-			Fragment fragToDet = this.getSupportFragmentManager().findFragmentByTag(tagFr);
-			if ( fragToDet != null && !tagFr.equalsIgnoreCase(tabText))
-				//ft.detach(fragToDet);
-				ft.remove(fragToDet);
-				
-		}
-		
-		ft.add(android.R.id.content, fr,  tabText);
-		ft.attach( fr);
-		ft.show(fr);
-		*/
 		mViewPager.setCurrentItem(tab.getPosition());
-		
-		
-		
 		setTitle(tab.getText());
 
 	}

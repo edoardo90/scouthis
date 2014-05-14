@@ -12,10 +12,10 @@ public enum ScoutMiniAppEnum {
 	@Override
 	public String toString() {
 		switch(this) {
-		case WalkieTalkie: return "Walkie Talkie";
-		case WakeSet : return "Alarm Settings";
-		case WakeUp: return "Wake Up!";
-		default: return this.name();
+			case WalkieTalkie: return "Walkie Talkie";
+			case WakeSet : return "Alarm Settings";
+			case WakeUp: return "Wake Up!";
+			default: return this.name();
 		}	
-	}	
+	}
 }
