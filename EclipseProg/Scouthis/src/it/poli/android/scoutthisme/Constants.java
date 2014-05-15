@@ -3,7 +3,7 @@ package it.poli.android.scoutthisme;
 public class Constants
 {	
 	public static final String INTENT_NOTIFICATION = "it.poli.android.scoutthisme";
-	public static final String INTENT_ALARM = "it.poli.android.scouthisme.alarm.bird";
+	public static final String INTENT_ALARM = "it.poli.android.scoutthisme.alarm.utils.bird";
 	
 	public final static String PARAM_ALARM_DAYS = "it.polimi.scout.activedays";
 	public final static String PARAM_ALARM_TIME = "it.polimi.scout.time";
@@ -41,20 +41,4 @@ public class Constants
 	public static final int TIME_UPDATE_FRIENDSLIST = MINUTE_MILLISECONDS * 15;
 	
 	public static final int RESULT_OK = 1;
-	
-	/*public static final Map<String, Fragment> fragmentMap ;
-	
-	static
-	{    
-		Map<String, Fragment> fragmentMapMod = new HashMap<String, Fragment>();
-		fragmentMapMod.put(ScoutMiniAppEnum.GPS.toString(), new GpsFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.WalkieTalkie.toString(), new WalkieTalkieFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.WakeUp.toString(), new AlarmsHomeFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.WakeSet.toString(), new AlarmsSetClockFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.Lumus.toString(), new UtilityFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.News.toString(), new NewsFeedFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.Trovamici.toString(), new FindFriendsFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.Contapassi.toString(), new StepCounterFragment() );
-		fragmentMap = Collections.unmodifiableMap(fragmentMapMod);
-	}	*/
 }

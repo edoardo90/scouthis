@@ -1,7 +1,7 @@
 package it.poli.android.scoutthisme.tools;
 
-import it.poli.android.scouthisme.alarm.DailyReceiver;
 import it.poli.android.scoutthisme.Constants;
+import it.poli.android.scoutthisme.alarm.utils.DailyReceiver;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -14,18 +14,18 @@ import android.content.Intent;
 
 public class AlarmHandler
 {	
-	public static void  setAlarm(Alarm userAlarm, Context context, Activity activity)
+	public static void setAlarm(Alarm userAlarm, Activity activity)
 	{
 		Calendar updateTime = Calendar.getInstance();
 		updateTime.setTimeZone(TimeZone.getDefault());
 		updateTime.set(Calendar.HOUR_OF_DAY, userAlarm.getHour());
 		updateTime.set(Calendar.MINUTE, userAlarm.getMinute());
 
-		Intent alarmIntent = new Intent(context, DailyReceiver.class);
+		Intent alarmIntent = new Intent(activity, DailyReceiver.class);
 		alarmIntent.putExtra(Constants.INTENT_ALARM, userAlarm);
 		
 		//NB: id sveglia come request code!
-		PendingIntent recurringAlarm = PendingIntent.getBroadcast(context, 
+		PendingIntent recurringAlarm = PendingIntent.getBroadcast(activity, 
 				userAlarm.getId(), alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		AlarmManager alarms = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
@@ -38,13 +38,13 @@ public class AlarmHandler
 			alarms.cancel(recurringAlarm);
 	}
 	
-	public static void  removeAlarm(Alarm userAlarm, Context context, Activity activity)
+	public static void removeAlarm(Alarm userAlarm, Activity activity)
 	{
-		Intent alarmIntent = new Intent(context, DailyReceiver.class);
+		Intent alarmIntent = new Intent(activity, DailyReceiver.class);
 		alarmIntent.putExtra(Constants.INTENT_ALARM, userAlarm);
 
 		//NB: id sveglia come request code!
-		PendingIntent recurringAlarm = PendingIntent.getBroadcast(context,
+		PendingIntent recurringAlarm = PendingIntent.getBroadcast(activity,
 				userAlarm.getId(), alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		AlarmManager alarms = (AlarmManager) activity.getSystemService(

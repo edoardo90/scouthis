@@ -1,4 +1,4 @@
-package it.poli.android.scouthisme.alarm;
+package it.poli.android.scoutthisme.alarm.utils;
 
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.tools.Alarm;

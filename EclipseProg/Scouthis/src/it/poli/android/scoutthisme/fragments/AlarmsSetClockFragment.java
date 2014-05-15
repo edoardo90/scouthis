@@ -4,9 +4,7 @@ import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.tools.AlarmUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +33,7 @@ import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 
 @SuppressLint("SimpleDateFormat")
-public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedListener
+public class AlarmsSetClockFragment extends Fragment implements OnTimeChangedListener
 {
 	boolean[] activeDays = new boolean[]{true, true, true, true, true, true, true}; 
 	private Calendar mCalendar;
@@ -48,7 +46,7 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 
 	public static Map<String, String> birdsImageMap  = new HashMap<String, String>();
 
-	private Activity act;
+	private Activity mAct;
 	private MediaPlayer alarmPlayer = null;
 
 	@Override
@@ -63,19 +61,19 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mAct = getActivity();
+		
 		this.initClickListeners();
-
-		swingAnimation =   AnimationUtils.loadAnimation(this.getActivity().
-				getApplicationContext(), R.anim.swing_bird);
+		swingAnimation = AnimationUtils.loadAnimation(mAct, R.anim.swing_bird);
 		this.initBirdMap();
 
-		ImageView imgCaredellino = (ImageView)this.getActivity().findViewById(R.id.imgCardellino);
+		ImageView imgCaredellino = (ImageView)mAct.findViewById(R.id.imgCardellino);
 
 		this.addClickListenerBirds();
 
 		mCalendar = Calendar.getInstance();
 
-		TimePicker tp = (TimePicker)this.getActivity().findViewById(R.id.timePicker1);
+		TimePicker tp = (TimePicker)mAct.findViewById(R.id.timePicker1);
 		tp.setIs24HourView(false);
 		tp.setOnTimeChangedListener(this);
 
@@ -92,7 +90,7 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 
 	private void initDays()
 	{	
-		LinearLayout ll = (LinearLayout) this.getActivity().findViewById(R.id.weekdayll);
+		LinearLayout ll = (LinearLayout) mAct.findViewById(R.id.weekdayll);
 		for(int i=0; i< ll.getChildCount(); i++)
 		{
 			View v = ll.getChildAt(i);
@@ -105,14 +103,14 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dayClicked(v);
+				updateAfterDayClick(v);
 			}
 		});
 	}
 
 	private void initDoneButton()
 	{
-		Button b = (Button)this.getActivity().findViewById(R.id.btnAlarmSetOk);
+		Button b = (Button)mAct.findViewById(R.id.btnAlarmSetOk);
 		b.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -124,7 +122,7 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 	private void increaseArea()
 	{
 		final LinearLayout subCategoryLayout = (LinearLayout)
-				this.getActivity().findViewById(R.id.weekdayll);
+				mAct.findViewById(R.id.weekdayll);
 		subCategoryLayout.post(new Runnable() {
 			@Override
 			public void run() {
@@ -179,19 +177,20 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 
 				public void stopAll()
 				{
-					LinearLayout ll = (LinearLayout) getActivity().findViewById(R.id.firstlinebird);
-					for(int i=0; i< ll.getChildCount(); i++)
+					View view;
+					LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.firstlinebird);
+					for(int i = 0; i < linearLayout.getChildCount(); i++)
 					{
-						View v = ll.getChildAt(i);
-						if(v instanceof ImageView)
-							v.clearAnimation();
+						view = linearLayout.getChildAt(i);
+						if(view instanceof ImageView)
+							view.clearAnimation();
 					}
-					ll = (LinearLayout) getActivity().findViewById(R.id.secondlinebirds);
-					for(int i=0; i< ll.getChildCount(); i++)
+					linearLayout = (LinearLayout) getActivity().findViewById(R.id.secondlinebirds);
+					for(int i = 0; i < linearLayout.getChildCount(); i++)
 					{
-						View v = ll.getChildAt(i);
-						if(v instanceof ImageView)
-							v.clearAnimation();
+						view = linearLayout.getChildAt(i);
+						if(view instanceof ImageView)
+							view.clearAnimation();
 					}	
 				}			
 			});
@@ -200,17 +199,17 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 	
 	private void addClickListenerBirds()
 	{
-		LinearLayout ll = (LinearLayout) this.getActivity().findViewById(R.id.firstlinebird);
-		for(int i=0; i< ll.getChildCount(); i++)
+		LinearLayout linearLayout = (LinearLayout) mAct.findViewById(R.id.firstlinebird);
+		for(int i=0; i< linearLayout.getChildCount(); i++)
 		{
-			View v = ll.getChildAt(i);
+			View v = linearLayout.getChildAt(i);
 			if(v instanceof ImageView)
 				addClickListenerToBirdView(v);
 		}
-		ll = (LinearLayout) this.getActivity().findViewById(R.id.secondlinebirds);
-		for(int i=0; i< ll.getChildCount(); i++)
+		linearLayout = (LinearLayout) mAct.findViewById(R.id.secondlinebirds);
+		for(int i=0; i < linearLayout.getChildCount(); i++)
 		{
-			View v = ll.getChildAt(i);
+			View v = linearLayout.getChildAt(i);
 			if(v instanceof ImageView)
 				addClickListenerToBirdView(v);
 		}
@@ -218,7 +217,7 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 
 	public void addCurrentAlarmClock(View view)
 	{
-		TimePicker timePicker = (TimePicker) this.getActivity().findViewById(R.id.timePicker1);
+		TimePicker timePicker = (TimePicker) mAct.findViewById(R.id.timePicker1);
 		timePicker.clearFocus();
 
 		Integer hours = timePicker.getCurrentHour();
@@ -248,38 +247,15 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 		transaction.commit();
 	}
 
-	public void dayClicked(View view)
+	public void updateAfterDayClick(View view)
 	{
-		TextView tv = (TextView) this.getActivity().findViewById(view.getId());
-
-		String dayName = getResources().getResourceEntryName(view.getId());
-		int pos = dayToPos(dayName);
-
-		activeDays[pos] = ! activeDays[pos];
-
-		if (tv.getCurrentTextColor() == Color.WHITE)
-			tv.setTextColor(Color.CYAN);
-		else
-			tv.setTextColor(Color.WHITE);		
-	}
-
-	private int dayToPos(String day)
-	{
-		if (day.equals("txtLun"))
-			return 0;
-		if (day.equals("txtMar"))
-			return 1;
-		if (day.equals("txtMer"))
-			return 2;
-		if (day.equals("txtGiov"))
-			return 3;
-		if (day.equals("txtVen"))
-			return 4;
-		if (day.equals("txtSab"))
-			return 5;
-		if (day.equals("txtDom"))
-			return 6;		
-		return -44;
+		/* Toggle day status */
+		int pos = AlarmUtils.dayToPos(getResources().getResourceEntryName(view.getId()));
+		activeDays[pos] = !activeDays[pos];
+		/* Toggle day color */
+		TextView textView = (TextView) mAct.findViewById(view.getId());
+		int color = (textView.getCurrentTextColor() == Color.WHITE) ? Color.CYAN : Color.WHITE;
+		textView.setTextColor(color);
 	}
 
 	@Override
@@ -290,15 +266,7 @@ public class AlarmsSetClockFragment extends Fragment  implements OnTimeChangedLi
 				mCalendar.get(Calendar.DAY_OF_MONTH),
 				hourOfDay,
 				minute);
-		setCalendarTime();
-	}
-
-	private void setCalendarTime() {
-		Date date = mCalendar.getTime();
-		if (date != null) {
-			SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy '@' h:mm a");
-			String dateTime = formatter.format(date);
-			this.hourAM_PM = dateTime.substring(dateTime.length() - 3 );
-		}
+		String calendarTime = AlarmUtils.getCalendarTime(mCalendar);
+		hourAM_PM = (calendarTime != "") ? calendarTime : hourAM_PM;
 	}
 }

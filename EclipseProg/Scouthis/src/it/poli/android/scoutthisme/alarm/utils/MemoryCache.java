@@ -1,4 +1,4 @@
-package it.poli.android.scouthisme.alarm;
+package it.poli.android.scoutthisme.alarm.utils;
 
 import java.lang.ref.SoftReference;
 import java.util.Collections;

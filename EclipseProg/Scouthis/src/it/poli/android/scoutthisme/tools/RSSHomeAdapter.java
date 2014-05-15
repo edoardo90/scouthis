@@ -43,7 +43,7 @@ public class RSSHomeAdapter extends ArrayAdapter<RSSItem>
             descView.setText(itemsList.get(position).getDescription());
             //imageView.setImageBitmap(itemsList.get(position).getImage());     
  
-            // 5. return rowView
+            // 5. Return rowView
             return rowView;
         }
 }

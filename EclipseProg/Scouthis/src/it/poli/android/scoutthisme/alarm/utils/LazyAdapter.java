@@ -1,5 +1,4 @@
-package it.poli.android.scouthisme.alarm;
-
+package it.poli.android.scoutthisme.alarm.utils;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsHomeFragment;
@@ -48,7 +47,7 @@ public class LazyAdapter extends BaseAdapter {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View vi=convertView;
-		if(convertView==null)
+		if(convertView == null)
 			vi = inflater.inflate(R.layout.alarms_list_row, null);
 
 		TextView days = (TextView)vi.findViewById(R.id.days); // title
@@ -107,7 +106,6 @@ public class LazyAdapter extends BaseAdapter {
 
 	private String castDays(String daysBool)
 	{
-
 		String daysBoolNew = daysBool.replaceAll("\\s",""); 
 		daysBoolNew = daysBoolNew.substring(1, daysBoolNew.length() - 1);
 
@@ -126,8 +124,5 @@ public class LazyAdapter extends BaseAdapter {
 		}
 
 		return activeDays;
-
-
 	}
-
 }

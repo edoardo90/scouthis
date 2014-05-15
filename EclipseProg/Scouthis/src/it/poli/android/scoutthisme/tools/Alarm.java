@@ -1,6 +1,6 @@
 package it.poli.android.scoutthisme.tools;
 
-import it.poli.android.scouthisme.alarm.DaysOfWeek;
+import it.poli.android.scoutthisme.alarm.utils.DaysOfWeek;
 
 import java.io.Serializable;
 
@@ -33,7 +33,7 @@ public class Alarm implements Serializable
 
 	public void toggleActive()
 	{
-		this.active = ! this.active;
+		this.active = !this.active;
 	}
 	
 	/**

@@ -16,4 +16,4 @@
         <TextView style="@style/Button" />
     </LinearLayout>
 
-</com.jensdriller.libs.undobar.UndoBarView>
+</it.poli.android.scoutthisme.undobar.UndoBarView>

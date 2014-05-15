@@ -1,8 +1,8 @@
-package it.poli.android.scouthisme.alarm;
+package it.poli.android.scoutthisme.alarm.utils;
 
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.tools.AlarmUtils;
 import it.poli.android.scoutthisme.tools.Alarm;
+import it.poli.android.scoutthisme.tools.AlarmUtils;
 
 import java.util.Calendar;
 import java.util.TimeZone;
