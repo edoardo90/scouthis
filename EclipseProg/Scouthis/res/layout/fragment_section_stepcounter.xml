@@ -17,26 +17,25 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp" >
+        android:layout_margin="5dp" >
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/tableRowSC1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
             android:gravity="right|center_vertical" >
 
             <Button
                 android:id="@+id/btnLogInOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nuovo" />
+                android:text="@string/fragments_new" />
 
             <Button
                 android:id="@+id/Button01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start" />
+                android:text="@string/fragments_start" />
 
         </TableRow>
 
@@ -49,7 +48,7 @@
         android:layout_marginRight="5dp" >
 
         <TableRow
-            android:id="@+id/tableRow3"
+            android:id="@+id/tableRowSC2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -58,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Passi effettuati" />
+                android:text="@string/stepcounter_steps_done" />
             
             <TextView
                 android:id="@+id/txtPassi"
@@ -66,13 +65,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="0"
+                android:text="@string/fragments_waiting_dots"
                 android:textSize="24sp" />
             
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow4"
+            android:id="@+id/tableRowSC3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -81,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Distanza percorsa" />
+                android:text="@string/stepcounter_distance_done" />
             
             <TextView
                 android:id="@+id/txtPrecision"
@@ -89,36 +88,36 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="0m"
+                android:text="@string/fragments_waiting_dots"
                 android:textSize="24sp" />
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow5"
+            android:id="@+id/tableRowSC4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/lblSpeed"
+                android:id="@+id/lblSpeedMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Velocità media" />
+                android:text="@string/stepcounter_speed_medium" />
             
             <TextView
-                android:id="@+id/txtPrecision"
+                android:id="@+id/txtSpeedMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="0km/h"
+                android:text="@string/fragments_waiting_dots"
                 android:textSize="24sp" />
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow6"
+            android:id="@+id/tableRowSC5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -127,15 +126,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Tempo trascorso" />
+                android:text="@string/stepcounter_time_passed" />
             
            <TextView
-               android:id="@+id/txtPrecision"
+               android:id="@+id/txtTimePassed"
                android:layout_width="0dp"
                android:layout_height="wrap_content"
                android:layout_weight="2"
                android:gravity="center"
-               android:text="0&apos;00&apos;"
+               android:text="@string/fragments_waiting_dots"
                android:textSize="24sp" />
 
         </TableRow>

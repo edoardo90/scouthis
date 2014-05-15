@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 The Android Open Source Project
+ * Copyright 2014 Scouthis.Me Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,12 @@
 
 package it.poli.android.scoutthisme;
 
-
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsFragment;
 import it.poli.android.scoutthisme.fragments.AlarmsHomeFragment;
-import it.poli.android.scoutthisme.fragments.EmptyFragment;
 import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
 import it.poli.android.scoutthisme.fragments.GpsFragment;
+import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterFragment;
 import it.poli.android.scoutthisme.fragments.UtilityFragment;
 import it.poli.android.scoutthisme.fragments.WalkieTalkieFragment;
@@ -55,10 +54,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	 * time.
 	 */
 	ViewPager mViewPager;
+	String[] tabTitles;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		tabTitles = new String[]{getString(R.string.fragments_1_title),
+					getString(R.string.fragments_2_title), getString(R.string.fragments_3_title),
+					getString(R.string.fragments_4_title), getString(R.string.fragments_5_title),
+					getString(R.string.fragments_6_title), getString(R.string.fragments_7_title)};
 
 	
 		// Create the adapter that will return a fragment for each of the three primary sections
@@ -125,14 +130,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 			super(fm);
 		}
 
-
 		@Override
 		public Fragment getItem(int i) {
 			switch (i) {
 			case 0:
-				// The first section of the app is the most interesting -- it offers
-				// a launchpad into the other demonstrations in this example application.
-				return new EmptyFragment();
+				return new NewsFeedFragment();
 			case 1:
 				return new GpsFragment();
 			case 2:
@@ -144,7 +146,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 			case 5:
 				return new WalkieTalkieFragment();
 			case 6:
-				return new AlarmsFragment();/*AlarmsHomeFragment();*/
+				return new AlarmsFragment();
 			default:
 				return new AlarmsHomeFragment();
 			}
@@ -152,12 +154,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 		@Override
 		public int getCount() {
-			return Constants.TAB_TITLES.length;
+			return tabTitles.length;
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return Constants.TAB_TITLES[position];
+			return tabTitles[position];
 		}
 	}
 
@@ -170,7 +172,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	{
 		mViewPager.setCurrentItem(tab.getPosition());
 		setTitle(tab.getText());
-
 	}
 
 	@Override

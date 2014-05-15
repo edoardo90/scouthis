@@ -7,7 +7,6 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ public class UtilityFragment extends Fragment
 	public void onResume() {
 		super.onResume();
     	if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-    		Log.e("err", "Device has no camera!");
+    		Toast.makeText(mAct, getString(R.string.utility_camera_not_available), Toast.LENGTH_LONG).show();
     	}
 	}
 
@@ -58,7 +57,7 @@ public class UtilityFragment extends Fragment
         				try {
         					camera = Camera.open();
         				} catch(RuntimeException exception) {
-        					Toast.makeText(mAct, "The camera and flashlight are in use by another app.", Toast.LENGTH_LONG).show();
+        					Toast.makeText(mAct, getString(R.string.utility_camera_already_in_use), Toast.LENGTH_LONG).show();
         					btn.setChecked(!btn.isChecked());
         					return;
         				}
@@ -72,7 +71,7 @@ public class UtilityFragment extends Fragment
         				try {
         					camera = Camera.open();
         				} catch(RuntimeException exception) {
-        					Toast.makeText(mAct, "The camera and flashlight are in use by another app.", Toast.LENGTH_LONG).show();
+        					Toast.makeText(mAct, getString(R.string.utility_camera_already_in_use), Toast.LENGTH_LONG).show();
         					btn.setChecked(!btn.isChecked());
         					return;
         				}

@@ -82,7 +82,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		session = Session.getActiveSession();
 		
 		rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
-		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends)).getMap();
 		
         if (savedInstanceState != null) {
             session = Session.restoreSession(mAct, null, statusCallback, savedInstanceState);
@@ -100,12 +100,10 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	public void onDestroyView()
 	{
 		super.onDestroyView();
-		if (session.isOpened()) {
-			SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
-			if(mapFragment != null) {
-				FragmentManager fM = getFragmentManager();
-				fM.beginTransaction().remove(mapFragment).commit();
-			}
+		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
+		if(mapFragment != null) {
+			FragmentManager fM = getFragmentManager();
+			fM.beginTransaction().remove(mapFragment).commit();
 		}
 	}
 
@@ -144,16 +142,16 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
     private void setLoginButton()
     {
         TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFMessage);
-    	textInstructionsOrLink.setText("Fai il login!");
+    	textInstructionsOrLink.setText(getString(R.string.findfriends_login_message));
 
     	Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
-        buttonLoginLogout.setText("Login");
+        buttonLoginLogout.setText(getString(R.string.findfriends_login));
         buttonLoginLogout.setOnClickListener(
         	new OnClickListener() {
         		public void onClick(View view) { onClickLogin(); }
         	}
         );
-        View mapp = getView().findViewById(R.id.map);
+        View mapp = getView().findViewById(R.id.mapFindFriends);
         mapp.setVisibility(View.GONE);
     } 
 	
@@ -165,16 +163,16 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
         TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFMessage);
         /*JSONObject json = Util.parseJson(facebook.request("me", params));
         String userId = json.getString("id");*/
-    	textInstructionsOrLink.setText("Benvenuto!");
+    	textInstructionsOrLink.setText(getString(R.string.findfriends_logout_message));
     	
 		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
-		buttonLoginLogout.setText("Logout");
+		buttonLoginLogout.setText(getString(R.string.findfriends_logout));
 		buttonLoginLogout.setOnClickListener(
             	new OnClickListener() {
             		public void onClick(View view) { onClickLogout(); }
             	}
         );
-		View mapp = getView().findViewById(R.id.map);
+		View mapp = getView().findViewById(R.id.mapFindFriends);
 		mapp.setVisibility(View.VISIBLE);
     }    
 
@@ -216,7 +214,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 			newLatLngZoom(marker.getPosition(), defaultZoom));
 		}
 		
-		marker.setTitle("Tu sei qui");
+		marker.setTitle(getString(R.string.findfriends_my_marker));
 		marker.showInfoWindow();
 	}
 
@@ -232,7 +230,9 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		List<UserMarker> lstUsersMarkers = usersMarkersFromJson(gpsCoordJSONStr);
 		for(UserMarker usrMarker : lstUsersMarkers)
 		{
-			Log.w("i place markers", " placing " + usrMarker.toString());
+			if (Constants.DEBUG_ENABLED) {
+				Log.w("i place markers", " placing " + usrMarker.toString());
+			}
 			placeMarkerOnMap(usrMarker);
 		}
 	}
@@ -265,9 +265,9 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 			{
 				JSONObject juser = markk.getJSONObject(i);
 
-				String name = juser.getString("name");
-				double longit = juser.getDouble("longitude");
-				double latit = juser.getDouble("latitude");
+				String name = juser.getString(Constants.PARAM_NAME);
+				double longit = juser.getDouble(Constants.PARAM_POSITION_LONGITUDE);
+				double latit = juser.getDouble(Constants.PARAM_POSITION_LATITUDE);
 				UserMarker um = new UserMarker(latit, longit, name);
 				usersMarkers.add(um);
 			}

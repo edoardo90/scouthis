@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Generic strings -->
+    <string name="fragments_new">Nuovo</string>
+    <string name="fragments_start">Start</string>
+    <string name="fragments_waiting_dots">&#8230;</string>
+    
+    <!-- Strings related to tabs viewer -->
+    <string name="fragments_1_title">News</string>
+    <string name="fragments_2_title">GPS</string>
+    <string name="fragments_3_title">Contapassi</string>
+    <string name="fragments_4_title">Trovamici</string>
+    <string name="fragments_5_title">Utility</string>
+    <string name="fragments_6_title">Walkie Talkie</string>
+    <string name="fragments_7_title">Wake Up!</string>
+    
+    <!-- Strings related to news fragment  -->
+    <string name="news_rss_loading">Caricamento in corso&#8230;</string>
+    <string name="news_rss_information">Le ultime news sull\'Ambiente da corriere.it</string>
+    <string name="news_rss_connection_error">Impossibile caricare il newsfeed. La connessione dati non risulta attiva.</string>
+    
+    <!-- Strings related to GPS fragment -->
+    <string name="gps_information">Dati rilevati dal telefono:</string>
+    <string name="gps_image_description">Bussola</string>
+    <string name="gps_degrees">Gradi</string>
+    <string name="gps_orientation">Orientation</string>
+    <string name="gps_speed">Velocità</string>
+    <string name="gps_acceleration">Accell.(g)</string>
+    <string name="gps_altitude">Altitudine</string>
+    <string name="gps_latitude">Latitudine</string>
+    <string name="gps_longitude">Longitudine</string>
+    <string name="gps_precision">Precisione</string>
+    <string name="gps_direction">Direzione</string>
+    
+    <!-- Strings related to stepcounter fragment  -->
+    <string name="stepcounter_steps_done">Passi effettuati</string>
+    <string name="stepcounter_distance_done">Distanza percorsa</string>
+    <string name="stepcounter_speed_medium">Velocità media</string>
+    <string name="stepcounter_time_passed">Tempo trascorso</string>
+    
+    <!-- Strings related to findfriends fragment  -->
+    <string name="findfriends_login">Login</string>
+    <string name="findfriends_logout">Logout</string>
+    <string name="findfriends_login_message">Fai login per attivare il trovamici!</string>
+    <string name="findfriends_logout_message">Benvenuto!</string>
+    <string name="findfriends_my_marker">Tu sei qui</string>
+    
+    <!-- Strings related to utility fragment  -->
+    <string name="utility_camera_not_available">Fotocamera non rilevata.</string>
+    <string name="utility_camera_already_in_use">La fotocamera è attualmente in uso da un\'altra app.</string>
+
+</resources>

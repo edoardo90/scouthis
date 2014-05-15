@@ -1,6 +1,7 @@
 package it.poli.android.scoutthisme.tools;
 
 import it.poli.android.scoutthisme.Constants;
+import it.poli.android.scoutthisme.alarm.utils.XMLParser;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -16,6 +17,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -201,6 +206,47 @@ public class AlarmUtils
 			}
 			outputStream.close();
 		} catch (Exception e) { /* TODO */ }
+	}
+	
+	public static LinkedList<Alarm> populateAlarmListFromFile(Activity activity)
+	{
+		LinkedList<Alarm> alarmList = new LinkedList<Alarm>();
+		XMLParser parser = new XMLParser();
+		
+		String xml ;
+		xml = parser.getXmlFromPath(Constants.XML_PATH_ALARM, activity);
+		if (xml.equals(""))
+		{	
+			Log.i("home - customized lst view", "xml file non esistente o vuoto");
+			AlarmUtils.initializeAlarmXML(activity);
+			return null;
+		}
+		else
+		{
+			Document doc = parser.getDomElement(xml); // getting DOM element
+			NodeList nl = doc.getElementsByTagName(Constants.XML_TAG_ALARM);
+			for (int i = 0; i < nl.getLength(); i++) {
+				// creating new HashMap: single alarm
+				Element e = (Element) nl.item(i);
+				// adding each child node to HashMap key => value
+				String time   =  parser.getValue(e, Constants.XML_TAG_HOUR).replaceAll("\\s","");
+				String days   =  parser.getValue(e, Constants.XML_TAG_DAYS).replaceAll("\\s","");
+				String bird   =  parser.getValue(e, Constants.XML_TAG_BIRD).replaceAll("\\s","");
+				String active =  parser.getValue(e, Constants.XML_TAG_SWITCH).replaceAll("\\s","");
+				String id     =  parser.getValue(e, Constants.XML_TAG_ID).replaceAll("\\s","");
+	
+				Alarm usrAlarm = new Alarm(days,
+						Boolean.valueOf(active),
+						Boolean.valueOf(true),
+						AlarmUtils.strTimeToHour(time),
+						AlarmUtils.strTimeToMinute(time),
+						bird,
+						Integer.valueOf(id));
+
+				alarmList.add(usrAlarm);
+			}
+		}
+		return alarmList;
 	}
 	
 	public static int strTimeToHour(String time)

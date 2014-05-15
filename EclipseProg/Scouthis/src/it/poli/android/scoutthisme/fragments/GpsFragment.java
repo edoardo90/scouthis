@@ -1,5 +1,6 @@
 package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.tools.GpsHandler;
 import it.poli.android.scoutthisme.tools.GpsListener;
 import it.poli.android.scoutthisme.tools.SensorHandler;
@@ -115,7 +116,9 @@ import android.widget.TextView;
     	    double bearing = location.getBearing();
     	    double speed = location.getSpeed()*3.6;
 
-    	    Log.i("Geo_Location", "Latitude: " + latitude + ", Longitude: " + longitude);
+    	    if (Constants.DEBUG_ENABLED) {
+    	    	Log.i("Geo_Location", "Latitude: " + latitude + ", Longitude: " + longitude);
+    	    }
     	    
     	    int locDegrees = (int)latitude;
     	    double locMinutes = ((latitude - locDegrees)*60);

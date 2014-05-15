@@ -27,7 +27,7 @@ public class NewsFeedFragment extends Fragment
 		});
 		
 		TextView lblNews = (TextView) rootView.findViewById(R.id.lblNewsMessage);
-		lblNews.setText("Caricamento in corso...");
+		lblNews.setText(R.string.news_rss_loading);
 		
 		new HomeRSSService().execute(rootView);	
 		return rootView;

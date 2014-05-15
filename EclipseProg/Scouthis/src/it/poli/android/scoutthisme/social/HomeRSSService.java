@@ -130,7 +130,7 @@ public class HomeRSSService  extends AsyncTask<View, Void, String>
 			lstNews.setAdapter(adapter);
 	    	
 			TextView lblNews = (TextView) rootView.findViewById(R.id.lblNewsMessage);
-			lblNews.setText("Le ultime news sull'Ambiente da corriere.it");
+			lblNews.setText(R.string.news_rss_information);
 			lblNews.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rss, 0, 0, 0);
 			lblNews.setCompoundDrawablePadding(5);
 
@@ -140,7 +140,7 @@ public class HomeRSSService  extends AsyncTask<View, Void, String>
 		catch (IOException e)
 		{
 			TextView lblNews = (TextView) rootView.findViewById(R.id.lblNewsMessage);
-			lblNews.setText("Impossibile caricare il newsfeed. La connessione dati non risulta attiva.");
+			lblNews.setText(R.string.news_rss_connection_error);
 			lblNews.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rsserror, 0, 0, 0);
 			lblNews.setCompoundDrawablePadding(5);
 

@@ -39,7 +39,7 @@ public  class StepCounterFragment extends Fragment implements ILegMovementListen
 	Marker marker;
 	boolean needDefaultZoom;
 	final int defaultZoom = 13;
-	int passi;
+	int steps;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public  class StepCounterFragment extends Fragment implements ILegMovementListen
 		legDect.addListener(this);
 		
 		needDefaultZoom = true;
-		passi = 0;
+		steps = 0;
 	}
 
 	@Override
@@ -115,16 +115,16 @@ public  class StepCounterFragment extends Fragment implements ILegMovementListen
 
 	@Override
 	public void onLegActivity(int activity) {
-		if (loc != null && lastSensorLoc != null && !loc.equals(lastSensorLoc) && activity == LegMovementDetector.LEG_MOVEMENT_FORWARD) {
+		if (loc != null && lastSensorLoc != null && !loc.equals(lastSensorLoc)) {
 			gMap.addPolyline(new PolylineOptions()
 				.add(new LatLng(lastSensorLoc.getLatitude(), lastSensorLoc.getLongitude()),
 						new LatLng(loc.getLatitude(), loc.getLongitude()))
 				.width(4)
 				.color(Color.WHITE));
-			passi++;
+			steps++;
 				   
 			TextView txtPss = (TextView) getView().findViewById(R.id.txtPassi);    
-			txtPss.setText(String.format("%d", passi));
+			txtPss.setText(String.format("%d", steps));
 			
 			lastSensorLoc = loc;
 		}
