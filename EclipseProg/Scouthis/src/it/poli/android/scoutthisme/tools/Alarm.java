@@ -1,20 +1,25 @@
-package it.poli.android.scouthisme.alarm;
+package it.poli.android.scoutthisme.tools;
+
+import it.poli.android.scouthisme.alarm.DaysOfWeek;
 
 import java.io.Serializable;
 
-public class UserAlarm implements Serializable
+public class Alarm implements Serializable
 {
 	private static final long serialVersionUID = 1L;
+	
+	private int id;
+	
+	private DaysOfWeek day;
+	private int hour;
+	private int minute;
+	
 	private String days;
 	private boolean active;
 	private boolean periodic;
 	private String bird;
-	private WeekDay day;
-	private int hour;
-	private int minute;
-	private int id;
 	
-	public UserAlarm( String days, boolean active, boolean periodic,  int hour,
+	public Alarm( String days, boolean active, boolean periodic,  int hour,
 			int minute, String bird, int id)
 	{
 		this.days = days;
@@ -37,36 +42,47 @@ public class UserAlarm implements Serializable
 	public String getDays() {
 		return days.replaceAll("\\s","");
 	}
+	
 	public void setDays(String days) {
 		this.days = days.replaceAll("\\s","");
 	}
+	
 	public boolean isActive() {
 		return active;
 	}
+	
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
 	public boolean isPeriodic() {
 		return periodic;
 	}
+	
 	public void setPeriodic(boolean periodic) {
 		this.periodic = periodic;
 	}
-	public WeekDay getDay() {
+	
+	public DaysOfWeek getDay() {
 		return day;
 	}
-	public void setDay(WeekDay day) {
+	
+	public void setDay(DaysOfWeek day) {
 		this.day = day;
 	}
+	
 	public int getHour() {
 		return hour;
 	}
+	
 	public void setHour(int hour) {
 		this.hour = hour;
 	}
+	
 	public int getMinute() {
 		return minute;
 	}
+	
 	public void setMinute(int minute) {
 		this.minute = minute;
 	}
@@ -88,12 +104,6 @@ public class UserAlarm implements Serializable
 	}
 
 	public String getStringTime() {
-		return (pad(this.hour)) + ":" + (pad(this.minute));
-	}
-	
-	private String pad(int i)
-	{
-		String s  = String.valueOf(i);
-		return (s.length() == 1 ? "0" + s : s);
+		return (AlarmUtils.addZeroToOneDigit(this.hour)) + ":" + (AlarmUtils.addZeroToOneDigit(this.minute));
 	}
 }

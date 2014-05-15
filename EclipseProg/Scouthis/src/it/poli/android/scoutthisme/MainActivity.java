@@ -18,13 +18,14 @@ package it.poli.android.scoutthisme;
 
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.fragments.AlarmsFragment;
 import it.poli.android.scoutthisme.fragments.AlarmsHomeFragment;
 import it.poli.android.scoutthisme.fragments.EmptyFragment;
 import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
-import it.poli.android.scoutthisme.fragments.GpsSectionFragment;
-import it.poli.android.scoutthisme.fragments.LumusSectionFragment;
-import it.poli.android.scoutthisme.fragments.StepCounterSectionFragment;
-import it.poli.android.scoutthisme.fragments.WalkieTalkieSectionFragment;
+import it.poli.android.scoutthisme.fragments.GpsFragment;
+import it.poli.android.scoutthisme.fragments.StepCounterFragment;
+import it.poli.android.scoutthisme.fragments.UtilityFragment;
+import it.poli.android.scoutthisme.fragments.WalkieTalkieFragment;
 import it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -133,17 +134,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 				// a launchpad into the other demonstrations in this example application.
 				return new EmptyFragment();
 			case 1:
-				return new GpsSectionFragment();
+				return new GpsFragment();
 			case 2:
-				return new StepCounterSectionFragment();
+				return new StepCounterFragment();
 			case 3:
 				return new FindFriendsFragment();
 			case 4:
-				return new LumusSectionFragment();
+				return new UtilityFragment();
 			case 5:
-				return new WalkieTalkieSectionFragment();
+				return new WalkieTalkieFragment();
 			case 6:
-				return new AlarmsHomeFragment();
+				return new AlarmsFragment();/*AlarmsHomeFragment();*/
 			default:
 				return new AlarmsHomeFragment();
 			}

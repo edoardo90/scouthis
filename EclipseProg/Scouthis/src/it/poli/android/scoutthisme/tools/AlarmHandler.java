@@ -1,7 +1,6 @@
 package it.poli.android.scoutthisme.tools;
 
 import it.poli.android.scouthisme.alarm.DailyReceiver;
-import it.poli.android.scouthisme.alarm.UserAlarm;
 import it.poli.android.scoutthisme.Constants;
 
 import java.util.Calendar;
@@ -15,7 +14,7 @@ import android.content.Intent;
 
 public class AlarmHandler
 {	
-	public static void  setAlarmFor(UserAlarm userAlarm, Context context, Activity activity)
+	public static void  setAlarm(Alarm userAlarm, Context context, Activity activity)
 	{
 		Calendar updateTime = Calendar.getInstance();
 		updateTime.setTimeZone(TimeZone.getDefault());
@@ -39,7 +38,7 @@ public class AlarmHandler
 			alarms.cancel(recurringAlarm);
 	}
 	
-	public static void  removeAlarmFor(UserAlarm userAlarm, Context context, Activity activity)
+	public static void  removeAlarm(Alarm userAlarm, Context context, Activity activity)
 	{
 		Intent alarmIntent = new Intent(context, DailyReceiver.class);
 		alarmIntent.putExtra(Constants.INTENT_ALARM, userAlarm);

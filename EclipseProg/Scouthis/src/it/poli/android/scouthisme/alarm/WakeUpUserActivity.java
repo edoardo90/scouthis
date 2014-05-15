@@ -2,6 +2,7 @@ package it.poli.android.scouthisme.alarm;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
+import it.poli.android.scoutthisme.tools.Alarm;
 
 import java.util.Random;
 import java.util.Timer;
@@ -18,109 +19,42 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class WakeUserActivity extends Activity
+public class WakeUpUserActivity extends Activity
 {
 	MediaPlayer alarmPlayer;
-	Timer timer = null;
-	UserAlarm userAlarm = null;
+	Timer timer;
+	Alarm userAlarm;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		timer = null;
+		userAlarm = null;
 		setContentView(R.layout.alarms_wake_user);
-
+		
 		Intent intent = getIntent();
-		if(intent != null && intent.getExtras() != null)
-			this.userAlarm = (UserAlarm) intent.getSerializableExtra(Constants.INTENT_ALARM);
-
-		this.graphicPart();
-		this.soundPart();
+		if(intent != null && intent.getExtras() != null) {
+			this.userAlarm = (Alarm)intent.getSerializableExtra(Constants.INTENT_ALARM);
+		}
+		
+		this.setGraphics();
+		this.setSound();
 	}
 	
-	private void soundPart()
-	{
-		int resID = this.getBirdSoundId(); 
-		
-		alarmPlayer = MediaPlayer.create(this, resID );
-		alarmPlayer.setLooping(true);
-		alarmPlayer.start();
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(timer != null)
+		{
+			timer.cancel();
+			timer.purge();
+			timer = null;
+		}
+		alarmPlayer.stop();
+		Log.i("pause", "timer purged");
 	}
-
-	private void graphicPart()
-	{
-		ImageView birdImg = (ImageView)findViewById(R.id.imgBird);
-		birdImg.setImageResource(this.getBirdImgId());
-		birdImg.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//TODO
-				alarmPlayer.stop(); /*Stops the music BUT NOT the animation (WHY?)*/
-			}
-		});
-	}
-
-	private int getBirdImgId() 
-	{
-		int resID = 0;
-		
-		String bird;
-		if(userAlarm != null)
-			bird = userAlarm.getBird();
-		else
-			bird = "bird_cardellino_small";
-		resID = this.getResources().getIdentifier(bird, "drawable", this.getPackageName());
-		
-		return resID;
-	}
-
-	private int getBirdSoundId()
-	{
-		int resID = 0;
-		
-		String bird;
-		if(userAlarm != null)
-			bird = userAlarm.getBird();
-		else
-			bird = "bird_cardellino";
-		resID = this.getResources().getIdentifier(bird, "raw", this.getPackageName());
-		
-		return resID;
-	}
-
-	private void moveRandom(final float uH, final float uL, final ImageView img)
-	{
-		timer = new Timer();
-		final Handler handler = new Handler();
-
-		TimerTask doAsynchronousTask = new TimerTask() {       
-			@Override
-			public void run() {
-				handler.post(new Runnable() {
-					public void run() { 
-						try 
-						{
-							Random r = new Random();
-							
-							// Set margins randomly to move the bird
-							int py = r.nextInt(60) + 1;
-							int px = r.nextInt(60) + 1;
-
-							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-									LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-							
-							lp.setMargins( (int) (px * uL) , (int)( py * uH ), 0, 0);
-							img.setLayoutParams(lp);
-
-							Log.i("timer", " px * uL :" + (int)(px * uL));
-						}
-						catch (Exception e) { /* TODO Auto-generated catch block */ }
-					}
-				});
-			}
-		};
-		timer.schedule(doAsynchronousTask, 0, 1000); 
-	}
-
+	
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus)
 	{
@@ -135,16 +69,66 @@ public class WakeUserActivity extends Activity
 		ImageView birdImg = (ImageView)findViewById(R.id.imgBird);
 		this.moveRandom(uH, uL, birdImg);
 	}
+	
+	private void setSound()
+	{		
+		alarmPlayer = MediaPlayer.create(this, this.getBirdSoundId());
+		alarmPlayer.setLooping(true);
+		alarmPlayer.start();
+	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if(timer != null)
-		{
-			timer.cancel();
-			timer.purge();
-		}
-		alarmPlayer.stop();
-		Log.i("pause", "timer purged");
+	private void setGraphics()
+	{
+		ImageView birdImg = (ImageView)findViewById(R.id.imgBird);
+		birdImg.setImageResource(this.getBirdImgId());
+		birdImg.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				alarmPlayer.stop(); // TODO? Stops the music BUT NOT the animation (WHY?)
+			}
+		});
+	}
+
+	private int getBirdImgId() 
+	{
+		String bird = (userAlarm != null) ? userAlarm.getBird() : "bird_cardellino_small";
+		return this.getResources().getIdentifier(bird, "drawable", this.getPackageName());
+	}
+
+	private int getBirdSoundId()
+	{
+		String bird = (userAlarm != null) ? userAlarm.getBird() : "bird_cardellino";
+		return this.getResources().getIdentifier(bird, "raw", this.getPackageName());
+	}
+
+	private void moveRandom(final float uH, final float uL, final ImageView img)
+	{
+		timer = new Timer();
+		final Handler handler = new Handler();
+
+		TimerTask doAsynchronousTask = new TimerTask() {       
+			@Override
+			public void run() {
+				handler.post(new Runnable() {
+					public void run() { 
+						try {
+							Random r = new Random();
+							// Set margins randomly to move the bird
+							int py = r.nextInt(60) + 1;
+							int px = r.nextInt(60) + 1;
+
+							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+							
+							lp.setMargins((int)(px*uL),(int)(py*uH),0,0);
+							img.setLayoutParams(lp);
+
+							Log.i("timer", " px * uL :" + (int)(px * uL));
+						} catch (Exception e) { /* TODO Auto-generated catch block */ }
+					}
+				});
+			}
+		};
+		timer.schedule(doAsynchronousTask, 0, 1000); 
 	}
 }

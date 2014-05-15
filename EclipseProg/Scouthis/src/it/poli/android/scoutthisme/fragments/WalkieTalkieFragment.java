@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 /**
  * A fragment that launches other parts of the demo application.
  */
-public class WalkieTalkieSectionFragment extends Fragment {
+public class WalkieTalkieFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

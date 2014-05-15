@@ -2,11 +2,13 @@ package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scouthisme.alarm.LazyAdapter;
-import it.poli.android.scouthisme.alarm.UserAlarm;
 import it.poli.android.scouthisme.alarm.XMLParser;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.tools.AlarmHandler;
-import it.poli.android.scoutthisme.tools.Utils;
+import it.poli.android.scoutthisme.tools.AlarmUtils;
+import it.poli.android.scoutthisme.tools.Alarm;
+import it.poli.android.scoutthisme.undobar.UndoBar;
+import it.poli.android.scoutthisme.undobar.UndoBar.Listener;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -38,16 +40,14 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.jensdriller.libs.undobar.UndoBar;
-import com.jensdriller.libs.undobar.UndoBar.Listener;
 
 public class AlarmsHomeFragment extends Fragment implements Listener
 {
 	ListView list;
 	LazyAdapter adapter;
-	LinkedList<UserAlarm> alarmList;
+	LinkedList<Alarm> alarmList;
 
-	private UserAlarm lastUARemoved;
+	private Alarm lastUARemoved;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -61,31 +61,34 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 	public void onResume()
 	{
 		super.onResume();
-		Log.i(" Alarms Home ", " Alarms Home ");
 
 		ImageView addAlarm = (ImageView)this.getActivity().findViewById(R.id.addAlarmImg);
 		addAlarm.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				addAlarmClock(v);
-
+				// Create new fragment and transaction
+				FragmentTransaction transaction = getFragmentManager().beginTransaction();
+				// Replace whatever is in the fragment_container view with this fragment,
+				// and add the transaction to the back stack
+				transaction.replace(R.id.alarms_frame, new AlarmsSetClockFragment());
+				transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+				transaction.addToBackStack(null);
+				// Commit the transaction
+				transaction.commit();
 			}
 		});
 
 		//se chiamato da "aggiungi sveglia" deve estrarre i dati della nuova sveglia
 		Bundle paramAlarm = getArguments();
-
 		if(paramAlarm != null)
 		{	
-			boolean [] activeDays =  paramAlarm.getBooleanArray(AlarmsSetClockFragment.ACTIVE_DAYS_MESSAGE);
-			Log.i("CUstom prendo i dati extra", "" + activeDays);
-			String alarmTime = paramAlarm.getString(AlarmsSetClockFragment.TIME_MESSAGE);
-			String bird  = paramAlarm.getString(AlarmsSetClockFragment.BIRD);
-			boolean active = paramAlarm.getBoolean(AlarmsSetClockFragment.ACTIVE_ALARM, true);
-			int id = this.getLastIdFromFile(); 
-			id++;
-			this.addNewAlarmClock(active, alarmTime, activeDays, bird, id);
+			boolean [] activeDays =  paramAlarm.getBooleanArray(Constants.PARAM_ALARM_DAYS);
+			String alarmTime = paramAlarm.getString(Constants.PARAM_ALARM_TIME);
+			String bird  = paramAlarm.getString(Constants.PARAM_ALARM_BIRD);
+			boolean active = paramAlarm.getBoolean(Constants.PARAM_ALARM_ACTIVE, true);
+			
+			int id = this.getLastIdFromFile();
+			this.addNewAlarmClock(active, alarmTime, activeDays, bird, id++);
 		}
 
 		this.updateListViewFromFile();
@@ -117,7 +120,6 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 			@Override
 			public void onClick(View v) {
 				deleteAlarm(v);
-
 			}
 		});
 
@@ -129,26 +131,6 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 			}
 		});
 	}
-	
-	private void addAlarmClock(View view)
-	{
-		Fragment setAlarmClock = new AlarmsSetClockFragment();
-		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-		// Replace whatever is in the fragment_container view with this fragment,
-		// and add the transaction to the back stack
-		transaction.replace(R.id.pager, setAlarmClock);
-		transaction.addToBackStack(null);
-
-		// Commit the transaction
-		transaction.commit();
-
-		/*transaction.add(android.R.id.content, setAlarmClock,  ScoutMiniAppEnum.WakeSet.toString());
-		transaction.attach( setAlarmClock);
-		transaction.show( setAlarmClock);
-		transaction.commit();
-		 */
-	}
 
 	int getPosFromView(View v)
 	{	
@@ -157,25 +139,20 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 
 	public void switchAlarm(View v)
 	{
-		//prende la sveglia in posizione corrispondente alla view  
-		//(es. se v fosse la riga della terza immagine, prenderebbe la sveglia 3)
-		//e la spegne se accesa o viceversa
+		// Get the associated view's alarm and toggle its state
 		int pos = getPosFromView(v);
-		UserAlarm alarm = this.alarmList.get(pos);
+		Alarm alarm = this.alarmList.get(pos);
 		alarm.toggleActive();
 		
 		boolean newActive = alarm.isActive();
 		this.alarmList.set(pos, alarm);
 		updateListViewFromAlarmList();
 
-		int id = this.setAlarmFileActive(newActive, pos);
-		updatePhisicalAlarm(this.alarmList.get(pos), id);
+		this.setAlarmFileActive(newActive, pos);
+		AlarmHandler.setAlarm(this.alarmList.get(pos), getActivity().getApplicationContext(), getActivity());
 	}
 
-	private void updatePhisicalAlarm(UserAlarm uAlarm, int id) {
-		AlarmHandler.setAlarmFor(uAlarm, getActivity().getApplicationContext(), getActivity());
-	}
-
+	// TODO: Does we need int returned?
 	private int setAlarmFileActive(boolean newActive, int positionToDelete)
 	{
 		List<String> fileContent =  this.getAlarmsContent();
@@ -183,8 +160,9 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 
 		String rowClean = "";
 		int id = 0;
-		int pos = 0; boolean editing = false;
-		for(String row : fileContent )
+		int pos = 0;
+		boolean editing = false;
+		for(String row : fileContent)
 		{
 			rowClean = row.replaceAll("\\s","");
 			if (rowClean.equals("<" + Constants.XML_TAG_ALARM + ">") && positionToDelete == pos)
@@ -209,6 +187,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 			if (rowClean.equals("</" + Constants.XML_TAG_ALARM + ">") )
 				editing = false;
 		}
+		
 		this.writeListOnFile(fileNewContent);
 		return id;
 	}
@@ -219,7 +198,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 		int position = lview.getPositionForView(v);
 
 		this.lastUARemoved = this.alarmList.get(position);
-		AlarmHandler.removeAlarmFor(this.lastUARemoved, 
+		AlarmHandler.removeAlarm(this.lastUARemoved, 
 				this.getActivity().getApplicationContext(), this.getActivity());
 		deleteAlarmInPosition(position);
 		updateListViewFromFile();
@@ -236,8 +215,9 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 
 		String rowClean = "";
 		int id = 0;
-		int pos = 0; boolean skipping = false;
-		for(String row : fileContent )
+		int pos = 0;
+		boolean skipping = false;
+		for(String row : fileContent)
 		{
 			rowClean = row.replaceAll("\\s","");
 			if (rowClean.equals("<" + Constants.XML_TAG_ALARM + ">") && positionToDelete == pos)
@@ -254,6 +234,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 			if (rowClean.equals("</" + Constants.XML_TAG_ALARM + ">") )
 				skipping = false;
 		}
+		
 		this.writeListOnFile(fileNewContent);
 		return id;
 	}
@@ -261,7 +242,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 	private void writeListOnFile(List<String> fileContent)
 	{
 		FileOutputStream outputStream;
-		String fileName = Constants.PATH_ALARMXML;
+		String fileName = Constants.XML_PATH_ALARM;
 		try {
 			outputStream = this.getActivity().openFileOutput(fileName, Context.MODE_PRIVATE );
 			for(String fileRow : fileContent)
@@ -276,7 +257,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 	private int getLastIdFromFile()
 	{
 		List<String> alarmsFile =  this.getAlarmsContent();
-		int id=0;
+		int id = 0;
 		for(String s : alarmsFile)
 			if (s.contains("<" + Constants.XML_TAG_ID + ">"))
 				if ( Integer.valueOf(s.replaceAll("[^0-9]+", " ").replaceAll("\\s", "")) > id)
@@ -295,7 +276,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 	private void updateListViewFromFile()
 	{
 		//parsing del file xml che contiene le sveglie
-		this.alarmList = new LinkedList<UserAlarm>();
+		this.alarmList = new LinkedList<Alarm>();
 
 		this.populateAlarmListFromFile();				
 		list = (ListView)this.getActivity().findViewById(R.id.list);
@@ -310,7 +291,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 		Context context = this.getActivity().getApplicationContext();
 		
 		String xml ;
-		xml = parser.getXmlFromPath(Constants.PATH_ALARMXML, context);
+		xml = parser.getXmlFromPath(Constants.XML_PATH_ALARM, context);
 		if (xml.equals(""))
 		{	
 			Log.i("home - customized lst view", "xml file non esistente o vuoto");
@@ -332,7 +313,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 				String active =  parser.getValue(e, Constants.XML_TAG_SWITCH).replaceAll("\\s","");
 				String id     =  parser.getValue(e, Constants.XML_TAG_ID).replaceAll("\\s","");
 	
-				UserAlarm usrAlarm = new UserAlarm(days,
+				Alarm usrAlarm = new Alarm(days,
 						Boolean.valueOf(active),
 						Boolean.valueOf(true),
 						strTimeToHour(time),
@@ -346,12 +327,12 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 
 	private int strTimeToHour(String time)
 	{
-		return Integer.parseInt(  (time.split(":")[0]));
+		return Integer.parseInt((time.split(":")[0]));
 	}
 
 	private int strTimeToMinute(String time)
 	{
-		return Integer.parseInt(  (time.split(":")[1]));
+		return Integer.parseInt((time.split(":")[1]));
 	}
 
 	private void initializeAlarmXML()
@@ -360,11 +341,11 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 
 		FileOutputStream outputStream;
 
-		String intestazione = "<alarms>";
-		String fine = "</alarms>";
+		String intestazione = "<" + Constants.XML_TAG_ALARM + ">";
+		String fine = "</" + Constants.XML_TAG_ALARM + ">";
 
 		try {
-			outputStream = this.getActivity().openFileOutput(Constants.PATH_ALARMXML, Context.MODE_PRIVATE);
+			outputStream = this.getActivity().openFileOutput(Constants.XML_PATH_ALARM, Context.MODE_PRIVATE);
 			outputStream.write(intestazione.getBytes());
 			outputStream.write("\n".getBytes());
 			outputStream.write(fine.getBytes());
@@ -381,7 +362,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 		List<String> fileContent = new LinkedList<String>();
 		Context context = this.getActivity().getApplicationContext();
 		try {
-			FileInputStream fis = context.openFileInput(Constants.PATH_ALARMXML);
+			FileInputStream fis = context.openFileInput(Constants.XML_PATH_ALARM);
 			InputStreamReader isr = new InputStreamReader(fis);
 			BufferedReader bufferedReader = new BufferedReader(isr);
 			String line;
@@ -406,7 +387,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 
 		FileOutputStream outputStream;
 		try {
-			outputStream = this.getActivity().openFileOutput(Constants.PATH_ALARMXML, Context.MODE_PRIVATE );
+			outputStream = this.getActivity().openFileOutput(Constants.XML_PATH_ALARM, Context.MODE_PRIVATE );
 			for(String s : fileContent)
 			{
 				outputStream.write(s.getBytes());
@@ -416,11 +397,11 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 		} catch (Exception e) { /* TODO */ }
 	}
 
-	private void addNewAlarmClock(UserAlarm ua)
+	private void addNewAlarmClock(Alarm ua)
 	{
 		this.addNewAlarmClock(ua.isActive(),
 				ua.getStringTime(), 
-				Utils.daysStringToBooleanArray(ua.getDays()),
+				AlarmUtils.daysStringToBooleanArray(ua.getDays()),
 				ua.getBird(),
 				ua.getId());
 	}
@@ -431,9 +412,9 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 	 */
 	private void addNewAlarmClock(boolean active, String alarmTime, boolean[] activeDays, String bird, int id)
 	{
-		UserAlarm ua = new UserAlarm(Arrays.toString(activeDays), active, true,
+		Alarm ua = new Alarm(Arrays.toString(activeDays), active, true,
 				strTimeToHour(alarmTime), strTimeToMinute(alarmTime), bird, id);
-		AlarmHandler.setAlarmFor(ua, this.getActivity().getApplicationContext(), this.getActivity());
+		AlarmHandler.setAlarm(ua, this.getActivity().getApplicationContext(), this.getActivity());
 
 		this.removeLastLineAlarms();  //remove  </alarms>
 
@@ -442,9 +423,9 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 
 		FileOutputStream outputStream;
 		try {
-			outputStream = this.getActivity().openFileOutput(Constants.PATH_ALARMXML, Context.MODE_PRIVATE | Context.MODE_APPEND);
+			outputStream = this.getActivity().openFileOutput(Constants.XML_PATH_ALARM, Context.MODE_PRIVATE | Context.MODE_APPEND);
 			this.writeAlarmFields(outputStream, active, alarmTime, activeDays, bird, id);   //xml fields for alarm
-			outputStream.write("</alarms>".getBytes());  // re-add </alarms>
+			outputStream.write(("</" + Constants.XML_TAG_ALARM + ">").getBytes());  // re-add </alarms>
 			outputStream.close();
 		} catch (Exception e) { /* TODO */ }
 	}

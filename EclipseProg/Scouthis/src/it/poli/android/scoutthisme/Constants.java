@@ -1,26 +1,16 @@
 package it.poli.android.scoutthisme;
 
-import it.poli.android.scoutthisme.fragments.AlarmsHomeFragment;
-import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
-import it.poli.android.scoutthisme.fragments.GpsSectionFragment;
-import it.poli.android.scoutthisme.fragments.HomeSectionFragment;
-import it.poli.android.scoutthisme.fragments.LumusSectionFragment;
-import it.poli.android.scoutthisme.fragments.AlarmsSetClockFragment;
-import it.poli.android.scoutthisme.fragments.StepCounterSectionFragment;
-import it.poli.android.scoutthisme.fragments.WalkieTalkieSectionFragment;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import android.support.v4.app.Fragment;
-
 public class Constants
-{
+{	
 	public static final String INTENT_NOTIFICATION = "it.poli.android.scoutthisme";
 	public static final String INTENT_ALARM = "it.poli.android.scouthisme.alarm.bird";
 	
-	public static final String PATH_ALARMXML = "alarms.xml";
+	public final static String PARAM_ALARM_DAYS = "it.polimi.scout.activedays";
+	public final static String PARAM_ALARM_TIME = "it.polimi.scout.time";
+	public static final String PARAM_ALARM_BIRD = "it.polimi.scout.bird";
+	public static final String PARAM_ALARM_ACTIVE = "it.polimi.scout.active";
+	
+	public static final String XML_PATH_ALARM = "alarms.xml";
 	
     public static final String URL_FACEBOOK_GRAPH = "https://graph.facebook.com/";
 	public static final String URL_PREFIX_FRIENDS = URL_FACEBOOK_GRAPH + "me/friends?access_token=";
@@ -28,7 +18,7 @@ public class Constants
 	public static final String URL_GET_FRIENDSLIST = "http://192.168.1.2/crud/get_friends_coord.php";
 	public static final String URL_SEND_FRIENDSLIST = "http://192.168.1.2/crud/update_fnd.php";
 
-	public static final String[] TAB_TITLES = {"News", "GPS", "Contapassi", "Trovamici", "Lumus", "Walkie Talkie", "Wake Up!"};	
+	public static final String[] TAB_TITLES = {"News", "GPS", "Contapassi", "Trovamici", "Utiliy", "Walkie Talkie", "Wake Up!"};	
 	//public static final String[] TAB_ICONS = {R.drawable., "GPS", "Contapassi", "Trovamici", "Lumus", "Walkie Talkie", "Wake Up!"};
 
 	public static final String PARAM_USERID = "userId";
@@ -46,7 +36,7 @@ public class Constants
 	public static final String XML_TAG_SWITCH = "switch";
 	public static final String XML_TAG_ID = "id";
 	
-	private final static int MINUTE_MILLISECONDS = 60 * 1000;
+	private static final int MINUTE_MILLISECONDS = 60 * 1000;
     public static final int TIME_UPDATE_FRIENDS_POSITION = MINUTE_MILLISECONDS * 1;
 	public static final int TIME_UPDATE_FRIENDSLIST = MINUTE_MILLISECONDS * 15;
 	
@@ -57,14 +47,14 @@ public class Constants
 	static
 	{    
 		Map<String, Fragment> fragmentMapMod = new HashMap<String, Fragment>();
-		fragmentMapMod.put(ScoutMiniAppEnum.GPS.toString(), new GpsSectionFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.WalkieTalkie.toString(), new WalkieTalkieSectionFragment());
+		fragmentMapMod.put(ScoutMiniAppEnum.GPS.toString(), new GpsFragment());
+		fragmentMapMod.put(ScoutMiniAppEnum.WalkieTalkie.toString(), new WalkieTalkieFragment());
 		fragmentMapMod.put(ScoutMiniAppEnum.WakeUp.toString(), new AlarmsHomeFragment());
 		fragmentMapMod.put(ScoutMiniAppEnum.WakeSet.toString(), new AlarmsSetClockFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.Lumus.toString(), new LumusSectionFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.News.toString(), new HomeSectionFragment());
+		fragmentMapMod.put(ScoutMiniAppEnum.Lumus.toString(), new UtilityFragment());
+		fragmentMapMod.put(ScoutMiniAppEnum.News.toString(), new NewsFeedFragment());
 		fragmentMapMod.put(ScoutMiniAppEnum.Trovamici.toString(), new FindFriendsFragment());
-		fragmentMapMod.put(ScoutMiniAppEnum.Contapassi.toString(), new StepCounterSectionFragment() );
+		fragmentMapMod.put(ScoutMiniAppEnum.Contapassi.toString(), new StepCounterFragment() );
 		fragmentMap = Collections.unmodifiableMap(fragmentMapMod);
 	}	*/
 }

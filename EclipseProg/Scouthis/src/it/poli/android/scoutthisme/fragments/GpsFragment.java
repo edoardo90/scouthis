@@ -22,7 +22,7 @@ import android.widget.TextView;
    /**
      * A fragment that launches other parts of the demo application.
      */
-    public class GpsSectionFragment extends Fragment implements SensorListener, GpsListener
+    public class GpsFragment extends Fragment implements SensorListener, GpsListener
     {    	
     	ImageView imgCompass; // Define the display assembly compass picture
     	float currentDegree = 0f; // Record the compass picture angle turned

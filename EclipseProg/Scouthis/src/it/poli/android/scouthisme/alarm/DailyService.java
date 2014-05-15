@@ -1,7 +1,8 @@
 package it.poli.android.scouthisme.alarm;
 
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.tools.Utils;
+import it.poli.android.scoutthisme.tools.AlarmUtils;
+import it.poli.android.scoutthisme.tools.Alarm;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -19,11 +20,11 @@ public class DailyService extends IntentService
 	@Override
 	protected void onHandleIntent(Intent intent)
 	{
-		UserAlarm ua = (UserAlarm) intent.getSerializableExtra(Constants.INTENT_ALARM);
+		Alarm ua = (Alarm) intent.getSerializableExtra(Constants.INTENT_ALARM);
 		Log.i("PlayAlarmService", "msg: " + ua.getBird()+ "  .. " + ua.getHour());
 
 		String days = ua.getDays();
-		boolean [] activeAlarmDays = Utils.daysStringToBooleanArray(days);
+		boolean [] activeAlarmDays = AlarmUtils.daysStringToBooleanArray(days);
 		
 		Calendar localCalendar = Calendar.getInstance(TimeZone.getDefault());
 		localCalendar.setFirstDayOfWeek(0);
@@ -42,7 +43,7 @@ public class DailyService extends IntentService
 		}
 		else
 		{
-			Intent i = new Intent(this, WakeUserActivity.class);
+			Intent i = new Intent(this, WakeUpUserActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(i);
 		}

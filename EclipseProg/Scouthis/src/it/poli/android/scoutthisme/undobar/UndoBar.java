@@ -1,4 +1,4 @@
-package com.jensdriller.libs.undobar;
+package it.poli.android.scoutthisme.undobar;
 
 import static com.nineoldandroids.view.ViewHelper.setAlpha;
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;

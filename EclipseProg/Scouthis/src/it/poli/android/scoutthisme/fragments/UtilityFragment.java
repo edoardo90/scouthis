@@ -17,7 +17,7 @@ import android.widget.ToggleButton;
 /**
  * A fragment that launches the torch application
  */
-public class LumusSectionFragment extends Fragment
+public class UtilityFragment extends Fragment
 {
 	PackageManager pm;
     private Camera camera;

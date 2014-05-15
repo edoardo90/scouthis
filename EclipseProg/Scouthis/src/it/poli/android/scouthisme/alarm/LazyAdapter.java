@@ -3,6 +3,7 @@ package it.poli.android.scouthisme.alarm;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsHomeFragment;
+import it.poli.android.scoutthisme.tools.Alarm;
 
 import java.util.LinkedList;
 
@@ -21,11 +22,11 @@ public class LazyAdapter extends BaseAdapter {
 
 	private Activity activity;
 	private AlarmsHomeFragment alarmHomeFrag;
-	private LinkedList<UserAlarm> data;
+	private LinkedList<Alarm> data;
 	private static LayoutInflater inflater=null;
 	public ImageLoader imageLoader; 
 
-	public LazyAdapter(Activity a, AlarmsHomeFragment alarmHomeFrag , LinkedList<UserAlarm> alarmList) {
+	public LazyAdapter(Activity a, AlarmsHomeFragment alarmHomeFrag , LinkedList<Alarm> alarmList) {
 		activity = a;
 		data=alarmList;
 		this.alarmHomeFrag = alarmHomeFrag;
@@ -55,7 +56,7 @@ public class LazyAdapter extends BaseAdapter {
 		ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
 		ImageView interruttore = (ImageView)vi.findViewById(R.id.interrutt);
 
-		UserAlarm alarm;
+		Alarm alarm;
 		if(data.size() > 0)
 		{
 			alarm = data.get(position);

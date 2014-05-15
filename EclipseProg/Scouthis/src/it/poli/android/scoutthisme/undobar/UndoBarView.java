@@ -1,4 +1,4 @@
-package com.jensdriller.libs.undobar;
+package it.poli.android.scoutthisme.undobar;
 
 import it.poli.android.scouthisme.R;
 import android.annotation.TargetApi;

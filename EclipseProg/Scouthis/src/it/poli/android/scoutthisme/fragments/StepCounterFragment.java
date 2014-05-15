@@ -26,7 +26,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 /**
  * A fragment that launches other parts of the demo application.
  */
-public  class StepCounterSectionFragment extends Fragment implements ILegMovementListener, GpsListener
+public  class StepCounterFragment extends Fragment implements ILegMovementListener, GpsListener
 {
 	public static final String strLatitudeExtra = "it.poli.latitude";
 	public static final String strLongitudeExtra = "it.poli.longitude";
