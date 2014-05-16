@@ -16,6 +16,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.View;
@@ -24,7 +26,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class HomeRSSService  extends AsyncTask<View, Void, String>
+public class RSSNewsService  extends AsyncTask<View, Void, String>
 {
 	ArrayList<RSSItem> RSSItems;
 	
@@ -76,13 +78,13 @@ public class HomeRSSService  extends AsyncTask<View, Void, String>
 						if (insideItem)
 							rssI.setDescription(xpp.nextText().trim().replaceAll("\\s+", " "));
 					} else if (xpp.getName().equalsIgnoreCase("thumbimage")) {
-						/*if (insideItem) {
+						if (insideItem) {
 							String imageUrlString = xpp.getAttributeValue(null, "url");
 							URL imageUrl = new URL(imageUrlString);
 							Bitmap bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
 							rssI.setImage(bmp);
-							xpp.nextText();
-						}*/
+							//xpp.nextText();
+						}
 					}
 				} else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")) {
 					RSSItems.add(rssI);

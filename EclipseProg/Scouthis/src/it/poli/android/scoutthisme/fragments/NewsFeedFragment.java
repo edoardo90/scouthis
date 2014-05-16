@@ -1,7 +1,7 @@
 package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.social.HomeRSSService;
+import it.poli.android.scoutthisme.social.RSSNewsService;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,18 +22,14 @@ public class NewsFeedFragment extends Fragment
 		btnHomeReload.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new HomeRSSService().execute(rootView);
+				new RSSNewsService().execute(rootView);
 			}
 		});
 		
 		TextView lblNews = (TextView) rootView.findViewById(R.id.lblNewsMessage);
 		lblNews.setText(R.string.news_rss_loading);
 		
-		new HomeRSSService().execute(rootView);	
+		new RSSNewsService().execute(rootView);	
 		return rootView;
 	}
 }
-
-
-
-

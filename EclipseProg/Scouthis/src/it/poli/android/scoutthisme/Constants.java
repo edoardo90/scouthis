@@ -32,6 +32,7 @@ public class Constants
 	public static final String PARAM_GPS_COORDINATES = "coordinates";
 	public static final String PARAM_RESULT = "result";
 	
+	public static final String XML_TAG_ALARMS = "alarms";
 	public static final String XML_TAG_ALARM = "alarm";
 	public static final String XML_TAG_DAYS = "days";
 	public static final String XML_TAG_HOUR = "hour";

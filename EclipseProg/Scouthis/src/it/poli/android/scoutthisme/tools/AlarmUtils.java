@@ -4,6 +4,7 @@ import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.alarm.utils.XMLParser;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -70,8 +71,8 @@ public class AlarmUtils
 
 		FileOutputStream outputStream;
 
-		String intestazione = "<" + Constants.XML_TAG_ALARM + ">";
-		String fine = "</" + Constants.XML_TAG_ALARM + ">";
+		String intestazione = "<" + Constants.XML_TAG_ALARMS + ">";
+		String fine = "</" + Constants.XML_TAG_ALARMS + ">";
 
 		try {
 			outputStream = activity.openFileOutput(Constants.XML_PATH_ALARM, Context.MODE_PRIVATE);
@@ -164,7 +165,7 @@ public class AlarmUtils
 		try {
 			outputStream = activity.openFileOutput(Constants.XML_PATH_ALARM, Context.MODE_PRIVATE | Context.MODE_APPEND);
 			writeAlarmOnXML(outputStream, active, alarmTime, activeDays, bird, id);   //xml fields for alarm
-			outputStream.write(("</" + Constants.XML_TAG_ALARM + ">").getBytes());  // re-add </alarms>
+			outputStream.write(("</" + Constants.XML_TAG_ALARMS + ">").getBytes());  // re-add </alarms>
 			outputStream.close();
 		} catch (Exception e) { /* TODO */ }
 	}
@@ -215,8 +216,10 @@ public class AlarmUtils
 		
 		String xml ;
 		xml = parser.getXmlFromPath(Constants.XML_PATH_ALARM, activity);
-		if (xml.equals(""))
+		if (xml.equals("")/* || xml.equals("<" + Constants.XML_TAG_ALARM + "></" + Constants.XML_TAG_ALARM + ">")*/)
 		{	
+//			File file = new File("alarms.xml");
+//			file.delete();
 			Log.i("home - customized lst view", "xml file non esistente o vuoto");
 			AlarmUtils.initializeAlarmXML(activity);
 			return null;

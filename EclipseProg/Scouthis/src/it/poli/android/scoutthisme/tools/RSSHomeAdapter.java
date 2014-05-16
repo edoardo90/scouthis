@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class RSSHomeAdapter extends ArrayAdapter<RSSItem>
@@ -36,12 +37,12 @@ public class RSSHomeAdapter extends ArrayAdapter<RSSItem>
             // 3. Get the two text view from the rowView
             TextView labelView = (TextView) rowView.findViewById(R.id.lblRSSItem);
             TextView descView = (TextView) rowView.findViewById(R.id.dscRSSItem);
-            //ImageView imageView = (ImageView) rowView.findViewById(R.id.imgRow);
+            ImageView imageView = (ImageView) rowView.findViewById(R.id.imgRow);
  
             // 4. Set the text for textView
             labelView.setText(itemsList.get(position).getTitle());
             descView.setText(itemsList.get(position).getDescription());
-            //imageView.setImageBitmap(itemsList.get(position).getImage());     
+            imageView.setImageBitmap(itemsList.get(position).getImage());     
  
             // 5. Return rowView
             return rowView;
