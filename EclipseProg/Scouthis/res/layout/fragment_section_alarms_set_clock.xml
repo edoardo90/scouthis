@@ -18,8 +18,9 @@
     <TimePicker
         android:id="@+id/timePicker1"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="140dp"
         android:layout_alignParentLeft="true"
+        android:layout_marginTop="-5dp"
         android:layout_below="@+id/textView1" />
 
     <TextView
@@ -28,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/timePicker1"
         android:layout_below="@+id/timePicker1"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         android:text="@string/scegli_giorni" />
 
     <Button
@@ -36,16 +37,8 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/view1"
         android:layout_alignParentBottom="true"
         android:text="Fatto" />
-
-    <View
-        android:id="@+id/view1"
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:layout_above="@+id/button1"
-        android:background="#ffffff" />
 
     <LinearLayout
         android:id="@+id/weekdayll"
@@ -163,75 +156,76 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
-            <LinearLayout
-                android:id="@+id/firstlinebird"
+              <LinearLayout
+                android:id="@+id/firstlinebirds"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_height="0dip"
+                
+                android:scaleType="centerInside"
                 android:orientation="horizontal" >
 
-                <ImageView
-                    android:id="@+id/imgCardellino"
-                    android:layout_width="59dp"
-                    android:layout_height="51dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/bird_cardellino_small" />
+                 <ImageView
+                     android:id="@+id/imgCardellino"
+                     android:layout_weight="1"
+                     android:layout_width="wrap_content"
+                     android:layout_height="49dp"
+                     android:scaleType="centerInside"
+                     android:src="@drawable/bird_cardellino" />
 
                 <ImageView
                     android:id="@+id/imgPasseraSc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="23dp"
-                    android:src="@drawable/bird_passera" />
+                    android:layout_weight="1"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:scaleType="centerInside"
+                      android:src="@drawable/bird_passera" />
 
                 <ImageView
-                    android:id="@+id/ImageView03"
+                    android:id="@+id/imgGufo"
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/imgCardellino"
-                    android:layout_below="@+id/imgCardellino"
-                    android:src="@drawable/bird_passera" />
+                    android:layout_height="56dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bird_gufo" />
 
-                <ImageView
-                    android:id="@+id/ImageView04"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/imgPasseraSc"
-                    android:layout_toRightOf="@+id/imgCardellino"
-                    android:src="@drawable/bird_passera" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/secondlinebirds"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/weekdayll"
+                android:layout_height="0dip"
+                
+                android:scaleType="centerInside"
                 android:orientation="horizontal" >
 
                 <ImageView
-                    android:id="@+id/ImageView05"
+                    android:id="@+id/imgUpupa"
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/ImageView04"
-                    android:layout_toRightOf="@+id/ImageView04"
-                    android:src="@drawable/bird_passera" />
+                    
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bird_upupa" />
 
                 <ImageView
-                    android:id="@+id/ImageView06"
+                    android:id="@+id/imgPettirosso"
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/ImageView05"
-                    android:layout_toRightOf="@+id/ImageView05"
-                    android:src="@drawable/bird_passera" />
+
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bird_pettirosso" />
 
                 <ImageView
                     android:id="@+id/imgMerlo"
-                    android:layout_width="77px"
-                    android:layout_height="77px"
-                    android:layout_alignBottom="@+id/imgPasseraSc"
-                    android:scaleType="centerCrop"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
                     android:src="@drawable/bird_merlo" />
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

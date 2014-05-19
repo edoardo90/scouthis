@@ -85,7 +85,7 @@ public class WakeUpUserActivity extends Activity
 		birdImg.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				alarmPlayer.stop(); // TODO? Stops the music BUT NOT the animation (WHY?)
+				alarmPlayer.stop(); 
 				timer.cancel();
 				timer.purge();
 				timer = null;

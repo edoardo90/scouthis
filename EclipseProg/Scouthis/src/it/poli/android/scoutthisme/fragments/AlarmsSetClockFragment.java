@@ -147,6 +147,11 @@ public class AlarmsSetClockFragment extends Fragment implements OnTimeChangedLis
 		birdsImageMap.put("imgCardellino", "bird_cardellino");
 		birdsImageMap.put("imgPasseraSc", "bird_passera");
 		birdsImageMap.put("imgMerlo", "bird_merlo");
+		
+		birdsImageMap.put("imgGufo", "bird_gufo");
+		birdsImageMap.put("imgUpupa", "bird_upupa");
+		birdsImageMap.put("imgPettirosso", "bird_pettirosso");
+		
 	}
 
 	private void addClickListenerToBirdView(View birdImageView)
@@ -178,7 +183,7 @@ public class AlarmsSetClockFragment extends Fragment implements OnTimeChangedLis
 				public void stopAll()
 				{
 					View view;
-					LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.firstlinebird);
+					LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.firstlinebirds);
 					for(int i = 0; i < linearLayout.getChildCount(); i++)
 					{
 						view = linearLayout.getChildAt(i);
@@ -199,7 +204,7 @@ public class AlarmsSetClockFragment extends Fragment implements OnTimeChangedLis
 	
 	private void addClickListenerBirds()
 	{
-		LinearLayout linearLayout = (LinearLayout) mAct.findViewById(R.id.firstlinebird);
+		LinearLayout linearLayout = (LinearLayout) mAct.findViewById(R.id.firstlinebirds);
 		for(int i=0; i< linearLayout.getChildCount(); i++)
 		{
 			View v = linearLayout.getChildAt(i);

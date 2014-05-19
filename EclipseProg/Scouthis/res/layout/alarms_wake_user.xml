@@ -19,6 +19,6 @@
         android:id="@+id/imgBird"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/bird_cardellino_small" />
+        android:src="@drawable/bird_cardellino" />
     
 </LinearLayout> 
