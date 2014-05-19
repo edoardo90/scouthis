@@ -3,7 +3,7 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.alarm.utils.LazyAdapter;
-import it.poli.android.scoutthisme.alarm.utils.XMLParser;
+
 import it.poli.android.scoutthisme.tools.Alarm;
 import it.poli.android.scoutthisme.tools.AlarmHandler;
 import it.poli.android.scoutthisme.tools.AlarmUtils;
@@ -11,15 +11,15 @@ import it.poli.android.scoutthisme.undobar.UndoBar;
 import it.poli.android.scoutthisme.undobar.UndoBar.Listener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+
+import com.sleepbot.datetimepicker.time.RadialPickerLayout;
+import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -35,46 +35,77 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-
-public class AlarmsHomeFragment extends Fragment implements Listener
+public class AlarmsHomeFragment extends Fragment implements 
+	Listener, TimePickerDialog.OnTimeSetListener
 {
 	ListView list;
 	LazyAdapter adapter;
 	LinkedList<Alarm> alarmList;
 	Alarm lastAlarmRemoved;
-	
+	Bundle savedInstance;
 	Activity mAct;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		super.onCreateView(inflater, container, savedInstanceState);
+		this.savedInstance = savedInstanceState;
 		View rootView = inflater.inflate(R.layout.fragment_section_alarms_home, container, false);
 		return rootView;
 	}
-
+	
+	
+	
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+    	
+    	
+    	Bundle bundle = new Bundle();
+    	bundle.putInt(Constants.ALARM_HOUR, hourOfDay);
+    	bundle.putInt(Constants.ALARM_MINUTE, minute);
+    	// set Fragmentclass Arguments
+    	AlarmsSetClockFragment alarmsSetClockFrag = new AlarmsSetClockFragment();
+    	alarmsSetClockFrag.setArguments(bundle);
+    	
+    	FragmentTransaction transaction = getFragmentManager().beginTransaction();
+		// Replace whatever is in the fragment_container view with this fragment,
+		// and add the transaction to the back stack
+		transaction.replace(R.id.alarms_frame, alarmsSetClockFrag);
+		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		transaction.addToBackStack(null);
+		// Commit the transaction
+		transaction.commit();
+    }
+	
+	
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-		
 		mAct = getActivity();
-		ImageView addAlarm = (ImageView)mAct.findViewById(R.id.addAlarmImg);
-		addAlarm.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Create new fragment and transaction
-				FragmentTransaction transaction = getFragmentManager().beginTransaction();
-				// Replace whatever is in the fragment_container view with this fragment,
-				// and add the transaction to the back stack
-				transaction.replace(R.id.alarms_frame, new AlarmsSetClockFragment());
-				transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-				transaction.addToBackStack(null);
-				// Commit the transaction
-				transaction.commit();
-			}
-		});
+		
+		final Calendar calendar = Calendar.getInstance();
+        final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY) ,calendar.get(Calendar.MINUTE), false, false);
 
+        this.getActivity().findViewById(R.id.addAlarmImg).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.setVibrate(true);
+                timePickerDialog.setCloseOnSingleTapMinute(false);
+                timePickerDialog.show(getActivity().getSupportFragmentManager(), Constants.TIMEPICKER_TAG);
+            }
+        });
+        if (this.savedInstance != null) {
+            TimePickerDialog tpd = (TimePickerDialog) getActivity().
+            		getSupportFragmentManager().
+            		findFragmentByTag(Constants.TIMEPICKER_TAG);
+            if (tpd != null) {
+                tpd.setOnTimeSetListener(this);
+            }
+        }
+
+		
+		
 		//se chiamato da "aggiungi sveglia" deve estrarre i dati della nuova sveglia
 		Bundle paramAlarm = getArguments();
 		if(paramAlarm != null)
@@ -131,7 +162,6 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 	
 	@Override
 	public void onUndo(Parcelable token) {
-		Log.i("undo!", " undo.. ");
 		AlarmUtils.addNewAlarmClock(this.lastAlarmRemoved, mAct);
 		this.alarmList.add(this.lastAlarmRemoved);
 		this.updateAlarmListView();
@@ -268,4 +298,6 @@ public class AlarmsHomeFragment extends Fragment implements Listener
 		adapter = new LazyAdapter(mAct, this, alarmList);        
 		list.setAdapter(adapter);
 	}
+
+
 }

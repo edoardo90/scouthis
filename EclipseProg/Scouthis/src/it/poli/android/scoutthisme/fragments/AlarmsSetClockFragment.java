@@ -4,7 +4,6 @@ import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.tools.AlarmUtils;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +16,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -29,16 +27,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.TimePicker.OnTimeChangedListener;
 
 @SuppressLint("SimpleDateFormat")
-public class AlarmsSetClockFragment extends Fragment implements OnTimeChangedListener
+public class AlarmsSetClockFragment extends Fragment
 {
 	boolean[] activeDays = new boolean[]{true, true, true, true, true, true, true}; 
-	private Calendar mCalendar;
-
-	private String hourAM_PM = "PM";
 	private String timeChoosed;
 	private String birdChoosed = "bird_cardellino";
 	private boolean activeAlarm = true;
@@ -70,12 +63,6 @@ public class AlarmsSetClockFragment extends Fragment implements OnTimeChangedLis
 		ImageView imgCaredellino = (ImageView)mAct.findViewById(R.id.imgCardellino);
 
 		this.addClickListenerBirds();
-
-		mCalendar = Calendar.getInstance();
-
-		TimePicker tp = (TimePicker)mAct.findViewById(R.id.timePicker1);
-		tp.setIs24HourView(false);
-		tp.setOnTimeChangedListener(this);
 
 		imgCaredellino.bringToFront();
 		imgCaredellino.startAnimation(swingAnimation);
@@ -222,12 +209,11 @@ public class AlarmsSetClockFragment extends Fragment implements OnTimeChangedLis
 
 	public void addCurrentAlarmClock(View view)
 	{
-		TimePicker timePicker = (TimePicker) mAct.findViewById(R.id.timePicker1);
-		timePicker.clearFocus();
-
-		Integer hours = timePicker.getCurrentHour();
-		Integer minutes = timePicker.getCurrentMinute();
-		this.timeChoosed = AlarmUtils.addZeroToOneDigit(hours) + ":"  + AlarmUtils.addZeroToOneDigit(minutes) ;
+		
+		Integer hours = getArguments().getInt(Constants.ALARM_HOUR);
+		Integer minutes = getArguments().getInt(Constants.ALARM_MINUTE);
+		this.timeChoosed = AlarmUtils.addZeroToOneDigit(hours) + ":" + 
+						   AlarmUtils.addZeroToOneDigit(minutes) ;
 
 		// Start the main alarms fragment
 		Fragment alarmsHomeFrag = new AlarmsHomeFragment();
@@ -263,15 +249,5 @@ public class AlarmsSetClockFragment extends Fragment implements OnTimeChangedLis
 		textView.setTextColor(color);
 	}
 
-	@Override
-	public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-		Log.d("TAG", "In onTimeChanged");
-		mCalendar.set(mCalendar.get(Calendar.YEAR),
-				mCalendar.get(Calendar.MONTH),
-				mCalendar.get(Calendar.DAY_OF_MONTH),
-				hourOfDay,
-				minute);
-		String calendarTime = AlarmUtils.getCalendarTime(mCalendar);
-		hourAM_PM = (calendarTime != "") ? calendarTime : hourAM_PM;
-	}
+
 }
