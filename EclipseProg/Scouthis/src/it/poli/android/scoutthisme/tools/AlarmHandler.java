@@ -18,12 +18,13 @@ public class AlarmHandler
 	{
 		Calendar updateTime = Calendar.getInstance();
 		updateTime.setTimeZone(TimeZone.getDefault());
+		
 		updateTime.set(Calendar.HOUR_OF_DAY, userAlarm.getHour());
 		updateTime.set(Calendar.MINUTE, userAlarm.getMinute());
-
+				
 		Intent alarmIntent = new Intent(activity, DailyReceiver.class);
 		alarmIntent.putExtra(Constants.INTENT_ALARM, userAlarm);
-		
+			
 		//NB: id sveglia come request code!
 		PendingIntent recurringAlarm = PendingIntent.getBroadcast(activity, 
 				userAlarm.getId(), alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);

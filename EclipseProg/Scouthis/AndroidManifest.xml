@@ -74,8 +74,12 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         
-        <activity android:name="it.poli.android.scoutthisme.social.FacebookActivity" android:label="@string/demo_collection" />
+        <activity android:name="it.poli.android.scoutthisme.social.FacebookActivity" 
+            android:label="@string/demo_collection" />
     	
+        <activity android:name="it.poli.android.scoutthisme.alarm.utils.WakeUpUserActivity">
+        </activity>
+        
          <receiver
 		    android:name="it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver"
 		    android:process=":remote" >
@@ -87,9 +91,17 @@
 		 
 		  <service android:name="it.poli.android.scoutthisme.social.GetFriendsPositionsService" >
           </service>
+          
+		  <service android:name="it.poli.android.scoutthisme.alarm.utils.DailyService">
+		  </service>
+    	 
+		  
+    	 <receiver android:name="it.poli.android.scoutthisme.alarm.utils.DailyReceiver"
+    	     android:process=":remote" >
+    	     	  
+    	 </receiver>
+		  
  
-    
-    
     </application>
 
 </manifest>

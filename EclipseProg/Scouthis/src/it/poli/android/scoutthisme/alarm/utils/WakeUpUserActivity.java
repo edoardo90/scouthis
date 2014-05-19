@@ -2,6 +2,7 @@ package it.poli.android.scoutthisme.alarm.utils;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
+import it.poli.android.scoutthisme.MainActivity;
 import it.poli.android.scoutthisme.tools.Alarm;
 
 import java.util.Random;
@@ -85,10 +86,34 @@ public class WakeUpUserActivity extends Activity
 			@Override
 			public void onClick(View v) {
 				alarmPlayer.stop(); // TODO? Stops the music BUT NOT the animation (WHY?)
+				timer.cancel();
+				timer.purge();
+				timer = null;
+				loadAlarmClockHome();
+				
 			}
 		});
 	}
 
+	private void loadAlarmClockHome()
+	{
+		Log.w("wake up user", "you clickd the bird, MTF! FADE......");
+		final Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+		@Override
+		public void run() {
+		
+		
+			
+		Intent i = new Intent(getApplicationContext(), MainActivity.class);
+		startActivity(i);
+		overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+		
+		
+		}
+		}, 1000); //ASPETTA UN SECONDO!!
+		
+	}
 	private int getBirdImgId() 
 	{
 		String bird = (userAlarm != null) ? userAlarm.getBird() : "bird_cardellino_small";
