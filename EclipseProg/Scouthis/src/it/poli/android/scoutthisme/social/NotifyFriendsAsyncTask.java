@@ -1,5 +1,6 @@
 package it.poli.android.scoutthisme.social;
 
+import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 
 import java.io.BufferedReader;
@@ -18,23 +19,25 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
-public class NotifyFriendsAsyncTask extends AsyncTask<String, Void, String>
+public class NotifyFriendsAsyncTask extends AsyncTask<String, String, String>
 {
 	String listOfFriendsJson;
 	String userInfoJson;
 	String userId;
-	
-	public NotifyFriendsAsyncTask(String s)
+	Activity act ;
+	public NotifyFriendsAsyncTask(Activity act)
 	{
-		
+		this.act = act;
 	}
 	
 	public NotifyFriendsAsyncTask()
 	{
-		
+		this.act = null;
 	}
 	
 	
@@ -45,10 +48,13 @@ public class NotifyFriendsAsyncTask extends AsyncTask<String, Void, String>
 		listOfFriendsJson = getContentFromUrl(urls[0]);
 		
 		userInfoJson = getContentFromUrl(urls[1]);
-		userId = getUserInfoFromJson(userInfoJson)[0];
+		String[] userInformations = getUserInfoFromJson(userInfoJson);
+		String userId = userInformations[0];
+		String userFirstName = userInformations[1];
 		
-		//BEGIN onPostExecute
-    	JSONParser jsonParser = new JSONParser();
+		publishProgress( userFirstName);
+		
+		JSONParser jsonParser = new JSONParser();
     	
 		// Building Parameters for POST METHOD 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -66,9 +72,18 @@ public class NotifyFriendsAsyncTask extends AsyncTask<String, Void, String>
 				e.getLocalizedMessage();
 			}
 		}
-		//END onPostExecute
 		
-		return null;
+		return userFirstName;
+    }
+	
+	@Override
+	protected void onProgressUpdate(String...userFirstName ) {
+       if (this.act != null)
+       {
+   	    	TextView txtMessage = (TextView)  act.findViewById(R.id.txtFFMessage);
+   	    	txtMessage.setText(act.getString(R.string.findfriends_wellcome_name) + " " + userFirstName[0]);
+   	   
+       }
     }
 
 	private String getContentFromUrl(String url)

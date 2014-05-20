@@ -27,11 +27,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -293,6 +298,32 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		return usersMarkers;
 	}
 	
+	private void displayUsernameAndProfilePic(final Session session) {
+	   
+		final ProfilePictureView profilePictureView = (ProfilePictureView) getActivity().findViewById( R.id.ffriends_img_user); 
+		final TextView  userNameView = (TextView) getActivity().findViewById(R.id.ff_txtUserFirstName);
+		
+		Request request = Request.newMeRequest(session, 
+	            new Request.GraphUserCallback() {
+	        @Override
+	        public void onCompleted(GraphUser user, Response response) {
+	            // If the response is successful
+	            if (session == Session.getActiveSession()) {
+	                if (user != null) {
+	                   
+	                	profilePictureView.setProfileId(user.getId());
+	                    // Set the Textview's text to the user's name.
+	                    userNameView.setText(user.getName());
+	                }
+	            }
+	            if (response.getError() != null) {
+	                // Handle errors, will do so later.
+	            }
+	        }
+	    });
+	    request.executeAsync();
+	}
+	
     /**
      * Classe a servizio di Facebook
      */    
@@ -300,13 +331,15 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
         @Override
         public void call(Session sessionF, SessionState state, Exception exception) {
             session = Session.getActiveSession();
+            
+            displayUsernameAndProfilePic(session);
             if (session.isOpened()) {        	
             	// If everything goes fine, now we got the url with all our friends stuff
             	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
             	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
             	// Call AsynTask to perform network operation on separate thread
             	// see: doInBackground and onPostExecute
-        		new NotifyFriendsAsyncTask().execute(urlFriendsInfo, userInfo);
+        		new NotifyFriendsAsyncTask(getActivity()).execute(urlFriendsInfo, userInfo);
             }
         }
     }
