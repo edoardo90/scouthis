@@ -21,12 +21,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <Button
+            <com.facebook.widget.LoginButton
                 android:id="@+id/btnLogInOut"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp" />
+            
+            
         </TableRow>
     </TableLayout>
+
+    <Button
+        android:id="@+id/btnLogInOutOLD"
+        
+        android:text="Login"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
     
     <fragment
         android:id="@+id/mapFindFriends"

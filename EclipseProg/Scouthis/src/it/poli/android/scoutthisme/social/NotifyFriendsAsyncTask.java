@@ -27,6 +27,18 @@ public class NotifyFriendsAsyncTask extends AsyncTask<String, Void, String>
 	String userInfoJson;
 	String userId;
 	
+	public NotifyFriendsAsyncTask(String s)
+	{
+		
+	}
+	
+	public NotifyFriendsAsyncTask()
+	{
+		
+	}
+	
+	
+	///Aggiorna la lista degli amici,  potrebbero esserci state rimozioni o aggiunte
 	@Override
     protected String doInBackground(String... urls)
 	{

@@ -85,6 +85,16 @@
     </style>
     
     
+    <style name="FacebookLoginButton">
+	    <item name="android:textSize">@dimen/small_text</item>
+	    <item name="android:background">@drawable/btn_facebook_active_400</item>
+	    <item name="android:layout_marginTop">10dp</item>
+	    <item name="android:layout_marginBottom">10dp</item>
+	    <item name="android:layout_gravity">center_horizontal</item>
+	</style>
+    
+    
+    
     
     
     <!--  from sveglia project END -->

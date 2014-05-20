@@ -100,6 +100,9 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	public void onDestroyView()
 	{
 		super.onDestroyView();
+		int d=0;
+		d++;
+		
 		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
 		if(mapFragment != null) {
 			FragmentManager fM = getFragmentManager();
@@ -111,6 +114,10 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	public void onResume()
 	{
 		super.onResume();
+		int i=0;
+		i++;
+		
+			
 		if (session.isOpened()) {
 			setLogoutButton();
 			needDefaultZoom = true;
@@ -118,15 +125,22 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 			facebookHandler.setListener(this);
 		} else {
 			setLoginButton();
+			
 		}
 		session = Session.getActiveSession();
 		session.addCallback(statusCallback);
 	}
+
+
+	
 	
 	@Override
 	public void onPause()
 	{
 		super.onPause();
+		int p=0;
+		p++;
+		
 		session = Session.getActiveSession();
 		session.removeCallback(statusCallback);
 		if (session.isOpened()) {
@@ -144,11 +158,13 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
         TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFMessage);
     	textInstructionsOrLink.setText(getString(R.string.findfriends_login_message));
 
-    	Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
-        buttonLoginLogout.setText(getString(R.string.findfriends_login));
+    	Button buttonLoginLogout = (Button) this.getActivity().findViewById(R.id.btnLogInOut);
+    	buttonLoginLogout.setText(getString(R.string.findfriends_login));
         buttonLoginLogout.setOnClickListener(
         	new OnClickListener() {
-        		public void onClick(View view) { onClickLogin(); }
+        		public void onClick(View view) { 
+        			Log.i("btn ", "button");
+        			onClickLogin(); }
         	}
         );
         View mapp = getView().findViewById(R.id.mapFindFriends);

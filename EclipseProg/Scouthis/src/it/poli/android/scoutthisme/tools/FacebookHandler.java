@@ -79,7 +79,8 @@ public class FacebookHandler
 	{
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// What does the tread says me when finished .. say putExtra in GetFriendsPositionsService e getString..
+			// What does the tread says me when finished ..
+			//  say putExtra in GetFriendsPositionsService e getString..
 			Log.i("Find friends fragment onReceive", "Finished");
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {

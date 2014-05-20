@@ -18,7 +18,8 @@
     <!-- Strings related to news fragment  -->
     <string name="news_rss_loading">Caricamento in corso&#8230;</string>
     <string name="news_rss_information">Le ultime news sull\'Ambiente da corriere.it</string>
-    <string name="news_rss_connection_error">Impossibile caricare il newsfeed. La connessione dati non risulta attiva.</string>
+    <string name="news_rss_connection_error">Impossibile caricare il newsfeed. 
+        La connessione dati non risulta attiva.</string>
     
     <!-- Strings related to GPS fragment -->
     <string name="gps_information">Dati rilevati dal telefono:</string>
@@ -42,9 +43,10 @@
     <!-- Strings related to findfriends fragment  -->
     <string name="findfriends_login">Login</string>
     <string name="findfriends_logout">Logout</string>
-    <string name="findfriends_login_message">Fai login per attivare il trovamici!</string>
+    <string name="findfriends_login_message">Loggati con Facebook per usare il trovamici!</string>
     <string name="findfriends_logout_message">Benvenuto!</string>
     <string name="findfriends_my_marker">Tu sei qui</string>
+    <string name="findfriends_login_button">Facebook Login</string>
     
     <!-- Strings related to utility fragment  -->
     <string name="utility_camera_not_available">Fotocamera non rilevata.</string>
