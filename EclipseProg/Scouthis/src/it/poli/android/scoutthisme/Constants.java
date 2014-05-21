@@ -47,7 +47,7 @@ public class Constants
 	public static final String XML_TAG_ID = "id";
 	
 	private static final int MINUTE_MILLISECONDS = 60 * 1000;
-    public static final int TIME_UPDATE_FRIENDS_POSITION = MINUTE_MILLISECONDS * 1;
+    public static final int TIME_UPDATE_FRIENDS_POSITION = 10 * 1000;
 	public static final int TIME_UPDATE_FRIENDSLIST = MINUTE_MILLISECONDS * 15;
 	
 	public static final int RESULT_OK = 1;
