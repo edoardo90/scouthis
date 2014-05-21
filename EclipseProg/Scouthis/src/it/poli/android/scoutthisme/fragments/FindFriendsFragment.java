@@ -229,17 +229,36 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		updateMap();
 	}
 	
-	private void updateMap() {
-		gMap.clear();
-		for(UserMarker usrMarker : lstUsersMarkers)
+	private void updateMap() 
+	{
+		if (gMap != null)
 		{
-			if (Constants.DEBUG_ENABLED) {
-				Log.w("i place markers", " placing " + usrMarker.toString());
+			gMap.clear();
+			if (lstUsersMarkers != null)
+			{
+				for(UserMarker usrMarker : lstUsersMarkers)
+				{
+					if (Constants.DEBUG_ENABLED) {
+						Log.w("i place markers", " placing " + usrMarker.toString());
+					}
+					placeMarkerOnMap(usrMarker, false);
+				}
 			}
-			placeMarkerOnMap(usrMarker);
-		}
-		if (loc != null) {
-			addMeToMap();
+			if (loc != null && graphUser != null) {
+				UserMarker me = new UserMarker(graphUser, loc.getLatitude(), loc.getLongitude());
+				placeMarkerOnMap(me, true);
+				
+				if (needDefaultZoom) {
+					needDefaultZoom = false;
+					gMap.moveCamera(CameraUpdateFactory
+							.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), defaultZoom));
+				}
+				/*else {
+					gMap.moveCamera(CameraUpdateFactory.
+							newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), gMap.getCameraPosition().zoom));
+				}*/
+				//marker.showInfoWindow();
+			}
 		}
 	}
 	
@@ -247,40 +266,35 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		MarkerOptions mo = new MarkerOptions().position(new LatLng(loc.getLatitude(), loc.getLongitude()));
 		Marker marker = gMap.addMarker(mo);
 		
-		gMap.setMyLocationEnabled(true);
-		
-		if (needDefaultZoom) {
-			needDefaultZoom = false;
-			gMap.moveCamera(CameraUpdateFactory.
-			newLatLngZoom(marker.getPosition(), defaultZoom));
-		}
+		//gMap.setMyLocationEnabled(true);
 		
 		marker.setTitle(graphUser.getFirstName());
 		
-		ProfilePictureView profilePictureView = (ProfilePictureView) mAct.findViewById(R.id.ffriends_img_user); 
+		/*ProfilePictureView profilePictureView = (ProfilePictureView) mAct.findViewById(R.id.ffriends_img_user); 
 		ImageView facebookImage = (ImageView)profilePictureView.getChildAt(0);
-		Bitmap bitmap = ((BitmapDrawable)facebookImage.getDrawable()).getBitmap();
+		Bitmap bitmap = ((BitmapDrawable)facebookImage.getDrawable()).getBitmap();*/
 		
-		marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
-		marker.showInfoWindow();
+		//marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+
 	}
 	
-	private void placeMarkerOnMap(UserMarker um)
+	private void placeMarkerOnMap(UserMarker um, boolean IAm)
 	{
 		MarkerOptions mo = new MarkerOptions().position(new LatLng(um.getLatitude(), um.getLongitude()));
 		Marker marker = gMap.addMarker(mo);
-		marker.setTitle(um.getReadableName());
-		marker.showInfoWindow();
-
-		if (needDefaultZoom) {
-			needDefaultZoom = false;
-			gMap.moveCamera(CameraUpdateFactory.
-					newLatLngZoom(marker.getPosition(), defaultZoom));
-		}
-		else {
-			gMap.moveCamera(CameraUpdateFactory.
-					newLatLngZoom(marker.getPosition(), gMap.getCameraPosition().zoom));
-		}
+		marker.setTitle(um.toString());
+		if (IAm)
+			marker.showInfoWindow();
+		
+//		if (needDefaultZoom) {
+//			needDefaultZoom = false;
+//			gMap.moveCamera(CameraUpdateFactory.
+//					newLatLngZoom(marker.getPosition(), defaultZoom));
+//		}
+//		else {
+//			gMap.moveCamera(CameraUpdateFactory.
+//					newLatLngZoom(marker.getPosition(), gMap.getCameraPosition().zoom));
+//		}		
 	}
 	
 	private List<UserMarker> usersMarkersFromJson(String gpsCoordJSONStr)
@@ -297,7 +311,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 				double longit = juser.getDouble(Constants.PARAM_POSITION_LONGITUDE);
 				double latit = juser.getDouble(Constants.PARAM_POSITION_LATITUDE);
 				
-				UserMarker um = new UserMarker(latit, longit, name);
+				UserMarker um = new UserMarker(name, latit, longit);
 				usersMarkers.add(um);
 			}
 		} catch (JSONException e) {
@@ -315,13 +329,13 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	            new Request.GraphUserCallback() {
 	        @Override
 	        public void onCompleted(GraphUser user, Response response) {
-	        	graphUser = user;
 	            // If the response is successful
 	            if (session == Session.getActiveSession()) {
 	                if (user != null) {
 	                	profilePictureView.setProfileId(user.getId());
 	                    // Set the Textview's text to the user's name.
 	                    userNameView.setText(user.getName());
+	    	        	graphUser = user;
 	                }
 	            }
 	            if (response.getError() != null) {
