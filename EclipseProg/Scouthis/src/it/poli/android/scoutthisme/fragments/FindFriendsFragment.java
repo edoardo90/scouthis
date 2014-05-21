@@ -9,7 +9,9 @@ import it.poli.android.scoutthisme.tools.GpsListener;
 import it.poli.android.scoutthisme.tools.UserMarker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,8 +19,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.Request;
@@ -41,9 +40,8 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -58,7 +56,9 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	GpsHandler gpsHandler;
 	FacebookHandler facebookHandler;
 	Location loc;
-	Marker marker;
+	
+	Map usersMap;
+	
 	GraphUser graphUser;
 	boolean needDefaultZoom;
 	final int defaultZoom = 13;
@@ -95,6 +95,15 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		
 		rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
 		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends)).getMap();
+//		gMap.setOnMarkerClickListener(new OnMarkerClickListener() {
+//			@Override
+//			public boolean onMarkerClick(Marker marker) {
+//				lastClickedMarker = marker;
+//				return false;
+//			}
+//		});
+		
+		//lastClickedMarker.
 		
         if (savedInstanceState != null) {
             session = Session.restoreSession(mAct, null, statusCallback, savedInstanceState);
@@ -234,6 +243,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		if (gMap != null)
 		{
 			gMap.clear();
+			//usersMap = new HashMap<K, >()
 			if (lstUsersMarkers != null)
 			{
 				for(UserMarker usrMarker : lstUsersMarkers)
@@ -307,11 +317,12 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 			{
 				JSONObject juser = markk.getJSONObject(i);
 
+				String userId = juser.getString(Constants.PARAM_USERID);
 				String name = juser.getString(Constants.PARAM_NAME);
 				double longit = juser.getDouble(Constants.PARAM_POSITION_LONGITUDE);
 				double latit = juser.getDouble(Constants.PARAM_POSITION_LATITUDE);
 				
-				UserMarker um = new UserMarker(name, latit, longit);
+				UserMarker um = new UserMarker(userId, name, latit, longit);
 				usersMarkers.add(um);
 			}
 		} catch (JSONException e) {

@@ -4,13 +4,15 @@ import com.facebook.model.GraphUser;
 
 public class UserMarker
 {
+	private String id;
 	private String name;
 	private GraphUser graphUser;
 	private double latitude;
 	private double longitude;
 
-	public UserMarker(String name, double latitude, double longitude)
+	public UserMarker(String id, String name, double latitude, double longitude)
 	{
+		this.id = id;
 		this.graphUser = null;
 		this.name = name;
 		this.latitude = latitude;
@@ -19,6 +21,7 @@ public class UserMarker
 	
 	public UserMarker(GraphUser graphUser, double latitude, double longitude)
 	{
+		this.id = graphUser.getId();
 		this.graphUser = graphUser;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -66,5 +69,13 @@ public class UserMarker
 	public String toString()
 	{
 		return name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
