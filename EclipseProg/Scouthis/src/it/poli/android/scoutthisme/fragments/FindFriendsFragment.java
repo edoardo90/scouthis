@@ -136,15 +136,10 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		session.addCallback(statusCallback);
 	}
 
-
-	
-	
 	@Override
 	public void onPause()
 	{
 		super.onPause();
-		int p=0;
-		p++;
 		
 		session = Session.getActiveSession();
 		session.removeCallback(statusCallback);

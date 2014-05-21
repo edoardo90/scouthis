@@ -39,7 +39,8 @@ public class GetFBFriendsPositions
 		String userInfoJson = result;
 		String userId = this.getUserIDFromJson(userInfoJson, Constants.PARAM_USERID);
 
-		Log.i("user", userId);
+		if (Constants.DEBUG_ENABLED)
+			Log.i("user", userId);
 
 		GetFriendsGPSFromURL ufl = new GetFriendsGPSFromURL(userId, Constants.URL_GET_FRIENDSLIST,
 						userLatitude , userLongitude);
