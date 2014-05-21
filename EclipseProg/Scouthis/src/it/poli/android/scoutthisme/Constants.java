@@ -23,8 +23,8 @@ public class Constants
     public static final String URL_FACEBOOK_GRAPH = "https://graph.facebook.com/";
 	public static final String URL_PREFIX_FRIENDS = URL_FACEBOOK_GRAPH + "me/friends?access_token=";
     public static final String URL_PREFIX_ME = URL_FACEBOOK_GRAPH + "me?access_token=";
-	public static final String URL_GET_FRIENDSLIST = "http://192.168.1.2/crud/get_friends_coord.php";
-	public static final String URL_SEND_FRIENDSLIST = "http://192.168.1.2/crud/update_fnd.php";
+	public static final String URL_GET_FRIENDSLIST = "http://centriestivi.eu/scouthisme/crud/exchange_friends_coordinates.php";
+	public static final String URL_SEND_FRIENDSLIST = "http://centriestivi.eu/scouthisme/crud/update_friends_list.php";
 
 	//public static final String[] TAB_TITLES = {"News", "GPS", "Contapassi", "Trovamici", "Utiliy", "Walkie Talkie", "Wake Up!"};	
 	//public static final String[] TAB_ICONS = {R.drawable., "GPS", "Contapassi", "Trovamici", "Lumus", "Walkie Talkie", "Wake Up!"};
