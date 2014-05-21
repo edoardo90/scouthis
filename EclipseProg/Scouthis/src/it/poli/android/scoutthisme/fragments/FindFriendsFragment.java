@@ -57,7 +57,8 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	FacebookHandler facebookHandler;
 	Location loc;
 	
-	Map usersMap;
+	Map<Marker, UserMarker> usersMap;
+	static String lastUserIdClicked = null;
 	
 	GraphUser graphUser;
 	boolean needDefaultZoom;
@@ -67,7 +68,6 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	Activity mAct;
 	
 	List<UserMarker> lstUsersMarkers;
-	
     private StatusCallback statusCallback;
 	
 	@Override
@@ -95,13 +95,13 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		
 		rootView = inflater.inflate(R.layout.fragment_section_findfriends, container, false);
 		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends)).getMap();
-//		gMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-//			@Override
-//			public boolean onMarkerClick(Marker marker) {
-//				lastClickedMarker = marker;
-//				return false;
-//			}
-//		});
+		gMap.setOnMarkerClickListener(new OnMarkerClickListener() {
+			@Override
+			public boolean onMarkerClick(Marker marker) {
+				lastUserIdClicked = usersMap.get(marker).getId();
+				return false;
+			}
+		});
 		
 		//lastClickedMarker.
 		
@@ -243,7 +243,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		if (gMap != null)
 		{
 			gMap.clear();
-			//usersMap = new HashMap<K, >()
+			usersMap = new HashMap<Marker, UserMarker>();
 			if (lstUsersMarkers != null)
 			{
 				for(UserMarker usrMarker : lstUsersMarkers)
@@ -293,9 +293,12 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		MarkerOptions mo = new MarkerOptions().position(new LatLng(um.getLatitude(), um.getLongitude()));
 		Marker marker = gMap.addMarker(mo);
 		marker.setTitle(um.toString());
-		if (IAm)
+		if (lastUserIdClicked != null  && lastUserIdClicked.contentEquals(um.getId()))
 			marker.showInfoWindow();
+		/*if (IAm)
+			marker.showInfoWindow();*/
 		
+		usersMap.put(marker, um);
 //		if (needDefaultZoom) {
 //			needDefaultZoom = false;
 //			gMap.moveCamera(CameraUpdateFactory.
