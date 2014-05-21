@@ -1,16 +1,18 @@
 package it.poli.android.scoutthisme.tools;
 
-public class UserMarker {
+import com.facebook.model.GraphUser;
 
+public class UserMarker
+{
+	private GraphUser graphUser;
 	private double latitude;
 	private double longitude;
-	private String name;
 
-	public UserMarker(double latitude, double longitude, String name)
+	public UserMarker(GraphUser graphUser, double latitude, double longitude)
 	{
+		this.graphUser = graphUser;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.name = name;
 	}
 
 	public double getLatitude() {
@@ -29,17 +31,22 @@ public class UserMarker {
 		this.longitude = longitude;
 	}
 	
-	public String getName() {
-		return name;
+	public GraphUser getUser() {
+		return this.graphUser;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setUser(GraphUser graphUser) {
+		this.graphUser = graphUser;
+	}
+	
+	public String getReadableName()
+	{
+		return this.getUser().getFirstName() + "  " + this.getUser().getLastName();
 	}
 
 	@Override
 	public String toString()
 	{
-		return "| " + this.getName() + "  |";
+		return "| " + this.getUser().getFirstName() + "  |";
 	}
 }

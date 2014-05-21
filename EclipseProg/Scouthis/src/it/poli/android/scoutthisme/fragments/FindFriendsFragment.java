@@ -17,6 +17,8 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,6 +42,8 @@ import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -55,11 +59,14 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	FacebookHandler facebookHandler;
 	Location loc;
 	Marker marker;
+	GraphUser graphUser;
 	boolean needDefaultZoom;
 	final int defaultZoom = 13;
 	
 	Session session;
 	Activity mAct;
+	
+	List<UserMarker> lstUsersMarkers;
 	
     private StatusCallback statusCallback;
 	
@@ -105,8 +112,6 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	public void onDestroyView()
 	{
 		super.onDestroyView();
-		int d=0;
-		d++;
 		
 		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
 		if(mapFragment != null) {
@@ -119,9 +124,6 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 	public void onResume()
 	{
 		super.onResume();
-		int i=0;
-		i++;
-		
 			
 		if (session.isOpened()) {
 			setLogoutButton();
@@ -129,8 +131,8 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 			gpsHandler.setListener(this);
 			facebookHandler.setListener(this);
 		} else {
+			graphUser = null;
 			setLoginButton();
-			
 		}
 		session = Session.getActiveSession();
 		session.addCallback(statusCallback);
@@ -214,11 +216,34 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
         }
     }
 
-	public void updateMap() {
-		super.onResume();
-		
-		gMap.clear();
+	@Override
+	public void onLocationChanged(Location location) {
+		this.loc = location;
+		facebookHandler.updatePosition(location);
+		updateMap();
+	}
 
+	@Override
+	public void onFriendsUpdates(String gpsCoordJSONStr) {
+		lstUsersMarkers = usersMarkersFromJson(gpsCoordJSONStr);
+		updateMap();
+	}
+	
+	private void updateMap() {
+		gMap.clear();
+		for(UserMarker usrMarker : lstUsersMarkers)
+		{
+			if (Constants.DEBUG_ENABLED) {
+				Log.w("i place markers", " placing " + usrMarker.toString());
+			}
+			placeMarkerOnMap(usrMarker);
+		}
+		if (loc != null) {
+			addMeToMap();
+		}
+	}
+	
+	public void addMeToMap() {
 		MarkerOptions mo = new MarkerOptions().position(new LatLng(loc.getLatitude(), loc.getLongitude()));
 		Marker marker = gMap.addMarker(mo);
 		
@@ -230,34 +255,21 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 			newLatLngZoom(marker.getPosition(), defaultZoom));
 		}
 		
-		marker.setTitle(getString(R.string.findfriends_my_marker));
+		marker.setTitle(graphUser.getFirstName());
+		
+		ProfilePictureView profilePictureView = (ProfilePictureView) mAct.findViewById(R.id.ffriends_img_user); 
+		ImageView facebookImage = (ImageView)profilePictureView.getChildAt(0);
+		Bitmap bitmap = ((BitmapDrawable)facebookImage.getDrawable()).getBitmap();
+		
+		marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
 		marker.showInfoWindow();
-	}
-
-	@Override
-	public void onLocationChanged(Location location) {
-		this.loc = location;
-		facebookHandler.updatePosition(location);
-		updateMap();
-	}
-
-	@Override
-	public void onFriendsUpdates(String gpsCoordJSONStr) {
-		List<UserMarker> lstUsersMarkers = usersMarkersFromJson(gpsCoordJSONStr);
-		for(UserMarker usrMarker : lstUsersMarkers)
-		{
-			if (Constants.DEBUG_ENABLED) {
-				Log.w("i place markers", " placing " + usrMarker.toString());
-			}
-			placeMarkerOnMap(usrMarker);
-		}
 	}
 	
 	private void placeMarkerOnMap(UserMarker um)
 	{
 		MarkerOptions mo = new MarkerOptions().position(new LatLng(um.getLatitude(), um.getLongitude()));
 		Marker marker = gMap.addMarker(mo);
-		marker.setTitle(um.getName());
+		marker.setTitle(um.getReadableName());
 		marker.showInfoWindow();
 
 		if (needDefaultZoom) {
@@ -284,6 +296,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 				String name = juser.getString(Constants.PARAM_NAME);
 				double longit = juser.getDouble(Constants.PARAM_POSITION_LONGITUDE);
 				double latit = juser.getDouble(Constants.PARAM_POSITION_LATITUDE);
+				
 				UserMarker um = new UserMarker(latit, longit, name);
 				usersMarkers.add(um);
 			}
@@ -293,19 +306,19 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
 		return usersMarkers;
 	}
 	
-	private void displayUsernameAndProfilePic(final Session session) {
-	   
-		final ProfilePictureView profilePictureView = (ProfilePictureView) getActivity().findViewById( R.id.ffriends_img_user); 
-		final TextView  userNameView = (TextView) getActivity().findViewById(R.id.ff_txtUserFirstName);
+	private void displayUserDetails(final Session session)
+	{   
+		final ProfilePictureView profilePictureView = (ProfilePictureView) mAct.findViewById(R.id.ffriends_img_user); 
+		final TextView  userNameView = (TextView) mAct.findViewById(R.id.ff_txtUserFirstName);
 		
 		Request request = Request.newMeRequest(session, 
 	            new Request.GraphUserCallback() {
 	        @Override
 	        public void onCompleted(GraphUser user, Response response) {
+	        	graphUser = user;
 	            // If the response is successful
 	            if (session == Session.getActiveSession()) {
 	                if (user != null) {
-	                   
 	                	profilePictureView.setProfileId(user.getId());
 	                    // Set the Textview's text to the user's name.
 	                    userNameView.setText(user.getName());
@@ -327,7 +340,7 @@ public  class FindFriendsFragment extends Fragment implements GpsListener, Faceb
         public void call(Session sessionF, SessionState state, Exception exception) {
             session = Session.getActiveSession();
             
-            displayUsernameAndProfilePic(session);
+            displayUserDetails(session);
             if (session.isOpened()) {        	
             	// If everything goes fine, now we got the url with all our friends stuff
             	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
