@@ -12,12 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class RSSHomeAdapter extends ArrayAdapter<RSSItem>
+public class NewsfeedAdapter extends ArrayAdapter<NewsItem>
 {
         private final Context context;
-        private final ArrayList<RSSItem> itemsList;
+        private final ArrayList<NewsItem> itemsList;
  
-        public RSSHomeAdapter(Context context, ArrayList<RSSItem> itemsTitlesList)
+        public NewsfeedAdapter(Context context, ArrayList<NewsItem> itemsTitlesList)
         {
             super(context, R.layout.newsfeed_list_row, itemsTitlesList);
             this.context = context;

@@ -2,13 +2,13 @@ package it.poli.android.scoutthisme.tools;
 
 import android.graphics.Bitmap;
 
-public class RSSItem {
+public class NewsItem {
     private String title;
     private String url;
     private String description;
     private Bitmap image;
  
-    public RSSItem() {
+    public NewsItem() {
         super();
         this.setTitle("");
         this.setUrl("");
@@ -16,7 +16,7 @@ public class RSSItem {
         this.setImage(null);
     }
     
-    public RSSItem(String title, String url, String description, Bitmap image) {
+    public NewsItem(String title, String url, String description, Bitmap image) {
         super();
         this.setTitle(title);
         this.setUrl(url);

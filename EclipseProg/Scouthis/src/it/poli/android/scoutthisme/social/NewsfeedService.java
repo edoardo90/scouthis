@@ -1,8 +1,8 @@
 package it.poli.android.scoutthisme.social;
 
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.tools.RSSHomeAdapter;
-import it.poli.android.scoutthisme.tools.RSSItem;
+import it.poli.android.scoutthisme.tools.NewsItem;
+import it.poli.android.scoutthisme.tools.NewsfeedAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,9 +26,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class RSSNewsService  extends AsyncTask<View, Void, String>
+public class NewsfeedService  extends AsyncTask<View, Void, String>
 {
-	ArrayList<RSSItem> RSSItems;
+	ArrayList<NewsItem> RSSItems;
 	
 	View rootView;
 	boolean connectionError;
@@ -62,8 +62,10 @@ public class RSSNewsService  extends AsyncTask<View, Void, String>
 
 			// Returns the type of current event: START_TAG, END_TAG, etc..
 			int eventType = xpp.getEventType();
-			RSSItems = new ArrayList<RSSItem>();
-			RSSItem rssI = new RSSItem();
+			RSSItems = new ArrayList<NewsItem>();
+			NewsItem rssI = new NewsItem();
+			String imageUrlString;
+			URL imageUrl;
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				if (eventType == XmlPullParser.START_TAG) {
 					if (xpp.getName().equalsIgnoreCase("item")) {
@@ -79,8 +81,9 @@ public class RSSNewsService  extends AsyncTask<View, Void, String>
 							rssI.setDescription(xpp.nextText().trim().replaceAll("\\s+", " "));
 					} else if (xpp.getName().equalsIgnoreCase("thumbimage")) {
 						if (insideItem) {
-							String imageUrlString = xpp.getAttributeValue(null, "url");
-							URL imageUrl = new URL(imageUrlString);
+							imageUrlString = xpp.getAttributeValue(null, "url");
+							imageUrl = new URL(imageUrlString);
+							//Drawable d = Drawable.createFromPath(imageUrlString);
 							Bitmap bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
 							rssI.setImage(bmp);
 							//xpp.nextText();
@@ -88,7 +91,7 @@ public class RSSNewsService  extends AsyncTask<View, Void, String>
 					}
 				} else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")) {
 					RSSItems.add(rssI);
-					rssI = new RSSItem();
+					rssI = new NewsItem();
 					insideItem=false;
 				}
 				eventType = xpp.next(); //move to next element
@@ -128,7 +131,7 @@ public class RSSNewsService  extends AsyncTask<View, Void, String>
 			});
 			
 			// Binding data
-			RSSHomeAdapter adapter = new RSSHomeAdapter(rootView.getContext(), RSSItems);
+			NewsfeedAdapter adapter = new NewsfeedAdapter(rootView.getContext(), RSSItems);
 			lstNews.setAdapter(adapter);
 	    	
 			TextView lblNews = (TextView) rootView.findViewById(R.id.lblNewsMessage);

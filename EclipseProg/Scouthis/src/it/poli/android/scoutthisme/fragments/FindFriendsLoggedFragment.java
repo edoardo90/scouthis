@@ -72,10 +72,10 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	
 	Session session;
 	Activity mAct;
-	
+	Bundle savedInstanceState;
 	List<UserMarker> lstUsersMarkers;
-    private StatusCallback statusCallback;
-	
+    private StatusCallback statusCallback;	
+    
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -92,18 +92,27 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View rootView;
 		mAct = getActivity();
 		gpsHandler = new GpsHandler(mAct);
 		facebookHandler = new FacebookHandler(mAct);
 		statusCallback = new SessionStatusCallback();
 		session = Session.getActiveSession();
+		this.savedInstanceState = savedInstanceState;
 		
-		rootView = inflater.inflate(R.layout.fragment_section_findfriends_logged, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_section_findfriends_logged, container, false);
+		return rootView;
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+			
 		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends)).getMap();
 		gMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 			@Override
 			public boolean onMarkerClick(Marker marker) {
+				//TODO null pointer
 				lastUserIdClicked = usersMap.get(marker).getId();
 				return false;
 			}
@@ -119,25 +128,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
         if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
             session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
         }
-		return rootView;
-	}
-
-	public void onDestroyView()
-	{
-		super.onDestroyView();
-		
-		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
-		if(mapFragment != null) {
-			FragmentManager fM = getFragmentManager();
-			fM.beginTransaction().remove(mapFragment).commit();
-		}
-	}
-
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-			
+        
 		if (session.isOpened()) {
 			setLogoutButton();
 			needDefaultZoom = true;
@@ -158,10 +149,14 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		
 		session = Session.getActiveSession();
 		session.removeCallback(statusCallback);
-		if (session.isOpened()) {
-			gpsHandler.removeListener();
-			facebookHandler.removeListener();
-			gMap.clear();
+		gpsHandler.removeListener();
+		facebookHandler.removeListener();
+		gMap.clear();
+		
+		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
+		if(mapFragment != null) {
+			FragmentManager fM = getFragmentManager();
+			fM.beginTransaction().remove(mapFragment).commit();
 		}
 	}
 	
@@ -182,12 +177,12 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
      */
     private void setLogoutButton()
     {    
-        TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFLoginMessage);
+        TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFLogoutMessage);
         /*JSONObject json = Util.parseJson(facebook.request("me", params));
         String userId = json.getString("id");*/
     	textInstructionsOrLink.setText(getString(R.string.findfriends_logout_message));
     	
-		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogInOut);
+		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogOut);
 		buttonLoginLogout.setText(getString(R.string.findfriends_logout));
 		buttonLoginLogout.setOnClickListener(
         	new OnClickListener() {
@@ -269,8 +264,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		MarkerOptions mo = new MarkerOptions().position(new LatLng(um.getLatitude(), um.getLongitude()));
 		Marker marker = gMap.addMarker(mo);
 		marker.setTitle(um.toString());
-		if (lastUserIdClicked != null  && lastUserIdClicked.contentEquals(um.getId()))
-			marker.showInfoWindow();
+		
+		usersMap.put(marker, um);
 		
 		if (!IAm) {
 			ProfilePictureView profilePictureView = (ProfilePictureView) mAct.findViewById(R.id.ffriends_img2); 
@@ -281,7 +276,10 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 			bitmap = rv.getCroppedBitmap(bitmap, 80);
 			marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
 			marker.setAnchor(0.5f, 1);
-		}	
+		}
+		
+		if (lastUserIdClicked != null  && lastUserIdClicked.contentEquals(um.getId()))
+			marker.showInfoWindow();
 	}
 	
 	private List<UserMarker> usersMarkersFromJson(String gpsCoordJSONStr)

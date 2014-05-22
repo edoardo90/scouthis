@@ -18,13 +18,9 @@ package it.poli.android.scoutthisme;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsFragment;
-import it.poli.android.scoutthisme.fragments.AlarmsHomeFragment;
-import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
 import it.poli.android.scoutthisme.fragments.GpsFragment;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterFragment;
-import it.poli.android.scoutthisme.fragments.UtilityFragment;
-import it.poli.android.scoutthisme.fragments.WalkieTalkieFragment;
 import it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
