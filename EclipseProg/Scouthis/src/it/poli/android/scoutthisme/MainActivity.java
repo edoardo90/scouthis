@@ -148,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 			case 6:
 				return new AlarmsFragment();
 			default:
-				return new AlarmsHomeFragment();
+				return new AlarmsFragment();
 			}
 		}
 

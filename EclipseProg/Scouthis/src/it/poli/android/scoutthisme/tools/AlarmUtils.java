@@ -4,7 +4,6 @@ import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.alarm.utils.XMLParser;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;

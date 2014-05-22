@@ -3,7 +3,6 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.alarm.utils.LazyAdapter;
-
 import it.poli.android.scoutthisme.tools.Alarm;
 import it.poli.android.scoutthisme.tools.AlarmHandler;
 import it.poli.android.scoutthisme.tools.AlarmUtils;
@@ -14,10 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-
-
-import com.sleepbot.datetimepicker.time.RadialPickerLayout;
-import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -34,6 +29,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.sleepbot.datetimepicker.time.RadialPickerLayout;
+import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 public class AlarmsHomeFragment extends Fragment implements 
 	Listener, TimePickerDialog.OnTimeSetListener
@@ -57,9 +55,8 @@ public class AlarmsHomeFragment extends Fragment implements
 	
 	
     @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-    	
-    	
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute)
+    {	
     	Bundle bundle = new Bundle();
     	bundle.putInt(Constants.ALARM_HOUR, hourOfDay);
     	bundle.putInt(Constants.ALARM_MINUTE, minute);
@@ -76,7 +73,6 @@ public class AlarmsHomeFragment extends Fragment implements
 		// Commit the transaction
 		transaction.commit();
     }
-	
 	
 	@Override
 	public void onResume()
@@ -298,6 +294,4 @@ public class AlarmsHomeFragment extends Fragment implements
 		adapter = new LazyAdapter(mAct, this, alarmList);        
 		list.setAdapter(adapter);
 	}
-
-
 }

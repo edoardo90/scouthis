@@ -80,8 +80,9 @@ public class NotifyFriendsAsyncTask extends AsyncTask<String, String, String>
 	protected void onProgressUpdate(String...userFirstName ) {
        if (this.act != null)
        {
-   	    	TextView txtMessage = (TextView)  act.findViewById(R.id.txtFFMessage);
-   	    	txtMessage.setText(act.getString(R.string.findfriends_wellcome_name) + " " + userFirstName[0]);
+   	    	TextView txtMessage = (TextView)  act.findViewById(R.id.txtFFLoginMessage);
+   	    	if (txtMessage != null)
+   	    		txtMessage.setText(act.getString(R.string.findfriends_wellcome_name) + " " + userFirstName[0]);
    	   
        }
     }
