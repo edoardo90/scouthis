@@ -62,8 +62,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 		tabTitles = new String[]{getString(R.string.fragments_1_title),
 					getString(R.string.fragments_2_title), getString(R.string.fragments_3_title),
-					getString(R.string.fragments_4_title), getString(R.string.fragments_5_title),
-					getString(R.string.fragments_6_title), getString(R.string.fragments_7_title)};
+					/* UNTIL RUFY FIXES!!! getString(R.string.fragments_4_title), !! */
+					 getString(R.string.fragments_7_title)};
 
 	
 		// Create the adapter that will return a fragment for each of the three primary sections
@@ -132,20 +132,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 		@Override
 		public Fragment getItem(int i) {
+			final int ZERO_OFFESET = 1;
 			switch (i) {
-			case 0:
+			case 1 - ZERO_OFFESET:
 				return new NewsFeedFragment();
-			case 1:
+			case 2 - ZERO_OFFESET:
 				return new GpsFragment();
-			case 2:
+			case 3 - ZERO_OFFESET:
 				return new StepCounterFragment();
-			case 3:
-				return new FindFriendsFragment();
-			case 4:
-				return new UtilityFragment();
-			case 5:
-				return new WalkieTalkieFragment();
-			case 6:
+			/*case (4 - ZERO_OFFESET):
+				return new FindFriendsFragment(); */
+			case 4 - ZERO_OFFESET:
 				return new AlarmsFragment();
 			default:
 				return new AlarmsFragment();
