@@ -78,4 +78,8 @@ public class UserMarker
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	public String getImageUrl() {
+		return "https://graph.facebook.com/" + this.getId() + "/picture?type=large";
+	}
 }

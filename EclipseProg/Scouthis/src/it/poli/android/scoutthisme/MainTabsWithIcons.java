@@ -17,7 +17,8 @@ import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class MainTabsWithIcons extends FragmentActivity {
-    private static final String[] CONTENT = new String[] { "News", "GPS", "Pedometer", "Trovamici", "Alarm" };
+    private static final String[] CONTENT = new String[] { "News", "GPS", 
+    	"Run", "Trovamici", "Alarm" };
     private static final int[] ICONS = new int[] {
             R.drawable.actionb_news,
             R.drawable.actionb_gps,

@@ -9,6 +9,10 @@ import it.poli.android.scoutthisme.tools.GpsHandler;
 import it.poli.android.scoutthisme.tools.GpsListener;
 import it.poli.android.scoutthisme.tools.UserMarker;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +25,9 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,7 +38,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.Request;
@@ -259,28 +263,73 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 
 	}
 	
-	private void placeMarkerOnMap(UserMarker um, boolean IAm)
+	private void placeMarkerOnMap(final UserMarker userMarker, boolean IAm)
 	{
-		MarkerOptions mo = new MarkerOptions().position(new LatLng(um.getLatitude(), um.getLongitude()));
-		Marker marker = gMap.addMarker(mo);
-		marker.setTitle(um.toString());
-		
-		usersMap.put(marker, um);
-		
 		if (!IAm) {
-			ProfilePictureView profilePictureView = (ProfilePictureView) mAct.findViewById(R.id.ffriends_img2); 
-			profilePictureView.setProfileId(um.getId());
-			ImageView facebookImage = (ImageView)profilePictureView.getChildAt(0);
-			Bitmap bitmap = ((BitmapDrawable)facebookImage.getDrawable()).getBitmap();
-			RoundedImageView rv = new RoundedImageView(mAct.getApplicationContext());
-			bitmap = rv.getCroppedBitmap(bitmap, 80);
-			marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
-			marker.setAnchor(0.5f, 1);
+			new ImageLoader() { 
+				@Override
+				protected void onPostExecute(Bitmap bitmap)
+				{
+					MarkerOptions mo = new MarkerOptions().position(new LatLng(userMarker.getLatitude(), userMarker.getLongitude()));
+					final Marker marker = gMap.addMarker(mo);
+					marker.setTitle(userMarker.toString());
+					
+					usersMap.put(marker, userMarker);
+					RoundedImageView rv = new RoundedImageView(mAct.getApplicationContext());
+					bitmap = rv.getCroppedBitmap(bitmap, 80);
+					marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+					marker.setAnchor(0.5f, 1);
+				}
+		    }.execute(userMarker.getImageUrl()); // start the background processing
+		}
+		else
+		{
+			MarkerOptions mo = new MarkerOptions().position(new LatLng(userMarker.getLatitude(), userMarker.getLongitude()));
+			final Marker marker = gMap.addMarker(mo);
+			marker.setTitle(userMarker.toString());
+			
+			usersMap.put(marker, userMarker);
+			
+			if (lastUserIdClicked != null  && lastUserIdClicked.contentEquals(userMarker.getId()))
+				marker.showInfoWindow();
+			
 		}
 		
-		if (lastUserIdClicked != null  && lastUserIdClicked.contentEquals(um.getId()))
-			marker.showInfoWindow();
 	}
+	
+		
+	class ImageLoader extends AsyncTask<String, Integer, Bitmap>{
+
+	
+		@Override
+		protected Bitmap doInBackground(String... urls) {
+			URL imgUrl = null;
+			InputStream in = null;
+			try {
+				imgUrl = new URL(urls[0]);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				in = (InputStream) imgUrl.getContent();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Bitmap  bitmap = BitmapFactory.decodeStream(in);
+			try {
+				if(in!=null)
+					in.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return bitmap;
+		}
+
+	}
+
 	
 	private List<UserMarker> usersMarkersFromJson(String gpsCoordJSONStr)
 	{
