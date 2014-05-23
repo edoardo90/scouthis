@@ -24,7 +24,7 @@ public class DailyService extends IntentService
 		Alarm ua = (Alarm) intent.getSerializableExtra(Constants.INTENT_ALARM);
 		Log.i("PlayAlarmService", "msg: " + ua.getBird()+ "  .. " + ua.getHour());
 
-		String days = ua.getDays();
+		String days = ua.getActiveDays();
 		boolean [] activeAlarmDays = AlarmUtils.daysStringToBooleanArray(days);
 		
 		Calendar localCalendar = Calendar.getInstance(TimeZone.getDefault());

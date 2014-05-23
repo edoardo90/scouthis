@@ -18,9 +18,9 @@ import android.widget.TextView;
 
 import com.facebook.LoggingBehavior;
 import com.facebook.Session;
-import com.facebook.Settings;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
+import com.facebook.Settings;
 
 public class FindFriendsDisconnectedFragment extends Fragment
 {

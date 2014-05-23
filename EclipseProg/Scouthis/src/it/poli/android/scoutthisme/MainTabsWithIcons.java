@@ -6,6 +6,7 @@ import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
 import it.poli.android.scoutthisme.fragments.GpsFragment;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterFragment;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -66,7 +67,8 @@ public class MainTabsWithIcons extends FragmentActivity {
 			}
         }
 
-        @Override
+        @SuppressLint("DefaultLocale")
+		@Override
         public CharSequence getPageTitle(int position) {
             return CONTENT[position % CONTENT.length].toUpperCase();
         }

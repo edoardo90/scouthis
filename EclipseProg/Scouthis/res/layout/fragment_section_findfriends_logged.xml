@@ -51,13 +51,6 @@
 		     android:gravity="center"
 		     android:text="user" />
 		 
-		<com.facebook.widget.ProfilePictureView
-		     android:id="@+id/ffriends_img2"
-		     android:layout_width="wrap_content"
-		     android:layout_height="wrap_content"
-		     android:gravity="center_horizontal"
-		     android:visibility="invisible"
-		     fb:preset_size="small" />
 
     </LinearLayout>
     

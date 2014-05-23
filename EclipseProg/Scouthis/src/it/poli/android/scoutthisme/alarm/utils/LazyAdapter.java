@@ -63,7 +63,7 @@ public class LazyAdapter extends BaseAdapter {
 			String bird = alarm.getBird();
 			String active_alarm  = Boolean.toString(alarm.isActive());
 
-			String daysG =  this.castDays(alarm.getDays() ) ;
+			String daysG =  this.castDays(alarm.getActiveDays() ) ;
 			days.setText(daysG);
 			hour.setText(String.valueOf( alarm.getHour() )  +  ":" + pad(String.valueOf(alarm.getMinute())));
 

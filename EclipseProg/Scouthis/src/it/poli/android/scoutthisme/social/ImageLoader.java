@@ -1,6 +1,6 @@
 package it.poli.android.scoutthisme.social;
 
-import it.poli.android.scoutthisme.alarm.utils.RoundedImageView;
+import it.poli.android.scoutthisme.tools.RoundedImageView;
 
 import java.io.IOException;
 import java.io.InputStream;

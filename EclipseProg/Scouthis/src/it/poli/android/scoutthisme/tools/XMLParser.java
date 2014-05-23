@@ -1,4 +1,4 @@
-package it.poli.android.scoutthisme.alarm.utils;
+package it.poli.android.scoutthisme.tools;
 
 import java.io.BufferedReader;
 import java.io.File;

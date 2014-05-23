@@ -1,4 +1,4 @@
-package it.poli.android.scoutthisme.alarm.utils;
+package it.poli.android.scoutthisme.tools;
 
 import android.content.Context;
 import android.graphics.Bitmap;

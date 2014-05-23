@@ -1,14 +1,9 @@
 package it.poli.android.scoutthisme.tools;
 
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.alarm.utils.XMLParser;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -17,6 +12,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -88,43 +84,9 @@ public class AlarmUtils
 	
 	public static List<String> getAlarmsContent(Activity activity)
 	{
-		List<String> fileContent = new LinkedList<String>();
-		//Context context = this.getActivity().getApplicationContext();
-		try {
-			FileInputStream fis = activity.openFileInput(Constants.XML_PATH_ALARM);
-			InputStreamReader isr = new InputStreamReader(fis);
-			BufferedReader bufferedReader = new BufferedReader(isr);
-			String line;
-			while ((line = bufferedReader.readLine()) != null) {
-				fileContent.add(line);
-			}
-			isr.close();
-			fis.close();
-			bufferedReader.close();
-		}
-		catch(Exception e)
-		{
-			Log.i("customized list view", "something screwed during file reading");
-		}
-		return fileContent;
+		return TextFilesUtils.getFileContent(activity, Constants.XML_PATH_ALARM);
 	}
-	
-	private static void removeLastLineAlarms(Activity activity) //open file alarms.xml remove last line and saves it
-	{  
-		List<String> fileContent = getAlarmsContent(activity);
-		fileContent.remove(fileContent.size() - 1);
 
-		FileOutputStream outputStream;
-		try {
-			outputStream = activity.openFileOutput(Constants.XML_PATH_ALARM, Context.MODE_PRIVATE );
-			for(String s : fileContent)
-			{
-				outputStream.write(s.getBytes());
-				outputStream.write("\n".getBytes());
-			}
-			outputStream.close();
-		} catch (Exception e) { /* TODO */ }
-	}
 	
 	/**
 	 * 1. Adds the alarm to XML file saved in the phone
@@ -135,7 +97,7 @@ public class AlarmUtils
 	{
 		addNewAlarmClock(ua.isActive(),
 				ua.getStringTime(), 
-				AlarmUtils.daysStringToBooleanArray(ua.getDays()),
+				AlarmUtils.daysStringToBooleanArray(ua.getActiveDays()),
 				ua.getBird(),
 				ua.getId(), activity);
 	}
@@ -154,59 +116,12 @@ public class AlarmUtils
 		Alarm ua = new Alarm(Arrays.toString(activeDays), active, true,
 				AlarmUtils.strTimeToHour(alarmTime), AlarmUtils.strTimeToMinute(alarmTime), bird, id);
 		AlarmHandler.setAlarm(ua, activity);
-
-		removeLastLineAlarms(activity);  //remove  </alarms>
-
-		Log.i(" add new alarm ", alarmTime);
-		Log.i(" add new alarm - active days ", Arrays.toString(activeDays));
-
-		FileOutputStream outputStream;
-		try {
-			outputStream = activity.openFileOutput(Constants.XML_PATH_ALARM, Context.MODE_PRIVATE | Context.MODE_APPEND);
-			writeAlarmOnXML(outputStream, active, alarmTime, activeDays, bird, id);   //xml fields for alarm
-			outputStream.write(("</" + Constants.XML_TAG_ALARMS + ">").getBytes());  // re-add </alarms>
-			outputStream.close();
-		} catch (Exception e) { /* TODO */ }
+		
+		Map<String, String> alarmMap = ua.getXmlTagFieldMap();
+		
+		TextFilesUtils.appendXmlElement(activity, Constants.XML_PATH_ALARM, alarmMap, Constants.XML_TAG_ALARMS);
 	}
 
-	/**
-	 * Write alarm fields on XML file
-	 * @param outputStream
-	 * @param active
-	 * @param alarmTime
-	 * @param activeDays
-	 * @param bird
-	 * @param id
-	 * @throws IOException
-	 */
-	private static void writeAlarmOnXML(FileOutputStream outputStream, boolean active,	
-			String alarmTime, boolean[] activeDays, String bird, int id) throws IOException
-	{
-		outputStream.write(("\n   <" + Constants.XML_TAG_ALARM + "> 	\n").getBytes());
-		outputStream.write(("        <" + Constants.XML_TAG_ID + "> " +  id + " </" + Constants.XML_TAG_ID + ">\n" ).getBytes());
-		outputStream.write(("        <" + Constants.XML_TAG_HOUR + "> " + alarmTime + " </" + Constants.XML_TAG_HOUR + ">\n" ).getBytes());
-		outputStream.write(("        <" + Constants.XML_TAG_DAYS + "> ").getBytes());
-		outputStream.write(("              " + Arrays.toString(activeDays)).getBytes());
-		outputStream.write(("        </" + Constants.XML_TAG_DAYS + "> \n").getBytes());
-		outputStream.write(("        <" + Constants.XML_TAG_SWITCH + ">" +  String.valueOf(active)   +  "</" + Constants.XML_TAG_SWITCH + ">"  +  "\n").getBytes());
-		outputStream.write(("        <" + Constants.XML_TAG_BIRD + "> " + bird + " </" + Constants.XML_TAG_BIRD + ">\n" ).getBytes() );
-		outputStream.write(("   </" + Constants.XML_TAG_ALARM + ">\n ").getBytes());
-	}
-	
-	public static void writeListOnXML(List<String> fileContent, Activity activity)
-	{
-		FileOutputStream outputStream;
-		String fileName = Constants.XML_PATH_ALARM;
-		try {
-			outputStream = activity.openFileOutput(fileName, Context.MODE_PRIVATE );
-			for(String fileRow : fileContent)
-			{
-				outputStream.write(fileRow.getBytes());
-				outputStream.write("\n".getBytes());
-			}
-			outputStream.close();
-		} catch (Exception e) { /* TODO */ }
-	}
 	
 	public static LinkedList<Alarm> populateAlarmListFromFile(Activity activity)
 	{

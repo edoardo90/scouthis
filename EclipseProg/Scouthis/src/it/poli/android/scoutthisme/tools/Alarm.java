@@ -1,8 +1,11 @@
 package it.poli.android.scoutthisme.tools;
 
+import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.alarm.utils.DaysOfWeek;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Alarm implements Serializable
 {
@@ -39,7 +42,7 @@ public class Alarm implements Serializable
 	/**
 	 *  Get days when alarm is active
 	 */
-	public String getDays() {
+	public String getActiveDays() {
 		return days.replaceAll("\\s","");
 	}
 	
@@ -105,5 +108,20 @@ public class Alarm implements Serializable
 
 	public String getStringTime() {
 		return (AlarmUtils.addZeroToOneDigit(this.hour)) + ":" + (AlarmUtils.addZeroToOneDigit(this.minute));
+	}
+
+	public Map<String, String> getXmlTagFieldMap() {
+		Map<String, String> mapElemValue = new HashMap<String, String>();
+		
+		mapElemValue.put(Constants.XML_TAG_BIRD, this.getBird());
+		mapElemValue.put(Constants.XML_TAG_DAYS, this.getActiveDays());
+		mapElemValue.put(Constants.XML_TAG_HOUR, String.valueOf(this.getHour()));
+		mapElemValue.put(Constants.XML_TAG_ID, String.valueOf(this.getId()));
+		mapElemValue.put(Constants.XML_TAG_SWITCH, String.valueOf(this.isActive()));
+		mapElemValue.put(Constants.XML_ROOT_MAP, "alarm" );
+		
+		
+		return mapElemValue;
+		
 	}
 }

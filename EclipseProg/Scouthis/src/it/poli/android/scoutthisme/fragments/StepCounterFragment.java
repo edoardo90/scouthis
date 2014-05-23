@@ -4,7 +4,11 @@ import it.poli.android.scoutthisme.tools.GpsHandler;
 import it.poli.android.scoutthisme.tools.GpsListener;
 import it.poli.android.scoutthisme.tools.LegMovementDetector;
 import it.poli.android.scoutthisme.tools.LegMovementDetector.ILegMovementListener;
+
+import java.io.FileOutputStream;
+
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.hardware.SensorManager;
 import android.location.Location;
@@ -13,18 +17,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
+import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 /**
- * A fragment that launches other parts of the demo application.
+ * Step Counter fragment:
+ * Fragment used to display user position on the google map,
+ * used to count user's steps.
+ * The user path is displayed on the google map as a spline.
  */
 public  class StepCounterFragment extends Fragment implements ILegMovementListener, GpsListener
 {
@@ -41,6 +52,12 @@ public  class StepCounterFragment extends Fragment implements ILegMovementListen
 	final int defaultZoom = 13;
 	int steps;
 
+	/**
+	 * Initialize gpsHandler (used to know user gps position)
+	 * Initialize legDetector (used to know each user step)
+	 * see: {@link GpsHandler}
+	 * see: {@link LegMovementDetector}
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,7 +79,9 @@ public  class StepCounterFragment extends Fragment implements ILegMovementListen
 		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapStepCounter)).getMap();
 		return rootView;
 	}
-
+	/**
+	 * Unregisters  listeners (gps and leg detector)
+	 */
 	public void onDestroyView()
 	{
 		super.onDestroyView();
@@ -86,12 +105,43 @@ public  class StepCounterFragment extends Fragment implements ILegMovementListen
 		
 		gpsHandler.setListener(this);
 		legDect.startDetector();
+		
+		Button btnNuovo = (Button)this.getActivity().findViewById(R.id.btnNewRun);
+		btnNuovo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+	            public void onClick(View v) {
+	                SnapshotReadyCallback callback = new SnapshotReadyCallback() {
+	                    Bitmap bitmap;
+
+	                    @Override
+	                    public void onSnapshotReady(Bitmap snapshot) {
+	                        // TODO Auto-generated method stub
+	                        bitmap = snapshot;
+	                        try {
+	                               FileOutputStream out = new FileOutputStream("/mnt/sdcard/Download/TeleSensors.png");
+	                               bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+	                        } catch (Exception e) {
+	                               e.printStackTrace();
+	                        }
+	                    }
+	                };
+
+	                gMap.snapshot(callback);
+				
+			}
+		});
 	}
 
 	private void clearMap() {
 		gMap.clear();
 	}
-
+	
+	/**
+	 * Executed each time the user changes its position
+	 * Information from position comes from the gps andler
+	 * see {@link OnLocationChangedListener}
+	 */
 	public void updateMap() {
 		super.onResume();
 		

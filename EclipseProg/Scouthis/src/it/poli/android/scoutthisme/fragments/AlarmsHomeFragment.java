@@ -6,10 +6,10 @@ import it.poli.android.scoutthisme.alarm.utils.LazyAdapter;
 import it.poli.android.scoutthisme.tools.Alarm;
 import it.poli.android.scoutthisme.tools.AlarmHandler;
 import it.poli.android.scoutthisme.tools.AlarmUtils;
+import it.poli.android.scoutthisme.tools.TextFilesUtils;
 import it.poli.android.scoutthisme.undobar.UndoBar;
 import it.poli.android.scoutthisme.undobar.UndoBar.Listener;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -164,7 +164,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	}
 
 	@Override
-	public void onHide() { /* TODO */ }
+	public void onHide() { /*  */ }
 	
 	public void switchAlarm(View v)
 	{
@@ -177,46 +177,11 @@ public class AlarmsHomeFragment extends Fragment implements
 		this.alarmList.set(position, alarm);
 		updateAlarmListView();
 
-		this.setAlarmFileActive(newActive, position);
+		TextFilesUtils.changeXmlChildValue(mAct,  Constants.XML_PATH_ALARM ,String.valueOf(newActive), position, Constants.XML_TAG_ALARM, Constants.XML_TAG_SWITCH);
 		AlarmHandler.setAlarm(this.alarmList.get(position), mAct);
 	}
 
-	private void setAlarmFileActive(boolean newActive, int positionToDelete)
-	{
-		List<String> fileContent =  AlarmUtils.getAlarmsContent(mAct);
-		List<String> fileNewContent = new ArrayList<String>();
-
-		String rowClean = "";
-		int /*id = 0, */pos = 0;
-		boolean editing = false;
-		for(String row : fileContent)
-		{
-			rowClean = row.replaceAll("\\s","");
-			if (rowClean.equals("<" + Constants.XML_TAG_ALARM + ">") && positionToDelete == pos)
-				editing = true;
-			
-			if(rowClean.equals("<" + Constants.XML_TAG_ALARM + ">"))
-				pos++;
-
-			if (!editing)
-				fileNewContent.add(rowClean);
-			else
-			{
-				if(rowClean.contains(Constants.XML_TAG_SWITCH))
-					fileNewContent.add("<" + Constants.XML_TAG_SWITCH + ">" + newActive + "</" + Constants.XML_TAG_SWITCH + ">");
-				else
-				//{
-					fileNewContent.add(rowClean);
-					/*if(rowClean.contains(Constants.XML_TAG_ID))
-						id = Integer.valueOf(rowClean.replaceAll("[^0-9]+", " ").replaceAll("\\s", "")); */
-				//}
-			}
-			if (rowClean.equals("</" + Constants.XML_TAG_ALARM + ">") )
-				editing = false;
-		}
-		AlarmUtils.writeListOnXML(fileNewContent, mAct);
-	}
-
+	
 	/**
 	 * Remove Alarm view from main list (listview item)
 	 * @param view
@@ -239,30 +204,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	
 	private void deleteAlarmFromXML(int positionToDelete)
 	{
-		List<String> fileContent =  AlarmUtils.getAlarmsContent(mAct);
-		List<String> fileNewContent = new ArrayList<String>();
-
-		String rowClean = "";
-		int /*id = 0, */pos = 0;
-		boolean skipping = false;
-		for(String row : fileContent)
-		{
-			rowClean = row.replaceAll("\\s","");
-			if (rowClean.equals("<" + Constants.XML_TAG_ALARM + ">") && positionToDelete == pos)
-				skipping = true;
-
-			if(rowClean.equals("<" + Constants.XML_TAG_ALARM + ">"))
-				pos++;
-
-			if (!skipping)
-				fileNewContent.add(rowClean);
-			/*else if(rowClean.contains(Constants.XML_TAG_ID))
-					id = Integer.valueOf(rowClean.replaceAll("[^0-9]+", " ").replaceAll("\\s", ""));*/
-
-			if (rowClean.equals("</" + Constants.XML_TAG_ALARM + ">") )
-				skipping = false;
-		}
-		AlarmUtils.writeListOnXML(fileNewContent, mAct);
+		TextFilesUtils.removeXmlElement(mAct,Constants.XML_PATH_ALARM,positionToDelete, Constants.XML_TAG_ALARM);
 	}
 
 	private int getLastIdFromFile()
@@ -280,7 +222,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	{
 		list = (ListView)mAct.findViewById(R.id.list);
 		// Getting adapter by passing xml data ArrayList
-		adapter = new LazyAdapter(mAct, this, this.alarmList);        
+		adapter = new LazyAdapter(mAct,  this, this.alarmList);        
 		list.setAdapter(adapter);
 	}
 

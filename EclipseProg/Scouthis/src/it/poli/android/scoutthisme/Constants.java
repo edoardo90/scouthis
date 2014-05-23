@@ -45,10 +45,13 @@ public class Constants
 	public static final String XML_TAG_BIRD = "bird";
 	public static final String XML_TAG_SWITCH = "switch";
 	public static final String XML_TAG_ID = "id";
+	public static final String XML_ROOT_MAP = "root";
 	
 	private static final int MINUTE_MILLISECONDS = 60 * 1000;
     public static final int TIME_UPDATE_FRIENDS_POSITION = 10 * 1000;
 	public static final int TIME_UPDATE_FRIENDSLIST = MINUTE_MILLISECONDS * 15;
 	
 	public static final int RESULT_OK = 1;
+
+	
 }

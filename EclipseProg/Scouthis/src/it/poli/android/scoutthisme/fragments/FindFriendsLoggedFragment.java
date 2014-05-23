@@ -1,12 +1,12 @@
 package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.alarm.utils.RoundedImageView;
 import it.poli.android.scoutthisme.social.NotifyFriendsAsyncTask;
 import it.poli.android.scoutthisme.tools.FacebookHandler;
 import it.poli.android.scoutthisme.tools.FacebookListener;
 import it.poli.android.scoutthisme.tools.GpsHandler;
 import it.poli.android.scoutthisme.tools.GpsListener;
+import it.poli.android.scoutthisme.tools.RoundedImageView;
 import it.poli.android.scoutthisme.tools.UserMarker;
 
 import java.io.IOException;
@@ -68,6 +68,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	Location loc;
 	
 	Map<Marker, UserMarker> usersMap;
+	Map<String, Bitmap>     cachedUserImage;
 	static String lastUserIdClicked = null;
 	
 	GraphUser graphUser;
@@ -144,6 +145,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		}
 		session = Session.getActiveSession();
 		session.addCallback(statusCallback);
+		
+		displayUserDetails(session);
 	}
 
 	@Override
@@ -226,7 +229,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		if (gMap != null)
 		{
 			gMap.clear();
-			usersMap = new HashMap<Marker, UserMarker>();
+			this.usersMap = new HashMap<Marker, UserMarker>();
+			this.cachedUserImage = new HashMap<String, Bitmap>();
 			if (lstUsersMarkers != null)
 			{
 				for(UserMarker usrMarker : lstUsersMarkers)
@@ -275,8 +279,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 					marker.setTitle(userMarker.toString());
 					
 					usersMap.put(marker, userMarker);
-					RoundedImageView rv = new RoundedImageView(mAct.getApplicationContext());
-					bitmap = rv.getCroppedBitmap(bitmap, 80);
+	
 					marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
 					marker.setAnchor(0.5f, 1);
 				}
@@ -311,20 +314,34 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			try {
-				in = (InputStream) imgUrl.getContent();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
+			//facciamo CACHING! - get   
+			Bitmap bitmap = cachedUserImage.get(urls[0]);
+			
+			//if not in cash DOWNLOAD it and we SAVE IT IN CACH
+			if(bitmap== null)
+			{	
+				try {
+					in = (InputStream) imgUrl.getContent();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				bitmap = BitmapFactory.decodeStream(in);
+				try {
+					if(in!=null)
+						in.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				RoundedImageView rv = new RoundedImageView(mAct.getApplicationContext());
+				bitmap = rv.getCroppedBitmap(bitmap, 80);
+				//SAVE IT IN CACHE
+				cachedUserImage.put(urls[0], bitmap);
 			}
-			Bitmap  bitmap = BitmapFactory.decodeStream(in);
-			try {
-				if(in!=null)
-					in.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 			return bitmap;
 		}
 
@@ -366,7 +383,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	        public void onCompleted(GraphUser user, Response response) {
 	            // If the response is successful
 	            if (session == Session.getActiveSession()) {
-	                if (user != null) {
+	                if (user != null && profilePictureView != null && userNameView != null) {
+	                	
 	                	profilePictureView.setProfileId(user.getId());
 	                    // Set the Textview's text to the user's name.
 	                    userNameView.setText(user.getName());
