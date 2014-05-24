@@ -1,6 +1,6 @@
 package it.poli.android.scoutthisme.social;
 
-import it.poli.android.scoutthisme.tools.RoundedImageView;
+import it.poli.android.scoutthisme.tools.RoundedImage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,7 +62,7 @@ public class ImageLoader extends AsyncTask<String, Integer, Bitmap>{
 	@Override
 	protected void onPostExecute(Bitmap bitmap)
 	{
-		RoundedImageView rv = new RoundedImageView(this.activity.getApplicationContext());
+		RoundedImage rv = new RoundedImage(this.activity.getApplicationContext());
 		bitmap = rv.getCroppedBitmap(bitmap, 80);
 		marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
 		marker.setAnchor(0.5f, 1);

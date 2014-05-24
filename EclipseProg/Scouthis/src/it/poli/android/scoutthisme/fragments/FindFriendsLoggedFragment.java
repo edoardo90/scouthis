@@ -6,7 +6,7 @@ import it.poli.android.scoutthisme.tools.FacebookHandler;
 import it.poli.android.scoutthisme.tools.FacebookListener;
 import it.poli.android.scoutthisme.tools.GpsHandler;
 import it.poli.android.scoutthisme.tools.GpsListener;
-import it.poli.android.scoutthisme.tools.RoundedImageView;
+import it.poli.android.scoutthisme.tools.RoundedImage;
 import it.poli.android.scoutthisme.tools.UserMarker;
 
 import java.io.IOException;
@@ -336,7 +336,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 					e.printStackTrace();
 				}
 				
-				RoundedImageView rv = new RoundedImageView(mAct.getApplicationContext());
+				RoundedImage rv = new RoundedImage(mAct.getApplicationContext());
 				bitmap = rv.getCroppedBitmap(bitmap, 80);
 				//SAVE IT IN CACHE
 				cachedUserImage.put(urls[0], bitmap);

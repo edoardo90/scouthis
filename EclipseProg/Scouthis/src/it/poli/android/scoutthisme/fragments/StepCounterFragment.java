@@ -1,182 +1,30 @@
 package it.poli.android.scoutthisme.fragments;
+
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.tools.GpsHandler;
-import it.poli.android.scoutthisme.tools.GpsListener;
-import it.poli.android.scoutthisme.tools.LegMovementDetector;
-import it.poli.android.scoutthisme.tools.LegMovementDetector.ILegMovementListener;
-
-import java.io.FileOutputStream;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.hardware.SensorManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
-import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.PolylineOptions;
-
-/**
- * Step Counter fragment:
- * Fragment used to display user position on the google map,
- * used to count user's steps.
- * The user path is displayed on the google map as a spline.
- */
-public  class StepCounterFragment extends Fragment implements ILegMovementListener, GpsListener
-{
-	public static final String strLatitudeExtra = "it.poli.latitude";
-	public static final String strLongitudeExtra = "it.poli.longitude";
-	private GoogleMap gMap;
-
-	GpsHandler gpsHandler;
-	SensorManager mSensorManager;
-	LegMovementDetector legDect;
-	Location loc, lastSensorLoc;
-	Marker marker;
-	boolean needDefaultZoom;
-	final int defaultZoom = 13;
-	int steps;
-
-	/**
-	 * Initialize gpsHandler (used to know user gps position)
-	 * Initialize legDetector (used to know each user step)
-	 * see: {@link GpsHandler}
-	 * see: {@link LegMovementDetector}
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		gpsHandler = new GpsHandler(getActivity());
-		
-		mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-		legDect = new LegMovementDetector(mSensorManager);
-		legDect.addListener(this);
-		
-		needDefaultZoom = true;
-		steps = 0;
-	}
+public class StepCounterFragment extends Fragment {
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		View rootView = inflater.inflate(R.layout.fragment_section_stepcounter, container, false);
-		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapStepCounter)).getMap();
-		return rootView;
-	}
-	/**
-	 * Unregisters  listeners (gps and leg detector)
-	 */
-	public void onDestroyView()
-	{
-		super.onDestroyView();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	Bundle savedInstanceState) {
+		/* Inflate the layout for this fragment */
+		View view = inflater.inflate(R.layout.fragment_section_stepcounter, container, false);
 		
-		gpsHandler.removeListener();
-		legDect.stopDetector();
+		FragmentTransaction transaction = getFragmentManager()
+		.beginTransaction();
+		/*
+		* When this container fragment is created, we fill it with stepcounter home fragment
+		*/
+		transaction.replace(R.id.stepcounter_frame, new StepCounterHomeFragment());
+		transaction.commit();
 		
-		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapStepCounter));
-		if(mapFragment != null) {
-			clearMap();
-			
-			FragmentManager fM = getFragmentManager();
-			fM.beginTransaction().remove(mapFragment).commit();
-		}
-	}
-
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		
-		gpsHandler.setListener(this);
-		legDect.startDetector();
-		
-		Button btnNuovo = (Button)this.getActivity().findViewById(R.id.btnNewRun);
-		btnNuovo.setOnClickListener(new OnClickListener() {
-			
-			@Override
-	            public void onClick(View v) {
-	                SnapshotReadyCallback callback = new SnapshotReadyCallback() {
-	                    Bitmap bitmap;
-
-	                    @Override
-	                    public void onSnapshotReady(Bitmap snapshot) {
-	                        // TODO Auto-generated method stub
-	                        bitmap = snapshot;
-	                        try {
-	                               FileOutputStream out = new FileOutputStream("/mnt/sdcard/Download/TeleSensors.png");
-	                               bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-	                        } catch (Exception e) {
-	                               e.printStackTrace();
-	                        }
-	                    }
-	                };
-
-	                gMap.snapshot(callback);
-				
-			}
-		});
-	}
-
-	private void clearMap() {
-		gMap.clear();
+		return view;
 	}
 	
-	/**
-	 * Executed each time the user changes its position
-	 * Information from position comes from the gps andler
-	 * see {@link OnLocationChangedListener}
-	 */
-	public void updateMap() {
-		super.onResume();
-		
-		if (needDefaultZoom) {
-			needDefaultZoom = false;
-			gMap.moveCamera(CameraUpdateFactory.
-			newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), defaultZoom));
-		} else {
-			gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(loc.getLatitude(), loc.getLongitude())));
-		}
-	}
-
-	@Override
-	public void onLocationChanged(Location location) {
-		this.loc = location;
-		if (lastSensorLoc == null) {
-			this.lastSensorLoc = location;
-		}
-		updateMap();
-	}
-
-	@Override
-	public void onLegActivity(int activity) {
-		if (loc != null && lastSensorLoc != null && !loc.equals(lastSensorLoc)) {
-			gMap.addPolyline(new PolylineOptions()
-				.add(new LatLng(lastSensorLoc.getLatitude(), lastSensorLoc.getLongitude()),
-						new LatLng(loc.getLatitude(), loc.getLongitude()))
-				.width(4)
-				.color(Color.WHITE));
-			steps++;
-				   
-			TextView txtPss = (TextView) getView().findViewById(R.id.txtPassi);    
-			txtPss.setText(String.format("%d", steps));
-			
-			lastSensorLoc = loc;
-		}
-	}
 }

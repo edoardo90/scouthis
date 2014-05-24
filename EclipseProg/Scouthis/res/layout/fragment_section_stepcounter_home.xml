@@ -1,0 +1,146 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical" >
+
+    <fragment
+        android:id="@+id/mapStepCounter"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="194dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" >
+
+        <TableRow
+            android:id="@+id/tableRowSC1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical" >
+
+            <Button
+                android:id="@+id/btnNewRun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fragments_new" />
+
+            <Button
+                android:id="@+id/step_btn_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fragments_start" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/stepStatistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" >
+
+        <TableRow
+            android:id="@+id/tableRowSC2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/lblPassi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/stepcounter_steps_done" />
+            
+            <TextView
+                android:id="@+id/txtPassi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/fragments_waiting_dots"
+                android:textSize="24sp" />
+            
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRowSC3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/lblDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/stepcounter_distance_done" />
+            
+            <TextView
+                android:id="@+id/txtPrecision"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/fragments_waiting_dots"
+                android:textSize="24sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRowSC4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/lblSpeedMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/stepcounter_speed_medium" />
+            
+            <TextView
+                android:id="@+id/txtSpeedMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/fragments_waiting_dots"
+                android:textSize="24sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRowSC5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/lbTimePassed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/stepcounter_time_passed" />
+            
+           <TextView
+               android:id="@+id/txtTimePassed"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="2"
+               android:gravity="center"
+               android:text="@string/fragments_waiting_dots"
+               android:textSize="24sp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>
