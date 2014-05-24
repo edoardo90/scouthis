@@ -1,6 +1,8 @@
-package it.poli.android.scoutthisme.tools;
+package it.poli.android.scoutthisme.alarm.utils;
 
 import it.poli.android.scoutthisme.Constants;
+import it.poli.android.scoutthisme.tools.TextFilesUtils;
+import it.poli.android.scoutthisme.tools.XMLParser;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;

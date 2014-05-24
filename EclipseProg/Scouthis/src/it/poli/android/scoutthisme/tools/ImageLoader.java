@@ -1,7 +1,7 @@
-package it.poli.android.scoutthisme.alarm.utils;
+package it.poli.android.scoutthisme.tools;
 
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.tools.AlarmUtils;
+import it.poli.android.scoutthisme.alarm.utils.AlarmUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

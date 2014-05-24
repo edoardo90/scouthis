@@ -2,7 +2,7 @@ package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.tools.AlarmUtils;
+import it.poli.android.scoutthisme.alarm.utils.AlarmUtils;
 
 import java.util.HashMap;
 import java.util.Map;

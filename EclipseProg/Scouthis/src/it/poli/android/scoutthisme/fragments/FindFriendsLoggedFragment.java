@@ -1,11 +1,11 @@
 package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
+import it.poli.android.scoutthisme.gps.utils.GpsHandler;
+import it.poli.android.scoutthisme.gps.utils.GpsListener;
+import it.poli.android.scoutthisme.social.FacebookHandler;
+import it.poli.android.scoutthisme.social.FacebookListener;
 import it.poli.android.scoutthisme.social.NotifyFriendsAsyncTask;
-import it.poli.android.scoutthisme.tools.FacebookHandler;
-import it.poli.android.scoutthisme.tools.FacebookListener;
-import it.poli.android.scoutthisme.tools.GpsHandler;
-import it.poli.android.scoutthisme.tools.GpsListener;
 import it.poli.android.scoutthisme.tools.RoundedImage;
 import it.poli.android.scoutthisme.tools.UserMarker;
 

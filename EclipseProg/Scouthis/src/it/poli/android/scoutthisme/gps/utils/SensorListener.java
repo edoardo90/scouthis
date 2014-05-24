@@ -1,4 +1,4 @@
-package it.poli.android.scoutthisme.tools;
+package it.poli.android.scoutthisme.gps.utils;
 
 import android.hardware.SensorEvent;
 

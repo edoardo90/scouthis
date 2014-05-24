@@ -1,7 +1,6 @@
-package it.poli.android.scoutthisme.tools;
+package it.poli.android.scoutthisme.social;
 
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.social.GetFriendsPositionsService;
 
 import java.util.Timer;
 import java.util.TimerTask;

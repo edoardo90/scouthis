@@ -1,7 +1,6 @@
 package it.poli.android.scoutthisme.alarm.utils;
 
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.tools.Alarm;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

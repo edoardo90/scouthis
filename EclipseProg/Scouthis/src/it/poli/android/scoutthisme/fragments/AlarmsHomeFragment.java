@@ -2,10 +2,10 @@ package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.alarm.utils.LazyAdapter;
-import it.poli.android.scoutthisme.tools.Alarm;
-import it.poli.android.scoutthisme.tools.AlarmHandler;
-import it.poli.android.scoutthisme.tools.AlarmUtils;
+import it.poli.android.scoutthisme.alarm.utils.Alarm;
+import it.poli.android.scoutthisme.alarm.utils.AlarmHandler;
+import it.poli.android.scoutthisme.alarm.utils.AlarmLazyAdapter;
+import it.poli.android.scoutthisme.alarm.utils.AlarmUtils;
 import it.poli.android.scoutthisme.tools.TextFilesUtils;
 import it.poli.android.scoutthisme.undobar.UndoBar;
 import it.poli.android.scoutthisme.undobar.UndoBar.Listener;
@@ -37,7 +37,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	Listener, TimePickerDialog.OnTimeSetListener
 {
 	ListView list;
-	LazyAdapter adapter;
+	AlarmLazyAdapter adapter;
 	LinkedList<Alarm> alarmList;
 	Alarm lastAlarmRemoved;
 	Bundle savedInstance;
@@ -222,7 +222,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	{
 		list = (ListView)mAct.findViewById(R.id.list);
 		// Getting adapter by passing xml data ArrayList
-		adapter = new LazyAdapter(mAct,  this, this.alarmList);        
+		adapter = new AlarmLazyAdapter(mAct,  this, this.alarmList);        
 		list.setAdapter(adapter);
 	}
 
@@ -233,7 +233,7 @@ public class AlarmsHomeFragment extends Fragment implements
 		this.alarmList = (aList != null) ? aList : new LinkedList<Alarm>();
 		list = (ListView)mAct.findViewById(R.id.list);
 		// Getting adapter by passing xml data ArrayList
-		adapter = new LazyAdapter(mAct, this, alarmList);        
+		adapter = new AlarmLazyAdapter(mAct, this, alarmList);        
 		list.setAdapter(adapter);
 	}
 }

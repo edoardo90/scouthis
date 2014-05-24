@@ -1,10 +1,10 @@
 package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.tools.GpsHandler;
-import it.poli.android.scoutthisme.tools.GpsListener;
-import it.poli.android.scoutthisme.tools.SensorHandler;
-import it.poli.android.scoutthisme.tools.SensorListener;
+import it.poli.android.scoutthisme.gps.utils.GpsHandler;
+import it.poli.android.scoutthisme.gps.utils.GpsListener;
+import it.poli.android.scoutthisme.gps.utils.SensorHandler;
+import it.poli.android.scoutthisme.gps.utils.SensorListener;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;

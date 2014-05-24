@@ -1,10 +1,10 @@
 package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.tools.GpsHandler;
-import it.poli.android.scoutthisme.tools.GpsListener;
+import it.poli.android.scoutthisme.gps.utils.GpsHandler;
+import it.poli.android.scoutthisme.gps.utils.GpsListener;
+import it.poli.android.scoutthisme.gps.utils.LegMovementDetector;
+import it.poli.android.scoutthisme.gps.utils.LegMovementDetector.ILegMovementListener;
 import it.poli.android.scoutthisme.tools.ImageToolz;
-import it.poli.android.scoutthisme.tools.LegMovementDetector;
-import it.poli.android.scoutthisme.tools.LegMovementDetector.ILegMovementListener;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;

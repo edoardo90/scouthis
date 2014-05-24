@@ -2,7 +2,7 @@ package it.poli.android.scoutthisme.alarm.utils;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsHomeFragment;
-import it.poli.android.scoutthisme.tools.Alarm;
+import it.poli.android.scoutthisme.tools.ImageLoader;
 
 import java.util.LinkedList;
 
@@ -17,7 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LazyAdapter extends BaseAdapter {
+public class AlarmLazyAdapter extends BaseAdapter {
 
 	private Activity activity;
 	private AlarmsHomeFragment alarmHomeFrag;
@@ -25,7 +25,7 @@ public class LazyAdapter extends BaseAdapter {
 	private static LayoutInflater inflater=null;
 	public ImageLoader imageLoader; 
 
-	public LazyAdapter(Activity a, AlarmsHomeFragment alarmHomeFrag , LinkedList<Alarm> alarmList) {
+	public AlarmLazyAdapter(Activity a, AlarmsHomeFragment alarmHomeFrag , LinkedList<Alarm> alarmList) {
 		activity = a;
 		data=alarmList;
 		this.alarmHomeFrag = alarmHomeFrag;
