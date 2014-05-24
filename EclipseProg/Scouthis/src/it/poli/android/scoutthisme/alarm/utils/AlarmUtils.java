@@ -132,11 +132,8 @@ public class AlarmUtils
 		
 		String xml ;
 		xml = parser.getXmlFromPath(Constants.XML_PATH_ALARM, activity);
-		if (xml.equals("")/* || xml.equals("<" + Constants.XML_TAG_ALARM + "></" + Constants.XML_TAG_ALARM + ">")*/)
+		if (xml.equals(""))
 		{	
-//			File file = new File("alarms.xml");
-//			file.delete();
-			Log.i("home - customized lst view", "xml file non esistente o vuoto");
 			AlarmUtils.initializeAlarmXML(activity);
 			return null;
 		}
@@ -148,19 +145,20 @@ public class AlarmUtils
 				// creating new HashMap: single alarm
 				Element e = (Element) nl.item(i);
 				// adding each child node to HashMap key => value
-				String time   =  parser.getValue(e, Constants.XML_TAG_HOUR).replaceAll("\\s","");
+				String hour   =  parser.getValue(e, Constants.XML_TAG_HOUR).replaceAll("\\s","");
+				String minute =  parser.getValue(e, Constants.XML_TAG_MINUTE).replaceAll("\\s","");
 				String days   =  parser.getValue(e, Constants.XML_TAG_DAYS).replaceAll("\\s","");
 				String bird   =  parser.getValue(e, Constants.XML_TAG_BIRD).replaceAll("\\s","");
 				String active =  parser.getValue(e, Constants.XML_TAG_SWITCH).replaceAll("\\s","");
 				String id     =  parser.getValue(e, Constants.XML_TAG_ID).replaceAll("\\s","");
 	
 				Alarm usrAlarm = new Alarm(days,
-						Boolean.valueOf(active),
-						Boolean.valueOf(true),
-						AlarmUtils.strTimeToHour(time),
-						AlarmUtils.strTimeToMinute(time),
+						active,
+						"true",
+						hour,
+						minute,
 						bird,
-						Integer.valueOf(id));
+						id);
 
 				alarmList.add(usrAlarm);
 			}

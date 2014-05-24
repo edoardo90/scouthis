@@ -19,14 +19,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -36,7 +32,7 @@ import com.sleepbot.datetimepicker.time.TimePickerDialog;
 public class AlarmsHomeFragment extends Fragment implements 
 	Listener, TimePickerDialog.OnTimeSetListener
 {
-	ListView list;
+	ListView listViewAlarms;
 	AlarmLazyAdapter adapter;
 	LinkedList<Alarm> alarmList;
 	Alarm lastAlarmRemoved;
@@ -100,8 +96,6 @@ public class AlarmsHomeFragment extends Fragment implements
             }
         }
 
-		
-		
 		//se chiamato da "aggiungi sveglia" deve estrarre i dati della nuova sveglia
 		Bundle paramAlarm = getArguments();
 		if(paramAlarm != null)
@@ -117,28 +111,9 @@ public class AlarmsHomeFragment extends Fragment implements
 
 		this.updateListViewFromFile();
 
-		Log.i("aggiungo listener", "add lst");
+		listViewAlarms = (ListView)mAct.findViewById(R.id.alarm_listview);
 
-		list = (ListView)mAct.findViewById(R.id.step_listview);
-		list.setOnItemLongClickListener((new OnItemLongClickListener() {
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int pos, long id) {
-				Log.i("long clicked","pos: " + pos);
-				return true;
-			}
-		})); 
-
-		// Click event for single list row
-		list.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Integer pos = position;
-				Log.e("!! list view", "hai cliccato l'item" + pos.toString());
-			}
-		});
-
-		View vv = list.getAdapter().getView(0, null, list);
+		View vv = listViewAlarms.getAdapter().getView(0, null, listViewAlarms);
 		ImageView trashAlarm = (ImageView) vv.findViewById(R.id.trash_alarm);
 		trashAlarm.setOnClickListener(new OnClickListener() {
 			@Override
@@ -169,7 +144,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	public void switchAlarm(View v)
 	{
 		// Get the associated view's alarm and toggle its state
-		int position = ((ListView)mAct.findViewById(R.id.step_listview)).getPositionForView(v);
+		int position = ((ListView)mAct.findViewById(R.id.alarm_listview)).getPositionForView(v);
 		Alarm alarm = this.alarmList.get(position);
 		alarm.toggleActive();
 		//Get the new active alarm
@@ -183,12 +158,12 @@ public class AlarmsHomeFragment extends Fragment implements
 
 	
 	/**
-	 * Remove Alarm view from main list (listview item)
+	 * Remove Alarm view from main listViewAlarms (listview item)
 	 * @param view
 	 */
 	public void deleteAlarm(View view)
 	{
-		ListView listView = (ListView)mAct.findViewById(R.id.step_listview);
+		ListView listView = (ListView)mAct.findViewById(R.id.alarm_listview);
 		// Remove alarm view (listview item)
 		int position = listView.getPositionForView(view);
 		this.lastAlarmRemoved = this.alarmList.get(position);
@@ -220,10 +195,10 @@ public class AlarmsHomeFragment extends Fragment implements
 
 	private void updateAlarmListView()
 	{
-		list = (ListView)mAct.findViewById(R.id.step_listview);
+		listViewAlarms = (ListView)mAct.findViewById(R.id.alarm_listview);
 		// Getting adapter by passing xml data ArrayList
 		adapter = new AlarmLazyAdapter(mAct,  this, this.alarmList);        
-		list.setAdapter(adapter);
+		listViewAlarms.setAdapter(adapter);
 	}
 
 	private void updateListViewFromFile()
@@ -231,9 +206,9 @@ public class AlarmsHomeFragment extends Fragment implements
 		// XML alarm file parsing
 		LinkedList<Alarm> aList = AlarmUtils.populateAlarmListFromFile(mAct);
 		this.alarmList = (aList != null) ? aList : new LinkedList<Alarm>();
-		list = (ListView)mAct.findViewById(R.id.step_listview);
+		listViewAlarms = (ListView)mAct.findViewById(R.id.alarm_listview);
 		// Getting adapter by passing xml data ArrayList
 		adapter = new AlarmLazyAdapter(mAct, this, alarmList);        
-		list.setAdapter(adapter);
+		listViewAlarms.setAdapter(adapter);
 	}
 }

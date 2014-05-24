@@ -148,7 +148,7 @@ public class AlarmsSetClockFragment extends Fragment
 		if (AlarmsSetClockFragment.birdsImageMap.containsKey(imageId))
 		{
 			birdImageView.setOnClickListener(new OnClickListener() {
-				// Start new list activity
+				// Start new listViewAlarms activity
 				public void onClick(View birdImgView) {
 					birdChoosed = birdsImageMap.get(imageId);  // a questo punto es. "bird_cardellino"
 

@@ -30,8 +30,24 @@ public class Alarm implements Serializable
 		this.hour = hour;
 		this.minute = minute;
 		this.bird = bird;
-		this.setId(id);
+		this.id = id;
 	}
+	
+	public Alarm( String days, String active, String periodic,  String hour,
+			String minute, String bird, String id)
+	{
+		this.days = days;
+		this.active = Boolean.valueOf(active);
+		this.periodic = Boolean.valueOf(periodic);
+		this.hour = Integer.valueOf(hour);
+		this.minute = Integer.valueOf(minute);
+		this.bird = bird;
+		this.id = Integer.valueOf(id);
+	}
+	
+	
+	
+	
 
 	public void toggleActive()
 	{
@@ -115,6 +131,7 @@ public class Alarm implements Serializable
 		mapElemValue.put(Constants.XML_TAG_BIRD, this.getBird());
 		mapElemValue.put(Constants.XML_TAG_DAYS, this.getActiveDays());
 		mapElemValue.put(Constants.XML_TAG_HOUR, String.valueOf(this.getHour()));
+		mapElemValue.put(Constants.XML_TAG_MINUTE, String.valueOf(minute));
 		mapElemValue.put(Constants.XML_TAG_ID, String.valueOf(this.getId()));
 		mapElemValue.put(Constants.XML_TAG_SWITCH, String.valueOf(this.isActive()));
 		mapElemValue.put(Constants.XML_ROOT_MAP, "alarm" );

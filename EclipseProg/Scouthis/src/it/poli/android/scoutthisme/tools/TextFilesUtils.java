@@ -38,7 +38,7 @@ public class TextFilesUtils {
 		}
 		catch(Exception e)
 		{
-			Log.i("customized list view", "something screwed during file reading");
+			Log.i("customized listViewAlarms view", "something screwed during file reading");
 		}
 		return fileContent;
 	}
@@ -159,19 +159,22 @@ public class TextFilesUtils {
 			throws IOException
 	{
 
-		outputStream.write(("\n   <" + mapElements.get("elementName") + "> 	\n").getBytes());
+		outputStream.write(("\n   <" + mapElements.get(Constants.XML_ROOT_MAP) + "> 	\n").getBytes());
 		for( Entry<String, String> elementField : mapElements.entrySet())
 		{
 
 			String elemChildName = elementField.getKey();
 			String elemChildValue = elementField.getValue();
-			outputStream.write(("        <" + elemChildName + "> " +  
+			if( ! elemChildName.equalsIgnoreCase(Constants.XML_ROOT_MAP))
+			{
+				outputStream.write(("        <" + elemChildName + "> " +  
 					elemChildValue 
 					+ " </" + elemChildName + ">\n" ).getBytes());
+			}
 
 		}
 
-		outputStream.write(("\n   <" + mapElements.get("elementName") + "> 	\n").getBytes());
+		outputStream.write(("\n   </" + mapElements.get(Constants.XML_ROOT_MAP) + "> 	\n").getBytes());
 	}
 
 

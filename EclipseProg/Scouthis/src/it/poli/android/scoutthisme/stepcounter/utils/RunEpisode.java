@@ -9,6 +9,27 @@ public class RunEpisode {
 	private int steps;
 	private float time;
 	private float speed;
+	
+	public RunEpisode(String id, String distance, String steps,
+			String time, String speed) {
+		this.id = Integer.valueOf(id);
+		this.distance = Float.valueOf(distance);
+		this.steps = Integer.valueOf(steps);
+		this.time = Float.valueOf(time);
+		this.speed = Float.valueOf(speed);
+		
+	}
+	
+	public RunEpisode(int id, float distance, int steps, float time, float speed)
+	{
+		this.id = id;
+		this.distance = distance;
+		this.steps = steps;
+		this.time = time;
+		this.speed = speed;
+	}
+	
+	
 	public int getId() {
 		return id;
 	}

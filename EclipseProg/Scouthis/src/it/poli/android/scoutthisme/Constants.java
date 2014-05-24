@@ -17,9 +17,7 @@ public class Constants
     
     public static final String ALARM_HOUR = "it.polimi.scout.hour";
     public static final String ALARM_MINUTE = "it.polimi.scout.minute";
-	
-	public static final String XML_PATH_ALARM = "alarms.xml";
-	
+
     public static final String URL_FACEBOOK_GRAPH = "https://graph.facebook.com/";
 	public static final String URL_PREFIX_FRIENDS = URL_FACEBOOK_GRAPH + "me/friends?access_token=";
     public static final String URL_PREFIX_ME = URL_FACEBOOK_GRAPH + "me?access_token=";
@@ -34,15 +32,31 @@ public class Constants
 	public static final String PARAM_POSITION_LONGITUDE = "longitude";
 	public static final String PARAM_GPS_COORDINATES = "coordinates";
 	public static final String PARAM_RESULT = "result";
+
+	public static final String XML_PATH_ALARM = "alarms.xml";
+	public static final String XML_PATH_STEPCOUNTER = "step_counter.xml";
 	
+	//alarm
 	public static final String XML_TAG_ALARMS = "alarms";
 	public static final String XML_TAG_ALARM = "alarm";
 	public static final String XML_TAG_DAYS = "days";
 	public static final String XML_TAG_HOUR = "hour";
+	public static final String XML_TAG_MINUTE = "minute";
 	public static final String XML_TAG_BIRD = "bird";
 	public static final String XML_TAG_SWITCH = "switch";
 	public static final String XML_TAG_ID = "id";
+	
+	//pedometer
+	public static final String XML_TAG_RUNEPISODES = "runepisodes";
+	public static final String XML_TAG_RUNEPISODE = "runepisode";
+	public static final String XML_TAG_DISTANCE = "distance";
+	public static final String XML_TAG_TIME = "time";
+	public static final String XML_TAG_STEPS = "steps";
+	public static final String XML_TAG_SPEED = "speed";
+
+	//both pedometer and alarm
 	public static final String XML_ROOT_MAP = "root";
+	
 	
 	private static final int MINUTE_MILLISECONDS = 60 * 1000;
     public static final int TIME_UPDATE_FRIENDS_POSITION = 10 * 1000;
@@ -52,6 +66,8 @@ public class Constants
 	public static final String SAVED_IMAGE_FOLDER_NAME = "img_folder";
 	
 	public static final int RESULT_OK = 1;
+
+	
 
 	
 
