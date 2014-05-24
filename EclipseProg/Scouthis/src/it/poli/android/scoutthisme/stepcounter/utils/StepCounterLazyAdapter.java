@@ -60,8 +60,8 @@ public class StepCounterLazyAdapter extends BaseAdapter {
 			runEspisode = data.get(position);
 
 			String fotoname = runEspisode.getFotoName();
-			distance.setText(runEspisode.getStringDistance());
-			speed.setText( runEspisode.getStringSpeed() );
+			distance.setText(runEspisode.getStringDistance() + " m");
+			speed.setText( runEspisode.getStringSpeed() + " km/h");
 			
 			Bitmap bmp = ImageToolz.loadBitmapFromDisk(Constants.SD_IMAGE_DIR, fotoname);
 			thumb_image.setImageBitmap(bmp);

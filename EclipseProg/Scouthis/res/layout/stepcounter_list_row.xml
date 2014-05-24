@@ -54,7 +54,7 @@
 		              android:layout_marginLeft="10dp"
 		              android:text="2 km "
 		              android:textColor="#040404"
-		              android:textSize="30sp"
+		              android:textSize="20sp"
 		              android:textStyle="bold"
 		              android:typeface="sans" />
 
@@ -86,7 +86,7 @@
 		              android:gravity="left"
 		              android:text="10 km/h "
 		              android:textColor="#040404"
-		              android:textSize="30sp"
+		              android:textSize="20sp"
 		              android:textStyle="bold"
 		              android:typeface="sans" />
 

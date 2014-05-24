@@ -245,6 +245,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 		//metri
 		distance = steps * getStepsize();
 		BigDecimal distB = new BigDecimal(distance).round(new MathContext(3, RoundingMode.HALF_UP));
+		distance = distB.floatValue();
 		if(elapsedTime == 0)
 			elapsedTime = 1;
 
@@ -255,7 +256,9 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 		speed = 3.6f * speed;
 
 		BigDecimal speedB = new BigDecimal(speed).round(new MathContext(3, RoundingMode.HALF_UP));
-
+		speed = speedB.floatValue();
+		
+		
 		txtAverageSpeed.setText(String.valueOf(speedB) + " km/h");
 		txtDistance.setText(String.valueOf(distB) + " m ");
 		txtElapsedTime.setText(String.valueOf(elapsedTime) + " secondi ");
