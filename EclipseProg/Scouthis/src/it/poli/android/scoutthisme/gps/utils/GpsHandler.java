@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.util.Log;
 
 public class GpsHandler implements LocationListener
 {	
@@ -28,7 +29,7 @@ public class GpsHandler implements LocationListener
     public void setListener(GpsListener l) {
     	this.listener = l;
 	    //Check if GPS is enabled and ask user to activate it
-    	if (false && !isGpsEnabled(mContext)) {
+    	if ( !isGpsEnabled(mContext)) {
 	        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 	        
 	        builder.setTitle("Gps non attivo");  // GPS not found
@@ -82,6 +83,8 @@ public class GpsHandler implements LocationListener
 
 	@Override
 	public void onLocationChanged(Location location) {
+		
+		Log.i("location changed!", "loc changeddd!!");
 		if (listener != null) {
 			listener.onLocationChanged(location);
 		}
@@ -91,7 +94,9 @@ public class GpsHandler implements LocationListener
 	public void onStatusChanged(String provider, int status, Bundle extras) { }
 
 	@Override
-	public void onProviderEnabled(String provider) { }
+	public void onProviderEnabled(String provider) { 
+		//asd
+	}
 
 	@Override
 	public void onProviderDisabled(String provider) { }

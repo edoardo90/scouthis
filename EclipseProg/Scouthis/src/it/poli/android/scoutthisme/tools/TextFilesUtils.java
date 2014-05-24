@@ -16,7 +16,6 @@ import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 public class TextFilesUtils {
 
@@ -38,7 +37,7 @@ public class TextFilesUtils {
 		}
 		catch(Exception e)
 		{
-			Log.i("customized listViewAlarms view", "something screwed during file reading");
+			
 		}
 		return fileContent;
 	}
@@ -58,14 +57,14 @@ public class TextFilesUtils {
 		} catch (Exception e) { /*  */ }
 	}
 
-	public static void removeLastLineAlarms(Activity activity, String fileName) 
+	public static void removeLastLineXmlFile(Activity activity, String fileName) 
 	{  
 		List<String> fileContent = getFileContent(activity, fileName);
 		fileContent.remove(fileContent.size() - 1);
 
 		FileOutputStream outputStream;
 		try {
-			outputStream = activity.openFileOutput(Constants.XML_PATH_ALARM, Context.MODE_PRIVATE );
+			outputStream = activity.openFileOutput(fileName, Context.MODE_PRIVATE );
 			for(String s : fileContent)
 			{
 				outputStream.write(s.getBytes());
@@ -78,7 +77,7 @@ public class TextFilesUtils {
 	public static void changeXmlChildValue(Activity activity, String fileName, String newValue, int positionToDelete,
 			String tagElementToEdit, String childElementToEdit)
 	{
-		List<String> fileContent =  AlarmUtils.getAlarmsContent(activity);
+		List<String> fileContent =  getFileContent(activity, fileName);
 		List<String> fileNewContent = new ArrayList<String>();
 
 		String rowClean = "";
@@ -112,7 +111,7 @@ public class TextFilesUtils {
 	public static void removeXmlElement(Activity activity, String fileName, int positionToDelete,
 			String xmlTagToRemove) {
 
-		List<String> fileContent =  AlarmUtils.getAlarmsContent(activity);
+		List<String> fileContent =  getFileContent(activity, fileName);
 		List<String> fileNewContent = new ArrayList<String>();
 
 		String rowClean = "";
@@ -140,14 +139,21 @@ public class TextFilesUtils {
 
 
 	public static void appendXmlElement(Activity activity, String xmlPath,
-			Map<String, String> alarmMap, String rootXmlDocument) {
+			Map<String, String> elementAttributesMap, String rootXmlDocument) {
 
-		removeLastLineAlarms(activity, xmlPath);  //remove  </alarms>
+		
+		List<String> fcont = getFileContent(activity, xmlPath);
+		if (fcont.size() == 0)
+		{	
+			AlarmUtils.initializeAlarmXML(activity);
+		}
+		
+		removeLastLineXmlFile(activity, xmlPath);  //remove  </alarms> or </rootwhatever>
 		FileOutputStream outputStream;
 		try {
 			outputStream = activity.openFileOutput(xmlPath, Context.MODE_PRIVATE | Context.MODE_APPEND);
 
-			writeAlarmOnXML(outputStream, alarmMap);   
+			writeAttributeMapOnXML(outputStream, elementAttributesMap);   
 
 			outputStream.write(("</" + rootXmlDocument + ">").getBytes());  // re-add </alarms>
 			outputStream.close();
@@ -155,9 +161,9 @@ public class TextFilesUtils {
 	}
 
 
-	private static void writeAlarmOnXML(FileOutputStream outputStream, Map<String, String> mapElements)
+	private static void writeAttributeMapOnXML(FileOutputStream outputStream, Map<String, String> mapElements)
 			throws IOException
-	{
+			{
 
 		outputStream.write(("\n   <" + mapElements.get(Constants.XML_ROOT_MAP) + "> 	\n").getBytes());
 		for( Entry<String, String> elementField : mapElements.entrySet())
@@ -168,16 +174,25 @@ public class TextFilesUtils {
 			if( ! elemChildName.equalsIgnoreCase(Constants.XML_ROOT_MAP))
 			{
 				outputStream.write(("        <" + elemChildName + "> " +  
-					elemChildValue 
-					+ " </" + elemChildName + ">\n" ).getBytes());
+						elemChildValue 
+						+ " </" + elemChildName + ">\n" ).getBytes());
 			}
 
 		}
 
 		outputStream.write(("\n   </" + mapElements.get(Constants.XML_ROOT_MAP) + "> 	\n").getBytes());
+			}
+
+	public static int getLastIdFromXml(Activity mAct, String fileName)
+	{
+		List<String> xmlFile =  getFileContent(mAct, fileName);
+		int id = 0;
+		for(String s : xmlFile)
+			if (s.contains("<" + Constants.XML_TAG_ID + ">"))
+				if ( Integer.valueOf(s.replaceAll("[^0-9]+", " ").replaceAll("\\s", "")) > id)
+					id = Integer.valueOf(s.replaceAll("[^0-9]+", " ").replaceAll("\\s", ""));
+		return id;
 	}
-
-
 }
 
 

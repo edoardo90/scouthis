@@ -1,5 +1,8 @@
 package it.poli.android.scoutthisme.stepcounter.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import it.poli.android.scoutthisme.Constants;
 
 public class RunEpisode {
@@ -88,6 +91,19 @@ public class RunEpisode {
 	}
 	public String getFotoName() {
 		return Constants.IMAGE_MAP_PREFIX + this.getStringId();
+	}
+
+	public Map<String, String> getXmlTagFieldMap() {
+		Map<String, String> mapElemValue = new HashMap<String, String>();
+		
+		mapElemValue.put(Constants.XML_TAG_ID, this.getStringId());
+		mapElemValue.put(Constants.XML_TAG_DISTANCE, this.getStringDistance());
+		mapElemValue.put(Constants.XML_TAG_SPEED, this.getStringSpeed());
+		mapElemValue.put(Constants.XML_TAG_TIME, this.getStringTime());
+		mapElemValue.put(Constants.XML_TAG_STEPS, this.getStringSteps());
+		mapElemValue.put(Constants.XML_ROOT_MAP, Constants.XML_TAG_RUNEPISODE );
+		return mapElemValue;
+		
 	}
 
 }

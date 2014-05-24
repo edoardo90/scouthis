@@ -85,7 +85,7 @@
                 android:text="@string/stepcounter_distance_done" />
             
             <TextView
-                android:id="@+id/txtPrecision"
+                android:id="@+id/txtDistance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -108,7 +108,7 @@
                 android:text="@string/stepcounter_speed_medium" />
             
             <TextView
-                android:id="@+id/txtSpeedMedium"
+                android:id="@+id/txtAverageSpeed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -131,7 +131,7 @@
                 android:text="@string/stepcounter_time_passed" />
             
            <TextView
-               android:id="@+id/txtTimePassed"
+               android:id="@+id/txtElapsedTime"
                android:layout_width="0dp"
                android:layout_height="wrap_content"
                android:layout_weight="2"

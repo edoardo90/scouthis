@@ -1,11 +1,20 @@
 package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.gps.utils.GpsHandler;
 import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.gps.utils.LegMovementDetector;
 import it.poli.android.scoutthisme.gps.utils.LegMovementDetector.ILegMovementListener;
+import it.poli.android.scoutthisme.stepcounter.utils.RunEpisode;
 import it.poli.android.scoutthisme.tools.ImageToolz;
+import it.poli.android.scoutthisme.tools.TextFilesUtils;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.Calendar;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -13,6 +22,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,7 +58,20 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 	Marker marker;
 	boolean needDefaultZoom;
 	final int defaultZoom = 13;
-	int steps;
+	int steps ;
+	int secondsAtTheBeginning = 0;
+	int secondsAtTheEnd = 0;
+	float stepSize = 0;
+	float userHeight = 1.7f;
+	private float speed = 0;
+	private float distance = 0;
+	private int elapsedTime = 0;
+	private int secondsNow = 0;
+	private TextView txtElapsedTime;
+	private TextView txtAverageSpeed;
+	private TextView txtDistance;
+	private TextView txtStepsDone;
+	private int id;
 
 	/**
 	 * Initialize gpsHandler (used to know user gps position)
@@ -100,16 +123,32 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 	public void onResume()
 	{
 		super.onResume();
+		secondsAtTheBeginning = Calendar.getInstance().get(Calendar.SECOND);
 		
 		gpsHandler.setListener(this);
 		legDect.startDetector();
+		
+		new Thread(    new Runnable() 
+	    {
+	        public void run() 
+	        {
+	        	id = TextFilesUtils.getLastIdFromXml(getActivity(), Constants.XML_PATH_STEPCOUNTER);
+	        }
+	    }).start();
+
+		
+		txtElapsedTime = (TextView) getView().findViewById(R.id.txtElapsedTime);
+		txtAverageSpeed = (TextView) getView().findViewById(R.id.txtAverageSpeed);
+		txtDistance = (TextView) getView().findViewById(R.id.txtDistance);
+		txtStepsDone = (TextView) getView().findViewById(R.id.txtPassi);
 		
 		Button btnEndRun = (Button)this.getActivity().findViewById(R.id.step_btn_end_run);
 		btnEndRun.setOnClickListener(new OnClickListener() {
 			
 			@Override
 	            public void onClick(View v) {
-					transitionTowars(new StepCounterHomeFragment());
+				   saveRunEpisodeOnFile();	
+				   transitionTowars(new StepCounterHomeFragment());
 			}
 		});
 		
@@ -125,6 +164,14 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 		
 	}
 	
+	private void saveRunEpisodeOnFile()
+	{	
+		RunEpisode rep = new RunEpisode(this.id, this.distance, this.steps, this.elapsedTime, this.speed);
+		TextFilesUtils.appendXmlElement(getActivity(), Constants.XML_PATH_STEPCOUNTER,
+					rep.getXmlTagFieldMap(), 
+					Constants.XML_TAG_ALARMS);
+		Log.i("saved", "saved, i  suppose");
+	}
 	
 	private void saveMapAsImage()
 	{
@@ -172,15 +219,64 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 
 	@Override
 	public void onLocationChanged(Location location) {
+		Log.i("location changed", "loc:" + location);
 		this.loc = location;
 		if (lastSensorLoc == null) {
 			this.lastSensorLoc = location;
 		}
 		updateMap();
 	}
+	
+	private float getStepsize()
+	{
+		if (this.stepSize != 0)
+			return stepSize;
+		else
+			return this.userHeight * Constants.STEP_HEIGHT_CONST ;
+	}
 
+	/**
+	 * Computes some stats like speed, elapsed time
+	 * and writes them on txtViews
+	 */
+	private void updateStats()
+	{
+		secondsNow = Calendar.getInstance().get(Calendar.SECOND);
+		
+		//secondi
+		elapsedTime = Math.abs(secondsNow - this.secondsAtTheBeginning);
+		
+		//metri
+		distance = steps * getStepsize();
+		BigDecimal distB = new BigDecimal(distance).round(new MathContext(3, RoundingMode.HALF_UP));
+		if(elapsedTime == 0)
+			elapsedTime = 1;
+		
+		//metri al secondo
+		speed = distance / elapsedTime;
+		
+		//km all'ora
+		speed = 3.6f * speed;
+		
+		BigDecimal speedB = new BigDecimal(speed).round(new MathContext(3, RoundingMode.HALF_UP));
+		
+		txtAverageSpeed.setText(String.valueOf(speedB) + " km/h");
+		txtDistance.setText(String.valueOf(distB) + " m ");
+		txtElapsedTime.setText(String.valueOf(elapsedTime) + " secondi ");
+		txtStepsDone.setText(String.valueOf(steps) );
+		txtStepsDone.setText(String.format("%d", steps));
+	}
+	
+	
 	@Override
 	public void onLegActivity(int activity) {
+		
+		
+		if(Constants.DEBUG_ENABLED)
+		{
+			steps ++;
+		}
+		
 		if (loc != null && lastSensorLoc != null && !loc.equals(lastSensorLoc)) {
 			gMap.addPolyline(new PolylineOptions()
 				.add(new LatLng(lastSensorLoc.getLatitude(), lastSensorLoc.getLongitude()),
@@ -188,12 +284,12 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 				.width(4)
 				.color(Color.WHITE));
 			steps++;
-				   
-			TextView txtPss = (TextView) getView().findViewById(R.id.txtPassi);    
-			txtPss.setText(String.format("%d", steps));
-			
 			lastSensorLoc = loc;
 		}
+		
+		updateStats();
+		
+		
 	}
 }
 

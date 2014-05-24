@@ -18,8 +18,10 @@ import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class MainTabsWithIcons extends FragmentActivity {
-    private static final String[] CONTENT = new String[] { "News", "GPS", 
-    	"Run", "Trovamici", "Alarm" };
+    private static final String[] CONTENT = new String[] { 
+    		/*"News", "GPS", */ 
+    
+    	   "Run"  /*, "Trovamici", "Alarm" */};
     private static final int[] ICONS = new int[] {
             R.drawable.actionb_news,
             R.drawable.actionb_gps,
@@ -49,11 +51,11 @@ public class MainTabsWithIcons extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            /////OLD IMPLEMENTATION////return new EmptyFragment();//TestFragment.newInstance(CONTENT[position % CONTENT.length]);
+            
 			final int ZERO_OFFESET = 1;
 			switch (position) {
 			case 1 - ZERO_OFFESET:
-				return new NewsFeedFragment();
+				return new StepCounterFragment();
 			case 2 - ZERO_OFFESET:
 				return new GpsFragment();
 			case 3 - ZERO_OFFESET:

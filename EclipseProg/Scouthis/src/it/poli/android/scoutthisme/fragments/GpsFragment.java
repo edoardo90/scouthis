@@ -134,7 +134,7 @@ import android.widget.TextView;
     	    TextView txtLong = (TextView) rootView.findViewById(R.id.txtLongitude);
     	    TextView txtAlt = (TextView) rootView.findViewById(R.id.txtAltitude);
     	    TextView txtSpd = (TextView) rootView.findViewById(R.id.txtSpeed);    
-    	    TextView txtPrc = (TextView) rootView.findViewById(R.id.txtPrecision);    
+    	    TextView txtPrc = (TextView) rootView.findViewById(R.id.txtDistance);    
     	    TextView txtBea = (TextView) rootView.findViewById(R.id.txtBearing);    
     	    
     	    txtLat.setText(String.format("%d", Math.abs(locDegrees))+"°"+String.format("%.2f", Math.abs(locMinutes))+"'"+locOrient);

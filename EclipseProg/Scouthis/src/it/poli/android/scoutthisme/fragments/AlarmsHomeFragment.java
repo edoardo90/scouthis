@@ -184,13 +184,7 @@ public class AlarmsHomeFragment extends Fragment implements
 
 	private int getLastIdFromFile()
 	{
-		List<String> alarmsFile =  AlarmUtils.getAlarmsContent(mAct);
-		int id = 0;
-		for(String s : alarmsFile)
-			if (s.contains("<" + Constants.XML_TAG_ID + ">"))
-				if ( Integer.valueOf(s.replaceAll("[^0-9]+", " ").replaceAll("\\s", "")) > id)
-					id = Integer.valueOf(s.replaceAll("[^0-9]+", " ").replaceAll("\\s", ""));
-		return id;
+		return TextFilesUtils.getLastIdFromXml(mAct, Constants.XML_PATH_ALARM);
 	}
 
 	private void updateAlarmListView()

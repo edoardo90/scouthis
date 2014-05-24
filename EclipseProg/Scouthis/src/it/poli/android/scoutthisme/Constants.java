@@ -2,7 +2,7 @@ package it.poli.android.scoutthisme;
 
 public class Constants
 {
-	public static final boolean DEBUG_ENABLED = false;
+	public static final boolean DEBUG_ENABLED = true;
 	
 	public static final String INTENT_NOTIFICATION = "it.poli.android.scoutthisme";
 	public static final String INTENT_ALARM = "it.poli.android.scoutthisme.alarm.utils.bird";
@@ -66,6 +66,8 @@ public class Constants
 	public static final String SAVED_IMAGE_FOLDER_NAME = "img_folder";
 	
 	public static final int RESULT_OK = 1;
+
+	public static final float STEP_HEIGHT_CONST = 0.414f;
 
 	
 
