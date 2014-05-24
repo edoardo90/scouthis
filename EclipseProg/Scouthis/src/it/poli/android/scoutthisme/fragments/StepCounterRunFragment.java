@@ -82,13 +82,13 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		gpsHandler = new GpsHandler(getActivity());
-		
+
 		mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
 		legDect = new LegMovementDetector(mSensorManager);
 		legDect.addListener(this);
-		
+
 		needDefaultZoom = true;
 		steps = 0;
 	}
@@ -106,14 +106,14 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 	public void onDestroyView()
 	{
 		super.onDestroyView();
-		
+
 		gpsHandler.removeListener();
 		legDect.stopDetector();
-		
+
 		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapStepCounter));
 		if(mapFragment != null) {
 			clearMap();
-			
+
 			FragmentManager fM = getFragmentManager();
 			fM.beginTransaction().remove(mapFragment).commit();
 		}
@@ -124,82 +124,78 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 	{
 		super.onResume();
 		secondsAtTheBeginning = Calendar.getInstance().get(Calendar.SECOND);
-		
+
 		gpsHandler.setListener(this);
 		legDect.startDetector();
-		
-		new Thread(    new Runnable() 
-	    {
-	        public void run() 
-	        {
-	        	id = TextFilesUtils.getLastIdFromXml(getActivity(), Constants.XML_PATH_STEPCOUNTER);
-	        }
-	    }).start();
 
-		
+		new Thread(    new Runnable() 
+		{
+			public void run() 
+			{
+				id = TextFilesUtils.getLastIdFromXml(getActivity(), Constants.XML_PATH_STEPCOUNTER);
+			}
+		}).start();
+
+
 		txtElapsedTime = (TextView) getView().findViewById(R.id.txtElapsedTime);
 		txtAverageSpeed = (TextView) getView().findViewById(R.id.txtAverageSpeed);
 		txtDistance = (TextView) getView().findViewById(R.id.txtDistance);
 		txtStepsDone = (TextView) getView().findViewById(R.id.txtPassi);
-		
+
 		Button btnEndRun = (Button)this.getActivity().findViewById(R.id.step_btn_end_run);
 		btnEndRun.setOnClickListener(new OnClickListener() {
-			
-			@Override
-	            public void onClick(View v) {
-				   saveRunEpisodeOnFile();	
-				   transitionTowars(new StepCounterHomeFragment());
-			}
-		});
-		
-		
-		Button btnPauseRun = (Button)this.getActivity().findViewById(R.id.step_btn_pause);
-		btnPauseRun.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+				saveRunEpisodeOnFile();	
+				transitionTowars(new StepCounterHomeFragment());
 			}
 		});
-		
+
+
+		Button btnPauseRun = (Button)this.getActivity().findViewById(R.id.step_btn_pause);
+		btnPauseRun.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+
 	}
-	
+
 	private void saveRunEpisodeOnFile()
 	{	
+		this.id++;
+		this.saveMapAsImage();
 		RunEpisode rep = new RunEpisode(this.id, this.distance, this.steps, this.elapsedTime, this.speed);
 		TextFilesUtils.appendXmlElement(getActivity(), Constants.XML_PATH_STEPCOUNTER,
-					rep.getXmlTagFieldMap(), 
-					Constants.XML_TAG_ALARMS);
-		Log.i("saved", "saved, i  suppose");
+				rep.getXmlTagFieldMap(), 
+				Constants.XML_TAG_RUNEPISODES);
+
 	}
-	
+
 	private void saveMapAsImage()
 	{
 		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
-            Bitmap bitmap;
-            
-            @Override
-            public void onSnapshotReady(Bitmap snapshot) {
-                // TODO Auto-generated method stub
-                bitmap = snapshot;
-                writeBMPOnDisk(bitmap);
-                
-            }
-        };
 
-        gMap.snapshot(callback);
+			@Override
+			public void onSnapshotReady(Bitmap snapshot) 
+			{
+				ImageToolz.storeImage(snapshot, Constants.SD_IMAGE_DIR, Constants.IMAGE_MAP_PREFIX + id);
+			}
+		};
+
+		gMap.snapshot(callback);
 	}
 
-	
-	private void writeBMPOnDisk(Bitmap bmp)
-	{
-		ImageToolz.writeBitmapOnDisk(bmp, "gatto");
-	}
-	
+
+
+
 	private void clearMap() {
 		gMap.clear();
 	}
-	
+
 	/**
 	 * Executed each time the user changes its position
 	 * Information from position comes from the gps andler
@@ -207,11 +203,11 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 	 */
 	public void updateMap() {
 		super.onResume();
-		
+
 		if (needDefaultZoom) {
 			needDefaultZoom = false;
 			gMap.moveCamera(CameraUpdateFactory.
-			newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), defaultZoom));
+					newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), defaultZoom));
 		} else {
 			gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(loc.getLatitude(), loc.getLongitude())));
 		}
@@ -226,7 +222,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 		}
 		updateMap();
 	}
-	
+
 	private float getStepsize()
 	{
 		if (this.stepSize != 0)
@@ -242,54 +238,54 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 	private void updateStats()
 	{
 		secondsNow = Calendar.getInstance().get(Calendar.SECOND);
-		
+
 		//secondi
 		elapsedTime = Math.abs(secondsNow - this.secondsAtTheBeginning);
-		
+
 		//metri
 		distance = steps * getStepsize();
 		BigDecimal distB = new BigDecimal(distance).round(new MathContext(3, RoundingMode.HALF_UP));
 		if(elapsedTime == 0)
 			elapsedTime = 1;
-		
+
 		//metri al secondo
 		speed = distance / elapsedTime;
-		
+
 		//km all'ora
 		speed = 3.6f * speed;
-		
+
 		BigDecimal speedB = new BigDecimal(speed).round(new MathContext(3, RoundingMode.HALF_UP));
-		
+
 		txtAverageSpeed.setText(String.valueOf(speedB) + " km/h");
 		txtDistance.setText(String.valueOf(distB) + " m ");
 		txtElapsedTime.setText(String.valueOf(elapsedTime) + " secondi ");
 		txtStepsDone.setText(String.valueOf(steps) );
 		txtStepsDone.setText(String.format("%d", steps));
 	}
-	
-	
+
+
 	@Override
 	public void onLegActivity(int activity) {
-		
-		
+
+
 		if(Constants.DEBUG_ENABLED)
 		{
 			steps ++;
 		}
-		
+
 		if (loc != null && lastSensorLoc != null && !loc.equals(lastSensorLoc)) {
 			gMap.addPolyline(new PolylineOptions()
-				.add(new LatLng(lastSensorLoc.getLatitude(), lastSensorLoc.getLongitude()),
-						new LatLng(loc.getLatitude(), loc.getLongitude()))
-				.width(4)
-				.color(Color.WHITE));
+			.add(new LatLng(lastSensorLoc.getLatitude(), lastSensorLoc.getLongitude()),
+					new LatLng(loc.getLatitude(), loc.getLongitude()))
+					.width(4)
+					.color(Color.WHITE));
 			steps++;
 			lastSensorLoc = loc;
 		}
-		
+
 		updateStats();
-		
-		
+
+
 	}
 }
 

@@ -1,6 +1,7 @@
 package it.poli.android.scoutthisme.stepcounter.utils;
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.tools.ImageLoader;
 import it.poli.android.scoutthisme.tools.ImageToolz;
 
@@ -46,11 +47,11 @@ public class StepCounterLazyAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View vi=convertView;
 		if(convertView == null)
-			vi = inflater.inflate(R.layout.alarms_list_row, null);
+			vi = inflater.inflate(R.layout.stepcounter_list_row, null);
 
-		TextView distance = (TextView)vi.findViewById(R.id.days); 
-		TextView speed = (TextView)vi.findViewById(R.id.hour); 
-		ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); 
+		TextView distance = (TextView)vi.findViewById(R.id.lst_step_distance); 
+		TextView speed = (TextView)vi.findViewById(R.id.lst_step_speed); 
+		ImageView thumb_image=(ImageView)vi.findViewById(R.id.lst_step_image); 
 		
 
 		RunEpisode runEspisode;
@@ -62,7 +63,7 @@ public class StepCounterLazyAdapter extends BaseAdapter {
 			distance.setText(runEspisode.getStringDistance());
 			speed.setText( runEspisode.getStringSpeed() );
 			
-			Bitmap bmp = ImageToolz.loadBitmapFromDisk(fotoname);
+			Bitmap bmp = ImageToolz.loadBitmapFromDisk(Constants.SD_IMAGE_DIR, fotoname);
 			thumb_image.setImageBitmap(bmp);
 
 		}

@@ -15,7 +15,7 @@
     </ListView>
 
     <Button
-        android:id="@+id/step_btn_newrun"
+        android:id="@+id/step_btn_goHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.82"

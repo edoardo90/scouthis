@@ -4,7 +4,6 @@ import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.tools.TextFilesUtils;
 import it.poli.android.scoutthisme.tools.XMLParser;
 
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
@@ -21,8 +20,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 
 public class AlarmUtils
 {
@@ -62,28 +59,7 @@ public class AlarmUtils
 	
 	/* --- USED BY AlarmsHomeFragment.java --- */
 	
-	public static void initializeAlarmXML(Activity activity)
-	{
-		Log.i("inizialize ",  "creo il nuovo file xml");
-
-		FileOutputStream outputStream;
-
-		String intestazione = "<" + Constants.XML_TAG_ALARMS + ">";
-		String fine = "</" + Constants.XML_TAG_ALARMS + ">";
-
-		try {
-			outputStream = activity.openFileOutput(Constants.XML_PATH_ALARM, Context.MODE_PRIVATE);
-			outputStream.write(intestazione.getBytes());
-			outputStream.write("\n".getBytes());
-			outputStream.write(fine.getBytes());
-			outputStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		Log.i("inizialize ",  "file creato ");
-	}
-	
+		
 	public static List<String> getAlarmsContent(Activity activity)
 	{
 		return TextFilesUtils.getFileContent(activity, Constants.XML_PATH_ALARM);
@@ -134,7 +110,7 @@ public class AlarmUtils
 		xml = parser.getXmlFromPath(Constants.XML_PATH_ALARM, activity);
 		if (xml.equals(""))
 		{	
-			AlarmUtils.initializeAlarmXML(activity);
+			TextFilesUtils.initializeXML(activity, Constants.XML_TAG_ALARMS, Constants.XML_PATH_ALARM);
 			return null;
 		}
 		else

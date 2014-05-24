@@ -63,11 +63,13 @@ public class Constants
 	public static final int TIME_UPDATE_FRIENDSLIST = MINUTE_MILLISECONDS * 15;
 	
 	public static final String IMAGE_MAP_PREFIX = "img_google_map";
-	public static final String SAVED_IMAGE_FOLDER_NAME = "img_folder";
-	
-	public static final int RESULT_OK = 1;
+	public static final String SD_IMAGE_DIR = "/Scouthisme/StepImages/";
 
 	public static final float STEP_HEIGHT_CONST = 0.414f;
+
+	public static final int RESULT_OK = 1;
+
+
 
 	
 

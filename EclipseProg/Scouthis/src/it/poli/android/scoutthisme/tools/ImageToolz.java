@@ -2,40 +2,56 @@ package it.poli.android.scoutthisme.tools;
 
 import it.poli.android.scoutthisme.Constants;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
 public class ImageToolz {
+	
+	public static  boolean storeImage(Bitmap imageData, String partialPath, String filename) {
+		//get path to external storage (SD card)
+		String iconsStoragePath = Environment.getExternalStorageDirectory() + partialPath;
+		File sdIconStorageDir = new File(iconsStoragePath);
 
-	public static void writeBitmapOnDisk( Bitmap bitmap, String fotoname)
-	{
-		String root = Environment.getExternalStorageDirectory().toString();
-        File newDir = new File(root + "/" + Constants.SAVED_IMAGE_FOLDER_NAME);    
-        newDir.mkdirs();
-        File file = new File (newDir, fotoname);
-        if (file.exists ()) file.delete (); 
-        	try {
-               FileOutputStream out = new FileOutputStream(file);
-               bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-               out.flush();
-               out.close();
-               
-               Log.i("write bmp", " bmp written, i think");
-            } catch (Exception e) {}
-        
-        
+		//create storage directories, if they don't exist
+		sdIconStorageDir.mkdirs();
+
+		try {
+			String filePath = sdIconStorageDir.toString() + "/" + filename;
+			FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+
+			//choose another format if PNG doesn't suit you
+			imageData.compress(CompressFormat.PNG, 100, bos);
+
+			bos.flush();
+			bos.close();
+
+		} catch (FileNotFoundException e) {
+			Log.w("TAG", "Error saving image file: " + e.getMessage());
+			return false;
+		} catch (IOException e) {
+			Log.w("TAG", "Error saving image file: " + e.getMessage());
+			return false;
+		}
+
+		return true;
 	}
 	
-	public static Bitmap loadBitmapFromDisk(String fotoname)
+	public static Bitmap loadBitmapFromDisk(String partialPath, String fotoname)
 	{
 		String root = Environment.getExternalStorageDirectory().toString();
 		
-		String photoPath = root + "/" + Constants.SAVED_IMAGE_FOLDER_NAME + "/" + fotoname;
+		String photoPath = root + partialPath + fotoname;
 		
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inPreferredConfig = Bitmap.Config.ARGB_8888;

@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 public class TextFilesUtils {
 
@@ -138,6 +139,28 @@ public class TextFilesUtils {
 	}
 
 
+	public static void initializeXML(Activity activity, String rootXmlFile, String xmlFilePath)
+	{
+		Log.i("inizialize ",  "creo il nuovo file xml");
+
+		FileOutputStream outputStream;
+
+		String intestazione = "<" + rootXmlFile + ">";
+		String fine = "</" + rootXmlFile + ">";
+
+		try {
+			outputStream = activity.openFileOutput(xmlFilePath, Context.MODE_PRIVATE);
+			outputStream.write(intestazione.getBytes());
+			outputStream.write("\n".getBytes());
+			outputStream.write(fine.getBytes());
+			outputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	
 	public static void appendXmlElement(Activity activity, String xmlPath,
 			Map<String, String> elementAttributesMap, String rootXmlDocument) {
 
@@ -145,9 +168,10 @@ public class TextFilesUtils {
 		List<String> fcont = getFileContent(activity, xmlPath);
 		if (fcont.size() == 0)
 		{	
-			AlarmUtils.initializeAlarmXML(activity);
+			initializeXML(activity, rootXmlDocument, xmlPath);
 		}
 		
+		fcont = getFileContent(activity, xmlPath);
 		removeLastLineXmlFile(activity, xmlPath);  //remove  </alarms> or </rootwhatever>
 		FileOutputStream outputStream;
 		try {
