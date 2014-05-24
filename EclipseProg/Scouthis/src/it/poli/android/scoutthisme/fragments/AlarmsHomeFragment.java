@@ -119,7 +119,7 @@ public class AlarmsHomeFragment extends Fragment implements
 
 		Log.i("aggiungo listener", "add lst");
 
-		list = (ListView)mAct.findViewById(R.id.list);
+		list = (ListView)mAct.findViewById(R.id.step_listview);
 		list.setOnItemLongClickListener((new OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int pos, long id) {
@@ -169,7 +169,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	public void switchAlarm(View v)
 	{
 		// Get the associated view's alarm and toggle its state
-		int position = ((ListView)mAct.findViewById(R.id.list)).getPositionForView(v);
+		int position = ((ListView)mAct.findViewById(R.id.step_listview)).getPositionForView(v);
 		Alarm alarm = this.alarmList.get(position);
 		alarm.toggleActive();
 		//Get the new active alarm
@@ -188,7 +188,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	 */
 	public void deleteAlarm(View view)
 	{
-		ListView listView = (ListView)mAct.findViewById(R.id.list);
+		ListView listView = (ListView)mAct.findViewById(R.id.step_listview);
 		// Remove alarm view (listview item)
 		int position = listView.getPositionForView(view);
 		this.lastAlarmRemoved = this.alarmList.get(position);
@@ -220,7 +220,7 @@ public class AlarmsHomeFragment extends Fragment implements
 
 	private void updateAlarmListView()
 	{
-		list = (ListView)mAct.findViewById(R.id.list);
+		list = (ListView)mAct.findViewById(R.id.step_listview);
 		// Getting adapter by passing xml data ArrayList
 		adapter = new AlarmLazyAdapter(mAct,  this, this.alarmList);        
 		list.setAdapter(adapter);
@@ -231,7 +231,7 @@ public class AlarmsHomeFragment extends Fragment implements
 		// XML alarm file parsing
 		LinkedList<Alarm> aList = AlarmUtils.populateAlarmListFromFile(mAct);
 		this.alarmList = (aList != null) ? aList : new LinkedList<Alarm>();
-		list = (ListView)mAct.findViewById(R.id.list);
+		list = (ListView)mAct.findViewById(R.id.step_listview);
 		// Getting adapter by passing xml data ArrayList
 		adapter = new AlarmLazyAdapter(mAct, this, alarmList);        
 		list.setAdapter(adapter);

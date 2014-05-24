@@ -1,5 +1,7 @@
 package it.poli.android.scoutthisme.tools;
 
+import it.poli.android.scoutthisme.Constants;
+
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -13,7 +15,7 @@ public class ImageToolz {
 	public static void writeBitmapOnDisk( Bitmap bitmap, String fotoname)
 	{
 		String root = Environment.getExternalStorageDirectory().toString();
-        File newDir = new File(root + "/saved_images");    
+        File newDir = new File(root + "/" + Constants.SAVED_IMAGE_FOLDER_NAME);    
         newDir.mkdirs();
         File file = new File (newDir, fotoname);
         if (file.exists ()) file.delete (); 
@@ -33,7 +35,7 @@ public class ImageToolz {
 	{
 		String root = Environment.getExternalStorageDirectory().toString();
 		
-		String photoPath = root + "/saved_images/" + fotoname;
+		String photoPath = root + "/" + Constants.SAVED_IMAGE_FOLDER_NAME + "/" + fotoname;
 		
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inPreferredConfig = Bitmap.Config.ARGB_8888;

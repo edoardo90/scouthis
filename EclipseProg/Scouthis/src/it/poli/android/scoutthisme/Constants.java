@@ -26,9 +26,6 @@ public class Constants
 	public static final String URL_GET_FRIENDSLIST = "http://centriestivi.eu/scouthisme/crud/exchange_friends_coordinates.php";
 	public static final String URL_SEND_FRIENDSLIST = "http://centriestivi.eu/scouthisme/crud/update_friends_list.php";
 
-	//public static final String[] TAB_TITLES = {"News", "GPS", "Contapassi", "Trovamici", "Utiliy", "Walkie Talkie", "Wake Up!"};	
-	//public static final String[] TAB_ICONS = {R.drawable., "GPS", "Contapassi", "Trovamici", "Lumus", "Walkie Talkie", "Wake Up!"};
-
 	public static final String PARAM_USERID = "userId";
 	public static final String PARAM_USERID_AND_NAME = "userIdAndName";
     public static final String PARAM_FRIENDSLIST = "jfriendslist";
@@ -51,7 +48,12 @@ public class Constants
     public static final int TIME_UPDATE_FRIENDS_POSITION = 10 * 1000;
 	public static final int TIME_UPDATE_FRIENDSLIST = MINUTE_MILLISECONDS * 15;
 	
+	public static final String IMAGE_MAP_PREFIX = "img_google_map";
+	public static final String SAVED_IMAGE_FOLDER_NAME = "img_folder";
+	
 	public static final int RESULT_OK = 1;
+
+	
 
 	
 }

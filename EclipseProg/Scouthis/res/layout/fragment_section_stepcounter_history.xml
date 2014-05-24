@@ -4,10 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <ListView
+        android:id="@+id/step_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="402dp"
+        android:layout_marginTop="10dp"
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_selector" >
+    </ListView>
+
     <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
+        android:id="@+id/step_btn_newrun"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="History" />
+        android:layout_weight="0.82"
+        android:text="Go Home!" />
 
 </LinearLayout>
