@@ -83,16 +83,21 @@ public class WakeUpUserActivity extends Activity
 		alarmPlayer.start();
 	}
 
-	private void setGraphics()
+	private void enlargeBird(ImageView birdImg)
 	{
-		ImageView birdImg = (ImageView)findViewById(R.id.imgBird);
-		birdImg.setImageResource(this.getBirdImgId());
 		float w = birdImg.getDrawable().getIntrinsicWidth();
 		float h = birdImg.getDrawable().getIntrinsicHeight();
 		w *= 1.5f;
 		h *= 1.5f;
 		birdImg.getLayoutParams().height = (int)h;
 		birdImg.getLayoutParams().width = (int)w;
+	}
+	
+	private void setGraphics()
+	{
+		ImageView birdImg = (ImageView)findViewById(R.id.imgBird);
+		birdImg.setImageResource(this.getBirdImgId());
+		
 				
 		birdImg.setOnClickListener(new OnClickListener() {
 			@Override
@@ -159,6 +164,7 @@ public class WakeUpUserActivity extends Activity
 							
 							lp.setMargins((int)(px*uL),(int)(py*uH),0,0);
 							img.setLayoutParams(lp);
+							enlargeBird(img);
 
 							Log.i("timer", " px * uL :" + (int)(px * uL));
 						} catch (Exception e) { /* TODO Auto-generated catch block */ }

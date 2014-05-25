@@ -128,6 +128,7 @@ public class Alarm implements Serializable
 	public Map<String, String> getXmlTagFieldMap() {
 		Map<String, String> mapElemValue = new HashMap<String, String>();
 		
+		
 		mapElemValue.put(Constants.XML_TAG_BIRD, this.getBird());
 		mapElemValue.put(Constants.XML_TAG_DAYS, this.getActiveDays());
 		mapElemValue.put(Constants.XML_TAG_HOUR, String.valueOf(this.getHour()));
@@ -145,13 +146,13 @@ public class Alarm implements Serializable
 		
 		Map<String, String> birdsImageMap = new HashMap<String, String>();
 		
-		birdsImageMap.put("imgCardellino", "il cardellino");
-		birdsImageMap.put("imgPasseraSc", "la prunella");
-		birdsImageMap.put("imgMerlo", "il merlo");
+		birdsImageMap.put("bird_cardellino", "il cardellino");
+		birdsImageMap.put("bird_passera", "la prunella");
+		birdsImageMap.put("bird_merlo", "il merlo");
 		
-		birdsImageMap.put("imgGufo", "il gufo");
-		birdsImageMap.put("imgUpupa", "l'upupa");
-		birdsImageMap.put("imgPettirosso", "il pettirosso");
+		birdsImageMap.put("bird_gufo", "il gufo");
+		birdsImageMap.put("bird_upupa", "l'upupa");
+		birdsImageMap.put("bird_pettirosso", "il pettirosso");
 		
 		String birdStr = birdsImageMap.get(this.getBird());
 		return "Tocca " + birdStr + " e smetterà di cantare! ";
