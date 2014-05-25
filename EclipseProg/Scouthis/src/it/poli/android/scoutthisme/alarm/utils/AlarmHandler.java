@@ -30,7 +30,7 @@ public class AlarmHandler
 
 		AlarmManager alarms = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
 		alarms.setRepeating(AlarmManager.RTC_WAKEUP,
-				updateTime.getTimeInMillis(),
+				updateTime.getTimeInMillis() -  Constants.ALARM_SLIGHTLY_SOONER,
 				AlarmManager.INTERVAL_DAY, 
 				recurringAlarm);
 

@@ -7,7 +7,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/wake_txt_explain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tocca il cardellino per farlo tacere!"

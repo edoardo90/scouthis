@@ -140,4 +140,20 @@ public class Alarm implements Serializable
 		return mapElemValue;
 		
 	}
+
+	public String getExplainingMessage() {
+		
+		Map<String, String> birdsImageMap = new HashMap<String, String>();
+		
+		birdsImageMap.put("imgCardellino", "il cardellino");
+		birdsImageMap.put("imgPasseraSc", "la prunella");
+		birdsImageMap.put("imgMerlo", "il merlo");
+		
+		birdsImageMap.put("imgGufo", "il gufo");
+		birdsImageMap.put("imgUpupa", "l'upupa");
+		birdsImageMap.put("imgPettirosso", "il pettirosso");
+		
+		String birdStr = birdsImageMap.get(this.getBird());
+		return "Tocca " + birdStr + " e smetterà di cantare! ";
+	}
 }

@@ -17,7 +17,8 @@ public class Constants
     
     public static final String ALARM_HOUR = "it.polimi.scout.hour";
     public static final String ALARM_MINUTE = "it.polimi.scout.minute";
-
+    public static final long   ALARM_SPEED_BIRD = 1500; //Every tot millisec the bird changes position
+    
     public static final String URL_FACEBOOK_GRAPH = "https://graph.facebook.com/";
 	public static final String URL_PREFIX_FRIENDS = URL_FACEBOOK_GRAPH + "me/friends?access_token=";
     public static final String URL_PREFIX_ME = URL_FACEBOOK_GRAPH + "me?access_token=";
@@ -57,7 +58,8 @@ public class Constants
 	//both pedometer and alarm
 	public static final String XML_ROOT_MAP = "root";
 	
-	
+	public static final long ALARM_SLIGHTLY_SOONER = 30 * 1000;	
+	public static final long ALARM_SECONDS_ACCURACY = 50; //seconds more or less to start alarm
 	private static final int MINUTE_MILLISECONDS = 60 * 1000;
     public static final int TIME_UPDATE_FRIENDS_POSITION = 10 * 1000;
 	public static final int TIME_UPDATE_FRIENDSLIST = MINUTE_MILLISECONDS * 15;
@@ -66,8 +68,11 @@ public class Constants
 	public static final String SD_IMAGE_DIR = "/Scouthisme/StepImages/";
 
 	public static final float STEP_HEIGHT_CONST = 0.414f;
-
 	public static final int RESULT_OK = 1;
+
+
+	
+
 
 
 

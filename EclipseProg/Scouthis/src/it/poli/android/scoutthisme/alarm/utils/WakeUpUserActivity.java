@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class WakeUpUserActivity extends Activity
 {
@@ -67,6 +68,11 @@ public class WakeUpUserActivity extends Activity
 		float uL = width / 100;
 
 		ImageView birdImg = (ImageView)findViewById(R.id.imgBird);
+		
+		TextView txtExplaining = (TextView) findViewById(R.id.wake_txt_explain);
+		txtExplaining.setText(userAlarm.getExplainingMessage());
+		
+		
 		this.moveRandom(uH, uL, birdImg);
 	}
 	
@@ -81,6 +87,13 @@ public class WakeUpUserActivity extends Activity
 	{
 		ImageView birdImg = (ImageView)findViewById(R.id.imgBird);
 		birdImg.setImageResource(this.getBirdImgId());
+		float w = birdImg.getDrawable().getIntrinsicWidth();
+		float h = birdImg.getDrawable().getIntrinsicHeight();
+		w *= 1.5f;
+		h *= 1.5f;
+		birdImg.getLayoutParams().height = (int)h;
+		birdImg.getLayoutParams().width = (int)w;
+				
 		birdImg.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -153,6 +166,6 @@ public class WakeUpUserActivity extends Activity
 				});
 			}
 		};
-		timer.schedule(doAsynchronousTask, 0, 1000); 
+		timer.schedule(doAsynchronousTask, 0, Constants.ALARM_SPEED_BIRD); 
 	}
 }

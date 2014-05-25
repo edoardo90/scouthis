@@ -19,16 +19,16 @@ public class DailyService extends IntentService
 	@Override
 	protected void onHandleIntent(Intent intent)
 	{
-		Alarm ua = (Alarm) intent.getSerializableExtra(Constants.INTENT_ALARM);
-		Log.i("PlayAlarmService", "msg: " + ua.getBird()+ "  .. " + ua.getHour());
+		Alarm userAlarm = (Alarm) intent.getSerializableExtra(Constants.INTENT_ALARM);
+		Log.i("PlayAlarmService", "msg: " + userAlarm.getBird()+ "  .. " + userAlarm.getHour());
 
-		String days = ua.getActiveDays();
+		String days = userAlarm.getActiveDays();
 		boolean [] activeAlarmDays = AlarmUtils.daysStringToBooleanArray(days);
 		
 		Calendar localCalendar = Calendar.getInstance(TimeZone.getDefault());
 		localCalendar.setFirstDayOfWeek(0);
 		
-		//TODO: RUFY RIGUARDALO
+		
 		int currentDayOfWeek = localCalendar.get(Calendar.DAY_OF_WEEK);
 		currentDayOfWeek -= 2;
 		if(currentDayOfWeek==-1)
@@ -45,21 +45,21 @@ public class DailyService extends IntentService
 		
 		Calendar alarmCalendar = Calendar.getInstance();
 		alarmCalendar.setTimeZone(TimeZone.getDefault());
-		alarmCalendar.set(Calendar.HOUR_OF_DAY, ua.getHour());
-		alarmCalendar.set(Calendar.MINUTE, ua.getMinute());
+		alarmCalendar.set(Calendar.HOUR_OF_DAY, userAlarm.getHour());
+		alarmCalendar.set(Calendar.MINUTE, userAlarm.getMinute());
 		
 		Date dateAlarm = alarmCalendar.getTime();
 		Date dateNow = calendNow.getTime();
 		
+		boolean diffIsVeryHigh = false;
+		long diff = dateNow.getTime() - dateAlarm.getTime(); //differenza in millisecondi
+		float secDiff = (Float.valueOf(diff))/ 1000f;  //differenza in secondi
+		secDiff = Math.abs(secDiff);
 		
-		int minutiMancantiAllaSveglia = dateAlarm.compareTo(dateNow); //an int < 0 if this Date is less than the specified Date, 0 if they are equal, and an int > 0 if this Date is greater
-		// min < 0 data della sveglia è minore della data attuale
-		// min < 0 sveglia è prima di adesso
-		// min < 0 sveglia è nel passato
-		//minutiMancantiAllaSveglia < 0  => la sveglia si riferisce a un'ora precedente
-		// a quella attuale e quindi non deve suonare!
+		if(secDiff <= Constants.ALARM_SECONDS_ACCURACY)
+			diffIsVeryHigh = false;
 		
-		if(!activeAlarmDays[currentDayOfWeek] || minutiMancantiAllaSveglia < 0)
+		if(!activeAlarmDays[currentDayOfWeek] || diffIsVeryHigh)
 		{
 			Log.w("play alarm service", "Non è uno dei giorni di attività della sveglia " +
 					" quindi non faccio partire l'attività ");
@@ -67,9 +67,10 @@ public class DailyService extends IntentService
 		}
 		else
 		{
-			Intent i = new Intent(this, WakeUpUserActivity.class);
-			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(i);
+			Intent newIntent = new Intent(this, WakeUpUserActivity.class);
+			newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			newIntent.putExtra(Constants.INTENT_ALARM, userAlarm);
+			startActivity(newIntent);
 		}
 	}
 }

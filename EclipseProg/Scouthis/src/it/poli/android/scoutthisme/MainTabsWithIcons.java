@@ -19,9 +19,9 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class MainTabsWithIcons extends FragmentActivity {
     private static final String[] CONTENT = new String[] { 
-    		/*"News", "GPS", */ 
+    		"News", "GPS", 
     
-    	   "Run"  /*, "Trovamici", "Alarm" */};
+    	   "Run"  , "Trovamici", "Alarm" };
     private static final int[] ICONS = new int[] {
             R.drawable.actionb_news,
             R.drawable.actionb_gps,
@@ -55,7 +55,7 @@ public class MainTabsWithIcons extends FragmentActivity {
 			final int ZERO_OFFESET = 1;
 			switch (position) {
 			case 1 - ZERO_OFFESET:
-				return new StepCounterFragment();
+				return new NewsFeedFragment();
 			case 2 - ZERO_OFFESET:
 				return new GpsFragment();
 			case 3 - ZERO_OFFESET:
