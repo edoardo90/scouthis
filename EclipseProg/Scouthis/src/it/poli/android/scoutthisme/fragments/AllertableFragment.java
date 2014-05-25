@@ -14,7 +14,7 @@ public class AllertableFragment extends Fragment {
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction fragmentTransaction = fm.beginTransaction();
 		Fragment fm2 = new AlertUserGpsFragment();
-		fragmentTransaction.add(R.id.findf_linearl_container, fm2);
+		fragmentTransaction.add(this.idGpsAlertLayoutContainer, fm2);
 		fragmentTransaction.remove(this.getActivity().getSupportFragmentManager()
 				.findFragmentById(this.idGpsAlertLayoutContainer));
 		fragmentTransaction.commit();
