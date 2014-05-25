@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -136,8 +137,11 @@ public class NewsfeedService  extends AsyncTask<View, Void, String>
 	    	
 			TextView lblNews = (TextView) rootView.findViewById(R.id.lblNewsMessage);
 			lblNews.setText(R.string.news_rss_information);
-			lblNews.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rss, 0, 0, 0);
-			lblNews.setCompoundDrawablePadding(5);
+			
+			ImageView imgNews = (ImageView) rootView.findViewById(R.id.imgNewsMessage);
+			imgNews.setImageResource(R.drawable.rss);
+			/*lblNews.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rss, 0, 0, 0);
+			lblNews.setCompoundDrawablePadding(5);*/
 
 			Button btnHomeReload = (Button) rootView.findViewById(R.id.btnHomeReload);
 			btnHomeReload.setVisibility(View.GONE);
@@ -146,8 +150,11 @@ public class NewsfeedService  extends AsyncTask<View, Void, String>
 		{
 			TextView lblNews = (TextView) rootView.findViewById(R.id.lblNewsMessage);
 			lblNews.setText(R.string.news_rss_connection_error);
-			lblNews.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rsserror, 0, 0, 0);
-			lblNews.setCompoundDrawablePadding(5);
+			
+			/*lblNews.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rsserror, 0, 0, 0);
+			lblNews.setCompoundDrawablePadding(5);*/
+			ImageView imgNews = (ImageView) rootView.findViewById(R.id.imgNewsMessage);
+			imgNews.setImageResource(R.drawable.rsserror);
 
 			Button btnHomeReload = (Button) rootView.findViewById(R.id.btnHomeReload);
 			btnHomeReload.setVisibility(View.VISIBLE);

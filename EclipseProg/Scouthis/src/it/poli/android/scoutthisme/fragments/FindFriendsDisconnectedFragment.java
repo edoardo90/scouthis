@@ -18,9 +18,9 @@ import android.widget.TextView;
 
 import com.facebook.LoggingBehavior;
 import com.facebook.Session;
+import com.facebook.Settings;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
-import com.facebook.Settings;
 
 public class FindFriendsDisconnectedFragment extends Fragment
 {
@@ -61,8 +61,8 @@ public class FindFriendsDisconnectedFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-        updateView();
         Session.getActiveSession().addCallback(statusCallback);
+        updateView();
     }
 
     @Override
@@ -74,12 +74,6 @@ public class FindFriendsDisconnectedFragment extends Fragment
     private void updateView() {
         Session session = Session.getActiveSession();
         if (session.isOpened()) {
-			// If everything goes fine, now we got the url with all our friends stuff
-        	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
-        	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
-        	// Call AsynTask to perform network operation on separate thread
-        	// see: doInBackground and onPostExecute
-    		new NotifyFriendsAsyncTask(mAct).execute(urlFriendsInfo, userInfo);
             switchToLoggedFragment();
         } else {
             setLoginButton();
@@ -106,12 +100,11 @@ public class FindFriendsDisconnectedFragment extends Fragment
         TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFLoginMessage);
     	textInstructionsOrLink.setText(getString(R.string.findfriends_login_message));
 
-    	Button buttonLoginLogout = (Button) this.getActivity().findViewById(R.id.btnLogIn);
-    	buttonLoginLogout.setText(getString(R.string.findfriends_login));
-        buttonLoginLogout.setOnClickListener(
+    	Button buttonLogin = (Button) this.getActivity().findViewById(R.id.btnLogIn);
+    	buttonLogin.setText(R.string.findfriends_login);
+        buttonLogin.setOnClickListener(
         	new OnClickListener() {
-        		public void onClick(View view) { 
-        			Log.i("btn ", "button");
+        		public void onClick(View view) {
         			onClickLogin(); }
         	}
         );

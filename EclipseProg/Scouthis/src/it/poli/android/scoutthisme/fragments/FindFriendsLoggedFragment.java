@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +47,8 @@ import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
-import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -65,107 +64,103 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 
 	GpsHandler gpsHandler;
 	FacebookHandler facebookHandler;
+	Map<String, Marker> markersMap;
+	
 	Location loc;
 	
-	Map<Marker, UserMarker> usersMap;
-	Map<String, Bitmap>     cachedUserImage;
-	static String lastUserIdClicked = null;
-	
 	GraphUser graphUser;
-	boolean needDefaultZoom;
 	final int defaultZoom = 13;
 	
-	Session session;
 	Activity mAct;
-	Bundle savedInstanceState;
 	List<UserMarker> lstUsersMarkers;
     private StatusCallback statusCallback;	
-    
-	@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Session.getActiveSession().onActivityResult(mAct, requestCode, resultCode, data);
-    }
-	
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        session = Session.getActiveSession();
-        Session.saveSession(session, outState);
-    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		mAct = getActivity();
-		gpsHandler = new GpsHandler(mAct);
-		facebookHandler = new FacebookHandler(mAct);
-		statusCallback = new SessionStatusCallback();
-		session = Session.getActiveSession();
-		this.savedInstanceState = savedInstanceState;
-		
 		View rootView = inflater.inflate(R.layout.fragment_section_findfriends_logged, container, false);
 		return rootView;
 	}
 
 	@Override
-	public void onResume()
+	public void onCreate(Bundle savedInstanceState)
 	{
-		super.onResume();
-			
-		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends)).getMap();
-		gMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-			@Override
-			public boolean onMarkerClick(Marker marker) {
-				//TODO null pointer
-				lastUserIdClicked = usersMap.get(marker).getId();
-				return false;
-			}
-		});
+		super.onCreate(savedInstanceState);
 		
-        if (savedInstanceState != null) {
-            session = Session.restoreSession(mAct, null, statusCallback, savedInstanceState);
-        }
+		mAct = getActivity();
+		statusCallback = new SessionStatusCallback();
+		gpsHandler = new GpsHandler(mAct);
+		facebookHandler = new FacebookHandler(mAct);
+		markersMap = new HashMap<String, Marker>();
+		
+		gpsHandler.setListener(this);
+		facebookHandler.setListener(this);
+		
+        Session session = Session.getActiveSession();
         if (session == null) {
-            session = new Session(mAct);
+            if (savedInstanceState != null) {
+                session = Session.restoreSession(getActivity(), null, statusCallback, savedInstanceState);
+            }
+            if (session == null) {
+                session = new Session(getActivity());
+            }
+            Session.setActiveSession(session);
+            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+            }
         }
-        Session.setActiveSession(session);
-        if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
-            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
-        }
-        
-		if (session.isOpened()) {
-			setLogoutButton();
-			needDefaultZoom = true;
-			gpsHandler.setListener(this);
-			facebookHandler.setListener(this);
-		} else {
-			graphUser = null;
-			switchToDisconnectedFragment();
-		}
-		session = Session.getActiveSession();
-		session.addCallback(statusCallback);
-		
-		displayUserDetails(session);
 	}
-
-	@Override
-	public void onPause()
-	{
-		super.onPause();
+	
+    @Override
+    public void onResume() {
+        super.onResume();
 		
-		session = Session.getActiveSession();
-		session.removeCallback(statusCallback);
+		setLogoutButton();
+		
+        updateView(true);
+        Session.getActiveSession().addCallback(statusCallback);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        
+        Session.getActiveSession().removeCallback(statusCallback);
+
 		gpsHandler.removeListener();
 		facebookHandler.removeListener();
-		gMap.clear();
+		
+		// Destroy map
+		if (gMap != null)
+			gMap.clear();
 		
 		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
 		if(mapFragment != null) {
 			FragmentManager fM = getFragmentManager();
 			fM.beginTransaction().remove(mapFragment).commit();
 		}
-	}
+    }
+    
+    private void updateView(boolean justCreated)
+    {
+        Session session = Session.getActiveSession();
+		if (session != null && session.isOpened()) {
+	        displayUserDetails(session);
+	        if (justCreated) {				
+				this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends)).getMap();				
+	        	// If everything goes fine, now we got the url with all our friends stuff
+	        	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
+	        	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
+	        	// Call AsynTask to perform network operation on separate thread
+	        	// see: doInBackground and onPostExecute
+	    		new NotifyFriendsAsyncTask(getActivity()).execute(urlFriendsInfo, userInfo);
+	        }
+		} else if (session != null && session.isClosed()) {
+			Log.i("AAA", session.getState().toString());
+			graphUser = null;
+			switchToDisconnectedFragment();
+		}
+    }
 	
 	private void switchToDisconnectedFragment()
 	{
@@ -183,37 +178,25 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
      * Imposta l'aspetto del pulsante Logout
      */
     private void setLogoutButton()
-    {    
-        TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFLogoutMessage);
-        /*JSONObject json = Util.parseJson(facebook.request("me", params));
-        String userId = json.getString("id");*/
-    	textInstructionsOrLink.setText(getString(R.string.findfriends_logout_message));
-    	
-		Button buttonLoginLogout = (Button)getView().findViewById(R.id.btnLogOut);
-		buttonLoginLogout.setText(getString(R.string.findfriends_logout));
-		buttonLoginLogout.setOnClickListener(
+    {    	
+		Button buttonLogout = (Button)getView().findViewById(R.id.btnLogOut);
+    	buttonLogout.setText(R.string.findfriends_logout);
+		buttonLogout.setOnClickListener(
         	new OnClickListener() {
-        		public void onClick(View view) { onClickLogout(); }
+        		public void onClick(View view) { 
+        	        Session session = Session.getActiveSession();
+        	        if (!session.isClosed()) {
+        	            session.closeAndClearTokenInformation();
+        	        }
+        	        switchToDisconnectedFragment();
+        		}
         	}
         );
-		View mapp = getView().findViewById(R.id.mapFindFriends);
-		mapp.setVisibility(View.VISIBLE);
-    }    
-    
-    /**
-     * Effettua il logout su richiesta dell'utente
-     */
-    private void onClickLogout() {
-        Session session = Session.getActiveSession();
-        if (!session.isClosed()) {
-            session.closeAndClearTokenInformation();
-        }
-        switchToDisconnectedFragment();
     }
 
 	@Override
 	public void onLocationChanged(Location location) {
-		this.loc = location;
+		loc = location;
 		facebookHandler.updatePosition(location);
 		updateMap();
 	}
@@ -226,45 +209,46 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	
 	private void updateMap() 
 	{
-		if (gMap != null)
-		{
-			gMap.clear();
-			this.usersMap = new HashMap<Marker, UserMarker>();
-			this.cachedUserImage = new HashMap<String, Bitmap>();
+		Map<String, Marker> tempMap = new HashMap<String, Marker>(markersMap);
+		
+		if (gMap != null) {
 			if (lstUsersMarkers != null)
-			{
-				for(UserMarker usrMarker : lstUsersMarkers)
-				{
-					if (Constants.DEBUG_ENABLED) {
-						Log.w("i place markers", " placing " + usrMarker.toString());
+				for(UserMarker userMarker : lstUsersMarkers) {
+					// Get user's id and check if it's alrealdy on map
+					String thisUserId = userMarker.getId();
+					Marker mapMarker = markersMap.get(thisUserId);
+					// if yes, update position
+					if (mapMarker != null) {
+						tempMap.remove(thisUserId);
+						mapMarker.setPosition(new LatLng(userMarker.getLatitude(), userMarker.getLongitude()));
 					}
-					placeMarkerOnMap(usrMarker, false);
+					// if not, add it to map
+					else
+						placeMarkerOnMap(userMarker, false);
 				}
-			}
 			if (loc != null && graphUser != null) {
+				// Get details of me and my position
 				UserMarker me = new UserMarker(graphUser, loc.getLatitude(), loc.getLongitude());
-				placeMarkerOnMap(me, true);
-				
-				if (needDefaultZoom) {
-					needDefaultZoom = false;
+				String thisUserId = me.getId();
+				Marker mapMarker = markersMap.get(thisUserId.toString());
+				// Check if I am already on map. If yes: update position, if not: add me on map
+				if (mapMarker != null) {
+					tempMap.remove(thisUserId);
+					mapMarker.setPosition(new LatLng(me.getLatitude(), me.getLongitude()));
+				}
+				else {
+					placeMarkerOnMap(me, true);
 					gMap.moveCamera(CameraUpdateFactory
 							.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), defaultZoom));
 				}
-				/*else {
-					gMap.moveCamera(CameraUpdateFactory.
-							newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), gMap.getCameraPosition().zoom));
-				}*/
-				//marker.showInfoWindow();
 			}
 		}
-	}
-	
-	public void addMeToMap() {
-		MarkerOptions mo = new MarkerOptions().position(new LatLng(loc.getLatitude(), loc.getLongitude()));
-		Marker marker = gMap.addMarker(mo);
 		
-		marker.setTitle(graphUser.getFirstName());
-
+		// Remove all friends not online anymore
+		Collection<Marker> markersToRemove = tempMap.values();
+		for (Marker m : markersToRemove) {
+			m.remove();
+		}
 	}
 	
 	private void placeMarkerOnMap(final UserMarker userMarker, boolean IAm)
@@ -278,10 +262,13 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 					final Marker marker = gMap.addMarker(mo);
 					marker.setTitle(userMarker.toString());
 					
-					usersMap.put(marker, userMarker);
-	
+					//usersMap.put(marker, userMarker);
+					RoundedImage rv = new RoundedImage(mAct.getApplicationContext());
+					bitmap = rv.getCroppedBitmap(bitmap, 80);
 					marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
 					marker.setAnchor(0.5f, 1);
+					
+					markersMap.put(userMarker.getId(), marker);
 				}
 		    }.execute(userMarker.getImageUrl()); // start the background processing
 		}
@@ -291,19 +278,12 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 			final Marker marker = gMap.addMarker(mo);
 			marker.setTitle(userMarker.toString());
 			
-			usersMap.put(marker, userMarker);
-			
-			if (lastUserIdClicked != null  && lastUserIdClicked.contentEquals(userMarker.getId()))
-				marker.showInfoWindow();
-			
+			markersMap.put(userMarker.getId(), marker);
 		}
-		
 	}
 	
-		
-	class ImageLoader extends AsyncTask<String, Integer, Bitmap>{
-
-	
+	class ImageLoader extends AsyncTask<String, Integer, Bitmap>
+	{	
 		@Override
 		protected Bitmap doInBackground(String... urls) {
 			URL imgUrl = null;
@@ -314,40 +294,24 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			//facciamo CACHING! - get   
-			Bitmap bitmap = cachedUserImage.get(urls[0]);
-			
-			//if not in cash DOWNLOAD it and we SAVE IT IN CACH
-			if(bitmap== null)
-			{	
-				try {
-					in = (InputStream) imgUrl.getContent();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				bitmap = BitmapFactory.decodeStream(in);
-				try {
-					if(in!=null)
-						in.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				RoundedImage rv = new RoundedImage(mAct.getApplicationContext());
-				bitmap = rv.getCroppedBitmap(bitmap, 80);
-				//SAVE IT IN CACHE
-				cachedUserImage.put(urls[0], bitmap);
+			try {
+				in = (InputStream) imgUrl.getContent();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
+			Bitmap  bitmap = BitmapFactory.decodeStream(in);
+			try {
+				if(in!=null)
+					in.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return bitmap;
 		}
-
 	}
 
-	
 	private List<UserMarker> usersMarkersFromJson(String gpsCoordJSONStr)
 	{
 		List<UserMarker> usersMarkers = new ArrayList<UserMarker>();
@@ -367,15 +331,15 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				usersMarkers.add(um);
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			if (Constants.DEBUG_ENABLED)
+				e.printStackTrace();
 		}
 		return usersMarkers;
 	}
 	
 	private void displayUserDetails(final Session session)
-	{   
-		final ProfilePictureView profilePictureView = (ProfilePictureView) mAct.findViewById(R.id.ffriends_img_user); 
-		final TextView  userNameView = (TextView) mAct.findViewById(R.id.ff_txtUserFirstName);
+	{
+		final TextView  userNameView = (TextView) mAct.findViewById(R.id.ff_txtUserFFLoggedMessage);
 		
 		Request request = Request.newMeRequest(session, 
 	            new Request.GraphUserCallback() {
@@ -383,16 +347,17 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	        public void onCompleted(GraphUser user, Response response) {
 	            // If the response is successful
 	            if (session == Session.getActiveSession()) {
-	                if (user != null && profilePictureView != null && userNameView != null) {
-	                	
-	                	profilePictureView.setProfileId(user.getId());
-	                    // Set the Textview's text to the user's name.
-	                    userNameView.setText(user.getName());
+	                if (user != null) {
+	                    // Set the Textview's text to the user's name. TODO
+	                	if (userNameView != null)
+	                		userNameView.setText(getString(R.string.findfriends_wellcome_name) + " " + user.getName());
 	    	        	graphUser = user;
 	                }
 	            }
 	            if (response.getError() != null) {
 	                // Handle errors, will do so later.
+	            	if (Constants.DEBUG_ENABLED)
+	            		Log.i("FindFriends", response.getError().toString());
 	            }
 	        }
 	    });
@@ -405,17 +370,20 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
     private class SessionStatusCallback implements StatusCallback {
         @Override
         public void call(Session sessionF, SessionState state, Exception exception) {
-            session = Session.getActiveSession();
-            
-            displayUserDetails(session);
-            if (session.isOpened()) {        	
-            	// If everything goes fine, now we got the url with all our friends stuff
-            	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
-            	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
-            	// Call AsynTask to perform network operation on separate thread
-            	// see: doInBackground and onPostExecute
-        		new NotifyFriendsAsyncTask(getActivity()).execute(urlFriendsInfo, userInfo);
-            }
+        	updateView(false);
         }
+    }
+    
+	@Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession().onActivityResult(mAct, requestCode, resultCode, data);
+    }
+	
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Session session = Session.getActiveSession();
+        Session.saveSession(session, outState);
     }
 }

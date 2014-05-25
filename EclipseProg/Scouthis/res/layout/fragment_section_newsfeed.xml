@@ -3,27 +3,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/lblNewsMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="..."
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+	<LinearLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="5dp"
+	    android:orientation="horizontal" >
 
-    <Button
+		<ImageView
+		    android:id="@+id/imgNewsMessage"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center" />
+	    
+	    <TextView
+	        android:id="@+id/lblNewsMessage"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:text="..."
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+    </LinearLayout>
+	    
+	<Button
         android:id="@+id/btnHomeReload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Ricarica"
         android:visibility="gone" />
-
+		    
     <ListView
         android:id="@+id/lstNews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp" >
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" >
 
     </ListView>
 

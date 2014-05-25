@@ -16,7 +16,7 @@ public class NewsFeedFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		final View rootView = inflater.inflate(R.layout.fragment_section_launchpad, container, false);
+		final View rootView = inflater.inflate(R.layout.fragment_section_newsfeed, container, false);
 				
 		Button btnHomeReload = (Button) rootView.findViewById(R.id.btnHomeReload);
 		btnHomeReload.setOnClickListener(new OnClickListener() {

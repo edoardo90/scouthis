@@ -11,54 +11,35 @@
         android:layout_margin="0dp" 
         android:orientation="horizontal" >
 
-        <com.facebook.widget.LoginButton
+        <Button
             android:id="@+id/btnLogOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            fb:login_text="Log in"
-            fb:logout_text="Log out" />
+            android:layout_marginLeft="5dp" />
 
 		<TextView
-		    android:id="@+id/txtFFLogoutMessage"
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:gravity="center"
-		    android:text="Oh Bischero!! E loggati!!" />
-            
-	</LinearLayout>
-	
-	<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" 
-        android:orientation="horizontal" >       
-
-		<com.facebook.widget.ProfilePictureView
-		     android:id="@+id/ffriends_img_user"
-		     android:layout_width="wrap_content"
-		     android:layout_height="wrap_content"
-		     android:layout_gravity="center"
-		     android:gravity="center_horizontal"
-		     facebook:preset_size="small" />
-	    
-		<TextView
-		     android:id="@+id/ff_txtUserFirstName"
+		     android:id="@+id/ff_txtUserFFLoggedMessage"
 		     android:layout_width="fill_parent"
 		     android:layout_height="fill_parent"
-		     android:gravity="center"
-		     android:text="user" />
-		 
+		     android:gravity="center" />
+            
+	</LinearLayout>
 
-    </LinearLayout>
-    
     <fragment
         android:id="@+id/mapFindFriends"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp" />
+	
+	<com.facebook.widget.ProfilePictureView
+	     android:id="@+id/ffriends_profilepicture"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:gravity="center_horizontal"
+	     android:visibility="invisible"
+	     fb:preset_size="small" />
     
 </LinearLayout>

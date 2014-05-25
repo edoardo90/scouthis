@@ -11,22 +11,19 @@
         android:layout_margin="0dp" 
         android:orientation="horizontal" >
 
-        <com.facebook.widget.LoginButton
+        <Button
             android:id="@+id/btnLogIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            fb:login_text="Log in"
-            fb:logout_text="Log out" />
+            android:layout_marginLeft="5dp" />
 
 		<TextView
 		    android:id="@+id/txtFFLoginMessage"
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
-		    android:gravity="center"
-		    android:text="Oh Bischero!! E loggati!!" />
+		    android:gravity="center" />
             
 	</LinearLayout>
     
