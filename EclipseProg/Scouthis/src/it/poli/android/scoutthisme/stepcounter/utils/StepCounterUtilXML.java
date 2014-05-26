@@ -40,8 +40,9 @@ public class StepCounterUtilXML {
 				String steps   =  parser.getValue(e, Constants.XML_TAG_STEPS).replaceAll("\\s","");
 				String time   =  parser.getValue(e, Constants.XML_TAG_TIME).replaceAll("\\s","");
 				String speed =  parser.getValue(e, Constants.XML_TAG_SPEED).replaceAll("\\s","");
+				String date =  parser.getValue(e, Constants.XML_TAG_DATE).replaceAll("\\s","");
 	
-				RunEpisode rep = new RunEpisode(id, distance, steps, time, speed);
+				RunEpisode rep = new RunEpisode(id, distance, steps, time, speed, date);
 				runEpisodeList.add(rep);
 			}
 		}

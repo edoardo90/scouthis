@@ -54,6 +54,7 @@ public class Constants
 	public static final String XML_TAG_TIME = "time";
 	public static final String XML_TAG_STEPS = "steps";
 	public static final String XML_TAG_SPEED = "speed";
+	public static final String XML_TAG_DATE = "date";
 
 	//both pedometer and alarm
 	public static final String XML_ROOT_MAP = "root";
@@ -70,15 +71,4 @@ public class Constants
 	public static final float STEP_HEIGHT_CONST = 0.414f;
 	public static final int RESULT_OK = 1;
 
-
-	
-
-
-
-
-	
-
-	
-
-	
 }

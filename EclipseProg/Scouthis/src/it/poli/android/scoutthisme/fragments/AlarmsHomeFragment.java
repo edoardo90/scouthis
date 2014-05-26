@@ -12,7 +12,6 @@ import it.poli.android.scoutthisme.undobar.UndoBar.Listener;
 
 import java.util.Calendar;
 import java.util.LinkedList;
-import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
@@ -112,23 +110,6 @@ public class AlarmsHomeFragment extends Fragment implements
 		this.updateListViewFromFile();
 
 		listViewAlarms = (ListView)mAct.findViewById(R.id.alarm_listview);
-
-		View vv = listViewAlarms.getAdapter().getView(0, null, listViewAlarms);
-		ImageView trashAlarm = (ImageView) vv.findViewById(R.id.trash_alarm);
-		trashAlarm.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				deleteAlarm(v);
-			}
-		});
-
-		ImageView interrutAlarm = (ImageView)vv.findViewById(R.id.interrutt);
-		interrutAlarm.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				switchAlarm(v);
-			}
-		});
 	}
 	
 	@Override
