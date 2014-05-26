@@ -3,7 +3,6 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.gps.utils.GpsHandler;
-import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.gps.utils.LegMovementDetector;
 import it.poli.android.scoutthisme.gps.utils.LegMovementDetector.ILegMovementListener;
 import it.poli.android.scoutthisme.stepcounter.utils.RunEpisode;
@@ -22,7 +21,6 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,7 +43,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
  * used to count user's steps.
  * The user path is displayed on the google map as a spline.
  */
-public  class StepCounterRunFragment extends StepCounterFragmentArchetype implements ILegMovementListener, GpsListener
+public  class StepCounterRunFragment extends StepCounterFragmentArchetype
+	implements ILegMovementListener
 {
 	public static final String strLatitudeExtra = "it.poli.latitude";
 	public static final String strLongitudeExtra = "it.poli.longitude";
@@ -123,6 +122,8 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 	public void onResume()
 	{
 		super.onResume();
+		super.setIdGpsAlertContainer(R.id.step_alert_gps_container);
+		
 		secondsAtTheBeginning = Calendar.getInstance().get(Calendar.SECOND);
 
 		gpsHandler.setListener(this);
@@ -151,16 +152,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 				transitionTowars(new StepCounterHomeFragment());
 			}
 		});
-
-
-		Button btnPauseRun = (Button)this.getActivity().findViewById(R.id.step_btn_pause);
-		btnPauseRun.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
+		
 
 	}
 
@@ -215,7 +207,6 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.i("location changed", "loc:" + location);
 		this.loc = location;
 		if (lastSensorLoc == null) {
 			this.lastSensorLoc = location;
@@ -290,5 +281,6 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 
 
 	}
+
 }
 

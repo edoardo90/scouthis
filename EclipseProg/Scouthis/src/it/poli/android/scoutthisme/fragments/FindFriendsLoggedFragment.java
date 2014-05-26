@@ -2,7 +2,6 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.gps.utils.GpsHandler;
-import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.social.FacebookHandler;
 import it.poli.android.scoutthisme.social.FacebookListener;
 import it.poli.android.scoutthisme.social.NotifyFriendsAsyncTask;
@@ -30,7 +29,6 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
@@ -49,7 +47,6 @@ import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
-import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -61,7 +58,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * A fragment that launches other parts of the demo application.
  */
-public  class FindFriendsLoggedFragment extends Fragment implements GpsListener, FacebookListener
+public  class FindFriendsLoggedFragment extends AllertableFragment implements FacebookListener
 {
 	private GoogleMap gMap;
 
@@ -117,10 +114,11 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
     @Override
     public void onResume() {
         super.onResume();
+	 
+        super.setIdGpsAlertContainer(R.id.ffriends_alert_container);
 		
 		setLogoutButton();
-		
-        updateView(true);
+		updateView(true);
         Session.getActiveSession().addCallback(statusCallback);
     }
 
@@ -411,4 +409,6 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
         Session session = Session.getActiveSession();
         Session.saveSession(session, outState);
     }
+
+
 }

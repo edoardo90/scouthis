@@ -29,7 +29,7 @@ public class GpsHandler implements LocationListener
     public void setListener(GpsListener l) {
     	this.listener = l;
 	    //Check if GPS is enabled and ask user to activate it
-    	if ( !isGpsEnabled(mContext)) {
+    	if ( false && !isGpsEnabled(mContext)) {
 	        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 	        
 	        builder.setTitle("Gps non attivo");  // GPS not found
@@ -84,20 +84,28 @@ public class GpsHandler implements LocationListener
 	@Override
 	public void onLocationChanged(Location location) {
 		
-		Log.i("location changed!", "loc changeddd!!");
 		if (listener != null) {
 			listener.onLocationChanged(location);
 		}
 	}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) { }
-
-	@Override
-	public void onProviderEnabled(String provider) { 
-		//asd
+	public void onStatusChanged(String provider, int status, Bundle extras)
+	{
+		int i=0;
+		i--;
 	}
 
 	@Override
-	public void onProviderDisabled(String provider) { }
+	public void onProviderEnabled(String provider) { 
+		if(listener != null)
+			listener.onProvidereEnabled(provider);
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) 
+	{
+		if(listener != null)
+			listener.onProviderDisabled(provider);
+	}
 }

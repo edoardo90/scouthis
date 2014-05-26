@@ -116,10 +116,6 @@ import android.widget.TextView;
     	    double bearing = location.getBearing();
     	    double speed = location.getSpeed()*3.6;
 
-    	    if (Constants.DEBUG_ENABLED) {
-    	    	Log.i("Geo_Location", "Latitude: " + latitude + ", Longitude: " + longitude);
-    	    }
-    	    
     	    int locDegrees = (int)latitude;
     	    double locMinutes = ((latitude - locDegrees)*60);
     	    String locOrient = latitude >= 0 ? "N" : "S";
@@ -144,4 +140,17 @@ import android.widget.TextView;
     	    txtPrc.setText(String.format("%.0f", accuracy)+"m");
     	    txtBea.setText(String.format("%.0f", bearing)+"°"+" "+latlongOrient[orient]);
     	}
+
+		@Override
+		public void onProvidereEnabled(String provider) {
+			int i=0;
+			i--;
+			
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
     }
