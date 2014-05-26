@@ -33,12 +33,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.Request;
@@ -47,6 +49,7 @@ import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
+import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -180,7 +183,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
     private void setLogoutButton()
     {    	
 		Button buttonLogout = (Button)getView().findViewById(R.id.btnLogOut);
-    	buttonLogout.setText(R.string.findfriends_logout);
+    	
 		buttonLogout.setOnClickListener(
         	new OnClickListener() {
         		public void onClick(View view) { 
@@ -337,6 +340,24 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		return usersMarkers;
 	}
 	
+	private void setProfileImage(String userID)
+	{
+		String facebookUserImageUrl = "https://graph.facebook.com/" + userID + "/picture?type=large";
+		
+		new ImageLoader(){ 
+			@Override
+			protected void onPostExecute(Bitmap bitmap)
+			{
+				final ImageView profilePic = (ImageView)mAct.findViewById(R.id.ff_profilePic);
+				if(profilePic != null && bitmap != null)
+				{
+					profilePic.setImageBitmap(bitmap);
+				}
+			}
+	    }.execute(facebookUserImageUrl); 
+	}
+	
+	
 	private void displayUserDetails(final Session session)
 	{
 		final TextView  userNameView = (TextView) mAct.findViewById(R.id.ff_txtUserFFLoggedMessage);
@@ -350,8 +371,12 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	                if (user != null) {
 	                    // Set the Textview's text to the user's name. TODO
 	                	if (userNameView != null)
-	                		userNameView.setText(getString(R.string.findfriends_wellcome_name) + " " + user.getName());
-	    	        	graphUser = user;
+	                	{
+	                		userNameView.setText(Html.fromHtml(getString(R.string.findfriends_wellcome_name) + " <b>" + user.getFirstName() + "</b>"));
+	                		setProfileImage(user.getId());
+	                		
+	                	}
+	                	graphUser = user;
 	                }
 	            }
 	            if (response.getError() != null) {

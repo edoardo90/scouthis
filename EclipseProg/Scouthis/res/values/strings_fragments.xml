@@ -43,11 +43,13 @@
     <!-- Strings related to findfriends fragment  -->
     <string name="findfriends_login">Login</string>
     <string name="findfriends_logout">Logout</string>
-    <string name="findfriends_login_message">Loggati con Facebook per usare il trovamici!</string>
+    <string name="findfriends_login_message">Loggati con &lt;b&gt; Facebook &lt;/b&gt; per usare il trovamici!</string>
     <string name="findfriends_logout_message">Benvenuto!</string>
-    <string name="findfriends_wellcome_name">Benvenuto, </string>
+    <string name="findfriends_dontwarry_message">Non posteremo nulla sulla tua bacheca!</string>
+    <string name="findfriends_wellcome_name">Benvenuto</string>
     <string name="findfriends_my_marker">Tu sei qui</string>
     <string name="findfriends_login_button">Facebook Login</string>
+    
     
     <!-- Strings related to utility fragment  -->
     <string name="utility_camera_not_available">Fotocamera non rilevata.</string>

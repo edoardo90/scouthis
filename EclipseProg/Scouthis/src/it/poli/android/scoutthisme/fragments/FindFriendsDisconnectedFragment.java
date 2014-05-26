@@ -1,14 +1,14 @@
 package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.social.NotifyFriendsAsyncTask;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,9 +18,9 @@ import android.widget.TextView;
 
 import com.facebook.LoggingBehavior;
 import com.facebook.Session;
-import com.facebook.Settings;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
+import com.facebook.Settings;
 
 public class FindFriendsDisconnectedFragment extends Fragment
 {
@@ -100,8 +100,13 @@ public class FindFriendsDisconnectedFragment extends Fragment
         TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFLoginMessage);
     	textInstructionsOrLink.setText(getString(R.string.findfriends_login_message));
 
+    	textInstructionsOrLink.setText(Html.fromHtml(getString(R.string.findfriends_login_message)));
+    	
+    	TextView textDontWarry = (TextView)mAct.findViewById(R.id.txtFFDontWarryMessage);
+    	textDontWarry.setText(getString(R.string.findfriends_dontwarry_message));
+    	
     	Button buttonLogin = (Button) this.getActivity().findViewById(R.id.btnLogIn);
-    	buttonLogin.setText(R.string.findfriends_login);
+    	
         buttonLogin.setOnClickListener(
         	new OnClickListener() {
         		public void onClick(View view) {
