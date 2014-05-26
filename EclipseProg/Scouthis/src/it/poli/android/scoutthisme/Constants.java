@@ -6,6 +6,7 @@ public class Constants
 	
 	public static final String INTENT_NOTIFICATION = "it.poli.android.scoutthisme";
 	public static final String INTENT_ALARM = "it.poli.android.scoutthisme.alarm.utils.bird";
+	public static final String ALLERTABLE_FRAGMENT = "it.poli.android.scoutthisme.fragments.allertable";
 	
 	public final static String PARAM_ALARM_DAYS = "it.polimi.scout.activedays";
 	public final static String PARAM_ALARM_TIME = "it.polimi.scout.time";

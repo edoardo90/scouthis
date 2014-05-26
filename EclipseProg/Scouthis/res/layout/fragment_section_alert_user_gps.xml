@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-    <Button
-        android:id="@+id/button1"
+    <TextView
+        android:id="@+id/alert_warn_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="3dip"
+        android:layout_marginRight="10dip"
+        android:layout_toLeftOf="@+id/setGpsOn"
+        android:text="Please dude turn on the GPS. Otherwise this app wont go well!"
+        android:textSize="20sp" />
 
-    <ToggleButton
-        android:id="@+id/toggleButton1"
+    <ImageButton
+        android:id="@+id/setGpsOn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ToggleButton" />
+        android:layout_height="fill_parent"
+        android:layout_alignBottom="@+id/alert_warn_message"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/list_selector"
+        android:src="@drawable/actionb_gps" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -5,6 +5,13 @@
     <string name="fragments_new">Nuovo</string>
     <string name="fragments_start">Start</string>
     <string name="fragments_waiting_dots">&#8230;</string>
+    <string name="fragments_general_alert">Questa applicazione ha bisogno del Gps. &lt;br&gt;
+        Attivalo perché funzioni al meglio!</string>
+    <string name="fragments_step_alert">Il Contapassi ha bisogno del Gps. &lt;br&gt;
+        Attivalo perché funzioni al meglio!</string>
+    <string name="fragments_friends_alert">Il Trova Amici ha bisogno del Gps. &lt;br&gt;
+        Attivalo perché funzioni al meglio!</string>
+    
     
     <!-- Strings related to tabs viewer -->
     <string name="fragments_1_title">News</string>

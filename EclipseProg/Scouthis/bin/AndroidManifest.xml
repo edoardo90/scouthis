@@ -12,7 +12,7 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
+  limitations under the License.
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,13 +36,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    
-    <!--  alarm birds needs it -->
+
+    <!-- alarm birds needs it -->
     <uses-permission android:name="android.permission.VIBRATE" />
-    
+
     <!--
      The following two permissions are not required to use
-     Google Maps Android API v2, but are recommended.
+     Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -52,20 +52,18 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat" >
-        
-          <activity
-          	android:name="it.poli.android.scoutthisme.MainTabsWithIcons"
-          	android:label="@string/app_name" 
-          	android:theme="@style/StyledIndicators">
+        <activity
+            android:name="it.poli.android.scoutthisme.MainTabsWithIcons"
+            android:label="@string/app_name"
+            android:theme="@style/StyledIndicators" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-	
-        
-        <activity  android:name="it.poli.android.scoutthisme.MainActivity"></activity>
-        
+        <activity android:name="it.poli.android.scoutthisme.MainActivity" >
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -120,6 +118,11 @@
         <activity
             android:name="it.poli.android.scouthisme.ProvaPickerss"
             android:label="@string/title_activity_prova_pickerss" >
+        </activity>
+        <activity
+            android:name="it.poli.android.scouthisme.DialogFloatActivity"
+            android:label="@string/title_activity_dialog_float" 
+            android:theme="@android:style/Theme.Dialog">
         </activity>
     </application>
 

@@ -29,6 +29,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
@@ -116,7 +117,8 @@ public  class FindFriendsLoggedFragment extends AllertableFragment implements Fa
         super.onResume();
 	 
         super.setIdGpsAlertContainer(R.id.ffriends_alert_container);
-		
+		super.setAlertMessage(getString(R.string.fragments_friends_alert));
+        
 		setLogoutButton();
 		updateView(true);
         Session.getActiveSession().addCallback(statusCallback);
@@ -148,7 +150,12 @@ public  class FindFriendsLoggedFragment extends AllertableFragment implements Fa
 		if (session != null && session.isOpened()) {
 	        displayUserDetails(session);
 	        if (justCreated) {				
-				this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends)).getMap();				
+	        	FragmentManager fm = getFragmentManager();
+	        	if  (fm!= null)
+	        	{	
+					this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends))
+						.getMap();
+	        	}
 	        	// If everything goes fine, now we got the url with all our friends stuff
 	        	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
 	        	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();

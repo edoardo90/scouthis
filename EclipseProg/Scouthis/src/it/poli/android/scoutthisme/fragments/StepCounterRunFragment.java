@@ -123,6 +123,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 	{
 		super.onResume();
 		super.setIdGpsAlertContainer(R.id.step_alert_gps_container);
+		super.setAlertMessage(getString(R.string.fragments_step_alert));
 		
 		secondsAtTheBeginning = Calendar.getInstance().get(Calendar.SECOND);
 
