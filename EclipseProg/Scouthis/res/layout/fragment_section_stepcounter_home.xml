@@ -1,20 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:orientation="vertical" 
-		android:id="@+id/step_home_linLay">
+    android:id="@+id/step_home_linLay"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginTop="-60dp"
+    android:layout_margin="5dip"
+    android:gravity="center"
+    android:orientation="vertical" >
+    <RelativeLayout 
+        android:id="@+id/step_home_newrun"
+         
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content" 
+         android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/step_btn_newrun"
+        <ImageButton
+            android:id="@+id/step_button_newrun"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/run_new" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/stepcounter_newrun"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/coral_light" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/step_history_gohome_cont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nuova corsa" />
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="3dip"
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/step_btn_history"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Vedi Storico" />
+        <ImageButton
+            android:id="@+id/step_button_history"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/run_history" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/stepcounter_seehistory"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/coral_light" />
+
+    </RelativeLayout>
 
 </LinearLayout>

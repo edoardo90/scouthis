@@ -42,6 +42,10 @@
     <string name="gps_direction">Direzione</string>
     
     <!-- Strings related to stepcounter fragment  -->
+    <string name="stepcounter_gohome">Torna alla Home del Contapassi</string>
+    <string name="stepcounter_newrun">Nuova corsa</string>
+    <string name="stepcounter_seehistory">Vedi storico</string>
+    <string name="stepcounter_statistic">Statistiche corsa</string>
     <string name="stepcounter_steps_done">Passi effettuati</string>
     <string name="stepcounter_distance_done">Distanza percorsa</string>
     <string name="stepcounter_speed_medium">Velocità media</string>

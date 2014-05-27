@@ -26,6 +26,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -144,7 +146,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 		txtDistance = (TextView) getView().findViewById(R.id.txtDistance);
 		txtStepsDone = (TextView) getView().findViewById(R.id.txtPassi);
 
-		Button btnEndRun = (Button)this.getActivity().findViewById(R.id.step_btn_end_run);
+		ImageButton btnEndRun = (ImageButton)this.getActivity().findViewById(R.id.step_btn_end_run);
 		btnEndRun.setOnClickListener(new OnClickListener() {
 
 			@Override

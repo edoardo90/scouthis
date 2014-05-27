@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class StepCounterHomeFragment extends StepCounterFragmentArchetype {
 
@@ -26,7 +26,7 @@ public class StepCounterHomeFragment extends StepCounterFragmentArchetype {
 		
 
 		
-		Button btnNewRun = (Button)this.getActivity().findViewById(R.id.step_btn_newrun);
+		ImageButton btnNewRun = (ImageButton)this.getActivity().findViewById(R.id.step_button_newrun);
 		btnNewRun.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -36,7 +36,7 @@ public class StepCounterHomeFragment extends StepCounterFragmentArchetype {
 		});
 		
 		
-		Button btnHistory = (Button)this.getActivity().findViewById(R.id.step_btn_history);
+		ImageButton btnHistory = (ImageButton)this.getActivity().findViewById(R.id.step_button_history);
 		btnHistory.setOnClickListener(new OnClickListener() {
 			
 			@Override
