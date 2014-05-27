@@ -10,4 +10,5 @@
 	<color name="azure">#00FFFF</color>
 	<color name="orange_ligh">#FFE4C4</color>
 	<color name="maroon">#800000</color>
+	<color name="alarm_day_colour">#3080A2</color>
 </resources>

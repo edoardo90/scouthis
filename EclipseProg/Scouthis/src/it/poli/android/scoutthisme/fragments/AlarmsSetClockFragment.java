@@ -62,7 +62,7 @@ public class AlarmsSetClockFragment extends Fragment
 
 		ImageView imgCaredellino = (ImageView)mAct.findViewById(R.id.imgCardellino);
 
-		this.addClickListenerBirds();
+		this.addClickListenerBirds(R.id.alarm_firstline_birds, R.id.alarm_secondline_birds, R.id.alarms_centerline_birds);
 
 		imgCaredellino.bringToFront();
 		imgCaredellino.startAnimation(swingAnimation);
@@ -152,7 +152,7 @@ public class AlarmsSetClockFragment extends Fragment
 				public void onClick(View birdImgView) {
 					birdChoosed = birdsImageMap.get(imageId);  // a questo punto es. "bird_cardellino"
 
-					this.stopAll();
+					this.stopAll(R.id.alarm_firstline_birds, R.id.alarm_secondline_birds, R.id.alarms_centerline_birds);
 					birdImgView.startAnimation(swingAnimation);
 
 					if(alarmPlayer != null)
@@ -167,44 +167,42 @@ public class AlarmsSetClockFragment extends Fragment
 					alarmPlayer.start();
 				}
 
-				public void stopAll()
+				public void stopAll(int...birdsLines)
 				{
 					View view;
-					LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.firstlinebirds);
-					for(int i = 0; i < linearLayout.getChildCount(); i++)
+					for(int birdsLine : birdsLines)
 					{
-						view = linearLayout.getChildAt(i);
-						if(view instanceof ImageView)
-							view.clearAnimation();
+						ViewGroup groupBirdsLine = (ViewGroup) mAct.findViewById(birdsLine);
+						for(int i=0; i< groupBirdsLine.getChildCount(); i++)
+						{
+							view = groupBirdsLine.getChildAt(i);
+							if(view instanceof ImageView)
+								view.clearAnimation();
+						}
 					}
-					linearLayout = (LinearLayout) getActivity().findViewById(R.id.secondlinebirds);
-					for(int i = 0; i < linearLayout.getChildCount(); i++)
-					{
-						view = linearLayout.getChildAt(i);
-						if(view instanceof ImageView)
-							view.clearAnimation();
-					}	
+	
 				}			
 			});
 		}
 	}
 	
-	private void addClickListenerBirds()
+	/**
+	 * birdsLines are the layouts that contains the birds
+	 * to be called e.g.   addClickListenerBirds(R.id.line1,  R.id.line2)
+	 */
+	private void addClickListenerBirds(int... birdsLines)
 	{
-		LinearLayout linearLayout = (LinearLayout) mAct.findViewById(R.id.firstlinebirds);
-		for(int i=0; i< linearLayout.getChildCount(); i++)
+		for(int birdsLine : birdsLines)
 		{
-			View v = linearLayout.getChildAt(i);
-			if(v instanceof ImageView)
-				addClickListenerToBirdView(v);
+			ViewGroup groupBirdsLine = (ViewGroup) mAct.findViewById(birdsLine);
+			for(int i=0; i< groupBirdsLine.getChildCount(); i++)
+			{
+				View v = groupBirdsLine.getChildAt(i);
+				if(v instanceof ImageView)
+					addClickListenerToBirdView(v);
+			}
 		}
-		linearLayout = (LinearLayout) mAct.findViewById(R.id.secondlinebirds);
-		for(int i=0; i < linearLayout.getChildCount(); i++)
-		{
-			View v = linearLayout.getChildAt(i);
-			if(v instanceof ImageView)
-				addClickListenerToBirdView(v);
-		}
+
 	}
 
 	public void addCurrentAlarmClock(View view)

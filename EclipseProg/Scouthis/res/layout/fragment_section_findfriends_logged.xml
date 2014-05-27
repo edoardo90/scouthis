@@ -20,7 +20,7 @@
 	        android:layout_height="match_parent" > 
 		    
 		    <RelativeLayout
-		        android:id="@+id/RelativeLayout1"
+		        android:id="@+id/ffriends_facebook_part"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:layout_margin="0dp"

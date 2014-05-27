@@ -3,6 +3,7 @@ package it.poli.android.scoutthisme.alarm.utils;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.MainActivity;
+import it.poli.android.scoutthisme.MainTabsWithIcons;
 
 import java.util.Random;
 import java.util.Timer;
@@ -122,7 +123,7 @@ public class WakeUpUserActivity extends Activity
 		
 		
 			
-		Intent i = new Intent(getApplicationContext(), MainActivity.class);
+		Intent i = new Intent(getApplicationContext(), MainTabsWithIcons.class);
 		startActivity(i);
 		overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 		
