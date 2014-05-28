@@ -25,6 +25,7 @@ public class GpsHandler implements LocationListener
 	GpsListener listener;
     LocationManager locationManager;
     Location lastLocation;
+	private GpsAlertFragment gpsAlertFragment;
     
     public GpsHandler (Fragment f) {
     	this.mFragment = f;
@@ -33,11 +34,11 @@ public class GpsHandler implements LocationListener
 
     public void setListener(GpsListener l) {
     	this.listener = l;
-	    //Check if GPS is enabled and ask user to activate it
-    	if (!isGpsEnabled(mFragment)) {
-    		switchToGpsAlertFragment();
-	    }
     	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+	    //Check if GPS is enabled and ask user to activate it
+    	/*if (!isGpsEnabled(mFragment)) {
+    		addAlertView();
+	    }*/
     }
     
     public void removeListener() {
@@ -74,18 +75,18 @@ public class GpsHandler implements LocationListener
 	    }
     }
     
-    public void switchToGpsAlertFragment() {
-    	GpsAlertFragment gpsAlertFragment = new GpsAlertFragment();
+    public void addAlertView() {
+    	gpsAlertFragment = new GpsAlertFragment();
 		gpsAlertFragment.setFragment(mFragment);
     	FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
 		// Replace whatever is in the fragment_container view with this fragment,
 		// and add the transaction to the back stack
 		if (mFragment instanceof GpsFragment) {
-			transaction.replace(R.id.gps_frame, gpsAlertFragment);
+			transaction.add(R.id.gps_alert_container, gpsAlertFragment);
 		} else if (mFragment instanceof FindFriendsLoggedFragment) {
-			transaction.replace(R.id.findfriends_frame, gpsAlertFragment);
+			transaction.add(R.id.ffriends_alert_container, gpsAlertFragment);
 		} else if (mFragment instanceof StepCounterRunFragment) {
-			transaction.replace(R.id.stepcounter_frame, gpsAlertFragment);
+			transaction.add(R.id.step_alert_gps_container, gpsAlertFragment);
 		}
 		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		transaction.addToBackStack(null);
@@ -93,17 +94,17 @@ public class GpsHandler implements LocationListener
 		transaction.commit();
     }
     
-	public void switchToFragmentView()
+	public void removeAlertView()
 	{	
     	FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
 		// Replace whatever is in the fragment_container view with this fragment,
 		// and add the transaction to the back stack		
 		if (mFragment instanceof GpsFragment) {
-			transaction.replace(R.id.gps_frame, new GpsFragment());
+			transaction.remove(gpsAlertFragment);
 		} else if (mFragment instanceof FindFriendsLoggedFragment) {
-			transaction.replace(R.id.findfriends_frame, new FindFriendsDisconnectedFragment());
+			transaction.remove(gpsAlertFragment);
 		} else if (mFragment instanceof StepCounterRunFragment) {
-			transaction.replace(R.id.stepcounter_frame, new StepCounterFragment());
+			transaction.remove(gpsAlertFragment);
 		}		
 		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		transaction.addToBackStack(null);
@@ -121,13 +122,13 @@ public class GpsHandler implements LocationListener
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras)
 	{
-		int i=0;
-		i--;
+		/*int i=0;
+		i--;*/
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) { 
-		switchToFragmentView();
+		removeAlertView();
 		/*int j=0;
 		j--;*/
 	}
@@ -135,6 +136,7 @@ public class GpsHandler implements LocationListener
 	@Override
 	public void onProviderDisabled(String provider) 
 	{
+		addAlertView();
 		/*int k=0;
 		k--;*/
 	}

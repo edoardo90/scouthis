@@ -95,9 +95,6 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		facebookHandler = new FacebookHandler(mAct);
 		markersMap = new HashMap<String, Marker>();
 		
-		gpsHandler.setListener(this);
-		facebookHandler.setListener(this);
-		
         Session session = Session.getActiveSession();
         if (session == null) {
             if (savedInstanceState != null) {
@@ -119,6 +116,9 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	 
         /*super.setIdGpsAlertContainer(R.id.ffriends_alert_container);
 		super.setAlertMessage(getString(R.string.fragments_friends_alert));*/
+        
+		gpsHandler.setListener(this);
+		facebookHandler.setListener(this);
         
 		setLogoutButton();
 		updateView(true);
