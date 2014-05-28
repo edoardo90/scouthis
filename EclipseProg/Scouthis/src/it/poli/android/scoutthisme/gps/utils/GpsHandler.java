@@ -1,11 +1,9 @@
 package it.poli.android.scoutthisme.gps.utils;
 
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.fragments.FindFriendsDisconnectedFragment;
 import it.poli.android.scoutthisme.fragments.FindFriendsLoggedFragment;
 import it.poli.android.scoutthisme.fragments.GpsAlertFragment;
 import it.poli.android.scoutthisme.fragments.GpsFragment;
-import it.poli.android.scoutthisme.fragments.StepCounterFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterRunFragment;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -18,6 +16,7 @@ import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.LinearLayout;
 
 public class GpsHandler implements LocationListener
 {	
@@ -57,8 +56,7 @@ public class GpsHandler implements LocationListener
 	    } else {
 	        final int locationMode;
 	        try {
-	            locationMode = Settings.Secure.getInt(fragment.getActivity().getContentResolver(),
-	            		Settings.Secure.LOCATION_MODE);
+	            locationMode = Settings.Secure.getInt(fragment.getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
 	        } catch (SettingNotFoundException e) {
 	            e.printStackTrace();
 	            return false;
@@ -75,41 +73,72 @@ public class GpsHandler implements LocationListener
 	    }
     }
     
-    public void addAlertView() {
+    public void addAlertView()
+    {
     	gpsAlertFragment = new GpsAlertFragment();
 		gpsAlertFragment.setFragment(mFragment);
-    	FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
-		// Replace whatever is in the fragment_container view with this fragment,
-		// and add the transaction to the back stack
+		int idContainer = 0;
+		
 		if (mFragment instanceof GpsFragment) {
-			transaction.add(R.id.gps_alert_container, gpsAlertFragment);
+			idContainer = R.id.gps_alert_container;
 		} else if (mFragment instanceof FindFriendsLoggedFragment) {
-			transaction.add(R.id.ffriends_alert_container, gpsAlertFragment);
+			idContainer = R.id.gps_alert_container;
 		} else if (mFragment instanceof StepCounterRunFragment) {
-			transaction.add(R.id.step_alert_gps_container, gpsAlertFragment);
+			idContainer = R.id.gps_alert_container;
 		}
-		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-		transaction.addToBackStack(null);
-		// Commit the transaction
-		transaction.commit();
+		
+		LinearLayout container = (LinearLayout)mFragment.getView().findViewById(idContainer);
+		if (container != null) {
+	    	FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
+			// Replace whatever is in the fragment_container view with this fragment,
+			// and add the transaction to the back stack
+			if (container.getChildCount() == 0) {
+				transaction.add(idContainer, gpsAlertFragment);
+				transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+				transaction.addToBackStack(null);
+				// Commit the transaction
+				transaction.commit();
+			}
+		}
     }
     
 	public void removeAlertView()
 	{	
-    	FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
+		int idContainer = 0;
+
+    	//FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
 		// Replace whatever is in the fragment_container view with this fragment,
 		// and add the transaction to the back stack		
 		if (mFragment instanceof GpsFragment) {
-			transaction.remove(gpsAlertFragment);
+			idContainer = R.id.gps_alert_container;
 		} else if (mFragment instanceof FindFriendsLoggedFragment) {
-			transaction.remove(gpsAlertFragment);
+			idContainer = R.id.ffriends_alert_container;
 		} else if (mFragment instanceof StepCounterRunFragment) {
-			transaction.remove(gpsAlertFragment);
-		}		
-		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-		transaction.addToBackStack(null);
-		// Commit the transaction
-		transaction.commit();
+			idContainer = R.id.step_alert_gps_container;
+		}	
+		
+		final LinearLayout container = (LinearLayout)mFragment.getView().findViewById(idContainer);
+		
+		if (container != null && gpsAlertFragment != null) {
+			if (container.getChildCount() > 0) {
+				/*container.post(new Runnable() {
+				    @Override
+				    public void run()
+				    {
+				    	container.removeAllViews();
+				    }
+				});*/
+				//container.removeAllViews();
+				FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
+				transaction.remove(gpsAlertFragment);
+				transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+				transaction.addToBackStack(null);
+				// Commit the transaction
+				transaction.commit();
+				
+				gpsAlertFragment = null;
+			}
+		}
 	}
 
 	@Override

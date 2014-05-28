@@ -10,12 +10,14 @@ import android.widget.ImageButton;
 
 public class StepCounterFragment extends StepCounterFragmentArchetype
 {
+	View rootView;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	Bundle savedInstanceState) {
 		/* Inflate the layout for this fragment */
-		View view = inflater.inflate(R.layout.fragment_section_stepcounter_home, container, false);
-		return view;
+		rootView = inflater.inflate(R.layout.fragment_section_stepcounter_home, container, false);
+		return rootView;
 	}
 	
 	@Override
@@ -23,7 +25,7 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 	{
 		super.onResume();
 		
-		ImageButton btnNewRun = (ImageButton)this.getActivity().findViewById(R.id.step_button_newrun);
+		ImageButton btnNewRun = (ImageButton)rootView.findViewById(R.id.step_button_newrun);
 		btnNewRun.setOnClickListener(new OnClickListener()
 		{	
 			@Override
@@ -32,7 +34,7 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 			}
 		});
 		
-		ImageButton btnHistory = (ImageButton)this.getActivity().findViewById(R.id.step_button_history);
+		ImageButton btnHistory = (ImageButton)rootView.findViewById(R.id.step_button_history);
 		btnHistory.setOnClickListener(new OnClickListener()
 		{	
 			@Override

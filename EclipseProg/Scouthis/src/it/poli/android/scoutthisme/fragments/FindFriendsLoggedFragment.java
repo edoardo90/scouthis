@@ -83,6 +83,22 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		View rootView = inflater.inflate(R.layout.fragment_section_findfriends_logged, container, false);
 		return rootView;
 	}
+	
+	@Override
+	public void onDestroyView()
+	{
+		super.onDestroyView();
+		
+		// Destroy map
+		if (gMap != null)
+			gMap.clear();
+		
+		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
+		if(mapFragment != null) {
+			FragmentManager fM = getFragmentManager();
+			fM.beginTransaction().remove(mapFragment).commit();
+		}
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -133,16 +149,6 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 
 		gpsHandler.removeListener();
 		facebookHandler.removeListener();
-		
-		// Destroy map
-		if (gMap != null)
-			gMap.clear();
-		
-		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
-		if(mapFragment != null) {
-			FragmentManager fM = getFragmentManager();
-			fM.beginTransaction().remove(mapFragment).commit();
-		}
     }
     
     private void updateView(boolean justCreated)
@@ -264,21 +270,20 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	private void placeMarkerOnMap(final UserMarker userMarker, boolean IAm)
 	{
 		if (!IAm) {
+			MarkerOptions mo = new MarkerOptions().position(new LatLng(userMarker.getLatitude(), userMarker.getLongitude()));
+			final Marker marker = gMap.addMarker(mo);
+			marker.setTitle(userMarker.toString());
+			
+			markersMap.put(userMarker.getId(), marker);
+			
 			new ImageLoader() { 
 				@Override
 				protected void onPostExecute(Bitmap bitmap)
 				{
-					MarkerOptions mo = new MarkerOptions().position(new LatLng(userMarker.getLatitude(), userMarker.getLongitude()));
-					final Marker marker = gMap.addMarker(mo);
-					marker.setTitle(userMarker.toString());
-					
-					//usersMap.put(marker, userMarker);
 					RoundedImage rv = new RoundedImage(mAct.getApplicationContext());
 					bitmap = rv.getCroppedBitmap(bitmap, 80);
 					marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
 					marker.setAnchor(0.5f, 1);
-					
-					markersMap.put(userMarker.getId(), marker);
 				}
 		    }.execute(userMarker.getImageUrl()); // start the background processing
 		}

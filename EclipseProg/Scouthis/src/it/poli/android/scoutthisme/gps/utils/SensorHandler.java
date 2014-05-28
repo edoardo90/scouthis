@@ -1,21 +1,23 @@
 package it.poli.android.scoutthisme.gps.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.support.v4.app.Fragment;
 
 public class SensorHandler implements SensorEventListener
 {	
-	Context mContext;
+	Activity mActivity;
 	SensorListener listener;
 	SensorManager mSensorManager;
 	Sensor senAccelerometer;
     
-    public SensorHandler (Context c) {
-    	this.mContext = c;
-		mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE); // Initialize your android device sensor capabilities
+    public SensorHandler (Fragment f) {
+    	this.mActivity = f.getActivity();
+		mSensorManager = (SensorManager) mActivity.getSystemService(Context.SENSOR_SERVICE); // Initialize your android device sensor capabilities
 		senAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 

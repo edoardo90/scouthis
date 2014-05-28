@@ -40,8 +40,7 @@ public class GpsAlertFragment extends Fragment
 		if (mFragment instanceof GpsFragment) {
 			alertWarnMessage.setText(getString(R.string.fragments_general_alert));
 		} else if (mFragment instanceof FindFriendsLoggedFragment) {
-			String blablabla = getString(R.string.fragments_friends_alert);
-			alertWarnMessage.setText(blablabla);
+			alertWarnMessage.setText(getString(R.string.fragments_friends_alert));
 		} else if (mFragment instanceof StepCounterRunFragment) {
 			alertWarnMessage.setText(getString(R.string.fragments_step_alert));
 		}

@@ -34,18 +34,31 @@ import android.widget.TextView;
     	
 		String[] latlongOrient = {"N", "N-NE", "NE", "E-NE", "E", "E-SE", "SE", "S-SE", "S", "S-SO", "SO", "O-SO", "O", "O-NO", "NO", "N-NO"};
     	
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			
+    		sensorHandler = new SensorHandler(this);
+    		gpsHandler = new GpsHandler(this);
+		}
+		
     	@Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    	{
-    		sensorHandler = new SensorHandler(getActivity());
-    		gpsHandler = new GpsHandler(this);
-    		
+    	{    		
             View rootView = inflater.inflate(R.layout.fragment_section_gps, container, false);
     		imgCompass = (ImageView) rootView.findViewById(R.id.imageViewCompass); // Our compass image
     		txtDegrees = (TextView) rootView.findViewById(R.id.txtDegrees); // TextView that will tell the user what degree is he heading
     		
             return rootView;
         }
+    	
+//    	@Override
+//    	public void onDestroyView() {
+//    		super.onDestroyView();
+//        		
+//    		sensorHandler.removeListener(this);
+//    		gpsHandler.removeListener();
+//    	}
     	
         @Override
 		public void onResume() {
