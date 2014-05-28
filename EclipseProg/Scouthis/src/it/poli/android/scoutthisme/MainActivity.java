@@ -20,7 +20,7 @@ import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsFragment;
 import it.poli.android.scoutthisme.fragments.GpsFragment;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
-import it.poli.android.scoutthisme.fragments.StepCounterHomeFragment;
+import it.poli.android.scoutthisme.fragments.StepCounterFragment;
 import it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -135,9 +135,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 			case 2 - ZERO_OFFESET:
 				return new GpsFragment();
 			case 3 - ZERO_OFFESET:
-				return new StepCounterHomeFragment();
+				return new StepCounterFragment();
 			/*case (4 - ZERO_OFFESET):
-				return new FindFriendsFragment(); */
+				return new FindFriendsFrameFragment(); */
 			case 4 - ZERO_OFFESET:
 				return new AlarmsFragment();
 			default:

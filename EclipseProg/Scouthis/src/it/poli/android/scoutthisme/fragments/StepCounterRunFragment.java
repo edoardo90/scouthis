@@ -3,6 +3,7 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.gps.utils.GpsHandler;
+import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.gps.utils.LegMovementDetector;
 import it.poli.android.scoutthisme.gps.utils.LegMovementDetector.ILegMovementListener;
 import it.poli.android.scoutthisme.stepcounter.utils.RunEpisode;
@@ -45,8 +46,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
  * used to count user's steps.
  * The user path is displayed on the google map as a spline.
  */
-public  class StepCounterRunFragment extends StepCounterFragmentArchetype
-	implements ILegMovementListener
+public  class StepCounterRunFragment extends StepCounterFragmentArchetype implements GpsListener, ILegMovementListener
 {
 	public static final String strLatitudeExtra = "it.poli.latitude";
 	public static final String strLongitudeExtra = "it.poli.longitude";
@@ -84,7 +84,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		gpsHandler = new GpsHandler(getActivity());
+		gpsHandler = new GpsHandler(this);
 
 		mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
 		legDect = new LegMovementDetector(mSensorManager);
@@ -124,22 +124,21 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 	public void onResume()
 	{
 		super.onResume();
-		super.setIdGpsAlertContainer(R.id.step_alert_gps_container);
-		super.setAlertMessage(getString(R.string.fragments_step_alert));
-		
+		/*super.setIdGpsAlertContainer(R.id.step_alert_gps_container);
+		super.setAlertMessage(getString(R.string.fragments_step_alert));*/
+
 		secondsAtTheBeginning = Calendar.getInstance().get(Calendar.SECOND);
 
 		gpsHandler.setListener(this);
 		legDect.startDetector();
 
-		new Thread(    new Runnable() 
+		new Thread(new Runnable() 
 		{
 			public void run() 
 			{
 				id = TextFilesUtils.getLastIdFromXml(getActivity(), Constants.XML_PATH_STEPCOUNTER);
 			}
 		}).start();
-
 
 		txtElapsedTime = (TextView) getView().findViewById(R.id.txtElapsedTime);
 		txtAverageSpeed = (TextView) getView().findViewById(R.id.txtAverageSpeed);
@@ -148,15 +147,12 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 
 		ImageButton btnEndRun = (ImageButton)this.getActivity().findViewById(R.id.step_btn_end_run);
 		btnEndRun.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				saveRunEpisodeOnFile();	
-				transitionTowars(new StepCounterHomeFragment());
+				transitionTowars(new StepCounterFragment());
 			}
 		});
-		
-
 	}
 
 	private void saveRunEpisodeOnFile()
@@ -172,8 +168,8 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 
 	private void saveMapAsImage()
 	{
-		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
-
+		SnapshotReadyCallback callback = new SnapshotReadyCallback()
+		{
 			@Override
 			public void onSnapshotReady(Bitmap snapshot) 
 			{
@@ -183,9 +179,6 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 
 		gMap.snapshot(callback);
 	}
-
-
-
 
 	private void clearMap() {
 		gMap.clear();
@@ -251,8 +244,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 
 		BigDecimal speedB = new BigDecimal(speed).round(new MathContext(3, RoundingMode.HALF_UP));
 		speed = speedB.floatValue();
-		
-		
+
 		txtAverageSpeed.setText(String.valueOf(speedB) + " km/h");
 		txtDistance.setText(String.valueOf(distB) + " m ");
 		txtElapsedTime.setText(String.valueOf(elapsedTime) + " secondi ");
@@ -260,15 +252,11 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 		txtStepsDone.setText(String.format("%d", steps));
 	}
 
-
 	@Override
-	public void onLegActivity(int activity) {
-
-
+	public void onLegActivity(int activity)
+	{
 		if(Constants.DEBUG_ENABLED)
-		{
 			steps ++;
-		}
 
 		if (loc != null && lastSensorLoc != null && !loc.equals(lastSensorLoc)) {
 			gMap.addPolyline(new PolylineOptions()
@@ -281,9 +269,11 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 		}
 
 		updateStats();
-
-
 	}
 
-}
+	@Override
+	public void onProvidereEnabled(String provider) { }
 
+	@Override
+	public void onProviderDisabled(String provider) { }
+}

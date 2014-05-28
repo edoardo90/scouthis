@@ -2,10 +2,11 @@ package it.poli.android.scoutthisme;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsFragment;
-import it.poli.android.scoutthisme.fragments.FindFriendsFragment;
+import it.poli.android.scoutthisme.fragments.FindFriendsFrameFragment;
 import it.poli.android.scoutthisme.fragments.GpsFragment;
+import it.poli.android.scoutthisme.fragments.GpsFrameFragment;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
-import it.poli.android.scoutthisme.fragments.StepCounterFragment;
+import it.poli.android.scoutthisme.fragments.StepCounterFrameFragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -57,11 +58,11 @@ public class MainTabsWithIcons extends FragmentActivity {
 			case 1 - ZERO_OFFESET:
 				return new NewsFeedFragment();
 			case 2 - ZERO_OFFESET:
-				return new GpsFragment();
+				return new GpsFrameFragment();
 			case 3 - ZERO_OFFESET:
-				return new StepCounterFragment();
+				return new StepCounterFrameFragment();
 			case (4 - ZERO_OFFESET):
-				return new FindFriendsFragment();
+				return new FindFriendsFrameFragment();
 			case 5 - ZERO_OFFESET:
 				return new AlarmsFragment();
 			default:

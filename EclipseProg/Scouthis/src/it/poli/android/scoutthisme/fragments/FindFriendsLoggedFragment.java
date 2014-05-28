@@ -2,6 +2,7 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.gps.utils.GpsHandler;
+import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.social.FacebookHandler;
 import it.poli.android.scoutthisme.social.FacebookListener;
 import it.poli.android.scoutthisme.social.NotifyFriendsAsyncTask;
@@ -59,7 +60,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * A fragment that launches other parts of the demo application.
  */
-public  class FindFriendsLoggedFragment extends AllertableFragment implements FacebookListener
+public  class FindFriendsLoggedFragment extends Fragment implements GpsListener, FacebookListener
 {
 	private GoogleMap gMap;
 
@@ -90,7 +91,7 @@ public  class FindFriendsLoggedFragment extends AllertableFragment implements Fa
 		
 		mAct = getActivity();
 		statusCallback = new SessionStatusCallback();
-		gpsHandler = new GpsHandler(mAct);
+		gpsHandler = new GpsHandler(this);
 		facebookHandler = new FacebookHandler(mAct);
 		markersMap = new HashMap<String, Marker>();
 		
@@ -116,8 +117,8 @@ public  class FindFriendsLoggedFragment extends AllertableFragment implements Fa
     public void onResume() {
         super.onResume();
 	 
-        super.setIdGpsAlertContainer(R.id.ffriends_alert_container);
-		super.setAlertMessage(getString(R.string.fragments_friends_alert));
+        /*super.setIdGpsAlertContainer(R.id.ffriends_alert_container);
+		super.setAlertMessage(getString(R.string.fragments_friends_alert));*/
         
 		setLogoutButton();
 		updateView(true);
@@ -151,10 +152,11 @@ public  class FindFriendsLoggedFragment extends AllertableFragment implements Fa
 	        displayUserDetails(session);
 	        if (justCreated) {				
 	        	FragmentManager fm = getFragmentManager();
-	        	if  (fm!= null)
+	        	if  (fm != null)
 	        	{	
-					this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends))
-						.getMap();
+	        		SupportMapFragment mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.mapFindFriends);
+	        		if (mapFragment != null)
+	        			this.gMap = mapFragment.getMap();
 	        	}
 	        	// If everything goes fine, now we got the url with all our friends stuff
 	        	String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
@@ -417,5 +419,15 @@ public  class FindFriendsLoggedFragment extends AllertableFragment implements Fa
         Session.saveSession(session, outState);
     }
 
+	@Override
+	public void onProvidereEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
 }

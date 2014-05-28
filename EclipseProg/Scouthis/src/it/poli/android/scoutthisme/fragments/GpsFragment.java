@@ -38,7 +38,7 @@ import android.widget.TextView;
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     	{
     		sensorHandler = new SensorHandler(getActivity());
-    		gpsHandler = new GpsHandler(getActivity());
+    		gpsHandler = new GpsHandler(this);
     		
             View rootView = inflater.inflate(R.layout.fragment_section_gps, container, false);
     		imgCompass = (ImageView) rootView.findViewById(R.id.imageViewCompass); // Our compass image

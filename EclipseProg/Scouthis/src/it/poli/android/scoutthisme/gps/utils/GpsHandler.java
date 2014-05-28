@@ -1,10 +1,14 @@
 package it.poli.android.scoutthisme.gps.utils;
 
+import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.fragments.FindFriendsDisconnectedFragment;
+import it.poli.android.scoutthisme.fragments.FindFriendsLoggedFragment;
+import it.poli.android.scoutthisme.fragments.GpsAlertFragment;
+import it.poli.android.scoutthisme.fragments.GpsFragment;
+import it.poli.android.scoutthisme.fragments.StepCounterFragment;
+import it.poli.android.scoutthisme.fragments.StepCounterRunFragment;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,37 +16,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 
 public class GpsHandler implements LocationListener
 {	
-	Context mContext;
+	Fragment mFragment;
 	GpsListener listener;
     LocationManager locationManager;
     Location lastLocation;
     
-    public GpsHandler (Context c) {
-    	this.mContext = c;
-	    locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);  
+    public GpsHandler (Fragment f) {
+    	this.mFragment = f;
+	    locationManager = (LocationManager) mFragment.getActivity().getSystemService(Context.LOCATION_SERVICE);  
     }
 
     public void setListener(GpsListener l) {
     	this.listener = l;
 	    //Check if GPS is enabled and ask user to activate it
-    	if ( false && !isGpsEnabled(mContext)) {
-	        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-	        
-	        builder.setTitle("Gps non attivo");  // GPS not found
-	        builder.setMessage("Vuoi abilitare il GPS? Al momento non mi risulta attivo."); // Want to enable?
-	        
-	        builder.setPositiveButton("Ok, va bene.", new DialogInterface.OnClickListener() {
-	            public void onClick(DialogInterface dialogInterface, int i) {
-	            	mContext.startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-	            }
-	        });
-	        
-	        builder.setNegativeButton("No, grazie.", null);
-	        builder.create().show();
+    	if (!isGpsEnabled(mFragment)) {
+    		switchToGpsAlertFragment();
 	    }
     	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
@@ -54,16 +47,16 @@ public class GpsHandler implements LocationListener
     
     @TargetApi(Build.VERSION_CODES.KITKAT)
 	@SuppressWarnings("deprecation")
-	public static boolean isGpsEnabled(Context context)
+	public static boolean isGpsEnabled(Fragment fragment)
     {        
 	    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-	        String providers = Settings.Secure.getString(context.getContentResolver(),
+	        String providers = Settings.Secure.getString(fragment.getActivity().getContentResolver(),
 	        		Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 	        return providers.contains(LocationManager.GPS_PROVIDER);
 	    } else {
 	        final int locationMode;
 	        try {
-	            locationMode = Settings.Secure.getInt(context.getContentResolver(),
+	            locationMode = Settings.Secure.getInt(fragment.getActivity().getContentResolver(),
 	            		Settings.Secure.LOCATION_MODE);
 	        } catch (SettingNotFoundException e) {
 	            e.printStackTrace();
@@ -80,10 +73,46 @@ public class GpsHandler implements LocationListener
 	        }
 	    }
     }
+    
+    public void switchToGpsAlertFragment() {
+    	GpsAlertFragment gpsAlertFragment = new GpsAlertFragment();
+		gpsAlertFragment.setFragment(mFragment);
+    	FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
+		// Replace whatever is in the fragment_container view with this fragment,
+		// and add the transaction to the back stack
+		if (mFragment instanceof GpsFragment) {
+			transaction.replace(R.id.gps_frame, gpsAlertFragment);
+		} else if (mFragment instanceof FindFriendsLoggedFragment) {
+			transaction.replace(R.id.findfriends_frame, gpsAlertFragment);
+		} else if (mFragment instanceof StepCounterRunFragment) {
+			transaction.replace(R.id.stepcounter_frame, gpsAlertFragment);
+		}
+		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		transaction.addToBackStack(null);
+		// Commit the transaction
+		transaction.commit();
+    }
+    
+	public void switchToFragmentView()
+	{	
+    	FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
+		// Replace whatever is in the fragment_container view with this fragment,
+		// and add the transaction to the back stack		
+		if (mFragment instanceof GpsFragment) {
+			transaction.replace(R.id.gps_frame, new GpsFragment());
+		} else if (mFragment instanceof FindFriendsLoggedFragment) {
+			transaction.replace(R.id.findfriends_frame, new FindFriendsDisconnectedFragment());
+		} else if (mFragment instanceof StepCounterRunFragment) {
+			transaction.replace(R.id.stepcounter_frame, new StepCounterFragment());
+		}		
+		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		transaction.addToBackStack(null);
+		// Commit the transaction
+		transaction.commit();
+	}
 
 	@Override
 	public void onLocationChanged(Location location) {
-		
 		if (listener != null) {
 			listener.onLocationChanged(location);
 		}
@@ -98,14 +127,15 @@ public class GpsHandler implements LocationListener
 
 	@Override
 	public void onProviderEnabled(String provider) { 
-		if(listener != null)
-			listener.onProvidereEnabled(provider);
+		switchToFragmentView();
+		/*int j=0;
+		j--;*/
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) 
 	{
-		if(listener != null)
-			listener.onProviderDisabled(provider);
+		/*int k=0;
+		k--;*/
 	}
 }

@@ -12,7 +12,6 @@
         android:layout_marginLeft="3dip"
         android:layout_marginRight="10dip"
         android:layout_toLeftOf="@+id/setGpsOn"
-        android:text="Please dude turn on the GPS. Otherwise this app wont go well!"
         android:textSize="20sp" />
 
     <ImageButton

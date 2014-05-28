@@ -22,10 +22,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-public class StepCounterHistoryFragment extends StepCounterFragmentArchetype
-	implements Listener{
-
-
+public class StepCounterHistoryFragment extends StepCounterFragmentArchetype implements Listener
+{
 	ListView listViewRunEpisodes;
 	StepCounterLazyAdapter adapter;
 	LinkedList<RunEpisode> runEpisodesList;
@@ -34,11 +32,10 @@ public class StepCounterHistoryFragment extends StepCounterFragmentArchetype
 	Activity mAct;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
 		/* Inflate the layout for this fragment */
 		View view = inflater.inflate(R.layout.fragment_section_stepcounter_history, container, false);
-
 		return view;
 	}
 
@@ -51,17 +48,14 @@ public class StepCounterHistoryFragment extends StepCounterFragmentArchetype
 
 		ImageButton btnGoHome = (ImageButton)this.getActivity().findViewById(R.id.step_btn_goHome);
 		btnGoHome.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-
-				transitionTowars(new StepCounterHomeFragment());
+				transitionTowars(new StepCounterFragment());
 			}
 		});
 
 		listViewRunEpisodes = (ListView)mAct.findViewById(R.id.step_listview);
 		this.updateListViewFromFile();
-
 	}
 
 	public void deleteRunEpisode(View view)
@@ -86,8 +80,6 @@ public class StepCounterHistoryFragment extends StepCounterFragmentArchetype
 		TextFilesUtils.removeXmlElement(mAct,Constants.XML_PATH_STEPCOUNTER,positionToDelete, Constants.XML_TAG_RUNEPISODE);
 	}
 
-
-
 	private void updateListViewFromFile()
 	{
 		// XML alarm file parsing
@@ -103,10 +95,8 @@ public class StepCounterHistoryFragment extends StepCounterFragmentArchetype
 	 * Undo Bar method
 	 */
 	@Override
-	public void onHide() {
-		
-		
-	}
+	public void onHide() {	}
+	
 	/**
 	 * Undo bar method
 	 */
@@ -116,8 +106,6 @@ public class StepCounterHistoryFragment extends StepCounterFragmentArchetype
 				this.lastRunRemoved.getXmlTagFieldMap(), Constants.XML_TAG_RUNEPISODE);
 		this.runEpisodesList.add(this.lastRunRemoved);
 		this.updateRunepisodeListView();
-		
-		
 	}
 
 	private void updateRunepisodeListView() {
@@ -125,7 +113,5 @@ public class StepCounterHistoryFragment extends StepCounterFragmentArchetype
 		// Getting adapter by passing xml data ArrayList
 		adapter = new StepCounterLazyAdapter(mAct, this.runEpisodesList, this);        
 		listViewRunEpisodes.setAdapter(adapter);
-		
 	}
-
 }

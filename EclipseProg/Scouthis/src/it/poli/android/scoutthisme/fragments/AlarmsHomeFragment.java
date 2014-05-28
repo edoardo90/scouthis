@@ -35,18 +35,23 @@ public class AlarmsHomeFragment extends Fragment implements
 	LinkedList<Alarm> alarmList;
 	Alarm lastAlarmRemoved;
 	Bundle savedInstance;
+	View rootView;
 	Activity mAct;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		mAct = getActivity();
+		savedInstance = savedInstanceState;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		super.onCreateView(inflater, container, savedInstanceState);
-		this.savedInstance = savedInstanceState;
-		View rootView = inflater.inflate(R.layout.fragment_section_alarms_home, container, false);
+		rootView = inflater.inflate(R.layout.fragment_section_alarms_home, container, false);
 		return rootView;
-	}
-	
-	
+	}	
 	
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute)
@@ -77,7 +82,7 @@ public class AlarmsHomeFragment extends Fragment implements
 		final Calendar calendar = Calendar.getInstance();
         final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY) ,calendar.get(Calendar.MINUTE), false, false);
 
-        this.getActivity().findViewById(R.id.addAlarmImg).setOnClickListener(new OnClickListener() {
+        rootView.findViewById(R.id.addAlarmImg).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 timePickerDialog.setVibrate(true);
@@ -109,7 +114,7 @@ public class AlarmsHomeFragment extends Fragment implements
 
 		this.updateListViewFromFile();
 
-		listViewAlarms = (ListView)mAct.findViewById(R.id.alarm_listview);
+		listViewAlarms = (ListView)rootView.findViewById(R.id.alarm_listview);
 	}
 	
 	@Override
@@ -125,7 +130,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	public void switchAlarm(View v)
 	{
 		// Get the associated view's alarm and toggle its state
-		int position = ((ListView)mAct.findViewById(R.id.alarm_listview)).getPositionForView(v);
+		int position = ((ListView)rootView.findViewById(R.id.alarm_listview)).getPositionForView(v);
 		Alarm alarm = this.alarmList.get(position);
 		alarm.toggleActive();
 		//Get the new active alarm
@@ -144,7 +149,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	 */
 	public void deleteAlarm(View view)
 	{
-		ListView listView = (ListView)mAct.findViewById(R.id.alarm_listview);
+		ListView listView = (ListView)rootView.findViewById(R.id.alarm_listview);
 		// Remove alarm view (listview item)
 		int position = listView.getPositionForView(view);
 		this.lastAlarmRemoved = this.alarmList.get(position);
@@ -170,7 +175,7 @@ public class AlarmsHomeFragment extends Fragment implements
 
 	private void updateAlarmListView()
 	{
-		listViewAlarms = (ListView)mAct.findViewById(R.id.alarm_listview);
+		listViewAlarms = (ListView)rootView.findViewById(R.id.alarm_listview);
 		// Getting adapter by passing xml data ArrayList
 		adapter = new AlarmLazyAdapter(mAct,  this, this.alarmList);        
 		listViewAlarms.setAdapter(adapter);
@@ -181,7 +186,7 @@ public class AlarmsHomeFragment extends Fragment implements
 		// XML alarm file parsing
 		LinkedList<Alarm> aList = AlarmUtils.populateAlarmListFromFile(mAct);
 		this.alarmList = (aList != null) ? aList : new LinkedList<Alarm>();
-		listViewAlarms = (ListView)mAct.findViewById(R.id.alarm_listview);
+		listViewAlarms = (ListView)rootView.findViewById(R.id.alarm_listview);
 		// Getting adapter by passing xml data ArrayList
 		adapter = new AlarmLazyAdapter(mAct, this, alarmList);        
 		listViewAlarms.setAdapter(adapter);
