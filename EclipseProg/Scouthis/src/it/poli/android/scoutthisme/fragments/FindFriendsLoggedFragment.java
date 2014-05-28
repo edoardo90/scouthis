@@ -75,7 +75,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	
 	Activity mAct;
 	List<UserMarker> lstUsersMarkers;
-    private StatusCallback statusCallback;	
+    private StatusCallback statusCallback;
+    AsyncTask<String, String, String> notifyFriendsAsyncTask;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -90,14 +91,17 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		super.onDestroyView();
 		
 		// Destroy map
-		if (gMap != null)
+		if (gMap != null) {
 			gMap.clear();
+		}
 		
 		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
 		if(mapFragment != null) {
 			FragmentManager fM = getFragmentManager();
 			fM.beginTransaction().remove(mapFragment).commit();
 		}
+		
+		notifyFriendsAsyncTask.cancel(false);
 	}
 
 	@Override
@@ -169,7 +173,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	        	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
 	        	// Call AsynTask to perform network operation on separate thread
 	        	// see: doInBackground and onPostExecute
-	    		new NotifyFriendsAsyncTask(getActivity()).execute(urlFriendsInfo, userInfo);
+	    		notifyFriendsAsyncTask = new NotifyFriendsAsyncTask(getActivity()).execute(urlFriendsInfo, userInfo);
 	        }
 		} else if (session != null && session.isClosed()) {
 			Log.i("AAA", session.getState().toString());
@@ -282,7 +286,13 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				{
 					RoundedImage rv = new RoundedImage(mAct.getApplicationContext());
 					bitmap = rv.getCroppedBitmap(bitmap, 80);
-					marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+					
+					try {
+						marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+					} catch(Throwable ex) {
+						Log.i(getClass().getSimpleName(), "Marker.setIcon failed: " + ex.getMessage());
+					}
+
 					marker.setAnchor(0.5f, 1);
 				}
 		    }.execute(userMarker.getImageUrl()); // start the background processing

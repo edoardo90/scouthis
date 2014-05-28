@@ -30,6 +30,7 @@ public class NotifyFriendsAsyncTask extends AsyncTask<String, String, String>
 	String userInfoJson;
 	String userId;
 	Activity act ;
+	
 	public NotifyFriendsAsyncTask(Activity act)
 	{
 		this.act = act;

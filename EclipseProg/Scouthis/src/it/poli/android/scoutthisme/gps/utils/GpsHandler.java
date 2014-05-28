@@ -82,9 +82,9 @@ public class GpsHandler implements LocationListener
 		if (mFragment instanceof GpsFragment) {
 			idContainer = R.id.gps_alert_container;
 		} else if (mFragment instanceof FindFriendsLoggedFragment) {
-			idContainer = R.id.gps_alert_container;
+			idContainer = R.id.ffriends_alert_container;
 		} else if (mFragment instanceof StepCounterRunFragment) {
-			idContainer = R.id.gps_alert_container;
+			idContainer = R.id.step_alert_gps_container;
 		}
 		
 		LinearLayout container = (LinearLayout)mFragment.getView().findViewById(idContainer);

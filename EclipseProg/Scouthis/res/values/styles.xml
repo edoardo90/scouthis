@@ -110,7 +110,7 @@
 		</style>
     <!--    -->
     <!--  TAB CON ICONE-->
-    <style name="StyledIndicators" parent="@android:style/Theme.Light.NoTitleBar">
+    <style name="StyledIndicators" parent="@style/Theme.AppCompat.Light.DarkActionBar">
        	 <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
     </style>
 

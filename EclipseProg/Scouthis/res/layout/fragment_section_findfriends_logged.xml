@@ -6,62 +6,55 @@
     android:layout_height="match_parent"
     android:gravity="right"
     android:orientation="vertical" >
-    
-	<LinearLayout 
-	        android:id="@+id/ffriends_alert_container"
-	        android:orientation="vertical"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content">
-	</LinearLayout>
-	    
-	<LinearLayout 
-	        android:orientation="vertical"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent" > 
-		    
-		    <RelativeLayout
-		        android:id="@+id/ffriends_facebook_part"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_margin="0dp"
-		        android:gravity="center|left" >
-		
-		        <Button
-		            android:id="@+id/btnLogOut"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="5dp"
-		            android:layout_marginTop="5dp"
-		            android:background="@drawable/btn_facebook_logout" />
-		
-		        <fragment
-		            android:id="@+id/mapFindFriends"
-		            android:name="com.google.android.gms.maps.SupportMapFragment"
-		            android:layout_width="match_parent"
-		            android:layout_height="match_parent"
-		            android:layout_below="@+id/ff_profilePic"
-		            android:layout_margin="5dp" />
-		
-		        <ImageView
-		            android:id="@+id/ff_profilePic"
-		            android:layout_width="50dp"
-		            android:layout_height="52dp"
-		            android:layout_alignBottom="@+id/ff_txtUserFFLoggedMessage"
-		            android:layout_alignRight="@+id/mapFindFriends"
-		            android:layout_alignTop="@+id/btnLogOut" />
-		
-		        
-		        <TextView
-		            android:id="@+id/ff_txtUserFFLoggedMessage"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_alignBottom="@+id/btnLogOut"
-		            android:layout_centerHorizontal="true"
-		            android:gravity="left"
-		            android:text="Benvenuto"
-		            android:textSize="15sp" />
-		
-		    </RelativeLayout>
-	</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ffriends_alert_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relvativeFFLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center|left" >
+
+        <Button
+            android:id="@+id/btnLogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_facebook_logout"
+            android:focusableInTouchMode="true" />
+
+        <TextView
+            android:id="@+id/ff_txtUserFFLoggedMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/btnLogOut"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/btnLogOut"
+            android:text="Benvenuto"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/ff_profilePic"
+            android:layout_width="50dp"
+            android:layout_height="52dp"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+	<fragment
+	    android:id="@+id/mapFindFriends"
+	    android:name="com.google.android.gms.maps.SupportMapFragment"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_margin="5dp"
+	    android:layout_weight="0" />
 
 </LinearLayout>

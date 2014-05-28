@@ -648,10 +648,9 @@ int id end 0x7f060013
 int id expand_activities_button 0x7f060038
 int id expanded_menu 0x7f06003e
 int id ff_profilePic 0x7f06009c
-int id ff_txtUserFFLoggedMessage 0x7f06009d
+int id ff_txtUserFFLoggedMessage 0x7f06009b
 int id ffriends_alert_container 0x7f060098
 int id ffriends_alert_container_out 0x7f060097
-int id ffriends_facebook_part 0x7f060099
 int id findfriends_frame 0x7f0600dd
 int id fragment_home_linlay 0x7f060077
 int id gps_alert_container 0x7f06009f
@@ -708,7 +707,7 @@ int id lst_step_speed 0x7f0600e9
 int id lst_step_speed_lab 0x7f0600e8
 int id lst_step_statistics 0x7f0600e5
 int id lst_step_trash 0x7f0600ea
-int id mapFindFriends 0x7f06009b
+int id mapFindFriends 0x7f06009d
 int id mapStepCounter 0x7f0600ca
 int id message 0x7f06005c
 int id middle 0x7f060012
@@ -723,6 +722,7 @@ int id picker_subtitle 0x7f060070
 int id progress_circular 0x7f060018
 int id progress_horizontal 0x7f060019
 int id radio 0x7f060041
+int id relvativeFFLayout 0x7f060099
 int id row_container 0x7f060052
 int id satellite 0x7f060027
 int id search_badge 0x7f060044

@@ -3,22 +3,24 @@ package it.poli.android.scoutthisme;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsFragment;
 import it.poli.android.scoutthisme.fragments.FindFriendsFrameFragment;
-import it.poli.android.scoutthisme.fragments.GpsFragment;
 import it.poli.android.scoutthisme.fragments.GpsFrameFragment;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterFrameFragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class MainTabsWithIcons extends FragmentActivity {
+public class MainTabsWithIcons extends ActionBarActivity {
     private static final String[] CONTENT = new String[] { 
     		"News", "GPS", 
     
@@ -35,6 +37,8 @@ public class MainTabsWithIcons extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_iconed_tabs);
+        
+		final ActionBar actionBar = getSupportActionBar();
 
         FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
@@ -44,6 +48,13 @@ public class MainTabsWithIcons extends FragmentActivity {
         TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
         indicator.setViewPager(pager);
     }
+    
+   /* @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.main_activity_actions, menu);
+    	return super.onCreateOptionsMenu(menu);
+    }*/
 
     class GoogleMusicAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
         public GoogleMusicAdapter(FragmentManager fm) {
