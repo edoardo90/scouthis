@@ -73,6 +73,26 @@
         <item name="android:textSize">20sp</item> 
     </style>
    
+     <style name="FragmentTextSwitch">
+        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:textSize">20sp</item> 
+    </style>
+   
+     <style name="main_tabbed">
+     	<item name="android:background">@color/marronechiaro</item>
+    </style>
+    
+    <style name="main_tabs">
+     	<item name="android:background">@color/pergamena</item>
+    </style>
+    
+    <style name="FragmentAlarmSwitch">
+     	<item name="android:textColor">@color/pergamena</item>
+     	<item name="android:textSize">10sp</item>
+    </style>
+    
+    
+     
     
     <!--  NON FUNZIONA !!!!!!  -->
     <style name="FragmentCircularButton">

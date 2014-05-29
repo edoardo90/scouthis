@@ -26,10 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
+import at.markushi.ui.CircleButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -145,7 +143,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 		txtDistance = (TextView) getView().findViewById(R.id.txtDistance);
 		txtStepsDone = (TextView) getView().findViewById(R.id.txtPassi);
 
-		ImageButton btnEndRun = (ImageButton)this.getActivity().findViewById(R.id.step_btn_end_run);
+		CircleButton btnEndRun = (CircleButton)this.getActivity().findViewById(R.id.step_btn_end_run);
 		btnEndRun.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

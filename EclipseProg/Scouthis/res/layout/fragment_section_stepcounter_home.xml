@@ -56,7 +56,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:scaleType="centerInside"
-            android:src="@drawable/run_history"
+            android:src="@drawable/photo_book"
             app:cb_color="@color/dark_green"
              />
 

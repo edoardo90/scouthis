@@ -3,11 +3,12 @@
     android:id="@+id/row_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_selector"
+    android:background="@color/maroon"
     android:orientation="horizontal"
     android:padding="5dip" >
 
-    <!-- ListRow Left sied Thumbnail image -->
+    <!-- nel relative -->
+    <!-- android:background="@drawable/list_selector" -->
 
     <LinearLayout
         android:id="@+id/thumbnail"
@@ -27,28 +28,18 @@
             android:src="@drawable/bird_cardellino" />
     </LinearLayout>
 
-    <!-- Title Of Song -->
-
     <TextView
         android:id="@+id/hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_alignTop="@+id/switch_and_trash"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/thumbnail"
         android:text="12:34"
         android:textColor="#040404"
         android:textSize="15dip"
         android:textStyle="bold"
         android:typeface="sans" />
-
-    <!-- Artist Name -->
-
-
-    <!-- Rightend Duration -->
-
-
-    <!-- Rightend Arrow -->
 
     <LinearLayout
         android:id="@+id/switch_and_trash"
@@ -62,32 +53,56 @@
             android:id="@+id/trash_interr_cont"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="fill_vertical"
+            android:layout_weight="1"
             android:orientation="vertical" >
 
-            <ImageView
-                android:id="@+id/interrutt"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                
-                android:scaleType="fitCenter"
-                android:src="@drawable/interr_off" />
+            <RelativeLayout
+                android:id="@+id/interruttore_on_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dip"
-                 />
+                <TextView
+                    android:id="@+id/interr_scritta_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="top"
+                    android:layout_marginLeft="2dip"
+                    android:text="OFF"
+                    style="@style/FragmentAlarmSwitch"
+                     />
+
+                <ImageView
+                    android:id="@+id/interrutt"
+                    android:layout_width="30dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/interr_scritta_off"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/interr_on" />
+
+                <TextView
+                    android:id="@+id/interr_scritta_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/interrutt"
+                    android:gravity="top"
+                    android:layout_marginRight="2dip"
+                    android:text="ON"
+                    style="@style/FragmentAlarmSwitch"
+                    />
+
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/trash_alarm"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                
                 android:src="@drawable/trash_dark" />
-
         </LinearLayout>
     </LinearLayout>
 
@@ -95,8 +110,8 @@
         android:id="@+id/days"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_alignBottom="@+id/switch_and_trash"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/thumbnail"
         android:text="Lun Mar Mer Giov Ven Dom"
         android:textColor="#646464"

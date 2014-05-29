@@ -4,7 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_margin="@dimen/fragment_border_side"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    
+   >
 
     <LinearLayout
         android:id="@+id/step_alert_gps_container"
@@ -37,15 +40,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right|center_vertical" >
-"
 
-                <ImageButton
+                <at.markushi.ui.CircleButton
                     android:id="@+id/step_btn_end_run"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:scaleType="fitCenter"
-                    android:layout_marginRight="-3dip"
-                    android:src="@drawable/run_ending" />
+                    
+                    android:src="@drawable/bandiera_scacchi"
+                    
+                    app:cb_percent_down="50"
+                    app:cb_percent_left="50"
+                    app:cb_percent_scale="50"
+                    app:cb_color="@color/dark_green"
+                    
+                     />
             </TableRow>
         </TableLayout>
 

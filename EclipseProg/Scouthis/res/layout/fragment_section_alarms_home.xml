@@ -23,7 +23,7 @@
             android:layout_below="@+id/addAlarmImg"
             android:divider="#b5b5b5"
             android:dividerHeight="1dp"
-            android:listSelector="@drawable/list_selector" >
+           >
 
         </ListView>
 
