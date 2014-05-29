@@ -51,7 +51,7 @@ public class DailyService extends IntentService
 		Date dateAlarm = alarmCalendar.getTime();
 		Date dateNow = calendNow.getTime();
 		
-		boolean diffIsVeryHigh = false;
+		boolean diffIsVeryHigh = true;
 		long diff = dateNow.getTime() - dateAlarm.getTime(); //differenza in millisecondi
 		float secDiff = (Float.valueOf(diff))/ 1000f;  //differenza in secondi
 		secDiff = Math.abs(secDiff);

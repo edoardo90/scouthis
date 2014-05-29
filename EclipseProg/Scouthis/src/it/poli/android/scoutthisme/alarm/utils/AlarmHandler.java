@@ -29,11 +29,13 @@ public class AlarmHandler
 				userAlarm.getId(), alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		AlarmManager alarms = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
-		alarms.setRepeating(AlarmManager.RTC_WAKEUP,
-				updateTime.getTimeInMillis() -  Constants.ALARM_SLIGHTLY_SOONER,
-				AlarmManager.INTERVAL_DAY, 
-				recurringAlarm);
-
+		
+		if (userAlarm.isActive())
+			alarms.setRepeating(AlarmManager.RTC_WAKEUP,
+					updateTime.getTimeInMillis() -  Constants.ALARM_SLIGHTLY_SOONER,
+					AlarmManager.INTERVAL_DAY, 
+					recurringAlarm);
+		
 		if (!userAlarm.isActive())
 			alarms.cancel(recurringAlarm);
 	}
