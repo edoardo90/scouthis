@@ -710,7 +710,7 @@ int id imgRow 0x7f0600eb
 int id imgUpupa 0x7f060097
 int id indicator 0x7f060051
 int id interr_scritta_off 0x7f06005a
-int id interr_scritta_on 0x7f06005c
+int id interr_scritta_offf 0x7f06005c
 int id interrutt 0x7f06005b
 int id interruttore_on_off 0x7f060059
 int id large 0x7f060028

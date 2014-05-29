@@ -70,7 +70,7 @@
                     android:layout_centerVertical="true"
                     android:gravity="top"
                     android:layout_marginLeft="2dip"
-                    android:text="OFF"
+                    android:text="ON"
                     style="@style/FragmentAlarmSwitch"
                      />
 
@@ -84,14 +84,14 @@
                     android:src="@drawable/interr_on" />
 
                 <TextView
-                    android:id="@+id/interr_scritta_on"
+                    android:id="@+id/interr_scritta_offf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/interrutt"
                     android:gravity="top"
                     android:layout_marginRight="2dip"
-                    android:text="ON"
+                    android:text="OFF"
                     style="@style/FragmentAlarmSwitch"
                     />
 
