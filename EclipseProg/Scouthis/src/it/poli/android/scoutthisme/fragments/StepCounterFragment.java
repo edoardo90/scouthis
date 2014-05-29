@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import at.markushi.ui.CircleButton;
 
 public class StepCounterFragment extends StepCounterFragmentArchetype
 {
@@ -25,7 +25,7 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 	{
 		super.onResume();
 		
-		ImageButton btnNewRun = (ImageButton)rootView.findViewById(R.id.step_button_newrun);
+		CircleButton btnNewRun = (CircleButton)rootView.findViewById(R.id.step_button_newrun);
 		btnNewRun.setOnClickListener(new OnClickListener()
 		{	
 			@Override
@@ -34,7 +34,7 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 			}
 		});
 		
-		ImageButton btnHistory = (ImageButton)rootView.findViewById(R.id.step_button_history);
+		CircleButton btnHistory = (CircleButton)rootView.findViewById(R.id.step_button_history);
 		btnHistory.setOnClickListener(new OnClickListener()
 		{	
 			@Override

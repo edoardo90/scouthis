@@ -2,7 +2,7 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/senape"
+    
     android:layout_margin="@dimen/fragment_border_side" >
 
     <LinearLayout
@@ -295,7 +295,7 @@
         android:layout_below="@+id/gps_alert_container"
         android:layout_marginTop="@dimen/fragment_border_top"
         android:text="@string/gps_information"
-        android:textSize="@dimen/fragment_title"
-        android:textStyle="bold" />
+        style="@style/FragmentTitle"
+        />
 
 </RelativeLayout>

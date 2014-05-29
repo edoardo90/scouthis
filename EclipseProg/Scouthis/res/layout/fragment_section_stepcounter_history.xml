@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/step_history_outer"
     android:layout_margin="@dimen/fragment_border_side"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent" 
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListView
         android:id="@+id/step_listview"
@@ -29,24 +31,28 @@
 
         <TextView
             android:id="@+id/textView1"
+            style="@style/FragmentTitle"
             android:layout_width="wrap_content"
-            
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="@string/stepcounter_gohome"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/coral_light" />
+            android:layout_toLeftOf="@+id/step_btn_goHome"
+            android:text="@string/stepcounter_gohome" />
 
-        <ImageButton
+        <at.markushi.ui.CircleButton
             android:id="@+id/step_btn_goHome"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            
             android:scaleType="centerCrop"
-            android:src="@drawable/actionb_foot" />
+            android:src="@drawable/actionb_foot"
+            
+            app:cb_percent_down="20"
+            app:cb_percent_scale="80"
+            app:cb_color="@color/dark_green"
+             />
 
     </RelativeLayout>
 

@@ -62,6 +62,15 @@
     <string name="findfriends_login_button">Facebook Login</string>
     
     
+    <!--   Strings related to alarm fragment -->
+    
+    <string name="scegli_ora">A che ora?</string>
+    <string name="scegli_giorni">Quali giorni NON suonerà</string>
+    <string name="scegli_uccello">Che uccello ti sveglierà?</string>
+    <string name="alarm_home">Le tue Sveglie</string>
+    
+    
+    
     <!-- Strings related to utility fragment  -->
     <string name="utility_camera_not_available">Fotocamera non rilevata.</string>
     <string name="utility_camera_already_in_use">La fotocamera è attualmente in uso da un\'altra app.</string>

@@ -18,11 +18,13 @@
 	    
 	    <TextView
 	        android:id="@+id/lblNewsMessage"
+	    	android:layout_marginLeft="@dimen/fragment_border_side"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center"
-	        android:text="..."
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        android:text="...Caricamento..."
+	        style="@style/FragmentTitle"
+	        />
 	
     </LinearLayout>
 	    

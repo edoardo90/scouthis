@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import at.markushi.ui.CircleButton;
 
 public class StepCounterHistoryFragment extends StepCounterFragmentArchetype implements Listener
 {
@@ -46,7 +47,7 @@ public class StepCounterHistoryFragment extends StepCounterFragmentArchetype imp
 
 		this.mAct = this.getActivity();
 
-		ImageButton btnGoHome = (ImageButton)this.getActivity().findViewById(R.id.step_btn_goHome);
+		CircleButton btnGoHome = (CircleButton)this.getActivity().findViewById(R.id.step_btn_goHome);
 		btnGoHome.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -30,9 +30,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="scegli_ora">A che ora?</string>
-    <string name="scegli_giorni">Quali giorni NON suonerà</string>
-    <string name="scegli_uccello">Che uccello ti sveglierà?</string>
+    
     <string name="title_activity_prova_time_picker">ProvaTimePicker</string>
     <string name="title_activity_prova_pickerss">ProvaPickerss</string>
     <string name="title_activity_dialog_float">DialogFloat</string>

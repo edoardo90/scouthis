@@ -3,10 +3,7 @@
     android:id="@+id/set_alarm_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_margin="@dimen/fragment_border_side"
     tools:context=".AlarmsSetClockFragment" >
 
     <TextView
@@ -15,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:text="@string/scegli_giorni"
-        android:textSize="20sp" />
+		style="@style/FragmentTitle"
+         />
 
     <Button
         android:id="@+id/btnAlarmSetOk"
@@ -114,10 +112,11 @@
     <LinearLayout
         android:id="@+id/birdschoose"
         android:layout_width="match_parent"
+        
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnAlarmSetOk"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/weekdayll"
+        android:layout_alignParentLeft="true"
         android:orientation="vertical" >
 
         <TextView
@@ -125,7 +124,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/scegli_uccello"
-            android:textSize="20sp" />
+            android:layout_marginTop="@dimen/fragment_border_top"
+            style="@style/FragmentTitle" 
+            />
 
         <LinearLayout
             android:id="@+id/birdsll"

@@ -14,16 +14,6 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent" >
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/alarm_listview"
-            android:gravity="fill_vertical|center_horizontal"
-            android:text="Alarms"
-            android:textColor="@color/coral_light"
-            android:textSize="20sp" />
-
         <ListView
             android:id="@+id/alarm_listview"
             android:layout_width="fill_parent"
@@ -48,6 +38,18 @@
             android:layout_marginTop="@dimen/fragment_border_top"
             app:cb_color="@color/dark_green"
             android:src="@drawable/ic_action_new" />
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/FragmentTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/alarm_listview"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/addAlarmImg"
+            android:gravity="left|center_vertical"
+            android:text="@string/alarm_home" />
 
     </RelativeLayout>
 

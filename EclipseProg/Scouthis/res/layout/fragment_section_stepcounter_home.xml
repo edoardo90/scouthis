@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    
     android:id="@+id/step_home_linLay"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -14,13 +16,16 @@
          android:layout_height="wrap_content" 
          android:orientation="horizontal">
 
-        <ImageButton
+        <at.markushi.ui.CircleButton
             android:id="@+id/step_button_newrun"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:scaleType="centerInside"
+            
+            
+            app:cb_color="@color/dark_green"
             android:src="@drawable/run_new" />
 
         <TextView
@@ -30,8 +35,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:text="@string/stepcounter_newrun"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/coral_light" />
+            style="@style/FragmentTitle"
+            
+             />
 
     </RelativeLayout>
 
@@ -43,14 +49,16 @@
         
         android:orientation="horizontal" >
 
-        <ImageButton
+        <at.markushi.ui.CircleButton
             android:id="@+id/step_button_history"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:scaleType="centerInside"
-            android:src="@drawable/run_history" />
+            android:src="@drawable/run_history"
+            app:cb_color="@color/dark_green"
+             />
 
         <TextView
             android:id="@+id/textView1"
@@ -59,8 +67,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:text="@string/stepcounter_seehistory"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/coral_light" />
+            style="@style/FragmentTitle"
+			 />
 
     </RelativeLayout>
 
