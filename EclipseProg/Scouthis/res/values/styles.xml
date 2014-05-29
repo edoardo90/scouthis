@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -84,6 +84,9 @@
         <item name="android:background">@drawable/button_background</item>
     </style>
     
+    <style name="FragmentContainer">
+        <item name="android:background">@color/senape</item>
+    </style>
     
     <style name="FacebookLoginButton">
 	    <item name="android:textSize">@dimen/small_text</item>
