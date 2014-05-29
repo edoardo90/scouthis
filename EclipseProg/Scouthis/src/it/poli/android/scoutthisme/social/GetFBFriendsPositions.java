@@ -18,8 +18,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 public class GetFBFriendsPositions
 {
 	private double userLatitude;
@@ -38,9 +36,6 @@ public class GetFBFriendsPositions
 		String result = getStringFromUrl(this.userIDURL) ;
 		String userInfoJson = result;
 		String userId = this.getUserIDFromJson(userInfoJson, Constants.PARAM_USERID);
-
-		if (Constants.DEBUG_ENABLED)
-			Log.i("user", userId);
 
 		GetFriendsGPSFromURL ufl = new GetFriendsGPSFromURL(userId, Constants.URL_GET_FRIENDSLIST,
 						userLatitude , userLongitude);
@@ -64,7 +59,7 @@ public class GetFBFriendsPositions
 				result = "Did not work!";
 
 		} catch (Exception e) {
-			Log.d("InputStream", e.getLocalizedMessage());
+			
 		}
 
 		return result;
@@ -133,7 +128,7 @@ public class GetFBFriendsPositions
 				try {
 					int success = json.getInt("success");
 					if(success!=0) {
-						Log.i("get friends gps", "wooo! lette coord gps !");
+						
 						return json.toString();
 					}
 

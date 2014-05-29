@@ -16,8 +16,6 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
  
 public class JSONParser
 { 
@@ -63,19 +61,19 @@ public class JSONParser
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
             }
-            Log.i("PARSER remove me!", sb.toString());
+            
             
             is.close();
             json = sb.toString();
         } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
+            
         }
  
         // try parse the string to a JSON object
         try {
             jObj = new JSONObject(json);
         } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
+            
         }
  
         return jObj;

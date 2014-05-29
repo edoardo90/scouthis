@@ -13,7 +13,6 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 public class FacebookHandler
 {	
@@ -40,7 +39,7 @@ public class FacebookHandler
 				handler.post(new Runnable() {
 					public void run() { 
 						try {
-							Log.i("Friends frag", "Updating friends positions...");
+							
 
 							if(loc != null)
 							{
@@ -66,7 +65,7 @@ public class FacebookHandler
     	
 		timer.cancel();
 		timer.purge();
-		Log.i("pause", "timer purged");
+		
 		mAct.unregisterReceiver(receiver);
     }
     
@@ -80,7 +79,7 @@ public class FacebookHandler
 		public void onReceive(Context context, Intent intent) {
 			// What does the tread says me when finished ..
 			//  say putExtra in GetFriendsPositionsService e getString..
-			Log.i("Find friends fragment onReceive", "Finished");
+			
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
 				String gpsCoordJSONStr = bundle.getString(Constants.PARAM_GPS_COORDINATES);

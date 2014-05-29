@@ -1,7 +1,6 @@
 package it.poli.android.scoutthisme.tools;
 
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.alarm.utils.AlarmUtils;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -16,7 +15,6 @@ import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 public class TextFilesUtils {
 
@@ -141,7 +139,7 @@ public class TextFilesUtils {
 
 	public static void initializeXML(Activity activity, String rootXmlFile, String xmlFilePath)
 	{
-		Log.i("inizialize ",  "creo il nuovo file xml");
+		
 
 		FileOutputStream outputStream;
 

@@ -4,7 +4,6 @@ import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
 
 import com.facebook.LoggingBehavior;
 import com.facebook.Session;
@@ -18,14 +17,14 @@ public class GetFriendsPositionsService extends IntentService
 	public GetFriendsPositionsService()
 	{
 		super("GetFriendsPositionsService");
-		Log.i(" download service ", "costructore");
+		
 	}
 
 	// will be called asynchronously by Android
 	@Override
 	protected void onHandleIntent(Intent intent)
 	{
-	  Log.i("NotifyFacebookFriendsService", "Service running");
+	  
       
 	  userLatitude = intent.getDoubleExtra(Constants.PARAM_POSITION_LATITUDE, 0);
 	  userLongitude = intent.getDoubleExtra(Constants.PARAM_POSITION_LONGITUDE, 0);
@@ -41,18 +40,18 @@ public class GetFriendsPositionsService extends IntentService
 		String userGPSCoords = "";
 	  
 		if (session == null) {
-			Log.i("friends position service",  "session cache is null, maybe the user is not logged");
+			
 			session = new Session.Builder(getApplicationContext())
   	        	.setApplicationId(getString(R.string.app_id))
   	        	.build();
 			if (session == null) //if session is still null
 			{
-				Log.i("background service ", "we can't create session");
+				
 				return;
 			}
 		} else if (session.isOpened()) {
 			String userInfoURL = Constants.URL_PREFIX_ME +	session.getAccessToken();
-			Log.i(" notify service background " , " userURL:" + userInfoURL);
+			
 			
 			// call AsynTask to perform network operation on separate thread
 			// vedi: onPostExecute

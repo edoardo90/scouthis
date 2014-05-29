@@ -8,7 +8,6 @@ import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,7 +66,7 @@ public class AlarmLazyAdapter extends BaseAdapter {
 			days.setText(daysG);
 			hour.setText(String.valueOf( alarm.getHour() )  +  ":" + pad(String.valueOf(alarm.getMinute())));
 
-			Log.i(" lazy ad ", "bird: " + bird);
+			
 
 			int resID = activity.getResources().getIdentifier(bird, "drawable", activity.getPackageName());
 			thumb_image.setImageResource(resID);

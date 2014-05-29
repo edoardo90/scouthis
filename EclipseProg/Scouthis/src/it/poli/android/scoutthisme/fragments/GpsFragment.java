@@ -1,6 +1,5 @@
 package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.gps.utils.GpsHandler;
 import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.gps.utils.SensorHandler;
@@ -11,7 +10,6 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

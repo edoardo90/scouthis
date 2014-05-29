@@ -1,6 +1,5 @@
 package it.poli.android.scoutthisme.stepcounter.utils;
 
-import android.annotation.SuppressLint;
 import it.poli.android.scoutthisme.Constants;
 
 import java.text.DateFormat;
@@ -9,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import android.annotation.SuppressLint;
 
 @SuppressLint("SimpleDateFormat")
 public class RunEpisode {

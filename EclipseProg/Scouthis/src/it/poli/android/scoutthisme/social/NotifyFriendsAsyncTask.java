@@ -21,7 +21,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.TextView;
 
 public class NotifyFriendsAsyncTask extends AsyncTask<String, String, String>
@@ -106,7 +105,7 @@ public class NotifyFriendsAsyncTask extends AsyncTask<String, String, String>
 				result = "Did not work!";
 			}
 		} catch (Exception e) {
-			Log.d("InputStream", e.getLocalizedMessage());
+			
 		}
 		return result;
 	}

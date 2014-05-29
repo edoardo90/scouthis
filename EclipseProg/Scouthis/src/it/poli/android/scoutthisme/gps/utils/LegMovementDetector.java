@@ -6,7 +6,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 /**
 * @author Artem Tartakynov
@@ -126,7 +125,7 @@ public class LegMovementDetector implements SensorEventListener
 		if (activity == 0) return;
 		for (ILegMovementListener listener : mListeners){
 			listener.onLegActivity(activity);
-			Log.i(LOG_TAG, String.valueOf(activity));
+			
 		}	
     }
 }
