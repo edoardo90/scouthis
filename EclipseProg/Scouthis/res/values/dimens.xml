@@ -15,4 +15,8 @@
     
     <dimen name="small_text">12dp</dimen>
     
+    <dimen name="fragment_title">20sp</dimen>
+    <dimen name="fragment_border_side">5dip</dimen>
+    <dimen name="fragment_border_top">5dip</dimen>
+    
 </resources>

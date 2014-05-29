@@ -1,241 +1,300 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    <LinearLayout 
+    android:layout_margin="@dimen/fragment_border_side" >
+
+    <LinearLayout
         android:id="@+id/gps_alert_container"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-	</LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/gps_statistics_and_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lblDescription" >
+
+        <LinearLayout
+            android:id="@+id/gps_statistics1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            
+            android:layout_marginTop="20dip"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/gps_stats_line1_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:baselineAligned="false">
+
+                <LinearLayout
+                    android:id="@+id/gps_column_aceleration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lblAccel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        
+                        android:layout_weight="1"
+                        android:text="@string/gps_acceleration" />
+
+                    <TextView
+                        android:id="@+id/txtAccel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        
+                        android:text="@string/fragments_waiting_dots"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/gps_column_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lblSpeed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/gps_speed" />
+
+                    <TextView
+                        android:id="@+id/txtSpeed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="@string/fragments_waiting_dots"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/gps_column_orientation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lblOrient"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/gps_orientation" />
+
+                    <TextView
+                        android:id="@+id/txtOrient"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/fragments_waiting_dots"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/gps_column_angle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lblDegrees"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/gps_degrees" />
+
+                    <TextView
+                        android:id="@+id/txtDegrees"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/fragments_waiting_dots"
+                        android:textSize="24sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/gps_stats_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/gps_statistics_line2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/gps_stats_accuracy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lblPrecision"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/gps_precision" />
+
+                    <TextView
+                        android:id="@+id/txtDistance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/fragments_waiting_dots"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/gps_stats_lat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lblLatitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/gps_latitude" />
+
+                    <TextView
+                        android:id="@+id/txtLatitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/fragments_waiting_dots"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/gps_stats_long"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lblLongitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/gps_longitude" />
+
+                    <TextView
+                        android:id="@+id/txtLongitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/fragments_waiting_dots"
+                        android:textSize="24sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/gps_stats_line3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fragment_border_top"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/gps_stats_speedagain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lblAltitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/gps_altitude" />
+
+                    <TextView
+                        android:id="@+id/txtAltitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/fragments_waiting_dots"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/gps_stats_bearing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lblBearing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/gps_direction" />
+
+                    <TextView
+                        android:id="@+id/txtBearing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/fragments_waiting_dots"
+                        android:textSize="24sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageViewCompass"
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+            android:layout_below="@+id/gps_statistics1"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/gps_image_description"
+            android:src="@drawable/img_compass" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/lblDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="5sp"
-        android:layout_marginTop="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/gps_alert_container"
+        android:layout_marginTop="@dimen/fragment_border_top"
         android:text="@string/gps_information"
-        android:textSize="18sp"
-        android:textStyle="bold|italic" />
+        android:textSize="@dimen/fragment_title"
+        android:textStyle="bold" />
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TableRow
-            android:id="@+id/tableRowSG1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/lblDegrees"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/gps_degrees" />
-
-            <TextView
-                android:id="@+id/lblOrient"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/gps_orientation" />
-
-            <TextView
-                android:id="@+id/lblSpeed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/gps_speed" />
-
-            <TextView
-                android:id="@+id/lblAccel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/gps_acceleration" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRowSG2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/txtDegrees"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/fragments_waiting_dots"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/txtOrient"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/fragments_waiting_dots"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/txtSpeed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/fragments_waiting_dots"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/txtAccel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/fragments_waiting_dots"
-                android:textSize="24sp" />
-
-        </TableRow>
-    </TableLayout>
-
-    <ImageView
-        android:id="@+id/imageViewCompass"
-        android:layout_width="200sp"
-        android:layout_height="200sp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10sp"
-        android:layout_marginTop="10sp"
-        android:contentDescription="@string/gps_image_description"
-        android:src="@drawable/img_compass" />
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TableRow
-            android:id="@+id/tableRowSG3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/lblLatitude"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="@string/gps_latitude" />
-
-            <TextView
-                android:id="@+id/lblLongitude"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="@string/gps_longitude" />
-            
-			<TextView
-			    android:id="@+id/lblPrecision"
-			    android:layout_width="0dp"
-			    android:layout_height="wrap_content"
-			    android:layout_weight="2"
-			    android:gravity="center"
-			    android:text="@string/gps_precision" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRowSG4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/txtLatitude"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="@string/fragments_waiting_dots"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/txtLongitude"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="@string/fragments_waiting_dots"
-                android:textSize="24sp" />
-            
-			<TextView
-			    android:id="@+id/txtDistance"
-			    android:layout_width="0dp"
-			    android:layout_height="wrap_content"
-			    android:layout_weight="2"
-			    android:gravity="center"
-			    android:text="@string/fragments_waiting_dots"
-			    android:textSize="24sp" />
-
-        </TableRow>
-        
-    	<TableRow
-    	    android:id="@+id/tableRowSG5"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content" >
-			
-    	    <TextView
-    	        android:id="@+id/lblAltitude"
-    	        android:layout_width="0dp"
-    	        android:layout_height="wrap_content"
-    	        android:layout_weight="1"
-    	        android:gravity="center"
-    	        android:text="@string/gps_altitude" />
-
-            <TextView
-                android:id="@+id/lblBearing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/gps_direction" />
-    	    
-		</TableRow>
-		
-    	<TableRow
-    	    android:id="@+id/tableRowSG6"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content" >
-			
-    	    <TextView
-    	        android:id="@+id/txtAltitude"
-    	        android:layout_width="0dp"
-    	        android:layout_height="wrap_content"
-    	        android:layout_weight="1"
-    	        android:gravity="center"
-    	        android:text="@string/fragments_waiting_dots"
-    	        android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/txtBearing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/fragments_waiting_dots"
-                android:textSize="24sp" />
-    	    
-		</TableRow>
-		
-    </TableLayout>
-
-</LinearLayout>
+</RelativeLayout>

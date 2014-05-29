@@ -4,12 +4,12 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_marginTop="-60dp"
-    android:layout_margin="5dip"
+    android:layout_margin="@dimen/fragment_border_side"
     android:gravity="center"
     android:orientation="vertical" >
     <RelativeLayout 
         android:id="@+id/step_home_newrun"
-         android:layout_marginLeft="3dip"
+         
          android:layout_width="match_parent"
          android:layout_height="wrap_content" 
          android:orientation="horizontal">
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginLeft="3dip"
+        
         android:orientation="horizontal" >
 
         <ImageButton

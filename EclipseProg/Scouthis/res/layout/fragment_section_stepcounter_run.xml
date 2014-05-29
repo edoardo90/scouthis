@@ -3,6 +3,7 @@
     android:id="@+id/step_alert_gps_container_out"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_margin="@dimen/fragment_border_side"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -24,14 +25,12 @@
             android:layout_height="194dp"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp" />
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp" >
+             >
 
             <TableRow
                 android:id="@+id/tableRowSC1"
@@ -45,6 +44,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:scaleType="fitCenter"
+                    android:layout_marginRight="-3dip"
                     android:src="@drawable/run_ending" />
             </TableRow>
         </TableLayout>
@@ -53,8 +53,6 @@
             android:id="@+id/step_statistics_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:orientation="vertical" >
 
             <TableLayout
@@ -74,6 +72,7 @@
 
                 <TableRow
                     android:id="@+id/tableRowSC2"
+                    android:layout_marginTop="@dimen/fragment_border_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
 
