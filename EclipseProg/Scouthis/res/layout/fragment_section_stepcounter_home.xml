@@ -16,7 +16,7 @@
          android:layout_height="wrap_content" 
          android:orientation="horizontal">
 
-        <at.markushi.ui.CircleButton
+        <it.poli.android.scoutthisme.tools.CircleButton
             android:id="@+id/step_button_newrun"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -49,7 +49,7 @@
         
         android:orientation="horizontal" >
 
-        <at.markushi.ui.CircleButton
+        <it.poli.android.scoutthisme.tools.CircleButton
             android:id="@+id/step_button_history"
             android:layout_width="100dp"
             android:layout_height="100dp"

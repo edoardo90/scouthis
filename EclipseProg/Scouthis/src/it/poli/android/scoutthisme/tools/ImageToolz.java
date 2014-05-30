@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 
 public class ImageToolz {
 	
@@ -34,10 +35,10 @@ public class ImageToolz {
 			bos.close();
 
 		} catch (FileNotFoundException e) {
-			
+			Log.w("TAG", "Error saving image file: " + e.getMessage());
 			return false;
 		} catch (IOException e) {
-			
+			Log.w("TAG", "Error saving image file: " + e.getMessage());
 			return false;
 		}
 

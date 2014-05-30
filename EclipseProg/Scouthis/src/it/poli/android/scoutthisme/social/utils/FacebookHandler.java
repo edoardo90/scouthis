@@ -1,6 +1,7 @@
-package it.poli.android.scoutthisme.social;
+package it.poli.android.scoutthisme.social.utils;
 
 import it.poli.android.scoutthisme.Constants;
+import it.poli.android.scoutthisme.social.ExchangeCoordinatesService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,6 +14,7 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 public class FacebookHandler
 {	
@@ -29,7 +31,8 @@ public class FacebookHandler
     {
     	this.listener = l;
     	
-		mAct.registerReceiver(receiver, new IntentFilter(Constants.INTENT_NOTIFICATION));
+		mAct.registerReceiver(facebookExchangeCoordinatesServiceReceiver, new IntentFilter(Constants.INTENT_EXCHANGECOORDSRECEIVER_NOTIFICATION));
+		
 		// Timer per lanciare ogni quanto di tempo il servizio che trova le coordinate degli amici online
 		timer = new Timer();
 		final Handler handler = new Handler();
@@ -39,11 +42,11 @@ public class FacebookHandler
 				handler.post(new Runnable() {
 					public void run() { 
 						try {
-							
+							Log.i("Friends frag", "Updating friends positions...");
 
 							if(loc != null)
 							{
-								Intent intent =  new Intent(mAct, GetFriendsPositionsService.class);
+								Intent intent =  new Intent(mAct, ExchangeCoordinatesService.class);
 								intent.putExtra(Constants.PARAM_POSITION_LATITUDE, loc.getLatitude());
 								intent.putExtra(Constants.PARAM_POSITION_LONGITUDE, loc.getLongitude());
 								mAct.startService(intent);
@@ -56,7 +59,7 @@ public class FacebookHandler
 				});
 			}
 		};
-		timer.schedule(doAsynchronousTask, 0, Constants.TIME_UPDATE_FRIENDS_POSITION); 
+		timer.schedule(doAsynchronousTask, 0, Constants.TIME_EXCHANGE_FRIENDS_POSITION); 
     }
     
     public void removeListener()
@@ -66,24 +69,29 @@ public class FacebookHandler
 		timer.cancel();
 		timer.purge();
 		
-		mAct.unregisterReceiver(receiver);
+		if (Constants.DEBUG_ENABLED)
+			Log.i("pause", "timer purged");
+		
+		mAct.unregisterReceiver(facebookExchangeCoordinatesServiceReceiver);
     }
     
     public void updatePosition(Location loc) {
     	this.loc = loc;
     }
 	
-	private BroadcastReceiver receiver = new BroadcastReceiver()
+	private BroadcastReceiver facebookExchangeCoordinatesServiceReceiver = new BroadcastReceiver()
 	{
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// What does the tread says me when finished ..
-			//  say putExtra in GetFriendsPositionsService e getString..
-			
+			//  say putExtra in ExchangeCoordinatesService e getString..
+			Log.i("FbExCoordSvcReceiver", "Received friends coords by ExchangeCoordinatesService");
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
 				String gpsCoordJSONStr = bundle.getString(Constants.PARAM_GPS_COORDINATES);
 				int resultCode = bundle.getInt(Constants.PARAM_RESULT);
+				if (Constants.DEBUG_ENABLED)
+					Log.i("FbExCoordSvcReceiver", String.valueOf(resultCode).contentEquals("0") ? "NO" : "OK");
 				if (resultCode == Constants.RESULT_OK) {
 					listener.onFriendsUpdates(gpsCoordJSONStr);
 				} 

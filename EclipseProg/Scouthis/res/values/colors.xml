@@ -12,7 +12,10 @@
 	<color name="maroon">#800000</color>
 	<color name="alarm_day_colour">#3080A2</color>
 	<color name="dark_green">#006400</color>
+	<color name="color_blue1">#0094FF</color>
 	<color name="pergamena">#FFFFC2</color>
-	<color name="marronechiaro">#F5DEB3</color>
+	<color name="lightbrown">#F5DEB3</color>
 	<color name="senape">#FFE118</color>
+	<color name="tabs_background">#FFF3C4</color>
+	<color name="fragment_title">#99583C</color>
 </resources>

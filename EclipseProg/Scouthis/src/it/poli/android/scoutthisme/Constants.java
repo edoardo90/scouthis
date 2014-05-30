@@ -4,7 +4,9 @@ public class Constants
 {
 	public static final boolean DEBUG_ENABLED = true;
 	
-	public static final String INTENT_NOTIFICATION = "it.poli.android.scoutthisme";
+	public static final int INTENT_FRIENDSHIPUPDATESTRIGGER_REQUESTCODE = 161090;
+	public static final String INTENT_EXCHANGECOORDSRECEIVER_NOTIFICATION = "it.poli.android.scoutthisme.intent.exchangecoordinatesreceviver";
+	
 	public static final String INTENT_ALARM = "it.poli.android.scoutthisme.alarm.utils.bird";
 	public static final String ALLERTABLE_FRAGMENT = "it.poli.android.scoutthisme.fragments.allertable";
 	
@@ -63,13 +65,14 @@ public class Constants
 	public static final long ALARM_SLIGHTLY_SOONER = 30 * 1000;	
 	public static final long ALARM_SECONDS_ACCURACY = 50; //seconds more or less to start alarm
 	private static final int MINUTE_MILLISECONDS = 60 * 1000;
-    public static final int TIME_UPDATE_FRIENDS_POSITION = 10 * 1000;
+    public static final int TIME_EXCHANGE_FRIENDS_POSITION = 10 * 1000;
 	public static final int TIME_UPDATE_FRIENDSLIST = MINUTE_MILLISECONDS * 15;
 	
 	public static final String IMAGE_MAP_PREFIX = "img_google_map";
 	public static final String SD_IMAGE_DIR = "/Scouthisme/StepImages/";
 
 	public static final float STEP_HEIGHT_CONST = 0.414f;
+	
+	public static final int RESULT_ERROR = 0;
 	public static final int RESULT_OK = 1;
-
 }

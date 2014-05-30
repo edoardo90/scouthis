@@ -1,7 +1,7 @@
 package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
-import it.poli.android.scoutthisme.social.NewsfeedService;
+import it.poli.android.scoutthisme.newsfeed.utils.NewsfeedService;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

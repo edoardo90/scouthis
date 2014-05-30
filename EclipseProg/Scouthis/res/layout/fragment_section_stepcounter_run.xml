@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right|center_vertical" >
 
-                <at.markushi.ui.CircleButton
+                <it.poli.android.scoutthisme.tools.CircleButton
                     android:id="@+id/step_btn_end_run"
                     android:layout_width="50dp"
                     android:layout_height="50dp"

@@ -20,7 +20,7 @@ public class DailyService extends IntentService
 	protected void onHandleIntent(Intent intent)
 	{
 		Alarm userAlarm = (Alarm) intent.getSerializableExtra(Constants.INTENT_ALARM);
-		
+		Log.i("PlayAlarmService", "msg: " + userAlarm.getBird()+ "  .. " + userAlarm.getHour());
 
 		String days = userAlarm.getActiveDays();
 		boolean [] activeAlarmDays = AlarmUtils.daysStringToBooleanArray(days);

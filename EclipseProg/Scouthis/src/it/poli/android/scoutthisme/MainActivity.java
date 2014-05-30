@@ -21,7 +21,7 @@ import it.poli.android.scoutthisme.fragments.AlarmsFragment;
 import it.poli.android.scoutthisme.fragments.GpsFragment;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterFragment;
-import it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver;
+import it.poli.android.scoutthisme.social.FriendshipsUpdatesTrigger;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -105,10 +105,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 	public void scheduleFBUpdateFriendshipAlarm() {
 		// Construct an intent that will execute the MyAlarmReceiver
-		Intent intent = new Intent(getApplicationContext(), FBNotifierAlarmReceiver.class);
+		Intent intent = new Intent(getApplicationContext(), FriendshipsUpdatesTrigger.class);
 		// Create a PendingIntent to be triggered when the alarm goes off
-		final PendingIntent pIntent = PendingIntent.getBroadcast(this, FBNotifierAlarmReceiver.REQUEST_CODE,
-				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		final PendingIntent pIntent = PendingIntent.getBroadcast(this,
+				Constants.INTENT_FRIENDSHIPUPDATESTRIGGER_REQUESTCODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		// Setup periodic alarm every TOT - SEE CONSTANTS  seconds
 		long firstMillis = System.currentTimeMillis(); // first run of alarm is immediate
 

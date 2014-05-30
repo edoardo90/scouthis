@@ -19,6 +19,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import android.content.Context;
+import android.util.Log;
 
 public class XMLParser
 {
@@ -36,9 +37,10 @@ public class XMLParser
 				while ((line = r.readLine()) != null)
 					total.append(line);
 			}
-			catch (Exception e) {  };
+			catch (Exception e) { Log.i("getXml from path", "something wrong happened while reading xml file"); };
 		}	
-		
+		else
+			Log.i(" xml parser" , " non trovo il file sveglia"); //TODO
 		return total.toString();
 	}
 	
@@ -55,13 +57,13 @@ public class XMLParser
 			is.setCharacterStream(new StringReader(xml));
 			doc = db.parse(is); 
 		} catch (ParserConfigurationException e) {
-			
+			Log.e("Error: ", e.getMessage());
 			return null;
 		} catch (SAXException e) {
-			
+			Log.e("Error: ", e.getMessage());
 			return null;
 		} catch (IOException e) {
-			
+			Log.e("Error: ", e.getMessage());
 			return null;
 		}
 	    return doc;

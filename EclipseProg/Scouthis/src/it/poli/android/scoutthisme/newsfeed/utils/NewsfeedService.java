@@ -1,4 +1,4 @@
-package it.poli.android.scoutthisme.social;
+package it.poli.android.scoutthisme.newsfeed.utils;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.tools.NewsItem;

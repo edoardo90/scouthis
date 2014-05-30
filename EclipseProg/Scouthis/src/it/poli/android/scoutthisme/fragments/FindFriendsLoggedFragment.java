@@ -3,9 +3,9 @@ import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.gps.utils.GpsHandler;
 import it.poli.android.scoutthisme.gps.utils.GpsListener;
-import it.poli.android.scoutthisme.social.FacebookHandler;
-import it.poli.android.scoutthisme.social.FacebookListener;
-import it.poli.android.scoutthisme.social.NotifyFriendsAsyncTask;
+import it.poli.android.scoutthisme.social.FriendshipsUpdatesNotifier;
+import it.poli.android.scoutthisme.social.utils.FacebookHandler;
+import it.poli.android.scoutthisme.social.utils.FacebookListener;
 import it.poli.android.scoutthisme.tools.RoundedImage;
 import it.poli.android.scoutthisme.tools.UserMarker;
 
@@ -34,6 +34,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -117,10 +118,10 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
         Session session = Session.getActiveSession();
         if (session == null) {
             if (savedInstanceState != null) {
-                session = Session.restoreSession(getActivity(), null, statusCallback, savedInstanceState);
+                session = Session.restoreSession(mAct, null, statusCallback, savedInstanceState);
             }
             if (session == null) {
-                session = new Session(getActivity());
+                session = new Session(mAct);
             }
             Session.setActiveSession(session);
             if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
@@ -172,10 +173,10 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	        	String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
 	        	// Call AsynTask to perform network operation on separate thread
 	        	// see: doInBackground and onPostExecute
-	    		notifyFriendsAsyncTask = new NotifyFriendsAsyncTask(getActivity()).execute(urlFriendsInfo, userInfo);
+	    		notifyFriendsAsyncTask = new FriendshipsUpdatesNotifier().execute(urlFriendsInfo, userInfo);
 	        }
 		} else if (session != null && session.isClosed()) {
-			
+			Log.i("AAA", session.getState().toString());
 			graphUser = null;
 			switchToDisconnectedFragment();
 		}
@@ -289,7 +290,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 					try {
 						marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
 					} catch(Throwable ex) {
-						
+						Log.i(getClass().getSimpleName(), "Marker.setIcon failed: " + ex.getMessage());
 					}
 
 					marker.setAnchor(0.5f, 1);
@@ -402,7 +403,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	            }
 	            if (response.getError() != null) {
 	                // Handle errors, will do so later.
-	            		
+	            	if (Constants.DEBUG_ENABLED)
+	            		Log.i("FindFriends", response.getError().toString());
 	            }
 	        }
 	    });

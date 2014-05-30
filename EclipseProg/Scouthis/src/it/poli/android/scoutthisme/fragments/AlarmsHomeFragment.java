@@ -141,6 +141,7 @@ public class AlarmsHomeFragment extends Fragment implements
 		TextFilesUtils.changeXmlChildValue(mAct,  Constants.XML_PATH_ALARM ,String.valueOf(newActive), position, Constants.XML_TAG_ALARM, Constants.XML_TAG_SWITCH);
 		AlarmHandler.setAlarm(this.alarmList.get(position), mAct);
 	}
+	
 	/**
 	 * Remove Alarm view from main listViewAlarms (listview item)
 	 * @param view

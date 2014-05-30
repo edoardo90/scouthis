@@ -1,4 +1,4 @@
-package it.poli.android.scoutthisme.social;
+package it.poli.android.scoutthisme.social.utils;
 
 import it.poli.android.scoutthisme.tools.RoundedImage;
 

@@ -2,7 +2,6 @@ package it.poli.android.scoutthisme.alarm.utils;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
-import it.poli.android.scoutthisme.MainActivity;
 import it.poli.android.scoutthisme.MainTabsWithIcons;
 
 import java.util.Random;

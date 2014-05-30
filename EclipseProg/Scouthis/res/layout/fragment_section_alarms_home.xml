@@ -27,7 +27,7 @@
 
         </ListView>
 
-        <at.markushi.ui.CircleButton
+        <it.poli.android.scoutthisme.tools.CircleButton
             android:id="@+id/addAlarmImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

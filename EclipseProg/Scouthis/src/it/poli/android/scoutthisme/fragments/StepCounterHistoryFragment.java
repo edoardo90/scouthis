@@ -5,6 +5,7 @@ import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.stepcounter.utils.RunEpisode;
 import it.poli.android.scoutthisme.stepcounter.utils.StepCounterLazyAdapter;
 import it.poli.android.scoutthisme.stepcounter.utils.StepCounterUtilXML;
+import it.poli.android.scoutthisme.tools.CircleButton;
 import it.poli.android.scoutthisme.tools.TextFilesUtils;
 import it.poli.android.scoutthisme.undobar.UndoBar;
 import it.poli.android.scoutthisme.undobar.UndoBar.Listener;
@@ -19,7 +20,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import at.markushi.ui.CircleButton;
 
 public class StepCounterHistoryFragment extends StepCounterFragmentArchetype implements Listener
 {

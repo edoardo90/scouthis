@@ -7,6 +7,7 @@ import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.gps.utils.LegMovementDetector;
 import it.poli.android.scoutthisme.gps.utils.LegMovementDetector.ILegMovementListener;
 import it.poli.android.scoutthisme.stepcounter.utils.RunEpisode;
+import it.poli.android.scoutthisme.tools.CircleButton;
 import it.poli.android.scoutthisme.tools.ImageToolz;
 import it.poli.android.scoutthisme.tools.TextFilesUtils;
 
@@ -27,7 +28,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import at.markushi.ui.CircleButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

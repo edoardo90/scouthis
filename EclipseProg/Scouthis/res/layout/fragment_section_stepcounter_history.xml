@@ -39,7 +39,7 @@
             android:layout_toLeftOf="@+id/step_btn_goHome"
             android:text="@string/stepcounter_gohome" />
 
-        <at.markushi.ui.CircleButton
+        <it.poli.android.scoutthisme.tools.CircleButton
             android:id="@+id/step_btn_goHome"
             android:layout_width="60dp"
             android:layout_height="60dp"

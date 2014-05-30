@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 public class TextFilesUtils {
 
@@ -139,7 +140,7 @@ public class TextFilesUtils {
 
 	public static void initializeXML(Activity activity, String rootXmlFile, String xmlFilePath)
 	{
-		
+		Log.i("inizialize ",  "creo il nuovo file xml");
 
 		FileOutputStream outputStream;
 

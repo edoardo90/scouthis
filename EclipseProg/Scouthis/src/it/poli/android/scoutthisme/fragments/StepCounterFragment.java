@@ -1,12 +1,12 @@
 package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.tools.CircleButton;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import at.markushi.ui.CircleButton;
 
 public class StepCounterFragment extends StepCounterFragmentArchetype
 {

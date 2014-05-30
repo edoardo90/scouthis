@@ -6,38 +6,41 @@ import it.poli.android.scoutthisme.fragments.FindFriendsFrameFragment;
 import it.poli.android.scoutthisme.fragments.GpsFrameFragment;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterFrameFragment;
+import it.poli.android.scoutthisme.social.FriendshipsUpdatesTrigger;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class MainTabsWithIcons extends ActionBarActivity {
-    private static final String[] CONTENT = new String[] { 
-    		"News", "GPS", 
+public class MainTabsWithIcons extends ActionBarActivity
+{
+    private static final String[] CONTENT = new String[] {"News", "GPS", "Run", "Trovamici", "Alarm"};
     
-    	   "Run"  , "Trovamici", "Alarm" };
     private static final int[] ICONS = new int[] {
             R.drawable.actionb_news,
             R.drawable.actionb_gps,
             R.drawable.actionb_foot,
             R.drawable.actionb_friends1,
-            R.drawable.actionb_alarm,
-    };
+            R.drawable.actionb_alarm};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_iconed_tabs);
+	
+		//getSupportActionBar().setBackgroundDrawable((Drawable) (getResources().getDrawable(R.drawable.sfnd_tit_menu)));
+        getSupportActionBar().hide();
         
-		final ActionBar actionBar = getSupportActionBar();
-
         FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
         ViewPager pager = (ViewPager)findViewById(R.id.pager);
@@ -45,7 +48,22 @@ public class MainTabsWithIcons extends ActionBarActivity {
 
         TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
         indicator.setViewPager(pager);
+        
+        scheduleFBUpdateFriendshipAlarm();
     }
+    
+	public void scheduleFBUpdateFriendshipAlarm() {
+		// Construct an intent that will execute the MyAlarmReceiver
+		Intent intent = new Intent(getApplicationContext(), FriendshipsUpdatesTrigger.class);
+		// Create a PendingIntent to be triggered when the alarm goes off
+		final PendingIntent pIntent = PendingIntent.getBroadcast(this,
+				Constants.INTENT_FRIENDSHIPUPDATESTRIGGER_REQUESTCODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		// Setup periodic alarm every TOT - SEE CONSTANTS  seconds
+		long firstMillis = System.currentTimeMillis(); // first run of alarm is immediate
+
+		AlarmManager fbUpdateFriendsAlarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+		fbUpdateFriendsAlarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, Constants.TIME_UPDATE_FRIENDSLIST, pIntent);
+	}
     
    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,19 +78,18 @@ public class MainTabsWithIcons extends ActionBarActivity {
         }
 
         @Override
-        public Fragment getItem(int position) {
-            
-			final int ZERO_OFFESET = 1;
+        public Fragment getItem(int position)
+        {    
 			switch (position) {
-			case 1 - ZERO_OFFESET:
+			case 0:
 				return new NewsFeedFragment();
-			case 2 - ZERO_OFFESET:
+			case 1:
 				return new GpsFrameFragment();
-			case 3 - ZERO_OFFESET:
+			case 2:
 				return new StepCounterFrameFragment();
-			case (4 - ZERO_OFFESET):
+			case 3:
 				return new FindFriendsFrameFragment();
-			case 5 - ZERO_OFFESET:
+			case 4:
 				return new AlarmsFragment();
 			default:
 				return new AlarmsFragment();

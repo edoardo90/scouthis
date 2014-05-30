@@ -94,14 +94,14 @@
         </activity>
 
         <receiver
-            android:name="it.poli.android.scoutthisme.social.FBNotifierAlarmReceiver"
+            android:name="it.poli.android.scoutthisme.social.FriendshipsUpdatesTrigger"
             android:process=":remote" >
         </receiver>
 
         <service
             android:name="it.poli.android.scoutthisme.social.FBNotifyFriendsService"
             android:exported="false" />
-        <service android:name="it.poli.android.scoutthisme.social.GetFriendsPositionsService" >
+        <service android:name="it.poli.android.scoutthisme.social.ExchangeCoordinatesService" >
         </service>
         <service android:name="it.poli.android.scoutthisme.alarm.utils.DailyService" >
         </service>
