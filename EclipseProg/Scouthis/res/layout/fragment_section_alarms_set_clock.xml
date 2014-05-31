@@ -179,10 +179,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="56dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="61dp"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
                     android:src="@drawable/bird_gufo" />
+
+                <ImageView
+                    android:id="@+id/imgBossi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="18dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bird_bossi" />
+                
             </RelativeLayout>
 
             <RelativeLayout

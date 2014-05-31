@@ -77,7 +77,7 @@ public class Constants
 		birdsImageMapInternal.put("imgGufo", "bird_gufo");
 		birdsImageMapInternal.put("imgUpupa", "bird_upupa");
 		birdsImageMapInternal.put("imgPettirosso", "bird_pettirosso");
-        
+		birdsImageMapInternal.put("imgBossi", "bird_bossi");
         
         
 		birdsImageMap = Collections.unmodifiableMap(birdsImageMapInternal);
