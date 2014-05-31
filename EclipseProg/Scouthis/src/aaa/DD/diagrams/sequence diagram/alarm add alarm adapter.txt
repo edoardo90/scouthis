@@ -1,0 +1,30 @@
+title AlarmFragment - Adding a New Alarm
+
+User-> +Alarm Fragment Home : add new alarm click
+
+Alarm Fragment Home -> +TimePicker Dialog : show
+
+User -> TimePicker Dialog :  hour, minute
+
+TimePicker Dialog -> Alarm Fragment Home : hour, minute
+
+
+Alarm Fragment Home -> +Alarm Set Clock Fragment : fragment transiction
+
+User -> Alarm Set Clock Fragment : non active days, bird
+
+Alarm Set Clock Fragment -> Alarm Fragment Home : non active days, bird
+
+Alarm Fragment Home -> +AlarmUtils : alarm data
+
+AlarmUtils -> +TexFileUtils : alarm data
+
+TexFileUtils -> +UserPhone File System : alarm data
+
+title Alarm add Alarm - Adapter part
+
+Alarm Fragment Home -> AlarmUtils : populate list of alarms
+
+AlarmUtils -> Alarm Fragment Home : list of Alarms
+
+Alarm Fragment Home -> Alarm Lazy Adapter : list of Alarms

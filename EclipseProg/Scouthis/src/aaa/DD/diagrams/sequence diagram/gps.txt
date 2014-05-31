@@ -1,0 +1,7 @@
+title Gps Fragment User Location updated
+
+GpsFragment -> +GpsHandler : setListner (gpsFragment)
+
+Gps Sensor (phone) ->GpsHandler : evnt sensor changed
+
+GpsHandler -> GpsFragment : updated user location

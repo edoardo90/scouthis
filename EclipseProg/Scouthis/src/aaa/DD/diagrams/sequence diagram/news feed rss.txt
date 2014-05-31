@@ -1,0 +1,9 @@
+title Feed Rss Request and Display
+
+NewsFeed Fragment -> +NewsFeed Service : execute (roorView)
+
+NewsFeed Service -> +External News Feed Site : feed request
+
+External News Feed Site -> -NewsFeed Service : rss feed (XML)
+
+NewsFeed Service -> NewsFeed Fragment: View (nicely formatted)
