@@ -1,0 +1,11 @@
+title StepCounter Fragment - Step Done
+
+GpsFragment \n (Fragment) -> +GpsHandler \n (LocationListner) : setListner (gpsFragment)
+
+Gps Sensor \n (phone) ->GpsHandler \n (LocationListner) : evnt sensor changed
+
+GpsHandler \n (LocationListner) ->+ GpsFragment \n (Fragment): new user location
+
+Acelerometer Sensor \n (phone) ->GpsHandler \n (LocationListner) : evnt sensor changed
+
+GpsHandler \n (LocationListner) -> GpsFragment \n (Fragment):  new leg movement

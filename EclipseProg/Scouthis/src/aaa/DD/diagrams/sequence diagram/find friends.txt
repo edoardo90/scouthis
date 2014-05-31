@@ -9,18 +9,14 @@ Gps Handler \n (Location Listener) ->Find Friends \n (Fragment) : gps location
 
 Find Friends \n (Fragment)  -> Facebook Handler \n (Class) : update position (gps location)
 
-Facebook Handler \n (Class) -> TimerTask : gps location
+Facebook Handler \n (Class) -> TimerTask : gps location, userId
 
-TimerTask -> GetFriendsPositionsService \n (IntentService) : gps location
-
-GetFriendsPositionsService \n (IntentService) -> ScouthisMe Server \n (External) : [http request] 
-
-ScouthisMe Server \n (External) -> GetFriendsPositionsService \n (IntentService) : user 
+TimerTask -> GetFriendsPositionsService \n (IntentService) : gps location, userId
 
 
-GetFriendsPositionsService \n (IntentService) -> ScouthisMe Server \n (External) : user\n [http request] 
+GetFriendsPositionsService \n (IntentService) -> ScouthisMe Server \n (External) : gps location, userId \n [http request] 
 
-ScouthisMe Server \n (External) -> GetFriendsPositionsService \n (IntentService) : gps coords \n of all friends
+ScouthisMe Server \n (External) -> GetFriendsPositionsService \n (IntentService) : gps coords \n of all friends \n [Json]
 
 GetFriendsPositionsService \n (IntentService) -> Facebook Handler \n (Class) : gps coords of \n all friends
 

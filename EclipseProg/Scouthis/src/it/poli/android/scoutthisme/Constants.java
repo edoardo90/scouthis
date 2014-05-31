@@ -1,5 +1,9 @@
 package it.poli.android.scoutthisme;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Constants
 {
 	public static final boolean DEBUG_ENABLED = true;
@@ -61,6 +65,25 @@ public class Constants
 
 	//both pedometer and alarm
 	public static final String XML_ROOT_MAP = "root";
+	
+    public static final Map<String, String> birdsImageMap;
+    static {
+        Map<String, String> birdsImageMapInternal = new HashMap<String, String>();
+
+		birdsImageMapInternal.put("imgCardellino", "bird_cardellino");
+		birdsImageMapInternal.put("imgPasseraSc", "bird_passera");
+		birdsImageMapInternal.put("imgMerlo", "bird_merlo");
+		
+		birdsImageMapInternal.put("imgGufo", "bird_gufo");
+		birdsImageMapInternal.put("imgUpupa", "bird_upupa");
+		birdsImageMapInternal.put("imgPettirosso", "bird_pettirosso");
+        
+        
+        
+		birdsImageMap = Collections.unmodifiableMap(birdsImageMapInternal);
+    }
+	
+	
 	
 	public static final long ALARM_SLIGHTLY_SOONER = 30 * 1000;	
 	public static final long ALARM_SECONDS_ACCURACY = 50; //seconds more or less to start alarm

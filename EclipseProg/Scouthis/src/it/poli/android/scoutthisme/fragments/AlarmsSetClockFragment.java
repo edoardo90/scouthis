@@ -3,10 +3,6 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.alarm.utils.AlarmUtils;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
@@ -37,8 +33,6 @@ public class AlarmsSetClockFragment extends Fragment
 	private boolean activeAlarm = true;
 	Animation swingAnimation ;
 
-	public static Map<String, String> birdsImageMap  = new HashMap<String, String>();
-
 	private Activity mAct;
 	private MediaPlayer alarmPlayer = null;
 
@@ -58,7 +52,7 @@ public class AlarmsSetClockFragment extends Fragment
 		
 		this.initClickListeners();
 		swingAnimation = AnimationUtils.loadAnimation(mAct, R.anim.swing_bird);
-		this.initBirdMap();
+		
 
 		ImageView imgCaredellino = (ImageView)mAct.findViewById(R.id.imgCardellino);
 
@@ -129,28 +123,16 @@ public class AlarmsSetClockFragment extends Fragment
 		});
 	}	
 
-	private void initBirdMap()
-	{
-		birdsImageMap.put("imgCardellino", "bird_cardellino");
-		birdsImageMap.put("imgPasseraSc", "bird_passera");
-		birdsImageMap.put("imgMerlo", "bird_merlo");
-		
-		birdsImageMap.put("imgGufo", "bird_gufo");
-		birdsImageMap.put("imgUpupa", "bird_upupa");
-		birdsImageMap.put("imgPettirosso", "bird_pettirosso");
-		
-	}
-
 	private void addClickListenerToBirdView(View birdImageView)
 	{
 		int id = birdImageView.getId();
 		final String imageId = getResources().getResourceEntryName(id); // ritorna ad es. "imgCardellino
-		if (AlarmsSetClockFragment.birdsImageMap.containsKey(imageId))
+		if (Constants.birdsImageMap.containsKey(imageId))
 		{
 			birdImageView.setOnClickListener(new OnClickListener() {
 				// Start new listViewAlarms activity
 				public void onClick(View birdImgView) {
-					birdChoosed = birdsImageMap.get(imageId);  // a questo punto es. "bird_cardellino"
+					birdChoosed = Constants.birdsImageMap.get(imageId);  // a questo punto es. "bird_cardellino"
 
 					this.stopAll(R.id.alarm_firstline_birds, R.id.alarm_secondline_birds, R.id.alarms_centerline_birds);
 					birdImgView.startAnimation(swingAnimation);
