@@ -53,7 +53,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat" >
         <activity
-            android:name="it.poli.android.scoutthisme.MainTabsWithIcons"
+            android:name="it.poli.android.scoutthisme.MainActivityWithIcons"
             android:label="@string/app_name"
             android:theme="@style/StyledIndicators" >
             <intent-filter>
@@ -62,7 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="it.poli.android.scoutthisme.MainActivity" >
+        <activity android:name="it.poli.android.scoutthisme.OldMainActivity" >
         </activity>
 
         <meta-data
@@ -120,7 +120,7 @@
             android:label="@string/title_activity_prova_pickerss" >
         </activity>
         <activity
-            android:name="it.poli.android.scouthisme.DialogFloatActivity"
+            android:name="it.poli.android.scoutthisme.DialogFloatActivity"
             android:label="@string/title_activity_dialog_float" 
             android:theme="@android:style/Theme.Dialog">
         </activity>

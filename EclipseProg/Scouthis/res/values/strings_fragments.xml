@@ -5,28 +5,21 @@
     <string name="fragments_new">Nuovo</string>
     <string name="fragments_start">Start</string>
     <string name="fragments_waiting_dots">&#8230;</string>
-    <string name="fragments_general_alert">Questa applicazione ha bisogno del Gps. &lt;br&gt;
-        Attivalo perché funzioni al meglio!</string>
-    <string name="fragments_step_alert">Il Contapassi ha bisogno del Gps. &lt;br&gt;
-        Attivalo perché funzioni al meglio!</string>
-    <string name="fragments_friends_alert">Il Trova Amici ha bisogno del Gps.\n
-        Attivalo perché funzioni al meglio!</string>
-    
+    <string name="fragments_general_alert">Questa applicazione ha bisogno del Gps.\nAttivalo perché funzioni al meglio!</string>
+    <string name="fragments_step_alert">Il Contapassi ha bisogno del Gps.\nAttivalo perché funzioni al meglio!</string>
+    <string name="fragments_friends_alert">Il Trova Amici ha bisogno del Gps.\nAttivalo perché funzioni al meglio!</string>
     
     <!-- Strings related to tabs viewer -->
     <string name="fragments_1_title">News</string>
     <string name="fragments_2_title">GPS</string>
-    <string name="fragments_3_title">Contapassi</string>
+    <string name="fragments_3_title">Run</string>
     <string name="fragments_4_title">Trovamici</string>
-    <string name="fragments_5_title">Utility</string>
-    <string name="fragments_6_title">Walkie Talkie</string>
-    <string name="fragments_7_title">Wake Up!</string>
+    <string name="fragments_5_title">Alarm</string>
     
     <!-- Strings related to news fragment  -->
     <string name="news_rss_loading">Caricamento in corso&#8230;</string>
     <string name="news_rss_information">Le ultime news sull\'Ambiente da corriere.it</string>
-    <string name="news_rss_connection_error">Impossibile caricare il newsfeed. 
-        La connessione dati non risulta attiva.</string>
+    <string name="news_rss_connection_error">Impossibile caricare il newsfeed.\nLa connessione dati non risulta attiva.</string>
     
     <!-- Strings related to GPS fragment -->
     <string name="gps_information">Dati rilevati dal telefono:</string>

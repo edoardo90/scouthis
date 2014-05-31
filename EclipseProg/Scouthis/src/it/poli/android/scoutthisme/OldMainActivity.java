@@ -35,7 +35,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class OldMainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -56,10 +56,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		tabTitles = new String[]{getString(R.string.fragments_1_title),
-					getString(R.string.fragments_2_title), getString(R.string.fragments_3_title),
-					/* UNTIL RUFY FIXES!!! getString(R.string.fragments_4_title), !! */
-					 getString(R.string.fragments_7_title)};
+		tabTitles = new String[]{};
 
 	
 		// Create the adapter that will return a fragment for each of the three primary sections

@@ -50,14 +50,6 @@ import android.widget.TextView;
             return rootView;
         }
     	
-//    	@Override
-//    	public void onDestroyView() {
-//    		super.onDestroyView();
-//        		
-//    		sensorHandler.removeListener(this);
-//    		gpsHandler.removeListener();
-//    	}
-    	
         @Override
 		public void onResume() {
     		super.onResume();
@@ -151,17 +143,4 @@ import android.widget.TextView;
     	    txtPrc.setText(String.format("%.0f", accuracy)+"m");
     	    txtBea.setText(String.format("%.0f", bearing)+"°"+" "+latlongOrient[orient]);
     	}
-
-		@Override
-		public void onProvidereEnabled(String provider) {
-			int i=0;
-			i--;
-			
-		}
-
-		@Override
-		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
-			
-		}
     }

@@ -31,8 +31,6 @@ public class FriendshipsUpdatesNotifier extends AsyncTask<String, String, String
 		String[] userInformations = jsonParser.getUserInfoFromJson(jsonUserInformations);
 		String userId = userInformations[0];
 		String userFirstName = userInformations[1];
-		
-		publishProgress(userFirstName);
     	
 		// Building Parameters for POST METHOD 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();

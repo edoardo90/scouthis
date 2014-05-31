@@ -268,10 +268,4 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype implem
 
 		updateStats();
 	}
-
-	@Override
-	public void onProvidereEnabled(String provider) { }
-
-	@Override
-	public void onProviderDisabled(String provider) { }
 }
