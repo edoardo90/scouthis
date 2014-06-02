@@ -100,7 +100,7 @@ public class FindFriendsDisconnectedFragment extends Fragment
 
     	textInstructionsOrLink.setText(Html.fromHtml(getString(R.string.findfriends_login_message)));
     	
-    	TextView textDontWarry = (TextView)mAct.findViewById(R.id.txtFFDontWarryMessage);
+    	TextView textDontWarry = (TextView)mAct.findViewById(R.id.txtFFDontWorryMessage);
     	textDontWarry.setText(getString(R.string.findfriends_dontwarry_message));
     	
     	Button buttonLogin = (Button) this.getActivity().findViewById(R.id.btnLogIn);

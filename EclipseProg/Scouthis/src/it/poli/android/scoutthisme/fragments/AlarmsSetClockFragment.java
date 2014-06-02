@@ -3,6 +3,10 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.alarm.utils.AlarmUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
@@ -33,6 +37,8 @@ public class AlarmsSetClockFragment extends Fragment
 	private boolean activeAlarm = true;
 	Animation swingAnimation ;
 
+	public static Map<String, String> birdsImageMap  = new HashMap<String, String>();
+
 	private Activity mAct;
 	private MediaPlayer alarmPlayer = null;
 
@@ -52,7 +58,6 @@ public class AlarmsSetClockFragment extends Fragment
 		
 		this.initClickListeners();
 		swingAnimation = AnimationUtils.loadAnimation(mAct, R.anim.swing_bird);
-		
 
 		ImageView imgCaredellino = (ImageView)mAct.findViewById(R.id.imgCardellino);
 
@@ -121,7 +126,7 @@ public class AlarmsSetClockFragment extends Fragment
 				}
 			}
 		});
-	}	
+	}
 
 	private void addClickListenerToBirdView(View birdImageView)
 	{

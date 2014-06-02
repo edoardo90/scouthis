@@ -12,6 +12,15 @@
         android:orientation="vertical" >
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/lblDescription"
+        style="@style/FragmentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gps_alert_container"
+        android:layout_marginTop="@dimen/fragment_border_top"
+        android:text="@string/gps_information" />
+
     <RelativeLayout
         android:id="@+id/gps_statistics_and_pic"
         android:layout_width="match_parent"
@@ -24,14 +33,13 @@
             android:id="@+id/gps_statistics1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            
             android:layout_marginTop="20dip"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:id="@+id/gps_stats_line1_heading"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:baselineAligned="false">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/gps_column_aceleration"
@@ -44,16 +52,14 @@
                         android:id="@+id/lblAccel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        
-                        android:layout_weight="1"
+                        android:layout_gravity="center"
                         android:text="@string/gps_acceleration" />
 
                     <TextView
                         android:id="@+id/txtAccel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        
+                        android:layout_gravity="center"
                         android:text="@string/fragments_waiting_dots"
                         android:textSize="24sp" />
                 </LinearLayout>
@@ -70,14 +76,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/gps_speed" />
 
                     <TextView
                         android:id="@+id/txtSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_gravity="center"
                         android:text="@string/fragments_waiting_dots"
                         android:textSize="24sp" />
@@ -95,7 +99,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/gps_orientation" />
 
                     <TextView
@@ -103,7 +106,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/fragments_waiting_dots"
                         android:textSize="24sp" />
                 </LinearLayout>
@@ -127,18 +129,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/fragments_waiting_dots"
                         android:textSize="24sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/imageViewCompass"
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+            android:layout_below="@id/gps_statistics1"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/gps_image_description"
+            android:src="@drawable/img_compass" />
+
         <LinearLayout
             android:id="@+id/gps_stats_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/imageViewCompass"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -236,7 +247,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/gps_altitude" />
 
                     <TextView
@@ -244,7 +254,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/fragments_waiting_dots"
                         android:textSize="24sp" />
                 </LinearLayout>
@@ -261,7 +270,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/gps_direction" />
 
                     <TextView
@@ -269,33 +277,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/fragments_waiting_dots"
                         android:textSize="24sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageViewCompass"
-            android:layout_width="200sp"
-            android:layout_height="200sp"
-            android:layout_below="@+id/gps_statistics1"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/gps_image_description"
-            android:src="@drawable/img_compass" />
-
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/lblDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/gps_alert_container"
-        android:layout_marginTop="@dimen/fragment_border_top"
-        android:text="@string/gps_information"
-        style="@style/FragmentTitle"
-        />
 
 </RelativeLayout>

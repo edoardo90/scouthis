@@ -87,32 +87,6 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	private PendingIntent friendshipsUpdatesPendingIntent;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		View rootView = inflater.inflate(R.layout.fragment_section_findfriends_logged, container, false);
-		return rootView;
-	}
-
-	@Override
-	public void onDestroyView()
-	{
-		super.onDestroyView();
-
-		// Destroy map
-		if (gMap != null) {
-			gMap.clear();
-		}
-
-		SupportMapFragment mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapFindFriends));
-		if(mapFragment != null) {
-			FragmentManager fM = getFragmentManager();
-			fM.beginTransaction().remove(mapFragment).commit();
-		}
-
-		notifyFriendsAsyncTask.cancel(false);
-	}
-
-	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -137,6 +111,42 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
 			}
 		}
+
+		gpsHandler.setListener(this);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		View rootView = inflater.inflate(R.layout.fragment_section_findfriends_logged, container, false);
+		return rootView;
+	}
+
+	@Override
+	public void onDestroyView()
+	{
+		super.onDestroyView();
+
+		// Destroy map
+		if (gMap != null) {
+			gMap.clear();
+		}
+
+		Fragment fragment = (getFragmentManager().findFragmentById(R.id.mapFindFriends));  
+		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+		ft.remove(fragment);
+		ft.commit();
+	}
+
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+
+		fbUpdateFriendsAlarm.cancel(friendshipsUpdatesPendingIntent);
+		gpsHandler.removeListener();
+
+		notifyFriendsAsyncTask.cancel(false);
 	}
 
 	@Override
@@ -144,24 +154,23 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		super.onResume();
 
 		scheduleFriendshipsUpdatesAlarm();
-
-		gpsHandler.setListener(this);
-		facebookHandler.setListener(this);
-
 		setLogoutButton();
 		updateView(true);
+
+		gpsHandler.setViewActive(true);
+
 		Session.getActiveSession().addCallback(statusCallback);
+		facebookHandler.setListener(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 
-		fbUpdateFriendsAlarm.cancel(friendshipsUpdatesPendingIntent);
-		Session.getActiveSession().removeCallback(statusCallback);
+		gpsHandler.setViewActive(false);
 
-		gpsHandler.removeListener();
 		facebookHandler.removeListener();
+		Session.getActiveSession().removeCallback(statusCallback);
 	}
 
 	private void updateView(boolean justCreated)
@@ -174,8 +183,12 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				if  (fm != null)
 				{	
 					SupportMapFragment mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.mapFindFriends);
-					if (mapFragment != null)
+					if (mapFragment != null) {
 						this.gMap = mapFragment.getMap();
+						if (loc == null) 
+							gMap.moveCamera(CameraUpdateFactory
+								.newLatLngZoom(new LatLng(41.29246, 12.5736108), 5));
+					}
 				}
 				// If everything goes fine, now we got the url with all our friends stuff
 				String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
@@ -187,6 +200,25 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		} else if (session != null && session.isClosed()) {
 			graphUser = null;
 			switchToDisconnectedFragment();
+		}
+		
+		updateGpsStatusView();
+	}
+	
+	public void updateGpsStatusView()
+	{
+		//UPDATE GPS STATUS
+		TextView txtStatus = (TextView) mAct.findViewById(R.id.ff_txtStatus);
+		if (txtStatus != null) {
+			if (loc != null && lstUsersMarkers != null) {
+				txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_ready)));
+			}
+			else if (loc != null && lstUsersMarkers == null) {
+				txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_friends)));
+			}
+			else if (loc == null) {
+				txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_gps)));
+			}
 		}
 	}
 
@@ -240,7 +272,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		Map<String, Marker> tempMap = new HashMap<String, Marker>(markersMap);
 
 		if (gMap != null) {
-			if (lstUsersMarkers != null)
+			if (loc != null && lstUsersMarkers != null)
+			{
 				for(UserMarker userMarker : lstUsersMarkers) {
 					// Get user's id and check if it's alrealdy on map
 					String thisUserId = userMarker.getId();
@@ -254,6 +287,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 					else
 						placeMarkerOnMap(userMarker, false);
 				}
+			}
+
 			if (loc != null && graphUser != null) {
 				// Get details of me and my position
 				UserMarker me = new UserMarker(graphUser, loc.getLatitude(), loc.getLongitude());
@@ -270,6 +305,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 							.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), defaultZoom));
 				}
 			}
+			
+			updateGpsStatusView();
 		}
 
 		// Remove all friends not online anymore
@@ -315,7 +352,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		}
 	}
 
-	class ImageLoader extends AsyncTask<String, Integer, Bitmap>
+	private class ImageLoader extends AsyncTask<String, Integer, Bitmap>
 	{	
 		@Override
 		protected Bitmap doInBackground(String... urls) {

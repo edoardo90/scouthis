@@ -1,25 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-
-    </style>
+    <style name="AppBaseTheme" parent="android:Theme.Light"></style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="LoginFormContainer">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">16dp</item>
+    <!-- START Start tabbed iconed browsing -->
+    <style name="Tab">
+        <item name="android:background">@drawable/b2</item>
+        <item name="android:layout_height">@dimen/abc_action_bar_default_height</item>
     </style>
-    
-    <!--  from sveglia project START -->
+
+    <style name="FragmentContainer">
+        <item name="android:background">@color/tabs_background</item>
+    </style>
+
+    <style name="FragmentTitle">
+        <item name="android:textColor">@color/fragment_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="FragmentTextIndication">
+        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="FragmentTextSwitch">
+        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="StyledIndicators" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/custom_tab_indicator</item>
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
+        <item name="android:paddingLeft">7dp</item>
+        <item name="android:paddingRight">13dp</item>
+        <item name="android:fadingEdge">horizontal</item>
+        <item name="android:fadingEdgeLength">8dp</item>
+    </style>
+
+    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+    <!-- END Start tabbed browsing -->
+
+
+    <!-- START Trovamici -->
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:background">@drawable/btn_facebook_login</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="FacebookLogoutButton">
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:background">@drawable/btn_facebook_logout</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+    <!-- END Trovamici -->
+
+
+    <!-- START Sveglia -->
     <style name="Root">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/undo_bar_height</item>
@@ -55,53 +114,13 @@
         <item name="android:background">@drawable/button_wrapper_background</item>
     </style>
 
-    <style name="Divider">
-        <item name="android:layout_width">1dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginTop">@dimen/divider_margin</item>
-        <item name="android:layout_marginBottom">@dimen/divider_margin</item>
-        <item name="android:background">@color/divider</item>
+    <style name="FragmentAlarmSwitch">
+        <item name="android:textColor">@color/pergamena</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="FragmentTitle">
-        <item name="android:textColor">@color/fragment_title</item>
-        <item name="android:textSize">20sp</item> 
-    </style>
-    
-    <style name="FragmentTextIndication">
-        <item name="android:textColor">@color/dark_green</item>
-        <item name="android:textSize">20sp</item> 
-    </style>
-   
-     <style name="FragmentTextSwitch">
-        <item name="android:textColor">@color/dark_green</item>
-        <item name="android:textSize">20sp</item> 
-    </style>
-   
-     <style name="main_tabbed">
-     	<item name="android:background">@color/tabs_background</item>
-    </style>
-    
-    <style name="main_tabs">
-     	<item name="android:background">@drawable/sfnd_tit_tabs</item>
-    </style>
-    
-    <style name="FragmentAlarmSwitch">
-     	<item name="android:textColor">@color/pergamena</item>
-     	<item name="android:textSize">10sp</item>
-    </style>
-    
-    
-     
-    
-    <!--  NON FUNZIONA !!!!!!  -->
-    <style name="FragmentCircularButton">
-        <!--   <item name="app:cb_radius">20dip</item> -->
-        
-    </style>
-    
-    
     <style name="Button">
+        <item name="android:minHeight">0dp</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -116,60 +135,17 @@
         <item name="android:text">@string/undo</item>
         <item name="android:background">@drawable/button_background</item>
     </style>
-    
-    <style name="FragmentContainer">
-        <item name="android:background">@color/senape</item>
-    </style>
-    
-    <style name="FacebookLoginButton">
-	    <item name="android:textSize">@dimen/small_text</item>
-	    <item name="android:background">@drawable/btn_facebook_active_400</item>
-	    <item name="android:layout_marginTop">10dp</item>
-	    <item name="android:layout_marginBottom">10dp</item>
-	    <item name="android:layout_gravity">center_horizontal</item>
-	</style>
-    
-    
-    
-    
-    
-    <!--  from sveglia project -->
-    <!--  TAB TRY MINE EDO -->
-    	
-    	<style name="Widget.MyTitlepageIndicator">
-		    <item name="footerColor">#ffffffff</item>
-		    <item name="footerIndicatorStyle">underline</item>
-		    <item name="footerIndicatorHeight">3dp</item>
-		    <item name="footerLineHeight">3dp</item>
-		    <item name="footerPadding">30dp</item>
-		    <item name="selectedColor">#FF0000</item>
-		</style>
-    <!--    -->
-    <!--  TAB CON ICONE-->
-    <style name="StyledIndicators" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-       	 <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
-    </style>
+    <!-- END Sveglia -->
 
-    
-    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:background">@drawable/custom_tab_indicator</item>
-        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
-        
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:fadingEdge">horizontal</item>
-        <item name="android:fadingEdgeLength">8dp</item>
-    </style>
 
-    
-    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
-        <item name="android:typeface">monospace</item>
+    <!-- START Undobar -->
+    <style name="Divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">@dimen/divider_margin</item>
+        <item name="android:layout_marginBottom">@dimen/divider_margin</item>
+        <item name="android:background">@color/divider</item>
     </style>
-    
-    
-    <!--   FINE TAB CON ICONE -->
+    <!-- END Undobar -->
 
 </resources>

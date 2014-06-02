@@ -1,6 +1,7 @@
 package it.poli.android.scoutthisme.newsfeed.utils;
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
 import it.poli.android.scoutthisme.tools.NewsItem;
 import it.poli.android.scoutthisme.tools.NewsfeedAdapter;
 
@@ -22,22 +23,20 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-public class NewsfeedService  extends AsyncTask<View, Void, String>
+public class NewsfeedService  extends AsyncTask<NewsFeedFragment, Void, String>
 {
 	ArrayList<NewsItem> RSSItems;
 	
 	View rootView;
 	boolean connectionError;
+	NewsFeedFragment mFragment;
 	
-	@Override
-	protected String doInBackground(View... params)
+	protected String doInBackground(NewsFeedFragment... params)
 	{
-		rootView = params[0];
+		mFragment = params[0];
+		rootView = mFragment.getView();
 		try {
 			URL url;
 			url = new URL("http://xml.corriereobjects.it/rss/ambiente.xml");
@@ -135,29 +134,11 @@ public class NewsfeedService  extends AsyncTask<View, Void, String>
 			NewsfeedAdapter adapter = new NewsfeedAdapter(rootView.getContext(), RSSItems);
 			lstNews.setAdapter(adapter);
 	    	
-			TextView lblNews = (TextView) rootView.findViewById(R.id.lblNewsMessage);
-			lblNews.setText(R.string.news_rss_information);
-			
-			ImageView imgNews = (ImageView) rootView.findViewById(R.id.imgNewsMessage);
-			imgNews.setImageResource(R.drawable.rss);
-			/*lblNews.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rss, 0, 0, 0);
-			lblNews.setCompoundDrawablePadding(5);*/
-
-			Button btnHomeReload = (Button) rootView.findViewById(R.id.btnHomeReload);
-			btnHomeReload.setVisibility(View.GONE);
+			mFragment.setNewsfeedView(true, false);
 		}
 		catch (IOException e)
 		{
-			TextView lblNews = (TextView) rootView.findViewById(R.id.lblNewsMessage);
-			lblNews.setText(R.string.news_rss_connection_error);
-			
-			/*lblNews.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rsserror, 0, 0, 0);
-			lblNews.setCompoundDrawablePadding(5);*/
-			ImageView imgNews = (ImageView) rootView.findViewById(R.id.imgNewsMessage);
-			imgNews.setImageResource(R.drawable.rsserror);
-
-			Button btnHomeReload = (Button) rootView.findViewById(R.id.btnHomeReload);
-			btnHomeReload.setVisibility(View.VISIBLE);
+			mFragment.setNewsfeedView(false, false);
 		}
 	}
 

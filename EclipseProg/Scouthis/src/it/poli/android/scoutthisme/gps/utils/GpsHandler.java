@@ -16,18 +16,45 @@ import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class GpsHandler implements LocationListener
 {	
+	final int COMMIT_ADDALERTVIEW = 0;
+	final int COMMIT_REMOVEALERTVIEW = 1;	
+	
 	Fragment mFragment;
 	GpsListener listener;
     LocationManager locationManager;
     Location lastLocation;
 	private GpsAlertFragment gpsAlertFragment;
-    
-    public GpsHandler (Fragment f) {
+	
+	boolean viewActive;
+	int lastUnCommittedWork;
+
+	public void setViewActive(boolean viewActive)
+	{
+		this.viewActive = viewActive;
+		if (viewActive && lastUnCommittedWork >= 0 && lastUnCommittedWork < 2)
+		{
+			switch (lastUnCommittedWork) {
+				case 0:
+					addAlertView();
+				case 1:
+				default:
+					removeAlertView();
+			}
+			lastUnCommittedWork = -1;
+		}
+	}
+
+	public GpsHandler (Fragment f) {
     	this.mFragment = f;
+    	viewActive = false;
+    	lastUnCommittedWork = -1;
 	    locationManager = (LocationManager) mFragment.getActivity().getSystemService(Context.LOCATION_SERVICE);  
     }
 
@@ -87,9 +114,11 @@ public class GpsHandler implements LocationListener
 			idContainer = R.id.step_alert_gps_container;
 		}
 		
-		LinearLayout container = (LinearLayout)mFragment.getView().findViewById(idContainer);
-		if (container != null) {
-	    	FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
+		View view = mFragment.getView();
+		LinearLayout container = (LinearLayout)view.findViewById(idContainer);
+		if (view != null && container != null)
+		{	
+	    	FragmentTransaction transaction = mFragment.getChildFragmentManager().beginTransaction();
 			// Replace whatever is in the fragment_container view with this fragment,
 			// and add the transaction to the back stack
 			if (container.getChildCount() == 0) {
@@ -98,6 +127,10 @@ public class GpsHandler implements LocationListener
 				transaction.addToBackStack(null);
 				// Commit the transaction
 				transaction.commit();
+			}
+			if (mFragment instanceof FindFriendsLoggedFragment) {
+				TextView txtStatus = (TextView) view.findViewById(R.id.ff_txtStatus);
+				txtStatus.setText(Html.fromHtml(mFragment.getString(R.string.findfriends_status_gps_deactivated)));
 			}
 		}
     }
@@ -117,18 +150,10 @@ public class GpsHandler implements LocationListener
 			idContainer = R.id.step_alert_gps_container;
 		}	
 		
-		final LinearLayout container = (LinearLayout)mFragment.getView().findViewById(idContainer);
-		
-		if (container != null && gpsAlertFragment != null) {
+		View view = mFragment.getView();
+		LinearLayout container = (LinearLayout)mFragment.getView().findViewById(idContainer);
+		if (view != null && container != null && gpsAlertFragment != null) {
 			if (container.getChildCount() > 0) {
-				/*container.post(new Runnable() {
-				    @Override
-				    public void run()
-				    {
-				    	container.removeAllViews();
-				    }
-				});*/
-				//container.removeAllViews();
 				FragmentTransaction transaction = mFragment.getFragmentManager().beginTransaction();
 				transaction.remove(gpsAlertFragment);
 				transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -137,36 +162,43 @@ public class GpsHandler implements LocationListener
 				transaction.commit();
 				
 				gpsAlertFragment = null;
+				
+				if (mFragment instanceof FindFriendsLoggedFragment) {
+					TextView txtStatus = (TextView) view.findViewById(R.id.ff_txtStatus);
+					txtStatus.setText(Html.fromHtml(mFragment.getString(R.string.findfriends_status_waiting_gps)));
+				}
 			}
 		}
 	}
 
 	@Override
 	public void onLocationChanged(Location location) {
-		if (listener != null) {
+		if (listener != null && viewActive) {
 			listener.onLocationChanged(location);
 		}
 	}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras)
-	{
-		/*int i=0;
-		i--;*/
-	}
+	public void onStatusChanged(String provider, int status, Bundle extras) { }
 
 	@Override
 	public void onProviderEnabled(String provider) { 
-		removeAlertView();
-		/*int j=0;
-		j--;*/
+		if (listener != null) {
+			if (viewActive)
+				removeAlertView();
+			else
+				lastUnCommittedWork = COMMIT_REMOVEALERTVIEW;
+		}
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) 
 	{
-		addAlertView();
-		/*int k=0;
-		k--;*/
+		if (listener != null) {
+			if (viewActive)
+				addAlertView();
+			else
+				lastUnCommittedWork = COMMIT_ADDALERTVIEW;
+		}
 	}
 }

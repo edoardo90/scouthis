@@ -14,21 +14,27 @@ import java.util.Calendar;
 import java.util.LinkedList;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
-public class AlarmsHomeFragment extends Fragment implements 
-	Listener, TimePickerDialog.OnTimeSetListener
+public class AlarmsHomeFragment extends Fragment implements Listener, TimePickerDialog.OnTimeSetListener
 {
 	ListView listViewAlarms;
 	AlarmLazyAdapter adapter;
@@ -37,7 +43,7 @@ public class AlarmsHomeFragment extends Fragment implements
 	Bundle savedInstance;
 	View rootView;
 	Activity mAct;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -50,20 +56,49 @@ public class AlarmsHomeFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		rootView = inflater.inflate(R.layout.fragment_section_alarms_home, container, false);
+
+		final LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.fragment_alert_home_linlay);
+		ViewTreeObserver observer = layout.getViewTreeObserver();
+		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				// TODO Auto-generated method stub
+				layout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				
+				//Bitmap b = ImageLoader.decodeSampledBitmapFromResource(getResources(), R.drawable.clock, layout.getWidth(), layout.getHeight());
+				Display display = getActivity().getWindowManager().getDefaultDisplay(); 
+				int width = display.getWidth();
+				int height = display.getHeight();
+				
+				Bitmap b = null;
+				if (width < height) {
+					if (width < 1080)
+						b = BitmapFactory.decodeResource(getResources(), R.drawable.alarm_home_clock_720p);
+					else if (width >= 1080)
+						b = BitmapFactory.decodeResource(getResources(), R.drawable.alarm_home_clock_1080p);
+					if (layout != null && b != null) {
+						b = Bitmap.createBitmap(b, 0, 0, layout.getWidth(), layout.getHeight());
+						BitmapDrawable background = new BitmapDrawable(getResources(), b);
+						layout.setBackgroundDrawable(background);
+					}
+				}
+			}
+		});
+
 		return rootView;
 	}	
-	
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute)
-    {	
-    	Bundle bundle = new Bundle();
-    	bundle.putInt(Constants.ALARM_HOUR, hourOfDay);
-    	bundle.putInt(Constants.ALARM_MINUTE, minute);
-    	// set Fragmentclass Arguments
-    	AlarmsSetClockFragment alarmsSetClockFrag = new AlarmsSetClockFragment();
-    	alarmsSetClockFrag.setArguments(bundle);
-    	
-    	FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+	@Override
+	public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute)
+	{	
+		Bundle bundle = new Bundle();
+		bundle.putInt(Constants.ALARM_HOUR, hourOfDay);
+		bundle.putInt(Constants.ALARM_MINUTE, minute);
+		// set Fragmentclass Arguments
+		AlarmsSetClockFragment alarmsSetClockFrag = new AlarmsSetClockFragment();
+		alarmsSetClockFrag.setArguments(bundle);
+
+		FragmentTransaction transaction = getFragmentManager().beginTransaction();
 		// Replace whatever is in the fragment_container view with this fragment,
 		// and add the transaction to the back stack
 		transaction.replace(R.id.alarms_frame, alarmsSetClockFrag);
@@ -71,33 +106,33 @@ public class AlarmsHomeFragment extends Fragment implements
 		transaction.addToBackStack(null);
 		// Commit the transaction
 		transaction.commit();
-    }
-	
+	}
+
 	@Override
 	public void onResume()
 	{
 		super.onResume();
 		mAct = getActivity();
-		
-		final Calendar calendar = Calendar.getInstance();
-        final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY) ,calendar.get(Calendar.MINUTE), false, false);
 
-        rootView.findViewById(R.id.addAlarmImg).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timePickerDialog.setVibrate(true);
-                timePickerDialog.setCloseOnSingleTapMinute(false);
-                timePickerDialog.show(getActivity().getSupportFragmentManager(), Constants.TIMEPICKER_TAG);
-            }
-        });
-        if (this.savedInstance != null) {
-            TimePickerDialog tpd = (TimePickerDialog) getActivity().
-            		getSupportFragmentManager().
-            		findFragmentByTag(Constants.TIMEPICKER_TAG);
-            if (tpd != null) {
-                tpd.setOnTimeSetListener(this);
-            }
-        }
+		final Calendar calendar = Calendar.getInstance();
+		final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY) ,calendar.get(Calendar.MINUTE), false, false);
+
+		rootView.findViewById(R.id.addAlarmImg).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				timePickerDialog.setVibrate(true);
+				timePickerDialog.setCloseOnSingleTapMinute(false);
+				timePickerDialog.show(getActivity().getSupportFragmentManager(), Constants.TIMEPICKER_TAG);
+			}
+		});
+		if (this.savedInstance != null) {
+			TimePickerDialog tpd = (TimePickerDialog) getActivity().
+					getSupportFragmentManager().
+					findFragmentByTag(Constants.TIMEPICKER_TAG);
+			if (tpd != null) {
+				tpd.setOnTimeSetListener(this);
+			}
+		}
 
 		//se chiamato da "aggiungi sveglia" deve estrarre i dati della nuova sveglia
 		Bundle paramAlarm = getArguments();
@@ -107,7 +142,7 @@ public class AlarmsHomeFragment extends Fragment implements
 			String alarmTime = paramAlarm.getString(Constants.PARAM_ALARM_TIME);
 			String bird  = paramAlarm.getString(Constants.PARAM_ALARM_BIRD);
 			boolean active = paramAlarm.getBoolean(Constants.PARAM_ALARM_ACTIVE, true);
-			
+
 			int id = this.getLastIdFromFile();
 			AlarmUtils.addNewAlarmClock(active, alarmTime, activeDays, bird, id++, mAct);
 		}
@@ -116,7 +151,7 @@ public class AlarmsHomeFragment extends Fragment implements
 
 		listViewAlarms = (ListView)rootView.findViewById(R.id.alarm_listview);
 	}
-	
+
 	@Override
 	public void onUndo(Parcelable token) {
 		AlarmUtils.addNewAlarmClock(this.lastAlarmRemoved, mAct);
@@ -126,7 +161,7 @@ public class AlarmsHomeFragment extends Fragment implements
 
 	@Override
 	public void onHide() { /*  */ }
-	
+
 	public void switchAlarm(View v)
 	{
 		// Get the associated view's alarm and toggle its state
@@ -141,7 +176,7 @@ public class AlarmsHomeFragment extends Fragment implements
 		TextFilesUtils.changeXmlChildValue(mAct,  Constants.XML_PATH_ALARM ,String.valueOf(newActive), position, Constants.XML_TAG_ALARM, Constants.XML_TAG_SWITCH);
 		AlarmHandler.setAlarm(this.alarmList.get(position), mAct);
 	}
-	
+
 	/**
 	 * Remove Alarm view from main listViewAlarms (listview item)
 	 * @param view
@@ -157,11 +192,11 @@ public class AlarmsHomeFragment extends Fragment implements
 		updateListViewFromFile();
 		// Show undobar, do you want to undo?
 		new UndoBar.Builder(mAct)
-			.setMessage("Sveglia cancellata")
-			.setListener(this)
-			.show();
+		.setMessage("Sveglia cancellata")
+		.setListener(this)
+		.show();
 	}
-	
+
 	private void deleteAlarmFromXML(int positionToDelete)
 	{
 		TextFilesUtils.removeXmlElement(mAct,Constants.XML_PATH_ALARM,positionToDelete, Constants.XML_TAG_ALARM);
