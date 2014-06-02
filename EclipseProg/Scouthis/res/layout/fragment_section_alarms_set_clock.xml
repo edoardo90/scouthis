@@ -132,9 +132,8 @@
             android:id="@+id/birdsll"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_weight="0.20"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical" >
 
             <RelativeLayout
@@ -164,47 +163,41 @@
                     android:layout_alignParentTop="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/bird_passera" />
-
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/alarms_centerline_birds"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-30dp"
-                android:layout_weight="1" >
-
-                <ImageView
-                    android:id="@+id/imgGufo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="61dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/bird_gufo" />
+                android:layout_height="56dip"
+                android:layout_marginTop="10dip" >
 
                 <ImageView
                     android:id="@+id/imgBossi"
                     android:layout_width="wrap_content"
-                    android:layout_height="56dp"
+                    android:layout_height="56dip"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="18dp"
-                    android:layout_weight="1"
                     android:scaleType="centerInside"
                     android:src="@drawable/bird_bossi" />
-                
+
+                <ImageView
+                    android:id="@+id/imgGufo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dip"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bird_gufo" />
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/alarm_secondline_birds"
                 android:layout_width="wrap_content"
-                android:layout_height="85dp"
+                android:layout_height="91dp"
                 android:layout_marginLeft="3dip"
                 android:layout_marginRight="3dip"
-                android:layout_marginTop="30dp" >
+                android:layout_marginTop="5dp" >
 
                 <ImageView
                     android:id="@+id/imgPettirosso"
@@ -234,7 +227,9 @@
                     android:scaleType="centerInside"
                     android:src="@drawable/bird_merlo" />
             </RelativeLayout>
+
         </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
