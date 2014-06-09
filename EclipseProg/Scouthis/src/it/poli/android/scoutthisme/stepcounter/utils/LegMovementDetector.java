@@ -1,4 +1,4 @@
-package it.poli.android.scoutthisme.gps.utils;
+package it.poli.android.scoutthisme.stepcounter.utils;
 
 import java.util.ArrayList;
 

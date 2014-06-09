@@ -2,8 +2,6 @@ package it.poli.android.scoutthisme.newsfeed.utils;
 
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
-import it.poli.android.scoutthisme.tools.NewsItem;
-import it.poli.android.scoutthisme.tools.NewsfeedAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;

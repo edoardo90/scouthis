@@ -1,4 +1,4 @@
-package it.poli.android.scoutthisme.gps.utils;
+package it.poli.android.scoutthisme.stepcounter.utils;
 
 public final class ScalarKalmanFilter {
     private float mX0; // predicted state
