@@ -51,7 +51,7 @@
             
             app:cb_percent_down="20"
             app:cb_percent_scale="80"
-            app:cb_color="@color/dark_green"
+            app:cb_color="@color/btn_background"
              />
 
     </RelativeLayout>

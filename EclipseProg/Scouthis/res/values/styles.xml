@@ -25,12 +25,12 @@
     </style>
 
     <style name="FragmentTextIndication">
-        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:textColor">@color/btn_background</item>
         <item name="android:textSize">20sp</item>
     </style>
 
     <style name="FragmentTextSwitch">
-        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:textColor">@color/btn_background</item>
         <item name="android:textSize">20sp</item>
     </style>
 

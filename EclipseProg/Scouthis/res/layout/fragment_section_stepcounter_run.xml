@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/step_alert_gps_container_out"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_margin="@dimen/fragment_border_side"
-    android:orientation="vertical" 
-    xmlns:app="http://schemas.android.com/apk/res-auto" 
-    
-   >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/step_alert_gps_container"
@@ -16,161 +14,130 @@
         android:orientation="vertical" >
     </LinearLayout>
 
-    <LinearLayout
+    <fragment
+        android:id="@+id/mapStepCounter"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+		android:layout_above="@+id/step_statistics_table"
+        android:layout_marginBottom="5dp" />
 
-        <fragment
-            android:id="@+id/mapStepCounter"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="194dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp" />
+    <it.poli.android.scoutthisme.tools.CircleButton
+        android:id="@+id/step_btn_end_run"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/bandiera_scacchi"
+        app:cb_color="@color/btn_background"
+        app:cb_percent_down="50"
+        app:cb_percent_left="50"
+        app:cb_percent_scale="50"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="2dp" />
 
-        <TableLayout
-            android:layout_width="match_parent"
+    <TableLayout
+        android:id="@+id/step_statistics_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/FragmentTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             >
+            android:text="@string/stepcounter_statistic" />
 
-            <TableRow
-                android:id="@+id/tableRowSC1"
+        <TableRow
+            android:id="@+id/tableRowSC2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fragment_border_top" >
+
+            <TextView
+                android:id="@+id/lblPassi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right|center_vertical" >
+                android:layout_gravity="center_vertical"
+                android:text="@string/stepcounter_steps_done" />
 
-                <it.poli.android.scoutthisme.tools.CircleButton
-                    android:id="@+id/step_btn_end_run"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitCenter"
-                    
-                    android:src="@drawable/bandiera_scacchi"
-                    
-                    app:cb_percent_down="50"
-                    app:cb_percent_left="50"
-                    app:cb_percent_scale="50"
-                    app:cb_color="@color/dark_green"
-                    
-                     />
-            </TableRow>
-        </TableLayout>
-
-        <LinearLayout
-            android:id="@+id/step_statistics_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TableLayout
-                android:id="@+id/stepStatistics"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtPassi"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="visible" >
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/fragments_waiting_dots"
+                android:textSize="24sp" />
+        </TableRow>
 
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stepcounter_statistic"
-                    
-                    style="@style/FragmentTitle"
-                     />
+        <TableRow
+            android:id="@+id/tableRowSC3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-                <TableRow
-                    android:id="@+id/tableRowSC2"
-                    android:layout_marginTop="@dimen/fragment_border_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/lblDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/stepcounter_distance_done" />
 
-                    <TextView
-                        android:id="@+id/lblPassi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/stepcounter_steps_done" />
+            <TextView
+                android:id="@+id/txtDistance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/fragments_waiting_dots"
+                android:textSize="24sp" />
+        </TableRow>
 
-                    <TextView
-                        android:id="@+id/txtPassi"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:text="@string/fragments_waiting_dots"
-                        android:textSize="24sp" />
-                </TableRow>
+        <TableRow
+            android:id="@+id/tableRowSC4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-                <TableRow
-                    android:id="@+id/tableRowSC3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/lblSpeedMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/stepcounter_speed_medium" />
 
-                    <TextView
-                        android:id="@+id/lblDistance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/stepcounter_distance_done" />
+            <TextView
+                android:id="@+id/txtAverageSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/fragments_waiting_dots"
+                android:textSize="24sp" />
+        </TableRow>
 
-                    <TextView
-                        android:id="@+id/txtDistance"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:text="@string/fragments_waiting_dots"
-                        android:textSize="24sp" />
-                </TableRow>
+        <TableRow
+            android:id="@+id/tableRowSC5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-                <TableRow
-                    android:id="@+id/tableRowSC4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/lbTimePassed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/stepcounter_time_passed" />
 
-                    <TextView
-                        android:id="@+id/lblSpeedMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/stepcounter_speed_medium" />
+            <TextView
+                android:id="@+id/txtElapsedTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/fragments_waiting_dots"
+                android:textSize="24sp" />
+        </TableRow>
+    </TableLayout>
 
-                    <TextView
-                        android:id="@+id/txtAverageSpeed"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:text="@string/fragments_waiting_dots"
-                        android:textSize="24sp" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRowSC5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <TextView
-                        android:id="@+id/lbTimePassed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/stepcounter_time_passed" />
-
-                    <TextView
-                        android:id="@+id/txtElapsedTime"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:text="@string/fragments_waiting_dots"
-                        android:textSize="24sp" />
-                </TableRow>
-
-            </TableLayout>
-
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

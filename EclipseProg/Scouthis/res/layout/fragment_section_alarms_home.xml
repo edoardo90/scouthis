@@ -35,7 +35,7 @@
             android:contentDescription="add a new alarm"
             android:layout_marginBottom="@dimen/fragment_border_top"
             android:layout_marginTop="@dimen/fragment_border_top"
-            app:cb_color="@color/dark_green"
+            app:cb_color="@color/btn_background"
             android:src="@drawable/ic_action_new" />
 
         <TextView
