@@ -41,7 +41,7 @@ public class MainActivityWithIcons extends ActionBarActivity
 		setContentView(R.layout.activity_main_iconed_tabs);
 		
 		ActionBar actionbar = getSupportActionBar();
-		Drawable d = (Drawable) (getResources().getDrawable(R.drawable.b1));
+		Drawable d = (Drawable) (getResources().getDrawable(R.drawable.gradient_actionbar_bg));
 		actionbar.setBackgroundDrawable(d);
 		
 		d = (Drawable) (getResources().getDrawable(R.drawable.scout_icon));

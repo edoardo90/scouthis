@@ -17,8 +17,8 @@
         android:layout_alignBottom="@+id/days"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/image_bg"
-        android:padding="3dip" >
+        android:background="@drawable/sfnd_block"
+        android:padding="3dp" >
 
         <ImageView
             android:id="@+id/list_image"

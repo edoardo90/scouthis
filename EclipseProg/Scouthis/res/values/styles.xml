@@ -10,12 +10,12 @@
 
     <!-- START Start tabbed iconed browsing -->
     <style name="Tab">
-        <item name="android:background">@drawable/b2</item>
+        <item name="android:background">@drawable/sfnd_tit_tabs</item>
         <item name="android:layout_height">@dimen/abc_action_bar_default_height</item>
     </style>
 
     <style name="FragmentContainer">
-        <item name="android:background">@color/tabs_background</item>
+        <item name="android:background">@drawable/gradient_fragment_bg</item>
     </style>
 
     <style name="FragmentTitle">
