@@ -3,7 +3,7 @@
     android:id="@+id/row_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/maroon"
+    
     android:orientation="horizontal"
     android:padding="5dip" >
 
@@ -17,7 +17,7 @@
         android:layout_alignBottom="@+id/days"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/sfnd_block"
+        android:background="@drawable/wood_light"
         android:padding="3dp" >
 
         <ImageView

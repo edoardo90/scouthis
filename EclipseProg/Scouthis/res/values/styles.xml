@@ -115,7 +115,7 @@
     </style>
 
     <style name="FragmentAlarmSwitch">
-        <item name="android:textColor">@color/pergamena</item>
+        <item name="android:textColor">@color/saddle</item>
         <item name="android:textSize">10sp</item>
     </style>
 
