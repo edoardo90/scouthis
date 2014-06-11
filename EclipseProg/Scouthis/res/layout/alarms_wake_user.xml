@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout 
+     xmlns:android="http://schemas.android.com/apk/res/android" 
+	 android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+  <ImageView
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:scaleType="centerCrop"
+      android:src="@drawable/sky" />
+
+<RelativeLayout
     android:id="@+id/llBirdEscape"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sky"
-    android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/wake_txt_explain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tocca il cardellino per farlo tacere!"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#2020EF"
-        android:textSize="30sp" />
+    
+     >
 
     <ImageView
         android:id="@+id/imgBird"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/wake_txt_explain"
         android:src="@drawable/bird_cardellino" />
-    
-</LinearLayout> 
+
+    <TextView
+        android:id="@+id/wake_txt_explain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/fragment_border_side"
+        android:text="Tocca il cardellino per farlo tacere!"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/fragment_title_darker"
+        android:textSize="30sp" />
+
+</RelativeLayout>
