@@ -16,13 +16,12 @@
 
     <ImageButton
         android:id="@+id/setGpsOn"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignBottom="@+id/alert_warn_message"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/list_selector"
-        android:src="@drawable/actionb_gps"
-        android:padding="5dp" />
+        android:background="@drawable/btn_gps_alert_selector"
+        android:padding="5dp"
+        android:src="@drawable/actionb_gps" />
 
 </RelativeLayout>
