@@ -28,7 +28,13 @@ public class AlarmLazyAdapter extends BaseAdapter {
 	public AlarmLazyAdapter(Activity a, AlarmsHomeFragment alarmHomeFrag , LinkedList<Alarm> alarmList) {
 		activity = a;
 		data=alarmList;
+		
+		int numberOfItems = data.size();
+		
 		this.alarmHomeFrag = alarmHomeFrag;
+		
+		this.alarmHomeFrag.setWellcomeWrite(numberOfItems);
+		
 		inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		imageLoader=new ImageLoader(activity.getApplicationContext());
 	}
@@ -56,7 +62,8 @@ public class AlarmLazyAdapter extends BaseAdapter {
 		ImageView interruttore = (ImageView)vi.findViewById(R.id.interrutt);
 
 		Alarm alarm;
-		if(data.size() > 0)
+		int numberOfItems = data.size();
+		if( numberOfItems > 0)
 		{
 			alarm = data.get(position);
 
@@ -96,6 +103,8 @@ public class AlarmLazyAdapter extends BaseAdapter {
 				}
 			});
 		}
+		
+		
 		return vi;
 	}
 

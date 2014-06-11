@@ -15,7 +15,7 @@
     <string name="fragments_2_title">GPS</string>
     <string name="fragments_3_title">Run</string>
     <string name="fragments_4_title">Trovamici</string>
-    <string name="fragments_5_title">Alarm</string>
+    <string name="fragments_5_title">Sveglie</string>
     
     <!-- Strings related to news fragment  -->
     <string name="news_rss_loading">&#8230;Caricamento in corso&#8230;</string>
@@ -61,11 +61,12 @@
     
     <!--   Strings related to alarm fragment -->
     
+    <string name="torna_alarm_home">Conferma Sveglia</string>
     <string name="scegli_ora">A che ora?</string>
-    <string name="scegli_giorni">Quali giorni NON suonerà</string>
+    <string name="scegli_giorni">Quali giorni suonerà?</string>
     <string name="scegli_uccello">Che uccello ti sveglierà?</string>
     <string name="alarm_home">Le tue Sveglie</string>
-    
+    <string name="click_for_add">Clicca sul Bottone per aggiungere una sveglia</string>
     
     
     <!-- Strings related to utility fragment  -->

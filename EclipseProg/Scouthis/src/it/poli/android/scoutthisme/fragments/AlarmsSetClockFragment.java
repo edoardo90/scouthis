@@ -3,6 +3,7 @@ package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.alarm.utils.AlarmUtils;
+import it.poli.android.scoutthisme.tools.CircleButton;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,6 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ import android.widget.TextView;
 @SuppressLint("SimpleDateFormat")
 public class AlarmsSetClockFragment extends Fragment
 {
-	boolean[] activeDays = new boolean[]{true, true, true, true, true, true, true}; 
+	boolean[] activeDays = new boolean[]{true, true, true, true, true, false, false}; 
 	private String timeChoosed;
 	private String birdChoosed = "bird_cardellino";
 	private boolean activeAlarm = true;
@@ -57,6 +57,9 @@ public class AlarmsSetClockFragment extends Fragment
 		mAct = getActivity();
 		
 		this.initClickListeners();
+		
+		updateDaysColor();
+		
 		swingAnimation = AnimationUtils.loadAnimation(mAct, R.anim.swing_bird);
 
 		ImageView imgCaredellino = (ImageView)mAct.findViewById(R.id.imgCardellino);
@@ -96,7 +99,7 @@ public class AlarmsSetClockFragment extends Fragment
 
 	private void initDoneButton()
 	{
-		Button b = (Button)mAct.findViewById(R.id.btnAlarmSetOk);
+		CircleButton b = (CircleButton)mAct.findViewById(R.id.btnAlarmSetOk);
 		b.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -229,10 +232,32 @@ public class AlarmsSetClockFragment extends Fragment
 		int pos = AlarmUtils.dayToPos(getResources().getResourceEntryName(view.getId()));
 		activeDays[pos] = !activeDays[pos];
 		/* Toggle day color */
-		TextView textView = (TextView) mAct.findViewById(view.getId());
-		int color = (textView.getCurrentTextColor() == Color.WHITE) ? Color.CYAN : Color.WHITE;
-		textView.setTextColor(color);
+		updateDaysColor();
+		
 	}
 
+	
+	private void updateDaysColor()
+	{
+		LinearLayout ll = (LinearLayout) mAct.findViewById(R.id.weekdayll);
+		for(int i=0; i< ll.getChildCount(); i++)
+		{
+			View v = ll.getChildAt(i);
+			if(v instanceof TextView)
+			{
+				TextView dayOfWeekTxt = (TextView)v;
+				if(this.activeDays[i] == true)
+					dayOfWeekTxt.setTextAppearance(mAct.getApplicationContext(), R.style.FragmentAlarmDayOff);
+				else
+					dayOfWeekTxt.setTextAppearance(mAct.getApplicationContext(), R.style.FragmentAlarmDayOn);
+			
+			}
+		}
+		
+	
+	}
+	
+	
+	
 
 }

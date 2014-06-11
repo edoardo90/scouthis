@@ -30,6 +30,7 @@ import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
@@ -57,7 +58,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener, TimePicker
 	{
 		rootView = inflater.inflate(R.layout.fragment_section_alarms_home, container, false);
 
-		final LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.fragment_alert_home_linlay);
+		/*final LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.fragment_alert_home_linlay);
 		ViewTreeObserver observer = layout.getViewTreeObserver();
 		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
@@ -83,7 +84,7 @@ public class AlarmsHomeFragment extends Fragment implements Listener, TimePicker
 					}
 				}
 			}
-		});
+		}); */
 
 		return rootView;
 	}	
@@ -224,5 +225,24 @@ public class AlarmsHomeFragment extends Fragment implements Listener, TimePicker
 		// Getting adapter by passing xml data ArrayList
 		adapter = new AlarmLazyAdapter(mAct, this, alarmList);        
 		listViewAlarms.setAdapter(adapter);
+	}
+
+	public void setWellcomeWrite(int numberOfItems) {
+		
+		/**
+		 * 
+		 * <string name="alarm_home">Le tue Sveglie</string>
+    <string name="click_for_add">Clicca sul Bottone per aggiungere una sveglia
+		 * 
+		 */
+		TextView tv = (TextView)this.mAct.findViewById(R.id.alarm_txt_home);
+		
+		if(numberOfItems > 0)
+			tv.setText(getResources().getString(R.string.alarm_home));
+		else
+			tv.setText(getResources().getString(R.string.click_for_add));
+		
+		
+		
 	}
 }

@@ -9,7 +9,7 @@
     tools:context=".DialogFloatActivity" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/alarm_txt_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
@@ -18,9 +18,9 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/alarm_txt_home"
         android:layout_marginLeft="46dp"
-        android:layout_toRightOf="@+id/textView1"
+        android:layout_toRightOf="@+id/alarm_txt_home"
         android:onClick="loadMainTab"
         android:text="Button" />
 
