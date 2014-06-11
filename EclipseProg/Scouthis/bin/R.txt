@@ -715,7 +715,7 @@ int id icon 0x7f06003c
 int id ifRoom 0x7f06000f
 int id image 0x7f060039
 int id imageViewCompass 0x7f0600b6
-int id imgBird 0x7f060063
+int id imgBird 0x7f060062
 int id imgCardellino 0x7f06008d
 int id imgGufo 0x7f060090
 int id imgMerlo 0x7f060094
@@ -858,7 +858,7 @@ int id underline 0x7f060002
 int id undoBar 0x7f06005e
 int id up 0x7f060033
 int id useLogo 0x7f060008
-int id wake_txt_explain 0x7f060062
+int id wake_txt_explain 0x7f060063
 int id weekdayll 0x7f060080
 int id withText 0x7f060011
 int integer abc_max_action_buttons 0x7f090005
