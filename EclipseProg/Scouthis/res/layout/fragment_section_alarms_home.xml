@@ -20,8 +20,9 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/addAlarmImg"
+            
             android:divider="#b5b5b5"
-            android:dividerHeight="1dp" >
+            android:dividerHeight="0.2dp" >
         </ListView>
 
         <it.poli.android.scoutthisme.tools.CircleButton
