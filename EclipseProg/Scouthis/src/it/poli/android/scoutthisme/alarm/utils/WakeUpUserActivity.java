@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class WakeUpUserActivity extends Activity
@@ -59,7 +60,7 @@ public class WakeUpUserActivity extends Activity
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus)
 	{
-		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.llBirdEscape);
+		RelativeLayout linearLayout = (RelativeLayout)findViewById(R.id.llBirdEscape);
 
 		float height = linearLayout.getHeight();
 		float width = linearLayout.getWidth();
@@ -71,7 +72,6 @@ public class WakeUpUserActivity extends Activity
 		
 		TextView txtExplaining = (TextView) findViewById(R.id.wake_txt_explain);
 		txtExplaining.setText(userAlarm.getExplainingMessage());
-		
 		
 		this.moveRandom(uH, uL, birdImg);
 	}
@@ -159,11 +159,11 @@ public class WakeUpUserActivity extends Activity
 							int py = r.nextInt(60) + 1;
 							int px = r.nextInt(60) + 1;
 
-							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-									LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+							RelativeLayout.LayoutParams relParams = new RelativeLayout.LayoutParams(
+									RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 							
-							lp.setMargins((int)(px*uL),(int)(py*uH),0,0);
-							img.setLayoutParams(lp);
+							relParams.setMargins((int)(px*uL),(int)(py*uH),0,0);
+							img.setLayoutParams(relParams);
 							enlargeBird(img);
 
 							Log.i("timer", " px * uL :" + (int)(px * uL));

@@ -118,19 +118,14 @@
         <item name="android:textColor">@color/pergamena</item>
         <item name="android:textSize">10sp</item>
     </style>
-    
+
     <style name="FragmentAlarmDayOff">
         <item name="android:textColor">@color/azure</item>
-        
     </style>
-    
-        <style name="FragmentAlarmDayOn">
+
+    <style name="FragmentAlarmDayOn">
         <item name="android:textColor">@color/orange_ligh</item>
-        
     </style>
-    
-    
-    
 
     <style name="Button">
         <item name="android:minHeight">0dp</item>
