@@ -19,17 +19,6 @@ public class NewsFeedFragment extends Fragment
 	View rootView;
 	Button btnHomeReload;
 	Runnable r;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		r = new Runnable() { 
-	         public void run() { 
-	        	 setNewsfeedView(false, true);
-	         } 
-	    };
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
@@ -45,18 +34,11 @@ public class NewsFeedFragment extends Fragment
 				new NewsfeedService().execute(thisFragment);
 			}
 		});
-		
+
 		setNewsfeedView(false, true);		
 		new NewsfeedService().execute(this);
 		return rootView;
-	}	
-
-	/*private void delayLoadingView()
-	{
-		Handler handler = new Handler(); 
-	    handler.postDelayed(r, 1000);
-	    handler.removeCallbacks(r);
-	}*/
+	}
 
 	public void setNewsfeedView(boolean ok, boolean loading)
 	{
@@ -85,5 +67,10 @@ public class NewsFeedFragment extends Fragment
 			imgNews.setImageResource(R.drawable.rss);
 		else
 			imgNews.setImageResource(R.drawable.rsserror);
+
+		if (!ok && !loading)
+			try {
+				Thread.sleep(800);
+			} catch (InterruptedException e) { }
 	}
 }

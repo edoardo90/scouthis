@@ -5,6 +5,7 @@ import it.poli.android.scoutthisme.fragments.FindFriendsLoggedFragment;
 import it.poli.android.scoutthisme.fragments.GpsAlertFragment;
 import it.poli.android.scoutthisme.fragments.GpsFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterRunFragment;
+import android.R.string;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.location.Location;
@@ -12,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.app.Fragment;
@@ -34,6 +36,11 @@ public class GpsHandler implements LocationListener
 	
 	boolean viewActive;
 	int lastUnCommittedWork;
+	public boolean gpsEnabled;
+
+	public boolean isGpsEnabled() {
+		return gpsEnabled;
+	}
 
 	public void setViewActive(boolean viewActive)
 	{
@@ -54,6 +61,7 @@ public class GpsHandler implements LocationListener
 	public GpsHandler (Fragment f) {
     	this.mFragment = f;
     	viewActive = false;
+    	gpsEnabled = isGpsEnabled(mFragment);
     	lastUnCommittedWork = -1;
 	    locationManager = (LocationManager) mFragment.getActivity().getSystemService(Context.LOCATION_SERVICE);  
     }
@@ -61,10 +69,6 @@ public class GpsHandler implements LocationListener
     public void setListener(GpsListener l) {
     	this.listener = l;
     	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-	    //Check if GPS is enabled and ask user to activate it
-    	/*if (!isGpsEnabled(mFragment)) {
-    		addAlertView();
-	    }*/
     }
     
     public void removeListener() {
@@ -74,7 +78,7 @@ public class GpsHandler implements LocationListener
     
     @TargetApi(Build.VERSION_CODES.KITKAT)
 	@SuppressWarnings("deprecation")
-	public static boolean isGpsEnabled(Fragment fragment)
+	private static boolean isGpsEnabled(Fragment fragment)
     {        
 	    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
 	        String providers = Settings.Secure.getString(fragment.getActivity().getContentResolver(),
@@ -183,6 +187,7 @@ public class GpsHandler implements LocationListener
 
 	@Override
 	public void onProviderEnabled(String provider) { 
+		gpsEnabled = true;
 		if (listener != null) {
 			if (viewActive)
 				removeAlertView();
@@ -194,11 +199,28 @@ public class GpsHandler implements LocationListener
 	@Override
 	public void onProviderDisabled(String provider) 
 	{
+		gpsEnabled = false;
 		if (listener != null) {
 			if (viewActive)
 				addAlertView();
 			else
 				lastUnCommittedWork = COMMIT_ADDALERTVIEW;
 		}
+	}
+	
+	public long ageMilliseconds(Location last) {
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+	        return age_ms_api_17(last);
+	    return age_ms_api_pre_17(last);
+	}
+
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+	private long age_ms_api_17(Location last) {
+	    return (SystemClock.elapsedRealtimeNanos() - last
+	            .getElapsedRealtimeNanos()) / 1000000;
+	}
+
+	private long age_ms_api_pre_17(Location last) {
+	    return System.currentTimeMillis() - last.getTime();
 	}
 }

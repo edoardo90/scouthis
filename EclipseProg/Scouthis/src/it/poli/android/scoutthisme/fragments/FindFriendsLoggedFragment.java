@@ -187,7 +187,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 						this.gMap = mapFragment.getMap();
 						if (loc == null) 
 							gMap.moveCamera(CameraUpdateFactory
-								.newLatLngZoom(new LatLng(41.29246, 12.5736108), 5));
+									.newLatLngZoom(new LatLng(41.29246, 12.5736108), 5));
 					}
 				}
 				// If everything goes fine, now we got the url with all our friends stuff
@@ -201,23 +201,27 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 			graphUser = null;
 			switchToDisconnectedFragment();
 		}
-		
+
 		updateGpsStatusView();
 	}
-	
+
 	public void updateGpsStatusView()
 	{
 		//UPDATE GPS STATUS
 		TextView txtStatus = (TextView) mAct.findViewById(R.id.ff_txtStatus);
 		if (txtStatus != null) {
-			if (loc != null && lstUsersMarkers != null) {
-				txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_ready)));
-			}
-			else if (loc != null && lstUsersMarkers == null) {
-				txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_friends)));
-			}
-			else if (loc == null) {
-				txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_gps)));
+			if (gpsHandler.isGpsEnabled()) {
+				if (loc != null && lstUsersMarkers != null) {
+					txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_ready)));
+				}
+				else if (loc != null && lstUsersMarkers == null) {
+					txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_friends)));
+				}
+				else if (loc == null) {
+					txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_gps)));
+				}
+			} else {
+				txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_gps_deactivated)));
 			}
 		}
 	}
@@ -271,7 +275,16 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	{
 		Map<String, Marker> tempMap = new HashMap<String, Marker>(markersMap);
 
-		if (gMap != null) {
+		if (gMap != null)
+		{
+			if (loc != null) {
+				Log.i("FFFFFFF", String.valueOf(gpsHandler.ageMilliseconds(loc)));
+				if (gpsHandler.ageMilliseconds(loc) >= Constants.GPS_LAST_UPDATE_MILLISECONDS) {
+					loc = null;
+					facebookHandler.updatePosition(loc);
+				}
+			}
+
 			if (loc != null && lstUsersMarkers != null)
 			{
 				for(UserMarker userMarker : lstUsersMarkers) {
@@ -282,10 +295,9 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 					if (mapMarker != null) {
 						tempMap.remove(thisUserId);
 						mapMarker.setPosition(new LatLng(userMarker.getLatitude(), userMarker.getLongitude()));
-					}
-					// if not, add it to map
-					else
+					} else {
 						placeMarkerOnMap(userMarker, false);
+					}
 				}
 			}
 
@@ -298,21 +310,21 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				if (mapMarker != null) {
 					tempMap.remove(thisUserId);
 					mapMarker.setPosition(new LatLng(me.getLatitude(), me.getLongitude()));
-				}
-				else {
+				} else {
 					placeMarkerOnMap(me, true);
 					gMap.moveCamera(CameraUpdateFactory
 							.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), defaultZoom));
 				}
 			}
-			
+
 			updateGpsStatusView();
 		}
 
 		// Remove all friends not online anymore
-		Collection<Marker> markersToRemove = tempMap.values();
-		for (Marker m : markersToRemove) {
-			m.remove();
+		Collection<String> usersMarkersToRemove = tempMap.keySet();
+		for (String s : usersMarkersToRemove) {
+			((Marker) markersMap.get(s)).remove();
+			markersMap.remove(s);
 		}
 	}
 
