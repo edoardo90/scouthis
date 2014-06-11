@@ -58,7 +58,7 @@
 	                android:layout_height="wrap_content"
 	                
 	                android:gravity="left"
-	                android:text="distance:"
+	                android:text="@string/stepcounter_distance"
 	                android:textColor="#900404"
 	                android:textSize="15sp"
 	                android:textStyle="bold"
@@ -89,7 +89,7 @@
 	                android:layout_height="wrap_content"
 	                android:gravity="left"
 	                android:layout_marginLeft="10dp"
-	                android:text="speed:"
+	                android:text="@string/stepcounter_speed"
 	                android:textColor="#900404"
 	                android:textSize="15sp"
 	                android:textStyle="bold"
@@ -115,7 +115,7 @@
 	        android:layout_alignBottom="@+id/thumbnail"
 	        android:layout_alignParentRight="true"
 	        
-	        android:src="@drawable/trash_dark" />
+	        android:src="@drawable/ic_action_delete" />
 	
 	</RelativeLayout>
 </LinearLayout>

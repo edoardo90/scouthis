@@ -100,7 +100,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:src="@drawable/trash_dark" />
+                android:src="@drawable/ic_action_delete" />
         </LinearLayout>
     </LinearLayout>
 
