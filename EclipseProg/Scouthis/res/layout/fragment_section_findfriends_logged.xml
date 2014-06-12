@@ -4,8 +4,9 @@
     android:id="@+id/ffriends_alert_container_out"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/fragment_margin"
     android:orientation="vertical"
-    android:padding="5dp" >
+    android:padding="@dimen/fragment_padding" >
 
     <LinearLayout
         android:id="@+id/ffriends_alert_container"
@@ -20,9 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ffriends_alert_container"
-        android:layout_margin="0dp"
-        android:gravity="center|left"
-        android:padding="0dp" >
+        android:gravity="center|left" >
 
         <Button
             android:id="@+id/btnLogOut"
