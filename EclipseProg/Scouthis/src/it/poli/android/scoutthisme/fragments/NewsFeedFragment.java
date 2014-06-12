@@ -63,6 +63,8 @@ public class NewsFeedFragment extends Fragment
 
 		TextView lblNewsMessage = (TextView) rootView.findViewById(R.id.lblNewsMessage);
 		lblNewsMessage.setText(R.string.news_rss_information);
+		TextView lblNewsMessageDescription = (TextView) rootView.findViewById(R.id.lblNewsMessageDescription);
+		lblNewsMessageDescription.setText(R.string.news_rss_information_description);
 
 		ImageView imgNews = (ImageView) rootView.findViewById(R.id.imgNewsMessage);
 		if (ok)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <!-- Generic strings -->
     <string name="fragments_loading">Loading</string>
     <string name="fragments_new">Nuovo</string>
@@ -9,21 +9,22 @@
     <string name="fragments_general_alert">Questa applicazione ha bisogno del GPS. Clicca sul bottone a destra per attivarlo!</string>
     <string name="fragments_step_alert">Il Contapassi ha bisogno del GPS. Clicca sul bottone a destra per attivarlo!</string>
     <string name="fragments_friends_alert">Il Trovamici ha bisogno del GPS. Clicca sul bottone a destra per attivarlo!</string>
-    
+
     <!-- Strings related to tabs viewer -->
     <string name="fragments_1_title">News</string>
     <string name="fragments_2_title">GPS</string>
     <string name="fragments_3_title">Run</string>
     <string name="fragments_4_title">Trovamici</string>
     <string name="fragments_5_title">Sveglie</string>
-    
-    <!-- Strings related to news fragment  -->
+
+    <!-- Strings related to news fragment -->
     <string name="news_rss_loading">Caricamento in corso</string>
     <string name="news_rss_connection_error">Errore di connessione</string>
-    <string name="news_rss_reload">Ricarica</string>   
-    <string name="news_rss_information">Le ultime news sull\'Ambiente da corriere.it</string>
+    <string name="news_rss_reload">Ricarica</string>
+    <string name="news_rss_information">Le ultime news</string>
+    <string name="news_rss_information_description">sull\'Ambiente dal sito del Corriere della Sera</string>
     <string name="news_rss_connection_error_description">Impossibile caricare il newsfeed.\nLa connessione non risulta attiva.</string>
-    
+
     <!-- Strings related to GPS fragment -->
     <string name="gps_information">Dati rilevati dal telefono:</string>
     <string name="gps_image_description">Bussola</string>
@@ -36,8 +37,8 @@
     <string name="gps_longitude">Longitudine</string>
     <string name="gps_precision">Precisione</string>
     <string name="gps_direction">Direzione</string>
-    
-    <!-- Strings related to stepcounter fragment  -->
+
+    <!-- Strings related to stepcounter fragment -->
     <string name="stepcounter_gohome">Torna al Contapassi</string>
     <string name="stepcounter_newrun">Nuova corsa</string>
     <string name="stepcounter_newrun_description">Clicca sul bottone per iniziare subito un nuovo percorso</string>
@@ -50,8 +51,8 @@
     <string name="stepcounter_speed">Velocità:</string>
     <string name="stepcounter_distance">Distanza:</string>
     <string name="stepcounter_time_passed">Tempo trascorso</string>
-    
-    <!-- Strings related to findfriends fragment  -->
+
+    <!-- Strings related to findfriends fragment -->
     <string name="findfriends_login">Login</string>
     <string name="findfriends_logout">Logout</string>
     <string name="findfriends_login_message">Loggati con &lt;b&gt; Facebook &lt;/b&gt; per usare il trovamici!</string>
@@ -59,21 +60,21 @@
     <string name="findfriends_dontwarry_message">Non posteremo nulla sulla tua bacheca!</string>
     <string name="findfriends_wellcome_name">Benvenuto</string>
     <string name="findfriends_login_button">Facebook Login</string>
-    <string name="findfriends_status_gps_deactivated">&lt;b&gt;Stato:&lt;/b&gt; GPS non attivo.</string>  
+    <string name="findfriends_status_gps_deactivated">&lt;b&gt;Stato:&lt;/b&gt; GPS non attivo.</string>
     <string name="findfriends_status_network_unavailable">&lt;b&gt;Stato:&lt;/b&gt; Rilevato problema di connessione.</string>
-    <string name="findfriends_status_waiting_gps">&lt;b&gt;Stato:&lt;/b&gt; In attesa del GPS&#8230;</string>        
+    <string name="findfriends_status_waiting_gps">&lt;b&gt;Stato:&lt;/b&gt; In attesa del GPS&#8230;</string>
     <string name="findfriends_status_waiting_friends">&lt;b&gt;Stato:&lt;/b&gt; Ricezione lista degli amici&#8230;</string>
-    <string name="findfriends_status_ready">&lt;b&gt;Stato:&lt;/b&gt; Connesso.</string>        
-    
-    <!--   Strings related to alarm fragment -->
+    <string name="findfriends_status_ready">&lt;b&gt;Stato:&lt;/b&gt; Connesso.</string>
+
+    <!-- Strings related to alarm fragment -->
     <string name="alarms_confirm">Conferma Sveglia</string>
     <string name="alarms_hour">A che ora?</string>
     <string name="alarms_days">Quali giorni suonerà?</string>
     <string name="alarms_birds">Che uccello ti sveglierà?</string>
     <string name="alarms_home_title">Le tue sveglie</string>
     <string name="alarms_home_title_description">Clicca sul bottone per aggiungere una nuova sveglia</string>
-    
-    <!-- Strings related to utility fragment  -->
+
+    <!-- Strings related to utility fragment -->
     <string name="utility_camera_not_available">Fotocamera non rilevata.</string>
     <string name="utility_camera_already_in_use">La fotocamera è attualmente in uso da un\'altra app.</string>
 

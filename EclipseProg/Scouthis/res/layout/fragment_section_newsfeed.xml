@@ -33,11 +33,12 @@
             android:id="@+id/lblNewsMessageDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/imgNewsMessage"
             android:layout_below="@id/lblNewsMessage"
+            android:layout_toRightOf="@id/imgNewsMessage"
             android:lineSpacingExtra="3sp"
             android:lineSpacingMultiplier="0.8"
-            android:paddingBottom="5dp" />
+            android:paddingBottom="5dp"
+            android:textStyle="italic" />
     </RelativeLayout>
 
     <RelativeLayout
