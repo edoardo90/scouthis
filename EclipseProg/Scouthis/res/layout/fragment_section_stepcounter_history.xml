@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/step_history_outer"
-    android:layout_margin="@dimen/fragment_margin"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/fragment_margin"
+    android:padding="@dimen/fragment_padding" >
 
     <ListView
         android:id="@+id/step_listview"
@@ -13,11 +13,9 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/step_history_gohome_cont"
         android:layout_marginTop="10dp"
-        
         android:divider="#b5b5b5"
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector" >
-
     </ListView>
 
     <RelativeLayout
@@ -45,15 +43,11 @@
             android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            
             android:scaleType="centerCrop"
             android:src="@drawable/actionb_foot"
-            
-            app:cb_percent_down="20"
-            app:cb_percent_scale="80"
             app:cb_color="@color/btn_background"
-             />
-
+            app:cb_percent_down="20"
+            app:cb_percent_scale="80" />
     </RelativeLayout>
 
 </RelativeLayout>

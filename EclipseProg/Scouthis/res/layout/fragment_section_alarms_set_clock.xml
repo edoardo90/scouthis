@@ -1,23 +1,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/set_alarm_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    
+    android:id="@+id/set_alarm_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/fragment_margin"
+    android:padding="@dimen/fragment_padding"
     tools:context=".AlarmsSetClockFragment" >
 
     <TextView
         android:id="@+id/dayWillWork"
+        style="@style/FragmentTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:text="@string/scegli_giorni"
-		style="@style/FragmentTitle"
-         />
-
-
+        android:text="@string/scegli_giorni" />
 
     <LinearLayout
         android:id="@+id/weekdayll"
@@ -108,21 +105,19 @@
     <LinearLayout
         android:id="@+id/birdschoose"
         android:layout_width="match_parent"
-        
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnOkAndGoBACK"
-        android:layout_below="@+id/weekdayll"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/weekdayll"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/TextView08"
+            style="@style/FragmentTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/scegli_uccello"
             android:layout_marginTop="@dimen/fragment_border_top"
-            style="@style/FragmentTitle" 
-            />
+            android:text="@string/scegli_uccello" />
 
         <LinearLayout
             android:id="@+id/birdsll"
@@ -160,7 +155,6 @@
                     android:layout_alignParentTop="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/bird_passera" />
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -218,38 +212,31 @@
                     android:src="@drawable/bird_merlo" />
             </RelativeLayout>
         </LinearLayout>
-
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/btnOkAndGoBACK"
         android:layout_width="wrap_content"
         android:layout_height="50dip"
-        android:layout_alignParentBottom="true"
-       
-         >
-        
-	        <it.poli.android.scoutthisme.tools.CircleButton
-	        android:id="@+id/btnAlarmSetOk"
-	        android:layout_width="60dp"
-	        android:layout_height="60dp"
-	        android:layout_alignParentRight="true"
-	        
-	        android:scaleType="fitCenter"
-	        android:src="@drawable/alarm_thumb_up"
-	        app:cb_color="@color/btn_background" />
+        android:layout_alignParentBottom="true" >
 
-	        <TextView
-	            android:id="@+id/alarm_txt_back_home"
-	            style="@style/FragmentTitle"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_alignParentLeft="true"
-	            android:layout_centerVertical="true"
-	            android:text="@string/torna_alarm_home" />
-        
-	    </RelativeLayout>
+        <it.poli.android.scoutthisme.tools.CircleButton
+            android:id="@+id/btnAlarmSetOk"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/alarm_thumb_up"
+            app:cb_color="@color/btn_background" />
 
-    
+        <TextView
+            android:id="@+id/alarm_txt_back_home"
+            style="@style/FragmentTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/torna_alarm_home" />
+    </RelativeLayout>
 
 </RelativeLayout>

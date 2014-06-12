@@ -39,7 +39,7 @@
             <LinearLayout
                 android:id="@+id/gps_stats_line1_heading"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" >
 
                 <LinearLayout
                     android:id="@+id/gps_column_aceleration"
@@ -282,7 +282,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
     </RelativeLayout>
 
 </RelativeLayout>
