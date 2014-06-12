@@ -969,7 +969,8 @@ int raw bird_passera 0x7f050005
 int raw bird_pettirosso 0x7f050006
 int raw bird_upupa 0x7f050007
 int raw img_gigi_dag 0x7f050008
-int raw sound1 0x7f050009
+int raw riddle_green 0x7f050009
+int raw sound1 0x7f05000a
 int string abc_action_bar_home_description 0x7f0c0001
 int string abc_action_bar_up_description 0x7f0c0002
 int string abc_action_menu_overflow_description 0x7f0c0003

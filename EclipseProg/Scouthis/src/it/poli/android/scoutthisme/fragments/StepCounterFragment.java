@@ -34,7 +34,7 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 		final GifAnimationDrawable big ;
 		final ImageView imageview = (ImageView)this.getActivity().findViewById(R.id.step_counter_gigidag);
 		try{
-			big = new GifAnimationDrawable(getResources().openRawResource(R.raw.img_gigi_dag));
+			big = new GifAnimationDrawable(getResources().openRawResource(R.raw.riddle_green));
 			big.setOneShot(false);
 			 Handler handler = new Handler();
 			 handler.postDelayed(new Runnable(){
