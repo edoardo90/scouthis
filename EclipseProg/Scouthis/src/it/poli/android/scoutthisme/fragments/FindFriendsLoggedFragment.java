@@ -85,6 +85,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 
 	private Intent friendshipsUpdatesIntent;
 	private PendingIntent friendshipsUpdatesPendingIntent;
+	private boolean isNetworkOk;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -211,13 +212,17 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		TextView txtStatus = (TextView) mAct.findViewById(R.id.ff_txtStatus);
 		if (txtStatus != null) {
 			if (gpsHandler.isGpsEnabled()) {
-				if (loc != null && lstUsersMarkers != null) {
-					txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_ready)));
-				}
-				else if (loc != null && lstUsersMarkers == null) {
-					txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_friends)));
-				}
-				else if (loc == null) {
+				if (loc != null) {
+					if (isNetworkOk) {
+						if (lstUsersMarkers != null) {
+							txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_ready)));
+						} else {
+							txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_friends)));
+						}
+					} else {
+						txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_network_unavailable)));
+					}
+				} else {
 					txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_gps)));
 				}
 			} else {
@@ -277,14 +282,6 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 
 		if (gMap != null)
 		{
-			if (loc != null) {
-				Log.i("FFFFFFF", String.valueOf(gpsHandler.ageMilliseconds(loc)));
-				if (gpsHandler.ageMilliseconds(loc) >= Constants.GPS_LAST_UPDATE_MILLISECONDS) {
-					loc = null;
-					facebookHandler.updatePosition(loc);
-				}
-			}
-
 			if (loc != null && lstUsersMarkers != null)
 			{
 				for(UserMarker userMarker : lstUsersMarkers) {
@@ -342,13 +339,14 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				protected void onPostExecute(Bitmap bitmap)
 				{
 					RoundedImage rv = new RoundedImage(mAct.getApplicationContext());
-					bitmap = rv.getCroppedBitmap(bitmap, 80);
+					if (bitmap != null) {
+						bitmap = rv.getCroppedBitmap(bitmap, 80);
 
-					try {
-						marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
-					} catch(Throwable ex) {
-						Log.i(getClass().getSimpleName(), "Marker.setIcon failed: " + ex.getMessage());
-					}
+						try {
+							marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+						} catch(Throwable ex) {
+							Log.i(getClass().getSimpleName(), "Marker.setIcon failed: " + ex.getMessage());
+						}}
 
 					marker.setAnchor(0.5f, 1);
 				}
@@ -500,5 +498,22 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		super.onSaveInstanceState(outState);
 		Session session = Session.getActiveSession();
 		Session.saveSession(session, outState);
+	}
+
+	@Override
+	public void onFacebookResponse(int response) {
+		// Check network status
+		isNetworkOk = (response == Constants.RESULT_OK) ? true : false;
+		// Check GPS coordinates' age
+		if (loc != null) {
+			if (gpsHandler.ageMilliseconds(loc) >= Constants.GPS_LAST_UPDATE_MILLISECONDS) {
+				loc = null;
+				facebookHandler.updatePosition(loc);
+			}
+		}
+		// Update user details if never done before (caused by network unavailability)
+		if (graphUser == null)
+			updateView(false);
+		updateGpsStatusView();
 	}
 }

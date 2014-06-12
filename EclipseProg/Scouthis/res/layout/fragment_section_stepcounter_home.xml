@@ -14,12 +14,10 @@
     <ImageView
         android:id="@+id/step_counter_gigidag"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-10dp"
-         />
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
-        android:id="@+id/step_home_newrun"
+        android:id="@+id/stepHomeButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -35,41 +33,66 @@
             android:src="@drawable/run_new"
             app:cb_color="@color/btn_background" />
 
-        <TextView
-            android:id="@+id/textView2"
-            style="@style/FragmentTitle"
+        <RelativeLayout
+            android:id="@+id/newRunTexts"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/stepcounter_newrun" />
-    </RelativeLayout>
+            android:layout_height="100dp"
+            android:layout_alignTop="@id/step_button_newrun"
+            android:layout_marginRight="110dp"
+            android:gravity="center" >
 
-    <RelativeLayout
-        android:id="@+id/step_history_gohome_cont"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:orientation="horizontal" >
+            <TextView
+                android:id="@+id/txtNewrun"
+                style="@style/FragmentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stepcounter_newrun" />
+
+            <TextView
+                android:id="@+id/txtNewrunDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtNewrun"
+                android:text="@string/stepcounter_newrun_description"
+                android:textStyle="italic" />
+        </RelativeLayout>
 
         <it.poli.android.scoutthisme.tools.CircleButton
             android:id="@+id/step_button_history"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/step_button_newrun"
+            android:layout_marginTop="20dp"
             android:scaleType="centerInside"
             android:src="@drawable/photo_book"
             app:cb_color="@color/btn_background" />
 
-        <TextView
-            android:id="@+id/alarm_txt_home"
-            style="@style/FragmentTitle"
+        <RelativeLayout
+            android:id="@+id/seeHistoryTexts"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/stepcounter_seehistory" />
+            android:layout_height="100dp"
+            android:layout_alignTop="@id/step_button_history"
+            android:layout_marginRight="110dp"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/txtSeeHistory"
+                style="@style/FragmentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/stepcounter_seehistory" />
+
+            <TextView
+                android:id="@+id/txtSeeHistoryDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/txtSeeHistory"
+                android:text="@string/stepcounter_seehistory_description"
+                android:textStyle="italic" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </LinearLayout>

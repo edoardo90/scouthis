@@ -28,7 +28,7 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/alarm_txt_home"
+            android:id="@+id/txtSeeHistory"
             style="@style/FragmentTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

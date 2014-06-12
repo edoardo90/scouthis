@@ -26,11 +26,11 @@ import android.widget.ListView;
 public class NewsfeedService  extends AsyncTask<NewsFeedFragment, Void, String>
 {
 	ArrayList<NewsItem> RSSItems;
-	
+
 	View rootView;
 	boolean connectionError;
 	NewsFeedFragment mFragment;
-	
+
 	protected String doInBackground(NewsFeedFragment... params)
 	{
 		mFragment = params[0];
@@ -38,16 +38,16 @@ public class NewsfeedService  extends AsyncTask<NewsFeedFragment, Void, String>
 		try {
 			URL url;
 			url = new URL("http://xml.corriereobjects.it/rss/ambiente.xml");
-			
+
 			XmlPullParserFactory factory;
 			factory = XmlPullParserFactory.newInstance();
 			factory.setNamespaceAware(false);
-			
+
 			XmlPullParser xpp;
 			xpp = factory.newPullParser();
 			// We will get the XML from an input stream
 			xpp.setInput(getInputStream(url), "UTF_8");
-			
+
 			/* We will parse the XML content looking for the "<title>" tag which appears inside the "<item>" tag.
 			 * However, we should take in consideration that the rss feed name also is enclosed in a "<title>" tag.
 			 * As we know, every feed begins with these lines: "<channel><title>Feed_Name</title>...."
@@ -105,34 +105,36 @@ public class NewsfeedService  extends AsyncTask<NewsFeedFragment, Void, String>
 		}
 		return null;
 	}
-	
-    // onPostExecute displays the results of the AsyncTask.
-    @Override
-    protected void onPostExecute(String result)
-    {
+
+	// onPostExecute displays the results of the AsyncTask.
+	@Override
+	protected void onPostExecute(String result)
+	{
 		try
 		{
-	    	if (connectionError)
-	    		throw new IOException();
+			if (connectionError)
+				throw new IOException();
 
-	    	final Context mCtx = rootView.getContext();
-	    	
-			ListView lstNews = (ListView)rootView.findViewById(R.id.lstNews);
-			lstNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					Uri uri = Uri.parse((String) RSSItems.get(position).getUrl());
-					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-					mCtx.startActivity(intent);
-				}
-			});
-			
-			// Binding data
-			NewsfeedAdapter adapter = new NewsfeedAdapter(rootView.getContext(), RSSItems);
-			lstNews.setAdapter(adapter);
-	    	
-			mFragment.setNewsfeedView(true, false);
+			if (rootView != null) {
+				final Context mCtx = rootView.getContext();
+
+				ListView lstNews = (ListView)rootView.findViewById(R.id.lstNews);
+				lstNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						Uri uri = Uri.parse((String) RSSItems.get(position).getUrl());
+						Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+						mCtx.startActivity(intent);
+					}
+				});
+
+				// Binding data
+				NewsfeedAdapter adapter = new NewsfeedAdapter(rootView.getContext(), RSSItems);
+				lstNews.setAdapter(adapter);
+
+				mFragment.setNewsfeedView(true, false);
+			}
 		}
 		catch (IOException e)
 		{

@@ -89,12 +89,15 @@ public class FacebookHandler
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
 				String gpsCoordJSONStr = bundle.getString(Constants.PARAM_GPS_COORDINATES);
+				// Send response to APP to check if network is available
 				int resultCode = bundle.getInt(Constants.PARAM_RESULT);
+				listener.onFacebookResponse(resultCode);
+				// If network is OK, send friends list
 				if (Constants.DEBUG_ENABLED)
 					Log.i("FbExCoordSvcReceiver", String.valueOf(resultCode).contentEquals("0") ? "NO" : "OK");
 				if (resultCode == Constants.RESULT_OK) {
 					listener.onFriendsUpdates(gpsCoordJSONStr);
-				} 
+				}
 			}
 		}
 	};
