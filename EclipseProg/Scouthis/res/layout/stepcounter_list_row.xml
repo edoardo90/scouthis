@@ -24,7 +24,7 @@
 	    <!-- ListRow Left sied Thumbnail image -->
 	
 	    <LinearLayout
-	        android:id="@+id/thumbnail"
+	        android:id="@+id/llBackground"
 	        android:layout_width="wrap_content"
 	        android:layout_height="160dp"
 	        android:background="@drawable/image_bg"
@@ -42,8 +42,8 @@
 	        android:id="@+id/lst_step_statistics"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignBaseline="@+id/thumbnail"
-	        android:layout_toRightOf="@+id/thumbnail"
+	        android:layout_alignBaseline="@+id/llBackground"
+	        android:layout_toRightOf="@+id/llBackground"
 	        android:orientation="vertical" >
 	
 	        <LinearLayout
@@ -112,7 +112,7 @@
 	        android:id="@+id/lst_step_trash"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignBottom="@+id/thumbnail"
+	        android:layout_alignBottom="@+id/llBackground"
 	        android:layout_alignParentRight="true"
 	        
 	        android:src="@drawable/ic_action_delete" />

@@ -7,6 +7,8 @@ import it.poli.android.scoutthisme.tools.GifAnimationDrawable;
 import java.io.IOException;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,18 +31,21 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 	{
 		
 		
-		ImageView imgGigiImageView;
-		GifAnimationDrawable gigDagAnimation;
-		
-		imgGigiImageView = (ImageView)this.getActivity().findViewById(R.id.step_counter_gigidag);
-
+		final GifAnimationDrawable big ;
+		final ImageView imageview = (ImageView)this.getActivity().findViewById(R.id.step_counter_gigidag);
 		try{
-			
-			gigDagAnimation = new GifAnimationDrawable(getResources().openRawResource(R.raw.img_gigi_dag));
-			gigDagAnimation.setOneShot(false);
-			imgGigiImageView.setImageDrawable(gigDagAnimation);			
+			big = new GifAnimationDrawable(getResources().openRawResource(R.raw.img_gigi_dag));
+			big.setOneShot(false);
+			 Handler handler = new Handler();
+			 handler.postDelayed(new Runnable(){
+		            @Override
+		            public void run() {
+		            	if(imageview.getDrawable() == null) imageview.setImageDrawable(big);
+		        		big.setVisible(true, true);
+		            }
+		        }, 1000 );
 		}catch(IOException ioe){
-			
+			Log.i("ooo", "Ooo");
 		}
 	}
 	

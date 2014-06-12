@@ -1,66 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/row_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/wood_light"
+    android:padding="0dp" >    
     
-    android:orientation="horizontal"
-    android:padding="0dp" >
-
     <!-- nel relative -->
     <!-- android:background="@drawable/list_selector" -->
 
-    <LinearLayout
-        android:id="@+id/thumbnail"
+    <RelativeLayout
+        android:id="@+id/alarm_row_cotainer"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/days"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/wood_light"
-        android:padding="0dip" >
+        android:layout_height="wrap_content" >
 
-        <ImageView
-            android:id="@+id/list_image"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/bird_cardellino" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/hour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/switch_and_trash"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:text="12:34"
-        android:textColor="#040404"
-        android:textSize="15dip"
-        android:textStyle="bold"
-        android:typeface="sans" />
-
-    <LinearLayout
-        android:id="@+id/switch_and_trash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:id="@+id/trash_interr_cont"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:id="@+id/bird_hour_switch"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill_vertical"
-            android:layout_weight="1"
-            android:orientation="vertical" >
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/list_image"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="left"
+                android:src="@drawable/bird_cardellino" />
+
+            <TextView
+                android:id="@+id/hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="12:34"
+                android:textColor="#040404"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
 
             <RelativeLayout
                 android:id="@+id/interruttore_on_off"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_width="77dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" >
 
                 <TextView
                     android:id="@+id/interr_scritta_on"
@@ -73,15 +64,6 @@
                     android:gravity="top"
                     android:text="ON" />
 
-                <ImageView
-                    android:id="@+id/interrutt"
-                    android:layout_width="30dip"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@+id/interr_scritta_on"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/interr_on" />
-
                 <TextView
                     android:id="@+id/interr_scritta_off"
                     style="@style/FragmentAlarmSwitch"
@@ -93,26 +75,40 @@
                     android:gravity="top"
                     android:text="OFF" />
 
+                <ImageView
+                    android:id="@+id/interrutt"
+                    android:layout_width="30dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/interr_scritta_on"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/interr_on" />
             </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/trash_alarm"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:src="@drawable/ic_action_delete" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/days"
+    <RelativeLayout
+        android:id="@+id/alarm_days_and_bin"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/switch_and_trash"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:text="Lun Mar Mer Giov Ven Dom"
-        android:textColor="#646464"
-        android:textSize="14sp" />
+        android:layout_height="wrap_content" >
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/days"
+            android:layout_marginTop="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/trash_alarm"
+            android:gravity="bottom"
+            android:text="Lun Mar Mer Giov Ven Dom"
+            android:textColor="#646464"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/trash_alarm"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_action_delete" />
+    </RelativeLayout>
+
+</LinearLayout>
