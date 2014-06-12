@@ -2,26 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    
-    tools:context="it.poli.android.scoutthisme.MainActivityWithIcons"
     android:id="@+id/step_home_linLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/fragment_margin"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/fragment_padding" >
+    android:padding="@dimen/fragment_padding"
+    tools:context="it.poli.android.scoutthisme.MainActivityWithIcons" >
 
     <ImageView
         android:id="@+id/step_counter_gigidag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
          />
 
     <RelativeLayout
         android:id="@+id/step_home_newrun"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal" >
 
         <it.poli.android.scoutthisme.tools.CircleButton
