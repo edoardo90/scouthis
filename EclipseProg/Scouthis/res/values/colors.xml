@@ -14,6 +14,8 @@
     <color name="azure_light_trasp">#705CB5FF</color>
     
     
+    <color name="dark_green">#004200</color>
+    <color name="dark_green_trasp">#CA004200</color>
     
     <color name="orange_ligh">#FFE4C4</color>
     <color name="maroon">#800000</color>

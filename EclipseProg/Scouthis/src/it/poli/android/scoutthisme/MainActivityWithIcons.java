@@ -38,30 +38,33 @@ public class MainActivityWithIcons extends ActionBarActivity
 				getString(R.string.fragments_2_title), getString(R.string.fragments_3_title),
 				getString(R.string.fragments_4_title), getString(R.string.fragments_5_title)};
 		
-		setContentView(R.layout.activity_main_iconed_tabs);
+		setContentView(R.layout.activity_main_iconed_tabs); //home tabbed 
 		
-		ActionBar actionbar = getSupportActionBar();
+		
+		/* QUESTO ORA 17:17  12/06  CERCO DI CAPIRE COME FARE
 		Drawable d = (Drawable) (getResources().getDrawable(R.drawable.gradient_actionbar_bg));
 		actionbar.setBackgroundDrawable(d);
+		*/
 		
+		
+		/*  QUESTO NON SERVE PIU'
+		 * 
 		d = (Drawable) (getResources().getDrawable(R.drawable.scout_icon));
 		getSupportActionBar().setIcon(d);
 
+		*/
+		
 		adapter = new ScouthisMeAdapter(getSupportFragmentManager());
 		ViewPager pager = (ViewPager)findViewById(R.id.pager);
 		pager.setAdapter(adapter);
-
+		
+		
+		
 		TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
 	}
 
-	/* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater = getMenuInflater();
-    	inflater.inflate(R.menu.main_activity_actions, menu);
-    	return super.onCreateOptionsMenu(menu);
-    }*/
-
+	
 	class ScouthisMeAdapter extends FragmentPagerAdapter implements IconPagerAdapter
 	{
 		public ScouthisMeAdapter(FragmentManager fm)

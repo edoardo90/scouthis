@@ -35,9 +35,26 @@
     </style>
 
     <style name="StyledIndicators" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
-        <item name="android:windowContentOverlay">@null</item>
+        <item name="vpiTabPageIndicatorStyle">
+            @style/CustomTabPageIndicator
+        </item>
+        
     </style>
+    
+    
+    <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light">
+    	<item name="android:windowContentOverlay">@null</item>
+    	<item name="actionBarStyle">@style/MyActionBar</item>
+	</style>
+    
+    <style name="MyActionBar" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <item name="background">@color/azure</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="windowActionBarOverlay">false</item>
+</style>
+	
+    
+    
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:background">@drawable/custom_tab_indicator</item>
@@ -121,10 +138,13 @@
 
     <style name="FragmentAlarmDayOff">
         <item name="android:textColor">@color/azure</item>
+        <item name="android:textSize">40sp</item>
     </style>
 
     <style name="FragmentAlarmDayOn">
-        <item name="android:textColor">@color/orange_ligh</item>
+        <item name="android:textColor">@color/azure</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
     <style name="Button">
