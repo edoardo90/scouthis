@@ -58,12 +58,12 @@ public class AlarmsHomeFragment extends Fragment implements Listener, TimePicker
 			public void onGlobalLayout() {
 				// TODO Auto-generated method stub
 				layout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-				
+
 				//Bitmap b = ImageLoader.decodeSampledBitmapFromResource(getResources(), R.drawable.clock, layout.getWidth(), layout.getHeight());
 				Display display = getActivity().getWindowManager().getDefaultDisplay(); 
 				int width = display.getWidth();
 				int height = display.getHeight();
-				
+
 				Bitmap b = null;
 				if (width < height) {
 					if (width < 1080)
@@ -220,22 +220,14 @@ public class AlarmsHomeFragment extends Fragment implements Listener, TimePicker
 		listViewAlarms.setAdapter(adapter);
 	}
 
-	public void setWellcomeWrite(int numberOfItems) {
-		
-		/**
-		 * 
-		 * <string name="alarm_home">Le tue Sveglie</string>
-    <string name="click_for_add">Clicca sul Bottone per aggiungere una sveglia
-		 * 
-		 */
+	public void setWellcomeWrite(int numberOfItems)
+	{
 		TextView tv = (TextView)this.mAct.findViewById(R.id.alarm_txt_home);
-		
-		if(numberOfItems > 0)
-			tv.setText(getResources().getString(R.string.alarm_home));
-		else
-			tv.setText(getResources().getString(R.string.click_for_add));
-		
-		
-		
+
+		if (tv != null)
+			if(numberOfItems > 0)
+				tv.setText(getResources().getString(R.string.alarm_home));
+			else
+				tv.setText(getResources().getString(R.string.click_for_add));
 	}
 }

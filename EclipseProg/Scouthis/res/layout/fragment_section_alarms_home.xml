@@ -4,8 +4,8 @@
     android:id="@+id/fragment_alert_home_linlay"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_marginLeft="@dimen/fragment_border_side"
-    android:layout_marginRight="@dimen/fragment_border_side"
+    android:layout_marginLeft="@dimen/fragment_margin"
+    android:layout_marginRight="@dimen/fragment_margin"
     android:orientation="vertical" >
 
     <RelativeLayout

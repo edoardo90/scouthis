@@ -376,8 +376,9 @@ int dimen divider_margin 0x7f090056
 int dimen done_label_size 0x7f090015
 int dimen extra_time_label_margin 0x7f090027
 int dimen footer_height 0x7f090033
-int dimen fragment_border_side 0x7f09005b
-int dimen fragment_border_top 0x7f09005c
+int dimen fragment_border_top 0x7f09005d
+int dimen fragment_margin 0x7f09005b
+int dimen fragment_padding 0x7f09005c
 int dimen fragment_title 0x7f09005a
 int dimen header_height 0x7f09002b
 int dimen left_side_width 0x7f090030
