@@ -8,4 +8,8 @@
         <attr name="cb_percent_left"  format="integer" />
         <attr name="cb_percent_down"  format="integer" />
     </declare-styleable>
+   
+   <attr name="fragmentTitleStyle"  format="reference" />
+   
+   
 </resources>

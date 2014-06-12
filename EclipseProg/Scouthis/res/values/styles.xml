@@ -175,5 +175,73 @@
         <item name="android:background">@color/divider</item>
     </style>
     <!-- END Undobar -->
+    
+    
+    
+      <!--   prova flessibilità maggiore per la scelta runtime dello stile -->
+  
+  <style name="Theme" parent="android:Theme">
+      	<item name="android:textColor">#aa000000</item>
+  </style>
+  
+  <!--    approccio stile temi del cellulare, cioè si definiscono dei temi (es. green wood, sky ecc.) e in una seconda
+  		  fase si precisano nel  dettaglio**
+  		  
+  		  nei fragment, ad esempio nei layout, si specifica quale dettaglio** si sta usando,
+  		  l'implementazione effettiva di quel dettaglio varia in funziona del tema scelto, 
+  		  tema che può essere scelto anche a runtime
+  		  
+  -->
+  
+  <style name="Theme.GreenWood">
+     <item name="fragmentTitleStyle">@style/dark_forest_fragment_title</item>
+	 
+     
+      
+  </style>
+
+  <style name="Theme.Sky">
+      <item name="fragmentTitleStyle">@style/blue_sky_fragment_title</item>
+      
+      
+  </style>
+ 
+  
+  <!--   dark forest theme - dettagli -->
+  <style name="dark_forest_fragment_title">
+      <item name="android:textSize">22sp</item>
+      <item name="android:textColor">@color/dark_green</item>
+      <item name="android:textStyle">normal</item>
+      <item name="android:paddingBottom">5dip</item>
+   </style>
+
+  
+  <!--   fine dark forest -->
+  
+  <!--   blue sky theme - dettagli -->
+  
+    <style name="blue_sky_fragment_title">
+      <item name="android:textSize">22sp</item>
+      <item name="android:textColor">@color/azure</item>
+      <item name="android:textStyle">normal</item>
+      <item name="android:paddingBottom">5dip</item>
+      
+   </style>
+  	
+    
+    
+    
+   <!--  fine blue sky theme -->
+    <!--    fine prova flessibilità maggiore scelta runtime dello stile -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 </resources>
