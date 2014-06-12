@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_margin="@dimen/fragment_margin"
-    android:padding="@dimen/fragment_padding"  >
+    android:orientation="vertical"
+    android:padding="@dimen/fragment_padding" >
 
     <RelativeLayout
         android:id="@+id/newsfeedTopLayout"
@@ -17,8 +17,8 @@
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:padding="0dp"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:padding="0dp" />
 
         <TextView
             android:id="@+id/lblNewsMessage"
@@ -26,6 +26,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/imgNewsMessage"
+            android:lineSpacingExtra="3sp"
+            android:lineSpacingMultiplier="0.8" />
+
+        <TextView
+            android:id="@+id/lblNewsMessageDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgNewsMessage"
+            android:layout_below="@id/lblNewsMessage"
             android:lineSpacingExtra="3sp"
             android:lineSpacingMultiplier="0.8"
             android:paddingBottom="5dp" />
