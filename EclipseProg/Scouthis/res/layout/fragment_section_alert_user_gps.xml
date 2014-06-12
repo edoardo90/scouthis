@@ -3,7 +3,8 @@
     android:id="@+id/alert_gps_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="5dp" >
+    android:padding="5dp"
+    android:layout_margin="0dp" >
 
     <TextView
         android:id="@+id/alert_warn_message"
