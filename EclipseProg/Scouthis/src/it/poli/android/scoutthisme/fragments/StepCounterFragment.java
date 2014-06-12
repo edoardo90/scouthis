@@ -31,11 +31,11 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 	{
 		final GifAnimationDrawable big ;
 		final ImageView imageview = (ImageView)this.getActivity().findViewById(R.id.step_counter_gigidag);
-		try{
+		try {
 			big = new GifAnimationDrawable(getResources().openRawResource(R.raw.gigi));
 			big.setOneShot(false);
 			Handler handler = new Handler();
-			handler.postDelayed(new Runnable(){
+			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					if (imageview != null) {
@@ -45,9 +45,7 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 					}
 				}
 			}, 1000 );
-		}catch(IOException ioe){
-			Log.i("ooo", "Ooo");
-		}
+		} catch(IOException ioe) { }
 	}
 
 
@@ -55,8 +53,6 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 	public void onResume()
 	{
 		super.onResume();
-
-
 		this.setGifImage();
 
 		CircleButton btnNewRun = (CircleButton)rootView.findViewById(R.id.step_button_newrun);

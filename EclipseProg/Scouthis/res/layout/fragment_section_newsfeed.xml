@@ -52,6 +52,7 @@
 
         <TextView
             android:id="@+id/txtNewsError"
+            style="@style/FragmentTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -59,41 +60,52 @@
             android:layout_centerVertical="true"
             android:lineSpacingExtra="3sp"
             android:lineSpacingMultiplier="0.8"
+            android:text="@string/news_rss_connection_error" />
+
+        <TextView
+            android:id="@+id/txtNewsErrorDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtNewsError"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:lineSpacingExtra="3sp"
+            android:lineSpacingMultiplier="0.8"
             android:paddingBottom="5dp"
-            android:text="@string/news_rss_connection_error"
+            android:text="@string/news_rss_connection_error_description"
             android:textStyle="italic" />
 
         <Button
             android:id="@+id/btnHomeReload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtNewsError"
+            android:layout_below="@id/txtNewsErrorDescription"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="@string/news_rss_reload" />
+
+        <TextView
+            android:id="@+id/txtNewsProgressBar"
+            style="@style/FragmentTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="15dp"
+            android:lineSpacingExtra="3sp"
+            android:lineSpacingMultiplier="0.8"
+            android:paddingBottom="5dp"
+            android:text="@string/news_rss_loading" />
 
         <ProgressBar
             android:id="@+id/newsfeedProgressBar"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/txtNewsProgressBar"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="25dp"
             android:indeterminate="true" />
-
-        <TextView
-            android:id="@+id/txtNewsProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/newsfeedProgressBar"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:lineSpacingExtra="3sp"
-            android:lineSpacingMultiplier="0.8"
-            android:paddingBottom="5dp"
-            android:text="@string/news_rss_loading"
-            android:textSize="22sp" />
     </RelativeLayout>
 
     <ListView

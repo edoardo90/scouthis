@@ -19,9 +19,10 @@
     
     <!-- Strings related to news fragment  -->
     <string name="news_rss_loading">Caricamento in corso</string>
+    <string name="news_rss_connection_error">Errore di connessione</string>
     <string name="news_rss_reload">Ricarica</string>   
     <string name="news_rss_information">Le ultime news sull\'Ambiente da corriere.it</string>
-    <string name="news_rss_connection_error">Impossibile caricare il newsfeed.\nLa connessione dati non risulta attiva.</string>
+    <string name="news_rss_connection_error_description">Impossibile caricare il newsfeed.\nLa connessione non risulta attiva.</string>
     
     <!-- Strings related to GPS fragment -->
     <string name="gps_information">Dati rilevati dal telefono:</string>

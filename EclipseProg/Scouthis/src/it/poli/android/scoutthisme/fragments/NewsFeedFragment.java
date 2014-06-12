@@ -48,6 +48,8 @@ public class NewsFeedFragment extends Fragment
 
 		TextView lblNewsError = (TextView) rootView.findViewById(R.id.txtNewsError);
 		lblNewsError.setVisibility(visibilityError);
+		TextView lblNewsErrorDescription = (TextView) rootView.findViewById(R.id.txtNewsErrorDescription);
+		lblNewsErrorDescription.setVisibility(visibilityError);
 		Button btnNewsReload = (Button) rootView.findViewById(R.id.btnHomeReload);
 		btnNewsReload.setVisibility(visibilityError);		
 
@@ -68,9 +70,10 @@ public class NewsFeedFragment extends Fragment
 		else
 			imgNews.setImageResource(R.drawable.rsserror);
 
-		if (!ok && !loading)
+		if (!ok && !loading) {
 			try {
 				Thread.sleep(800);
 			} catch (InterruptedException e) { }
+		}
 	}
 }
