@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_alert_home_linlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/fragment_margin"
-    android:padding="@dimen/fragment_padding"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="@dimen/fragment_padding" >
 
     <RelativeLayout
-        android:id="@+id/RelativeLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent" >
-
-        <ListView
-            android:id="@+id/alarm_listview"
-            android:layout_width="fill_parent"
-            android:layout_height="402dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/addAlarmImg"
-            
-            android:divider="#b5b5b5"
-            android:dividerHeight="0.2dp" >
-        </ListView>
+        android:id="@+id/alarmsTopLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"  >
 
         <it.poli.android.scoutthisme.tools.CircleButton
             android:id="@+id/addAlarmImg"
@@ -33,21 +22,40 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/fragment_border_top"
             android:layout_marginTop="@dimen/fragment_border_top"
-            android:contentDescription="add a new alarm"
             android:src="@drawable/ic_action_new"
             app:cb_color="@color/btn_background" />
 
-        <TextView
-            android:id="@+id/alarm_txt_home"
-            style="@style/FragmentTitle"
+        <RelativeLayout
+            android:id="@+id/alarmsTexts"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/alarm_listview"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/addAlarmImg"
-            android:gravity="left|center_vertical"
-            android:text="@string/alarm_home" />
+            android:layout_height="80dp"
+            android:layout_alignTop="@id/addAlarmImg"
+            android:layout_marginRight="110dp"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/txtMyAlarms"
+                style="@style/FragmentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alarms_home_title" />
+
+            <TextView
+                android:id="@+id/txtMyAlarmsDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtMyAlarms"
+                android:text="@string/alarms_home_title_description"
+                android:textStyle="italic" />
+        </RelativeLayout>
     </RelativeLayout>
 
-</LinearLayout>
+    <ListView
+        android:id="@+id/alarm_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#b5b5b5"
+        android:dividerHeight="0.2dp"
+        android:layout_below="@+id/alarmsTopLayout" >
+    </ListView>
+</RelativeLayout>

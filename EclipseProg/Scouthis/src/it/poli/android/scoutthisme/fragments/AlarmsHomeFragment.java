@@ -220,14 +220,14 @@ public class AlarmsHomeFragment extends Fragment implements Listener, TimePicker
 		listViewAlarms.setAdapter(adapter);
 	}
 
-	public void setWellcomeWrite(int numberOfItems)
+	public void setMyAlarmsTxt(int numberOfItems)
 	{
-		TextView tv = (TextView)this.mAct.findViewById(R.id.alarm_txt_home);
+		/*TextView tv = (TextView)this.mAct.findViewById(R.id.txtMyAlarms);
 
 		if (tv != null)
 			if(numberOfItems > 0)
-				tv.setText(getResources().getString(R.string.alarm_home));
+				tv.setText(getResources().getString(R.string.alarms_home_title));
 			else
-				tv.setText(getResources().getString(R.string.click_for_add));
+				tv.setText(getResources().getString(R.string.alarms_home_title_description));*/
 	}
 }

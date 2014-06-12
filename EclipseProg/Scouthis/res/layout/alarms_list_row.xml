@@ -3,18 +3,18 @@
     android:id="@+id/row_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@drawable/wood_light"
-    android:padding="0dp" >    
-    
+    android:orientation="vertical"
+    android:padding="5dp" >
+
     <!-- nel relative -->
     <!-- android:background="@drawable/list_selector" -->
 
     <RelativeLayout
         android:id="@+id/alarm_row_cotainer"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" >
 
         <RelativeLayout
             android:id="@+id/bird_hour_switch"
@@ -42,7 +42,7 @@
                 android:layout_centerVertical="true"
                 android:text="12:34"
                 android:textColor="#040404"
-                android:textSize="15dip"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 android:typeface="sans" />
 
@@ -94,12 +94,11 @@
 
         <TextView
             android:id="@+id/days"
-            android:layout_marginTop="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/trash_alarm"
+            android:layout_marginTop="10dp"
             android:gravity="bottom"
-            android:text="Lun Mar Mer Giov Ven Dom"
             android:textColor="#646464"
             android:textSize="14sp" />
 

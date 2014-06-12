@@ -25,16 +25,16 @@ public class AlarmLazyAdapter extends BaseAdapter {
 	private static LayoutInflater inflater=null;
 	public ImageLoader imageLoader; 
 
-	public AlarmLazyAdapter(Activity a, AlarmsHomeFragment alarmHomeFrag , LinkedList<Alarm> alarmList) {
+	public AlarmLazyAdapter(Activity a, AlarmsHomeFragment alarmHomeFrag , LinkedList<Alarm> alarmList)
+	{
 		activity = a;
-		data=alarmList;
-		
+		data = alarmList;
+
 		int numberOfItems = data.size();
-		
+
 		this.alarmHomeFrag = alarmHomeFrag;
-		
-		this.alarmHomeFrag.setWellcomeWrite(numberOfItems);
-		
+		this.alarmHomeFrag.setMyAlarmsTxt(numberOfItems);
+
 		inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		imageLoader=new ImageLoader(activity.getApplicationContext());
 	}
@@ -103,8 +103,8 @@ public class AlarmLazyAdapter extends BaseAdapter {
 				}
 			});
 		}
-		
-		
+
+
 		return vi;
 	}
 

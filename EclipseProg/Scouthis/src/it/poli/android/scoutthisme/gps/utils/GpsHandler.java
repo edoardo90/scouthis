@@ -36,11 +36,6 @@ public class GpsHandler implements LocationListener
 	
 	boolean viewActive;
 	int lastUnCommittedWork;
-	public boolean gpsEnabled;
-
-	public boolean isGpsEnabled() {
-		return gpsEnabled;
-	}
 
 	public void setViewActive(boolean viewActive)
 	{
@@ -61,7 +56,6 @@ public class GpsHandler implements LocationListener
 	public GpsHandler (Fragment f) {
     	this.mFragment = f;
     	viewActive = false;
-    	gpsEnabled = isGpsEnabled(mFragment);
     	lastUnCommittedWork = -1;
 	    locationManager = (LocationManager) mFragment.getActivity().getSystemService(Context.LOCATION_SERVICE);  
     }
@@ -78,16 +72,16 @@ public class GpsHandler implements LocationListener
     
     @TargetApi(Build.VERSION_CODES.KITKAT)
 	@SuppressWarnings("deprecation")
-	private static boolean isGpsEnabled(Fragment fragment)
+	public boolean isGpsEnabled()
     {        
 	    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-	        String providers = Settings.Secure.getString(fragment.getActivity().getContentResolver(),
+	        String providers = Settings.Secure.getString(mFragment.getActivity().getContentResolver(),
 	        		Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 	        return providers.contains(LocationManager.GPS_PROVIDER);
 	    } else {
 	        final int locationMode;
 	        try {
-	            locationMode = Settings.Secure.getInt(fragment.getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
+	            locationMode = Settings.Secure.getInt(mFragment.getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
 	        } catch (SettingNotFoundException e) {
 	            e.printStackTrace();
 	            return false;
@@ -186,8 +180,7 @@ public class GpsHandler implements LocationListener
 	public void onStatusChanged(String provider, int status, Bundle extras) { }
 
 	@Override
-	public void onProviderEnabled(String provider) { 
-		gpsEnabled = true;
+	public void onProviderEnabled(String provider) {
 		if (listener != null) {
 			if (viewActive)
 				removeAlertView();
@@ -199,7 +192,6 @@ public class GpsHandler implements LocationListener
 	@Override
 	public void onProviderDisabled(String provider) 
 	{
-		gpsEnabled = false;
 		if (listener != null) {
 			if (viewActive)
 				addAlertView();

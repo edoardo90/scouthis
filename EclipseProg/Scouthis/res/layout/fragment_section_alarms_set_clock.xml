@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:text="@string/scegli_giorni" />
+        android:text="@string/alarms_days" />
 
     <LinearLayout
         android:id="@+id/weekdayll"
@@ -117,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/fragment_border_top"
-            android:text="@string/scegli_uccello" />
+            android:text="@string/alarms_birds" />
 
         <LinearLayout
             android:id="@+id/birdsll"
@@ -236,7 +236,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="@string/torna_alarm_home" />
+            android:text="@string/alarms_confirm" />
     </RelativeLayout>
 
 </RelativeLayout>
