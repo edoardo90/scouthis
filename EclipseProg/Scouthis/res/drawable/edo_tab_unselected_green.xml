@@ -15,7 +15,7 @@
         <shape android:shape="rectangle">
             <size android:width="20px"
                 android:height="@dimen/tab_small_line"/>
-            <solid android:color="@color/dark_green_trasp"/>
+            <solid android:color="@color/green"/>
         </shape>
     </item>
 </layer-list>

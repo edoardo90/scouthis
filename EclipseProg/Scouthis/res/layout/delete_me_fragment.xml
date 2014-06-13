@@ -9,6 +9,6 @@
         android:id="@+id/imageView1"
         android:layout_width="300px"
         android:layout_height="300px"
-        android:src="@drawable/edo_custom_tab_unselected" />
+        android:src="@drawable/edo_tab_selected_pressed_green" />
 
 </FrameLayout>

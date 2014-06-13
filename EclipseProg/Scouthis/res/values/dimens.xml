@@ -19,9 +19,12 @@
     <dimen name="fragment_border_top">5dp</dimen>
     
     <!-- tab bar   !!!-->
-    <dimen name="tab_high_place">100px</dimen>
-    <dimen name="tab_mid_place">100px</dimen>
-    <dimen name="tab_big_line">3px</dimen>
+    <!--  cambia questi per linee più grandi p più piccole -->
+    <dimen name="tab_high_place">98px</dimen>
+    <dimen name="tab_mid_place">105px</dimen>
+    
+    
+    <dimen name="tab_big_line">10px</dimen>
     <dimen name="tab_small_line">3px</dimen>
     
     <!--   -->
