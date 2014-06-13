@@ -10,10 +10,10 @@
     </item>
 
 
-    <item android:top="100px" android:left="0px" android:bottom="0px" android:right="0px">
+    <item android:top="@dimen/tab_mid_place" android:left="0px" android:bottom="0px" android:right="0px">
         <shape android:shape="rectangle">
             <size android:width="10px"
-                android:height="2px"/>
+                android:height="@dimen/tab_big_line"/>
             <solid android:color="@color/dark_green"/>
         </shape>
     </item>

@@ -364,6 +364,10 @@ int dimen selected_date_month_size 0x7f0a0029
 int dimen selected_date_year_size 0x7f0a0027
 int dimen separator_padding 0x7f0a0033
 int dimen small_text 0x7f0a0054
+int dimen tab_big_line 0x7f0a005b
+int dimen tab_high_place 0x7f0a0059
+int dimen tab_mid_place 0x7f0a005a
+int dimen tab_small_line 0x7f0a005c
 int dimen time_label_right_padding 0x7f0a003d
 int dimen time_label_size 0x7f0a002f
 int dimen undo_bar_height 0x7f0a004d
