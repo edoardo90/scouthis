@@ -223,7 +223,7 @@
    </style>
 	
   <style name="dark_forest_background">
-      <item name="android:background">@color/lightbrown</item>
+      <item name="android:background">@color/blanched</item>
   </style>
   
   <style name="dark_forest_circle_background">

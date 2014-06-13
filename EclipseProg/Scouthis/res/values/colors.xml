@@ -17,6 +17,10 @@
     
     <color name="green_medium_dark">#006200</color>
     
+    <color name="chocolate">#D2691E</color>
+    <color name="burlywood">#DEB887</color>
+    <color name="blanched">#FFEBCD</color>
+    
     <color name="green_dark">#004200</color>
     
     <color name="green_dark_trasp">#CA004200</color>
