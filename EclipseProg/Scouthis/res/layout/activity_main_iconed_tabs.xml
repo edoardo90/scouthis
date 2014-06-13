@@ -11,6 +11,7 @@
         android:id="@+id/indicator"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        
         style="@style/Tab" />
     	
     <android.support.v4.view.ViewPager

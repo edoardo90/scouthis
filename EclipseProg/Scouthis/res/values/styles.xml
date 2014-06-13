@@ -12,8 +12,9 @@
 
     <!-- START Start tabbed iconed browsing -->
     <style name="Tab">
-        <item name="android:background">@drawable/sfnd_tit_tabs</item>
+        <item name="android:background">@drawable/view_tab_gradient</item>
         <item name="android:layout_height">@dimen/abc_action_bar_default_height</item>
+        
     </style>
 
     <style name="FragmentContainer">
@@ -203,7 +204,6 @@
   <style name="Theme.DarkForest">
      <item name="fragmentTitleStyle">@style/dark_forest_fragment_title</item>
 	 <item name="app_background">@style/dark_forest_background</item>
-     
       
   </style>
 
@@ -226,31 +226,32 @@
       <item name="android:background">@color/pergamena</item>
   </style>
   
+  <style name="blue_sky_circle_background">
+     <item name="cb_color">@color/maroon</item>
+  </style>   
+  
   
   
   <!--   fine dark forest -->
   
   <!--   blue sky theme - dettagli -->
   
-    <style name="blue_sky_fragment_title">
+  <style name="blue_sky_fragment_title">
       <item name="android:textSize">22sp</item>
       <item name="android:textColor">@color/blue</item>
       <item name="android:textStyle">normal</item>
       <item name="android:paddingBottom">5dip</item>
       
-   </style>
+  </style>
   	
-  <style name="blue_sky_circle_background">
-      
-      <item name="cb_color">@color/coral_light</item>
-  </style> 
-  
-    
-    
   <style name="blue_sky_background">
       <item name="android:background">@color/azure_light</item>
   </style> 
-    
+
+  <style name="blue_sky_circle_background">
+     <item name="cb_color">@color/azure</item>
+  </style>   
+  
     
    <!--  fine blue sky theme -->
     <!--    fine prova flessibilità maggiore scelta runtime dello stile -->
