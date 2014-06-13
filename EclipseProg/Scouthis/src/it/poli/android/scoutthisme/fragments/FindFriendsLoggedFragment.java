@@ -209,24 +209,24 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	public void updateGpsStatusView()
 	{
 		//UPDATE GPS STATUS
-		TextView txtStatus = (TextView) mAct.findViewById(R.id.ff_txtStatus);
+		TextView txtStatus = (TextView) mAct.findViewById(R.id.txtFindFriendsStatus);
 		if (txtStatus != null) {
 			if (gpsHandler.isGpsEnabled()) {
 				if (loc != null) {
 					if (isNetworkOk) {
 						if (lstUsersMarkers != null) {
-							txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_ready)));
+							txtStatus.setText(Html.fromHtml(mAct.getString(R.string.generic_status_ready)));
 						} else {
-							txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_friends)));
+							txtStatus.setText(Html.fromHtml(mAct.getString(R.string.generic_status_waiting_friends)));
 						}
 					} else {
-						txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_network_unavailable)));
+						txtStatus.setText(Html.fromHtml(mAct.getString(R.string.generic_status_network_unavailable)));
 					}
 				} else {
-					txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_waiting_gps)));
+					txtStatus.setText(Html.fromHtml(mAct.getString(R.string.generic_status_waiting_gps)));
 				}
 			} else {
-				txtStatus.setText(Html.fromHtml(mAct.getString(R.string.findfriends_status_gps_deactivated)));
+				txtStatus.setText(Html.fromHtml(mAct.getString(R.string.generic_status_gps_deactivated)));
 			}
 		}
 	}
@@ -504,13 +504,6 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 	public void onFacebookResponse(int response) {
 		// Check network status
 		isNetworkOk = (response == Constants.RESULT_OK) ? true : false;
-		// Check GPS coordinates' age
-		if (loc != null) {
-			if (gpsHandler.ageMilliseconds(loc) >= Constants.GPS_LAST_UPDATE_MILLISECONDS) {
-				loc = null;
-				facebookHandler.updatePosition(loc);
-			}
-		}
 		// Update user details if never done before (caused by network unavailability)
 		if (graphUser == null)
 			updateView(false);

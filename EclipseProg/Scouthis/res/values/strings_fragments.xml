@@ -9,6 +9,11 @@
     <string name="fragments_general_alert">Questa applicazione ha bisogno del GPS. Clicca sul bottone a destra per attivarlo!</string>
     <string name="fragments_step_alert">Il Contapassi ha bisogno del GPS. Clicca sul bottone a destra per attivarlo!</string>
     <string name="fragments_friends_alert">Il Trovamici ha bisogno del GPS. Clicca sul bottone a destra per attivarlo!</string>
+    <string name="generic_status_gps_deactivated">&lt;b&gt;Stato:&lt;/b&gt; GPS non attivo.</string>
+    <string name="generic_status_network_unavailable">&lt;b&gt;Stato:&lt;/b&gt; Rilevato problema di connessione.</string>
+    <string name="generic_status_waiting_gps">&lt;b&gt;Stato:&lt;/b&gt; In attesa del GPS&#8230;</string>
+    <string name="generic_status_waiting_friends">&lt;b&gt;Stato:&lt;/b&gt; Ricezione lista degli amici&#8230;</string>
+    <string name="generic_status_ready">&lt;b&gt;Stato:&lt;/b&gt; Connesso.</string>
 
     <!-- Strings related to tabs viewer -->
     <string name="fragments_1_title">News</string>
@@ -60,11 +65,6 @@
     <string name="findfriends_dontwarry_message">Non posteremo nulla sulla tua bacheca!</string>
     <string name="findfriends_wellcome_name">Benvenuto</string>
     <string name="findfriends_login_button">Facebook Login</string>
-    <string name="findfriends_status_gps_deactivated">&lt;b&gt;Stato:&lt;/b&gt; GPS non attivo.</string>
-    <string name="findfriends_status_network_unavailable">&lt;b&gt;Stato:&lt;/b&gt; Rilevato problema di connessione.</string>
-    <string name="findfriends_status_waiting_gps">&lt;b&gt;Stato:&lt;/b&gt; In attesa del GPS&#8230;</string>
-    <string name="findfriends_status_waiting_friends">&lt;b&gt;Stato:&lt;/b&gt; Ricezione lista degli amici&#8230;</string>
-    <string name="findfriends_status_ready">&lt;b&gt;Stato:&lt;/b&gt; Connesso.</string>
 
     <!-- Strings related to alarm fragment -->
     <string name="alarms_confirm">Conferma Sveglia</string>

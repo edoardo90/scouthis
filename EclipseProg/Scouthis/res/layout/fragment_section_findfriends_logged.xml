@@ -54,16 +54,15 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ff_txtStatus"
+        android:layout_above="@+id/txtFindFriendsStatus"
         android:layout_below="@id/relvativeFFLayout"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="2dp" />
 
     <TextView
-        android:id="@+id/ff_txtStatus"
+        android:id="@+id/txtFindFriendsStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Stato: ..." />
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

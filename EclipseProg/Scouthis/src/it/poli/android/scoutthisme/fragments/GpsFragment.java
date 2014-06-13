@@ -39,7 +39,7 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 		Log.i("GpsFragment", "CREATE");
 		sensorHandler = new SensorHandler(this);
 		gpsHandler = new GpsHandler(this);
-		
+
 		gpsHandler.setListener(this);
 	}
 
@@ -50,7 +50,7 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 		imgCompass = (ImageView) rootView.findViewById(R.id.imageViewCompass); // Our compass image
 		txtDegrees = (TextView) rootView.findViewById(R.id.txtDegrees); // TextView that will tell the user what degree is he heading
 		Log.i("GpsFragment", "VIEWCREATED");
-		
+
 		return rootView;
 	}
 
@@ -116,35 +116,45 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 	public void onLocationChanged(Location location) {
 		View rootView = getView();
 
-		double latitude = location.getLatitude();
-		double longitude = location.getLongitude();
-		double altitude = location.getAltitude();
-		double accuracy = location.getAccuracy();
-		double bearing = location.getBearing();
-		double speed = location.getSpeed()*3.6;
-
-		int locDegrees = (int)latitude;
-		double locMinutes = ((latitude - locDegrees)*60);
-		String locOrient = latitude >= 0 ? "N" : "S";
-
-		int lonDegrees = (int)longitude;
-		double lonMinutes = ((longitude - lonDegrees)*60);
-		String lonOrient = longitude >= 0 ? "E" : "O";
-
-		int orient = (int)(Math.round((bearing)/22.5)%16);
-
 		TextView txtLat = (TextView) rootView.findViewById(R.id.txtLatitude);
 		TextView txtLong = (TextView) rootView.findViewById(R.id.txtLongitude);
 		TextView txtAlt = (TextView) rootView.findViewById(R.id.txtAltitude);
 		TextView txtSpd = (TextView) rootView.findViewById(R.id.txtSpeed);    
 		TextView txtPrc = (TextView) rootView.findViewById(R.id.txtDistance);    
-		TextView txtBea = (TextView) rootView.findViewById(R.id.txtBearing);    
+		TextView txtBea = (TextView) rootView.findViewById(R.id.txtBearing); 
 
-		txtLat.setText(String.format("%d", Math.abs(locDegrees))+"°"+String.format("%.2f", Math.abs(locMinutes))+"'"+locOrient);
-		txtLong.setText(String.format("%d", Math.abs(lonDegrees))+"°"+String.format("%.2f", Math.abs(lonMinutes))+"'"+lonOrient);
-		txtAlt.setText(String.format("%.0f", altitude)+"m (WGS)");
-		txtSpd.setText(String.format("%.0f", speed)+"km/h");
-		txtPrc.setText(String.format("%.0f", accuracy)+"m");
-		txtBea.setText(String.format("%.0f", bearing)+"°"+" "+latlongOrient[orient]);
+		if (location != null)
+		{
+			double latitude = location.getLatitude();
+			double longitude = location.getLongitude();
+			double altitude = location.getAltitude();
+			double accuracy = location.getAccuracy();
+			double bearing = location.getBearing();
+			double speed = location.getSpeed()*3.6;
+
+			int locDegrees = (int)latitude;
+			double locMinutes = ((latitude - locDegrees)*60);
+			String locOrient = latitude >= 0 ? "N" : "S";
+
+			int lonDegrees = (int)longitude;
+			double lonMinutes = ((longitude - lonDegrees)*60);
+			String lonOrient = longitude >= 0 ? "E" : "O";
+
+			int orient = (int)(Math.round((bearing)/22.5)%16);   
+
+			txtLat.setText(String.format("%d", Math.abs(locDegrees))+"°"+String.format("%.2f", Math.abs(locMinutes))+"'"+locOrient);
+			txtLong.setText(String.format("%d", Math.abs(lonDegrees))+"°"+String.format("%.2f", Math.abs(lonMinutes))+"'"+lonOrient);
+			txtAlt.setText(String.format("%.0f", altitude)+"m (WGS)");
+			txtSpd.setText(String.format("%.0f", speed)+"km/h");
+			txtPrc.setText(String.format("%.0f", accuracy)+"m");
+			txtBea.setText(String.format("%.0f", bearing)+"°"+" "+latlongOrient[orient]);
+		} else {
+			txtLat.setText(getString(R.string.fragments_waiting_dots));
+			txtLong.setText(getString(R.string.fragments_waiting_dots));
+			txtAlt.setText(getString(R.string.fragments_waiting_dots));
+			txtSpd.setText(getString(R.string.fragments_waiting_dots));
+			txtPrc.setText(getString(R.string.fragments_waiting_dots));
+			txtBea.setText(getString(R.string.fragments_waiting_dots));
+		}
 	}
 }

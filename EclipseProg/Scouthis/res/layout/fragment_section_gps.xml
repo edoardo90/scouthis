@@ -287,6 +287,12 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtGpsStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
 </ScrollView>

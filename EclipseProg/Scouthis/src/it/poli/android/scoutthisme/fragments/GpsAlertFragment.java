@@ -1,6 +1,7 @@
 package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.tools.CircleButton;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -45,7 +46,7 @@ public class GpsAlertFragment extends Fragment
 			alertWarnMessage.setText(getString(R.string.fragments_step_alert));
 		}
 		
-    	ImageButton buttonLogin = (ImageButton) rootView.findViewById(R.id.setGpsOn);
+		CircleButton buttonLogin = (CircleButton) rootView.findViewById(R.id.setGpsOn);
         buttonLogin.setOnClickListener(
         	new OnClickListener() {
         		public void onClick(View view) {

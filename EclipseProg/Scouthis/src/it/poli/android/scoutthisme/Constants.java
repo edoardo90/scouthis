@@ -96,4 +96,6 @@ public class Constants
 	public static final int RESULT_OK = 1;
 
 	public static final long GPS_LAST_UPDATE_MILLISECONDS = 3000;
+
+	public static final long TIME_UPDATE_GPS_STATUS = 1500;
 }
