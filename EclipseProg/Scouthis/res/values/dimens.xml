@@ -24,8 +24,8 @@
     <dimen name="tab_mid_place">105px</dimen>
     
     
-    <dimen name="tab_big_line">10px</dimen>
-    <dimen name="tab_small_line">3px</dimen>
+    <dimen name="tab_big_line">5px</dimen>
+    <dimen name="tab_small_line">1px</dimen>
     
     <!--   -->
     
