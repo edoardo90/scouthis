@@ -5,7 +5,7 @@
         android:right="0px">
         <shape android:shape="rectangle">
             <size android:width="9px"
-                android:height="50px"/>
+                android:height="10px"/>
             <solid android:color="#0f00"/> <!--  trasparente 100% -->
         </shape>
     </item>
@@ -14,7 +14,7 @@
     <item android:top="90px" android:left="0px" android:bottom="0px" android:right="0px">
         <shape android:shape="rectangle">
             <size android:width="20px"
-                android:height="2px"/>
+                android:height="1px"/>
             <solid android:color="@color/dark_green_trasp"/>
         </shape>
     </item>

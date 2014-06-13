@@ -4,15 +4,15 @@
     <item android:top="0px" android:left="0px" android:bottom="0px" android:right="0px">
         <shape android:shape="rectangle">
             <size android:width="9px"
-                android:height="50px"/>
+                android:height="10px"/>
             <solid android:color="#0f00"/>
         </shape>
     </item>
 
 
-    <item android:top="85px" android:left="0px" android:bottom="0px" android:right="0px">
+    <item android:top="100px" android:left="0px" android:bottom="0px" android:right="0px">
         <shape android:shape="rectangle">
-            <size android:width="20px"
+            <size android:width="10px"
                 android:height="2px"/>
             <solid android:color="@color/dark_green"/>
         </shape>
