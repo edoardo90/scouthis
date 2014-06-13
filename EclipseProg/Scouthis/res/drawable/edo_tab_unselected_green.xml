@@ -5,7 +5,7 @@
         android:right="0px">
         <shape android:shape="rectangle">
             <size android:width="9px"
-                android:height="10px"/>
+                android:height="5px"/>
             <solid android:color="#0f00"/> <!--  trasparente 100% -->
         </shape>
     </item>

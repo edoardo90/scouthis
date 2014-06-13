@@ -3,8 +3,8 @@
   
     <item android:top="0px" android:left="0px" android:bottom="0px" android:right="0px">
         <shape android:shape="rectangle">
-            <size android:width="9px"
-                android:height="20px"/>
+            <size android:width="2px"
+                android:height="5px"/>
             <solid android:color="@color/green_dark_trasp"/>
         </shape>
     </item>
