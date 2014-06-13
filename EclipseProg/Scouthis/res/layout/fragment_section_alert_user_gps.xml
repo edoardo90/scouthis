@@ -2,6 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/alert_gps_container"
+    
+    style="?app_background"
+    
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
@@ -23,7 +26,9 @@
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop"
         android:src="@drawable/actionb_gps"
-        app:cb_color="@color/btn_background"
+        
+        style="?circle_background"
+        
         app:cb_percent_down="20"
         app:cb_percent_scale="80"
         app:cb_pressed_ring_width="8dip" />

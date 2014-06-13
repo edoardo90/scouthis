@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/fragment_margin"
     android:orientation="vertical"
+    
+    style="?app_background"
+    
     android:padding="@dimen/fragment_padding" >
 
     <LinearLayout
@@ -33,7 +36,10 @@
         android:layout_marginTop="2dp"
         android:scaleType="fitCenter"
         android:src="@drawable/bandiera_scacchi"
-        app:cb_color="@color/btn_background_traspar"
+        
+        style="?circle_background"
+        
+        
         app:cb_pressed_ring_width="0dip"
         app:cb_percent_down="50"
         app:cb_percent_left="50"
@@ -47,7 +53,9 @@
 
         <TextView
             android:id="@+id/txtSeeHistory"
-            style="@style/FragmentTitle"
+            
+            style="?fragmentTitleStyle"
+            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stepcounter_statistic" />

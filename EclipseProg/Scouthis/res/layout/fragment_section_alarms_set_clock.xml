@@ -6,11 +6,14 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/fragment_margin"
     android:padding="@dimen/fragment_padding"
+    
+    style="?app_background"
+    
     tools:context=".AlarmsSetClockFragment" >
 
     <TextView
         android:id="@+id/dayWillWork"
-        style="@style/FragmentTitle"
+        style="?fragmentTitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
@@ -113,7 +116,7 @@
 
         <TextView
             android:id="@+id/TextView08"
-            style="@style/FragmentTitle"
+            style="?fragmentTitleStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/fragment_border_top"
@@ -227,11 +230,13 @@
             android:layout_alignParentRight="true"
             android:scaleType="fitCenter"
             android:src="@drawable/alarm_thumb_up"
-            app:cb_color="@color/btn_background" />
+            
+            style="?circle_background"
+             />
 
         <TextView
             android:id="@+id/alarm_txt_back_home"
-            style="@style/FragmentTitle"
+            style="?fragmentTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"

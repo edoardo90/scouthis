@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/fragment_margin"
+    
+    
+    style="?app_background"
+    
     android:padding="@dimen/fragment_padding" >
 
     <ListView
@@ -29,7 +33,8 @@
 
         <TextView
             android:id="@+id/txtSeeHistory"
-            style="@style/FragmentTitle"
+            style="?fragmentTitleStyle"
+            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -45,7 +50,9 @@
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
             android:src="@drawable/actionb_foot"
-            app:cb_color="@color/btn_background"
+            
+            style="?circle_background"
+            
             app:cb_percent_down="20"
             app:cb_percent_scale="80" />
     </RelativeLayout>

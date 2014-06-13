@@ -6,6 +6,9 @@
     android:layout_margin="@dimen/fragment_margin"
     android:gravity="center"
     android:orientation="vertical"
+    
+    style="?app_background"
+    
     android:padding="@dimen/fragment_padding" >
 
     <TextView

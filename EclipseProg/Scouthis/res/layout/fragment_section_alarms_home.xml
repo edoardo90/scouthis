@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/fragment_margin"
     android:orientation="vertical"
+    
+    style="?app_background"
+    
     android:padding="@dimen/fragment_padding" >
 
     <RelativeLayout
@@ -23,7 +26,10 @@
             android:layout_marginBottom="@dimen/fragment_border_top"
             android:layout_marginTop="@dimen/fragment_border_top"
             android:src="@drawable/ic_action_new"
-            app:cb_color="@color/btn_background" />
+            
+            style="?circle_background"
+            
+             />
 
         <RelativeLayout
             android:id="@+id/alarmsTexts"
@@ -35,7 +41,9 @@
 
             <TextView
                 android:id="@+id/txtMyAlarms"
-                style="@style/FragmentTitle"
+                
+                style="?fragmentTitleStyle"
+                
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/alarms_home_title" />

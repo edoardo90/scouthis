@@ -9,7 +9,10 @@
         <attr name="cb_percent_down"  format="integer" />
     </declare-styleable>
    
-   <attr name="fragmentTitleStyle"  format="reference" />
+   <attr name="fragmentTitleStyle"    format="reference" />
    
+   <attr name="app_background"        format="reference" />
+
+   <attr name="circle_background"     format="reference" />
    
 </resources>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" 
+           xmlns:app="http://schemas.android.com/apk/res/it.poli.android.scouthisme"
+          >    	
 
     <style name="AppBaseTheme" parent="android:Theme.Light"></style>
 
@@ -178,11 +180,7 @@
     
     
     
-      <!--   prova flessibilità maggiore per la scelta runtime dello stile -->
-  
-  <style name="Theme" parent="android:Theme">
-      	<item name="android:textColor">#aa000000</item>
-  </style>
+  <!--   prova flessibilità maggiore per la scelta runtime dello stile -->
   
   <!--    approccio stile temi del cellulare, cioè si definiscono dei temi (es. green wood, sky ecc.) e in una seconda
   		  fase si precisano nel  dettaglio**
@@ -192,18 +190,27 @@
   		  tema che può essere scelto anche a runtime
   		  
   -->
+	
+	<!--  se nessun tema viene specificato si parte così con le opzioni "base" -->	  
+  <style name="Theme" parent="android:Theme">
+      	<item name="android:textColor">#aa000000</item>
+      	
+  </style>
+	
+
+  <!--  altrimenti nella main activity (.java) si può settare un tema -->
   
-  <style name="Theme.GreenWood">
+  <style name="Theme.DarkForest">
      <item name="fragmentTitleStyle">@style/dark_forest_fragment_title</item>
-	 
+	 <item name="app_background">@style/dark_forest_background</item>
      
       
   </style>
 
   <style name="Theme.Sky">
       <item name="fragmentTitleStyle">@style/blue_sky_fragment_title</item>
-      
-      
+      <item name="app_background">@style/blue_sky_background</item>
+      <item name="circle_background">@style/blue_sky_circle_background</item>
   </style>
  
   
@@ -214,7 +221,12 @@
       <item name="android:textStyle">normal</item>
       <item name="android:paddingBottom">5dip</item>
    </style>
-
+	
+  <style name="dark_forest_background">
+      <item name="android:background">@color/pergamena</item>
+  </style>
+  
+  
   
   <!--   fine dark forest -->
   
@@ -222,13 +234,22 @@
   
     <style name="blue_sky_fragment_title">
       <item name="android:textSize">22sp</item>
-      <item name="android:textColor">@color/azure</item>
+      <item name="android:textColor">@color/blue</item>
       <item name="android:textStyle">normal</item>
       <item name="android:paddingBottom">5dip</item>
       
    </style>
   	
+  <style name="blue_sky_circle_background">
+      
+      <item name="cb_color">@color/coral_light</item>
+  </style> 
+  
     
+    
+  <style name="blue_sky_background">
+      <item name="android:background">@color/azure_light</item>
+  </style> 
     
     
    <!--  fine blue sky theme -->
