@@ -5,7 +5,7 @@
         <shape android:shape="rectangle">
             <size android:width="9px"
                 android:height="10px"/>
-            <solid android:color="@color/dark_green_trasp"/>
+            <solid android:color="@color/green_dark_trasp"/>
         </shape>
     </item>
 
@@ -14,7 +14,7 @@
         <shape android:shape="rectangle">
             <size android:width="20px"
                 android:height="@dimen/tab_big_line"/>
-            <solid android:color="@color/dark_green"/>
+            <solid android:color="@color/green_dark"/>
         </shape>
     </item>
 </layer-list>

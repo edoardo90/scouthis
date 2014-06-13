@@ -204,7 +204,7 @@
   <style name="Theme.DarkForest">
      <item name="fragmentTitleStyle">@style/dark_forest_fragment_title</item>
 	 <item name="app_background">@style/dark_forest_background</item>
-      
+     <item name="circle_background">@style/dark_forest_circle_background</item> 
   </style>
 
   <style name="Theme.Sky">
@@ -217,17 +217,17 @@
   <!--   dark forest theme - dettagli -->
   <style name="dark_forest_fragment_title">
       <item name="android:textSize">22sp</item>
-      <item name="android:textColor">@color/dark_green</item>
+      <item name="android:textColor">@color/green_dark</item>
       <item name="android:textStyle">normal</item>
       <item name="android:paddingBottom">5dip</item>
    </style>
 	
   <style name="dark_forest_background">
-      <item name="android:background">@color/pergamena</item>
+      <item name="android:background">@color/lightbrown</item>
   </style>
   
-  <style name="blue_sky_circle_background">
-     <item name="cb_color">@color/maroon</item>
+  <style name="dark_forest_circle_background">
+     <item name="cb_color">@color/green</item>
   </style>   
   
   

@@ -5,7 +5,7 @@
         <shape android:shape="rectangle">
             <size android:width="9px"
                 android:height="20px"/>
-            <solid android:color="@color/dark_green_trasp"/>
+            <solid android:color="@color/green_dark_trasp"/>
         </shape>
     </item>
 

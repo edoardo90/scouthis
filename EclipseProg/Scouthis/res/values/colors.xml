@@ -15,8 +15,13 @@
     
     <color name="green">#009800</color>
     
-    <color name="dark_green">#004200</color>
-    <color name="dark_green_trasp">#CA004200</color>
+    <color name="green_medium_dark">#006200</color>
+    
+    <color name="green_dark">#004200</color>
+    
+    <color name="green_dark_trasp">#CA004200</color>
+    
+    
     
     <color name="orange_ligh">#FFE4C4</color>
     <color name="maroon">#800000</color>

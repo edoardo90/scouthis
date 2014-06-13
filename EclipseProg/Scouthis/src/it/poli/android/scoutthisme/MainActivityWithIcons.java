@@ -40,7 +40,7 @@ public class MainActivityWithIcons extends ActionBarActivity
 		
 		setContentView(R.layout.activity_main_iconed_tabs); //home tabbed 
 		
-		setTheme(R.style.Theme_Sky);
+		setTheme(R.style.Theme_DarkForest);
 		
 		/* QUESTO ORA 17:17  12/06  CERCO DI CAPIRE COME FARE
 		Drawable d = (Drawable) (getResources().getDrawable(R.drawable.gradient_actionbar_bg));
