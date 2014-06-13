@@ -54,7 +54,7 @@ public class WakeUpUserActivity extends Activity
 			timer = null;
 		}
 		alarmPlayer.stop();
-		Log.i("pause", "timer purged");
+		
 	}
 	
 	@Override
@@ -114,7 +114,6 @@ public class WakeUpUserActivity extends Activity
 
 	private void loadAlarmClockHome()
 	{
-		Log.w("wake up user", "you clickd the bird, MTF! FADE......");
 		final Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 		@Override
@@ -166,7 +165,7 @@ public class WakeUpUserActivity extends Activity
 							img.setLayoutParams(relParams);
 							enlargeBird(img);
 
-							Log.i("timer", " px * uL :" + (int)(px * uL));
+							
 						} catch (Exception e) { /* TODO Auto-generated catch block */ }
 					}
 				});

@@ -140,7 +140,7 @@ public class TextFilesUtils {
 
 	public static void initializeXML(Activity activity, String rootXmlFile, String xmlFilePath)
 	{
-		Log.i("inizialize ",  "creo il nuovo file xml");
+		
 
 		FileOutputStream outputStream;
 

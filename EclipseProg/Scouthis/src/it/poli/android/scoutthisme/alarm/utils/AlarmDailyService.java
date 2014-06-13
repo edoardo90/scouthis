@@ -61,8 +61,6 @@ public class AlarmDailyService extends IntentService
 		
 		if(!activeAlarmDays[currentDayOfWeek] || diffIsVeryHigh)
 		{
-			Log.w("play alarm service", "Non è uno dei giorni di attività della sveglia " +
-					" quindi non faccio partire l'attività ");
 			return;
 		}
 		else

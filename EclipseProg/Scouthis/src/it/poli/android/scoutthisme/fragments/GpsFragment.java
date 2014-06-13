@@ -36,7 +36,7 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i("GpsFragment", "CREATE");
+	
 		sensorHandler = new SensorHandler(this);
 		gpsHandler = new GpsHandler(this);
 
@@ -49,7 +49,7 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 		View rootView = inflater.inflate(R.layout.fragment_section_gps, container, false);
 		imgCompass = (ImageView) rootView.findViewById(R.id.imageViewCompass); // Our compass image
 		txtDegrees = (TextView) rootView.findViewById(R.id.txtDegrees); // TextView that will tell the user what degree is he heading
-		Log.i("GpsFragment", "VIEWCREATED");
+		
 
 		return rootView;
 	}
@@ -59,7 +59,7 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 		super.onResume();
 		gpsHandler.setViewActive(true);
 		sensorHandler.setListener(this);
-		Log.i("GpsFragment", "RESUME");
+		
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 		super.onPause();
 		gpsHandler.setViewActive(false);
 		sensorHandler.removeListener(this);
-		Log.i("GpsFragment", "PAUSE");
+		
 	}
 
 	@Override

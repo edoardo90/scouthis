@@ -63,7 +63,7 @@ public class JSONParser
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
             }
-            Log.i("PARSER remove me!", sb.toString());
+            
             
             is.close();
             json = sb.toString();

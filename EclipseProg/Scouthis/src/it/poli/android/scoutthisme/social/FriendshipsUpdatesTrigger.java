@@ -26,8 +26,8 @@ public class FriendshipsUpdatesTrigger extends BroadcastReceiver
 	{
 		public FriendshipsUpdatesTriggerService() {
 	       super("FriendshipsUpdatesTriggerService");
-			if (Constants.DEBUG_ENABLED)
-				Log.i("FriendshipsUpdatesTriggerService", "Intialization...");
+			
+				
 		}
 		
 	    @Override
@@ -40,12 +40,12 @@ public class FriendshipsUpdatesTrigger extends BroadcastReceiver
 
 	    	if (session == null) {
 	    		if (Constants.DEBUG_ENABLED)
-	    			Log.i("FriendshipsUpdatesTriggerService",  "Session cache is null, maybe the user is not logged");
+	    			
 	    		session = new Session.Builder(mCtx).setApplicationId(getString(R.string.app_id)).build();
 	        	if (session == null)
 	        	{
 	        		if (Constants.DEBUG_ENABLED)
-	        			Log.i("FriendshipsUpdatesTriggerService", "We can't create session");
+	        			
 	        		return;
 	        	}
 	    	}
@@ -56,7 +56,7 @@ public class FriendshipsUpdatesTrigger extends BroadcastReceiver
 	    		String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
 
 	    		if (Constants.DEBUG_ENABLED)
-	    			Log.i("FriendshipsUpdatesTriggerService" , " userURL:" + userInfo);
+	    			
 
 	    		// call AsynTask to perform network operation on separate thread
 	    		// vedi: onPostExecute

@@ -345,7 +345,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 						try {
 							marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
 						} catch(Throwable ex) {
-							Log.i(getClass().getSimpleName(), "Marker.setIcon failed: " + ex.getMessage());
+							
 						}}
 
 					marker.setAnchor(0.5f, 1);
@@ -456,8 +456,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				}
 				if (response.getError() != null) {
 					// Handle errors, will do so later.
-					if (Constants.DEBUG_ENABLED)
-						Log.i("FindFriends", response.getError().toString());
+						
 				}
 			}
 		});

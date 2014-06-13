@@ -37,10 +37,10 @@ public class XMLParser
 				while ((line = r.readLine()) != null)
 					total.append(line);
 			}
-			catch (Exception e) { Log.i("getXml from path", "something wrong happened while reading xml file"); };
+			catch (Exception e) {  };
 		}	
-		else
-			Log.i(" xml parser" , " non trovo il file sveglia"); //TODO
+		
+
 		return total.toString();
 	}
 	

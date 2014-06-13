@@ -35,10 +35,8 @@ public class ImageToolz {
 			bos.close();
 
 		} catch (FileNotFoundException e) {
-			Log.w("TAG", "Error saving image file: " + e.getMessage());
 			return false;
 		} catch (IOException e) {
-			Log.w("TAG", "Error saving image file: " + e.getMessage());
 			return false;
 		}
 

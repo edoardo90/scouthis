@@ -126,7 +126,7 @@ public class LegMovementDetector implements SensorEventListener
 		if (activity == 0) return;
 		for (ILegMovementListener listener : mListeners){
 			listener.onLegActivity(activity);
-			Log.i(LOG_TAG, String.valueOf(activity));
+			
 		}	
     }
 }

@@ -20,7 +20,7 @@ public class DailyService extends IntentService
 	protected void onHandleIntent(Intent intent)
 	{
 		Alarm userAlarm = (Alarm) intent.getSerializableExtra(Constants.INTENT_ALARM);
-		Log.i("PlayAlarmService", "msg: " + userAlarm.getBird()+ "  .. " + userAlarm.getHour());
+		
 
 		String days = userAlarm.getActiveDays();
 		boolean [] activeAlarmDays = AlarmUtils.daysStringToBooleanArray(days);
@@ -61,8 +61,6 @@ public class DailyService extends IntentService
 		
 		if(!activeAlarmDays[currentDayOfWeek] || diffIsVeryHigh)
 		{
-			Log.w("play alarm service", "Non è uno dei giorni di attività della sveglia " +
-					" quindi non faccio partire l'attività ");
 			return;
 		}
 		else

@@ -42,7 +42,7 @@ public class FacebookHandler
 				handler.post(new Runnable() {
 					public void run() { 
 						try {
-							Log.i("Friends frag", "Updating friends positions...");
+							
 
 							if(loc != null)
 							{
@@ -70,7 +70,7 @@ public class FacebookHandler
 		timer.purge();
 		
 		if (Constants.DEBUG_ENABLED)
-			Log.i("pause", "timer purged");
+			
 		
 		mAct.unregisterReceiver(facebookExchangeCoordinatesServiceReceiver);
     }
@@ -85,7 +85,7 @@ public class FacebookHandler
 		public void onReceive(Context context, Intent intent) {
 			// What does the tread says me when finished ..
 			//  say putExtra in ExchangeCoordinatesService e getString..
-			Log.i("FbExCoordSvcReceiver", "Received friends coords by ExchangeCoordinatesService");
+			
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
 				String gpsCoordJSONStr = bundle.getString(Constants.PARAM_GPS_COORDINATES);
@@ -94,7 +94,7 @@ public class FacebookHandler
 				listener.onFacebookResponse(resultCode);
 				// If network is OK, send friends list
 				if (Constants.DEBUG_ENABLED)
-					Log.i("FbExCoordSvcReceiver", String.valueOf(resultCode).contentEquals("0") ? "NO" : "OK");
+					
 				if (resultCode == Constants.RESULT_OK) {
 					listener.onFriendsUpdates(gpsCoordJSONStr);
 				}
