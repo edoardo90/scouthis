@@ -658,6 +658,7 @@ int id alarm_listview 0x7f060082
 int id alarm_row_cotainer 0x7f060053
 int id alarm_secondline_birds 0x7f060096
 int id alarm_txt_back_home 0x7f06009b
+int id alarm_txt_helpDesctiption 0x7f060081
 int id alarmsTexts 0x7f06007f
 int id alarmsTopLayout 0x7f06007d
 int id alarms_centerline_birds 0x7f060094
@@ -893,7 +894,6 @@ int id txtLun 0x7f060086
 int id txtMar 0x7f060087
 int id txtMer 0x7f060088
 int id txtMyAlarms 0x7f060080
-int id txtMyAlarmsDescription 0x7f060081
 int id txtNewrun 0x7f0600e5
 int id txtNewrunDescription 0x7f0600e6
 int id txtNewsError 0x7f0600d5

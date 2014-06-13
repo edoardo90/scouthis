@@ -222,12 +222,14 @@ public class AlarmsHomeFragment extends Fragment implements Listener, TimePicker
 
 	public void setMyAlarmsTxt(int numberOfItems)
 	{
-		/*TextView tv = (TextView)this.mAct.findViewById(R.id.txtMyAlarms);
+		
+		
+		TextView tv = (TextView)this.mAct.findViewById(R.id.alarm_txt_helpDesctiption);
 
 		if (tv != null)
 			if(numberOfItems > 0)
-				tv.setText(getResources().getString(R.string.alarms_home_title));
+				tv.setVisibility(View.GONE);
 			else
-				tv.setText(getResources().getString(R.string.alarms_home_title_description));*/
+				tv.setVisibility(View.VISIBLE);
 	}
 }
