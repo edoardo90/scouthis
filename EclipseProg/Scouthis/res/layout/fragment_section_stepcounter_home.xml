@@ -1,108 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/step_home_linLay"
+    
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/fragment_margin"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/fragment_padding"
     
     style="?app_background"
     
-    
-    tools:context="it.poli.android.scoutthisme.MainActivityWithIcons" >
-
-    <ImageView
-        android:id="@+id/step_counter_gigidag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <RelativeLayout
-        android:id="@+id/stepHomeButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:orientation="horizontal" >
-
-        <it.poli.android.scoutthisme.tools.CircleButton
-            android:id="@+id/step_button_newrun"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:scaleType="centerInside"
-            
-            style="?circle_background"
-            
-            android:src="@drawable/run_new"
-             />
-
-        <RelativeLayout
-            android:id="@+id/newRunTexts"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_alignTop="@id/step_button_newrun"
-            android:layout_marginRight="110dp"
-            android:gravity="center" >
-
-            <TextView
-                android:id="@+id/txtNewrun"
-                style="?fragmentTitleStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/stepcounter_newrun" />
-
-            <TextView
-                android:id="@+id/txtNewrunDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtNewrun"
-                android:text="@string/stepcounter_newrun_description"
-                android:textStyle="italic" />
-        </RelativeLayout>
-
-        <it.poli.android.scoutthisme.tools.CircleButton
-            android:id="@+id/step_button_history"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/step_button_newrun"
-            android:layout_marginTop="20dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/photo_book"
-            
-            style="?circle_background"
-            
-            />
-
-        <RelativeLayout
-            android:id="@+id/seeHistoryTexts"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_alignTop="@id/step_button_history"
-            android:layout_marginRight="110dp"
-            android:gravity="center" >
-
-            <TextView
-                android:id="@+id/txtSeeHistory"
-                style="?fragmentTitleStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="@string/stepcounter_seehistory" />
-
-            <TextView
-                android:id="@+id/txtSeeHistoryDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/txtSeeHistory"
-                android:text="@string/stepcounter_seehistory_description"
-                android:textStyle="italic" />
-        </RelativeLayout>
-    </RelativeLayout>
-
-</LinearLayout>
+    android:padding="@dimen/fragment_padding" >
+	
+	
+	
+	<RelativeLayout 
+	    android:id="@+id/step_home_linLay"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_margin="@dimen/fragment_margin"
+	tools:context="it.poli.android.scoutthisme.MainActivityWithIcons" >
+	
+	    <LinearLayout
+	        android:id="@+id/step_counter_gig_n_text"
+	        android:layout_centerHorizontal="true"
+	        android:gravity="center_horizontal"
+	        android:layout_marginBottom="5dp"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" >
+	
+	        <ImageView
+	            android:id="@+id/step_counter_gigidag"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" />
+	
+	        <TextView
+	            android:id="@+id/step_counter_massima"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:gravity="center"
+	            android:text="@string/stepcounter_massima" />
+	    </LinearLayout>
+	
+	    <RelativeLayout
+	        android:id="@+id/stepHomeButtons"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/step_counter_gig_n_text"
+	        android:layout_marginTop="30dp"
+	        android:orientation="horizontal" >
+	
+	        <it.poli.android.scoutthisme.tools.CircleButton
+	            android:id="@+id/step_button_newrun"
+	            style="?circle_background"
+	            android:layout_width="100dp"
+	            android:layout_height="100dp"
+	            android:layout_alignParentRight="true"
+	            android:layout_alignParentTop="true"
+	            android:scaleType="centerInside"
+	            android:src="@drawable/run_new" />
+	
+	        <RelativeLayout
+	            android:id="@+id/newRunTexts"
+	            android:layout_width="wrap_content"
+	            android:layout_height="100dp"
+	            android:layout_alignTop="@id/step_button_newrun"
+	            android:layout_marginRight="110dp"
+	            android:gravity="center" >
+	
+	            <TextView
+	                android:id="@+id/txtNewrun"
+	                style="?fragmentTitleStyle"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/stepcounter_newrun" />
+	
+	            <TextView
+	                android:id="@+id/txtNewrunDescription"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/txtNewrun"
+	                android:text="@string/stepcounter_newrun_description"
+	                android:textStyle="italic" />
+	        </RelativeLayout>
+	
+	        <it.poli.android.scoutthisme.tools.CircleButton
+	            android:id="@+id/step_button_history"
+	            style="?circle_background"
+	            android:layout_width="100dp"
+	            android:layout_height="100dp"
+	            android:layout_alignParentRight="true"
+	            android:layout_below="@id/step_button_newrun"
+	            android:layout_marginTop="20dp"
+	            android:scaleType="centerInside"
+	            android:src="@drawable/photo_book" />
+	
+	        <RelativeLayout
+	            android:id="@+id/seeHistoryTexts"
+	            android:layout_width="wrap_content"
+	            android:layout_height="100dp"
+	            android:layout_alignTop="@id/step_button_history"
+	            android:layout_marginRight="110dp"
+	            android:gravity="center" >
+	
+	            <TextView
+	                android:id="@+id/txtSeeHistory"
+	                style="?fragmentTitleStyle"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentLeft="true"
+	                android:text="@string/stepcounter_seehistory" />
+	
+	            <TextView
+	                android:id="@+id/txtSeeHistoryDescription"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentLeft="true"
+	                android:layout_below="@+id/txtSeeHistory"
+	                android:text="@string/stepcounter_seehistory_description"
+	                android:textStyle="italic" />
+	        </RelativeLayout>
+	    </RelativeLayout>
+	
+	</RelativeLayout>
+</ScrollView>

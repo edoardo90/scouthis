@@ -56,6 +56,7 @@
     <string name="stepcounter_speed">Velocità:</string>
     <string name="stepcounter_distance">Distanza:</string>
     <string name="stepcounter_time_passed">Tempo trascorso</string>
+    <string name="stepcounter_massima">Non è importante se sei un leone o una gazzella, l\'importante è che cominci a correre</string>
 
     <!-- Strings related to findfriends fragment -->
     <string name="findfriends_login">Login</string>
