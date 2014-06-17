@@ -39,6 +39,8 @@
 
     <!-- alarm birds needs it -->
     <uses-permission android:name="android.permission.VIBRATE" />
+     <uses-permission
+            android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> 
 
     <!--
      The following two permissions are not required to use
@@ -83,6 +85,11 @@
         <service android:name="it.poli.android.scoutthisme.tools.DownloadService" >
         </service>
 
+        <service android:name="it.poli.android.scoutthisme.alarm.utils.MusicService" >
+        </service>
+        
+        
+        
         <activity
             android:name="it.poli.android.scoutthisme.tools.FindFriendsActivity"
             android:label="@string/title_activity_login"

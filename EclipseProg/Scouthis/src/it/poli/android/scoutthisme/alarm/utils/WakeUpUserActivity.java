@@ -10,20 +10,16 @@ import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class WakeUpUserActivity extends Activity
 {
-	MediaPlayer alarmPlayer;
 	Timer timer;
 	Alarm userAlarm;
 
@@ -41,8 +37,9 @@ public class WakeUpUserActivity extends Activity
 		}
 		
 		this.setGraphics();
-		this.setSound();
+		this.playSound();
 	}
+	
 	
 	@Override
 	protected void onPause() {
@@ -53,7 +50,7 @@ public class WakeUpUserActivity extends Activity
 			timer.purge();
 			timer = null;
 		}
-		alarmPlayer.stop();
+		
 		
 	}
 	
@@ -76,12 +73,9 @@ public class WakeUpUserActivity extends Activity
 		this.moveRandom(uH, uL, birdImg);
 	}
 	
-	private void setSound()
-	{		
-		alarmPlayer = MediaPlayer.create(this, this.getBirdSoundId());
-		alarmPlayer.setLooping(true);
-		alarmPlayer.start();
-	}
+	
+	
+	
 
 	private void enlargeBird(ImageView birdImg)
 	{
@@ -102,16 +96,37 @@ public class WakeUpUserActivity extends Activity
 		birdImg.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				alarmPlayer.stop(); 
-				timer.cancel();
-				timer.purge();
-				timer = null;
+				stopAlarm(); 
+				
+				if(timer != null)
+				{
+					timer.cancel();
+					timer.purge();
+					timer = null;
+				}
 				loadAlarmClockHome();
 				
 			}
 		});
 	}
+	
+	private void stopAlarm()
+	{
+		Intent musicBirdService = new Intent(this, MusicService.class);
+		stopService(musicBirdService);
+	}
+	
+	private void playSound() {
 
+		Intent musicBirdService = new Intent(this, MusicService.class);
+		musicBirdService.putExtra(Constants.INTENT_ALARM, this.userAlarm);
+		startService(musicBirdService);
+	}
+
+	
+	
+	
+	
 	private void loadAlarmClockHome()
 	{
 		final Handler handler = new Handler();
@@ -136,12 +151,7 @@ public class WakeUpUserActivity extends Activity
 		return this.getResources().getIdentifier(bird, "drawable", this.getPackageName());
 	}
 
-	private int getBirdSoundId()
-	{
-		String bird = (userAlarm != null) ? userAlarm.getBird() : "bird_cardellino";
-		return this.getResources().getIdentifier(bird, "raw", this.getPackageName());
-	}
-
+	
 	private void moveRandom(final float uH, final float uL, final ImageView img)
 	{
 		timer = new Timer();
@@ -153,6 +163,8 @@ public class WakeUpUserActivity extends Activity
 				handler.post(new Runnable() {
 					public void run() { 
 						try {
+							
+							
 							Random r = new Random();
 							// Set margins randomly to move the bird
 							int py = r.nextInt(60) + 1;

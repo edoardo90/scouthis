@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,6 +41,7 @@ public class AlarmsSetClockFragment extends Fragment
 
 	private Activity mAct;
 	private MediaPlayer alarmPlayer = null;
+	private AudioManager am ;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -103,6 +104,9 @@ public class AlarmsSetClockFragment extends Fragment
 		b.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
+				if(alarmPlayer != null)
+					alarmPlayer.stop();
 				addCurrentAlarmClock(v);
 			}
 		});
@@ -152,7 +156,9 @@ public class AlarmsSetClockFragment extends Fragment
 					int idRawSound = res.getIdentifier(birdChoosed, "raw", getAct.getPackageName());
 
 					alarmPlayer = MediaPlayer.create( getAct, idRawSound);
-
+					
+					getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+					
 					alarmPlayer.setLooping(false);
 					alarmPlayer.start();
 				}
@@ -253,9 +259,11 @@ public class AlarmsSetClockFragment extends Fragment
 			
 			}
 		}
-		
 	
 	}
+	
+	
+	
 	
 	
 	

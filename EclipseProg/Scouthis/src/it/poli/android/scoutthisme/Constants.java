@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Constants
 {
-		public static final int INTENT_FRIENDSHIPUPDATESTRIGGER_REQUESTCODE = 161090;
+	public static final int INTENT_FRIENDSHIPUPDATESTRIGGER_REQUESTCODE = 161090;
 	public static final String INTENT_EXCHANGECOORDSRECEIVER_NOTIFICATION = "it.poli.android.scoutthisme.intent.exchangecoordinatesreceviver";
 
 	public static final String INTENT_ALARM = "it.poli.android.scoutthisme.alarm.utils.bird";
