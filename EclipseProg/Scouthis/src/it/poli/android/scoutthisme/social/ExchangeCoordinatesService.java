@@ -42,7 +42,7 @@ public class ExchangeCoordinatesService extends IntentService
 	{
 		mCtx = getApplicationContext();
 
-		if (Constants.DEBUG_ENABLED)
+
 			
 
 		userLatitude = intent.getDoubleExtra(Constants.PARAM_POSITION_LATITUDE, 0);
@@ -59,19 +59,19 @@ public class ExchangeCoordinatesService extends IntentService
 		String userGPSCoords = "";
 
 		if (session == null) {
-			if (Constants.DEBUG_ENABLED)
+			
 				
 			session = new Session.Builder(mCtx).setApplicationId(getString(R.string.app_id)).build();
 			if (session == null) //if session is still null
 			{
-				if (Constants.DEBUG_ENABLED)
+				
 					
 				return;
 			}
 		} else if (session.isOpened()) {
 			userInfoURL = Constants.URL_PREFIX_ME +	session.getAccessToken();
 
-			if (Constants.DEBUG_ENABLED)
+			
 				
 			// call AsynTask to perform network operation on separate thread
 			// vedi: onPostExecute
@@ -109,13 +109,11 @@ public class ExchangeCoordinatesService extends IntentService
 			try {
 				int success = json.getInt("success");
 				if(success != 0) {
-					if (Constants.DEBUG_ENABLED)
+					
 						
 					return json.toString();
 				}
 			} catch (JSONException e) {
-				if (Constants.DEBUG_ENABLED)
-					e.printStackTrace();
 				return "";
 			}
 		}

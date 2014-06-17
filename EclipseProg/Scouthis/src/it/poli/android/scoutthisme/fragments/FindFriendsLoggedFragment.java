@@ -411,8 +411,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				usersMarkers.add(um);
 			}
 		} catch (JSONException e) {
-			if (Constants.DEBUG_ENABLED)
-				e.printStackTrace();
+			
 		}
 		return usersMarkers;
 	}

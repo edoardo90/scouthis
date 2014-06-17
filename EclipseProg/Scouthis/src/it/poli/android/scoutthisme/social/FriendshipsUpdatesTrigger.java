@@ -38,13 +38,11 @@ public class FriendshipsUpdatesTrigger extends BroadcastReceiver
 	    	Session session = Session.openActiveSessionFromCache(mCtx);
 
 	    	if (session == null) {
-	    		if (Constants.DEBUG_ENABLED)
+	    		
 	    			
 	    		session = new Session.Builder(mCtx).setApplicationId(getString(R.string.app_id)).build();
 	        	if (session == null)
 	        	{
-	        		if (Constants.DEBUG_ENABLED)
-	        			
 	        		return;
 	        	}
 	    	}
@@ -54,9 +52,7 @@ public class FriendshipsUpdatesTrigger extends BroadcastReceiver
 	    		String urlFriendsInfo = Constants.URL_PREFIX_FRIENDS + session.getAccessToken();
 	    		String userInfo = Constants.URL_PREFIX_ME +	session.getAccessToken();
 
-	    		if (Constants.DEBUG_ENABLED)
-	    			
-
+	    		
 	    		// call AsynTask to perform network operation on separate thread
 	    		// vedi: onPostExecute
 	    		new FriendshipsUpdatesNotifier().execute(urlFriendsInfo, userInfo);

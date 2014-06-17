@@ -69,7 +69,7 @@ public class FacebookHandler
 		timer.cancel();
 		timer.purge();
 		
-		if (Constants.DEBUG_ENABLED)
+		
 			
 		
 		mAct.unregisterReceiver(facebookExchangeCoordinatesServiceReceiver);
@@ -93,7 +93,7 @@ public class FacebookHandler
 				int resultCode = bundle.getInt(Constants.PARAM_RESULT);
 				listener.onFacebookResponse(resultCode);
 				// If network is OK, send friends list
-				if (Constants.DEBUG_ENABLED)
+				
 					
 				if (resultCode == Constants.RESULT_OK) {
 					listener.onFriendsUpdates(gpsCoordJSONStr);

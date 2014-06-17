@@ -32,8 +32,7 @@ public class FacebookNetUtils
 				result = convertInputStreamToString(inputStream);
 			}
 		} catch (Exception e) {
-			if (Constants.DEBUG_ENABLED)
-				Log.d("InputStream", e.getLocalizedMessage());
+			
 		}
 		return result;
 	}
