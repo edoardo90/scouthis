@@ -19,13 +19,18 @@
     <dimen name="fragment_border_top">5dp</dimen>
     
     <!-- tab bar   !!!-->
-    <!--  cambia questi per linee più grandi p più piccole -->
-    <dimen name="tab_high_place">98px</dimen>
-    <dimen name="tab_mid_place">105px</dimen>
+    <!--  cambia questi per linee più grandi p più piccole 
+    	  a valori alti  corrispondono linee sottili 
+    	  a valori bassi corrispondono linee spesse
+     -->
+    <dimen name="tab_high_place">48dp</dimen>
+    <dimen name="tab_mid_place">43dp</dimen>
     
     
-    <dimen name="tab_big_line">5px</dimen>
-    <dimen name="tab_small_line">1px</dimen>
+    <!--   puoi mettere anche 400 e  10 ma non cambia niente XD -->
+    
+    <dimen name="tab_big_line">5dp</dimen>
+    <dimen name="tab_small_line">1dp</dimen>
     
     <!--   -->
     

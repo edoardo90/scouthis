@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	
+    <!--  Home -->
+	<string name="home_alternative_description">Gradient Background In Home</string>
+	    
     <!-- Generic strings -->
     <string name="fragments_loading">Loading</string>
     <string name="fragments_new">Nuovo</string>

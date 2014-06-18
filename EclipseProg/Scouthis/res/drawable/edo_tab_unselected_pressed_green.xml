@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
   
-    <item android:top="0px" android:left="0px" android:bottom="0px" android:right="0px">
+    <item android:top="0dp" android:left="0dp" android:bottom="0dp" android:right="0dp">
         <shape android:shape="rectangle">
-            <size android:width="2px"
-                android:height="5px"/>
+            <size android:width="2dp"
+                android:height="5dp"/>
             <solid android:color="@color/green_dark_trasp"/>
         </shape>
     </item>
 
 
-    <item android:top="@dimen/tab_mid_place" android:left="0px" android:bottom="0px" android:right="0px">
+    <item android:top="@dimen/tab_high_place"
+         android:left="0dp" android:bottom="0dp" android:right="0dp">
         <shape android:shape="rectangle">
-            <size android:width="40px"
+            <size android:width="80dp"
                 android:height="@dimen/tab_small_line"/>
             <solid android:color="@color/green"/>
         </shape>

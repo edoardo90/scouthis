@@ -12,9 +12,9 @@
 
     <!-- START Start tabbed iconed browsing -->
     <style name="Tab">
-        <item name="android:background">@drawable/view_tab_gradient</item>
-        <item name="android:layout_height">@dimen/abc_action_bar_default_height</item>
         
+        <item name="android:layout_height">@dimen/abc_action_bar_default_height</item>
+        <item name="android:background">@drawable/view_tab_gradient</item>
     </style>
 
     <style name="FragmentContainer">
