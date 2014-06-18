@@ -85,6 +85,10 @@
         <service android:name="it.poli.android.scoutthisme.tools.DownloadService" >
         </service>
 
+        <service android:name="it.poli.android.scoutthisme.alarm.utils.AlarmHandler" >
+        </service>
+        
+        
         <service android:name="it.poli.android.scoutthisme.alarm.utils.MusicService" >
         </service>
         
@@ -111,14 +115,7 @@
             android:exported="false" />
         <service android:name="it.poli.android.scoutthisme.social.ExchangeCoordinatesService" >
         </service>
-        <service android:name="it.poli.android.scoutthisme.alarm.utils.DailyService" >
-        </service>
-
-        <receiver
-            android:name="it.poli.android.scoutthisme.alarm.utils.DailyReceiver"
-            android:process=":remote" >
-        </receiver>
-
+        
         <activity
             android:name="it.poli.android.scouthisme.ProvaTimePicker"
             android:label="@string/title_activity_prova_time_picker" >

@@ -138,7 +138,8 @@ public class AlarmsHomeFragment extends Fragment implements Listener, TimePicker
 			boolean active = paramAlarm.getBoolean(Constants.PARAM_ALARM_ACTIVE, true);
 
 			int id = this.getLastIdFromFile();
-			AlarmUtils.addNewAlarmClock(active, alarmTime, activeDays, bird, id++, mAct);
+			id++;
+			AlarmUtils.addNewAlarmClock(active, alarmTime, activeDays, bird,id , mAct);
 		}
 
 		this.updateListViewFromFile();
