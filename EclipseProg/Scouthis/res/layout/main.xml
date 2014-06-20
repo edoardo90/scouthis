@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     
+    >
+    
+    <LinearLayout android:id="@+id/row_1"
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:paddingBottom="5dp">
+    
+        <LinearLayout android:id="@+id/box_steps"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingRight="5dp"
+            android:layout_weight="1">
+        
+            <TextView android:id="@+id/step_value"
+           
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+
+                android:text=""/>
+            <TextView android:id="@+id/step_units"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+               
+                android:text="@string/steps" 
+                 
+                />
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/box_distance"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="1">
+            
+            <TextView android:id="@+id/distance_value"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+                 
+                android:text=""/>
+            <TextView android:id="@+id/distance_units"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/kilometers" 
+                 
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+        
+    <LinearLayout android:id="@+id/row_2"
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        >
+    
+        <LinearLayout android:id="@+id/box_pace"
+            android:orientation="vertical" 
+            android:layout_height="wrap_content"
+            android:paddingRight="5dp" 
+            android:layout_width="fill_parent"
+            android:layout_weight="1">
+        
+            <TextView android:id="@+id/pace_value"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                 
+                android:text=""/>
+            <TextView android:id="@+id/pace_units"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                
+                android:text="@string/steps_per_minute" 
+                
+                />
+                         
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/box_speed"
+            android:orientation="vertical"
+            android:paddingRight="5dp"  
+            android:layout_height="wrap_content" 
+            android:layout_width="fill_parent"
+            android:layout_weight="1">
+        
+            <TextView android:id="@+id/speed_value"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                 
+                android:text=""/>
+            <TextView android:id="@+id/speed_units"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                
+                android:text="@string/kilometers_per_hour" 
+                 
+                />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/box_calories"
+            android:orientation="vertical" 
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1">
+        
+            <TextView android:id="@+id/calories_value"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                 
+                android:text=""/>
+            <TextView android:id="@+id/calories_units"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                 
+                android:text="@string/calories_burned" 
+                
+                />
+                         
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Desired pace/speed row -->
+    <LinearLayout
+        android:id="@+id/desired_pace_control"
+         
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    
+        <!-- Button "-", for decrementing desired pace/speed -->
+
+        <Button
+            android:id="@+id/button_desired_pace_lower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-" >
+
+</Button>  
+        <!-- Container for desired pace/speed -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+            
+            <TextView android:id="@+id/desired_pace_label"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/desired_pace"/>
+        
+            <!-- Current desired pace/speed -->
+
+            <TextView
+                android:id="@+id/desired_pace_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+        
+        </LinearLayout>
+
+        <!-- Button "+", for incrementing desired pace/speed -->
+
+        <Button
+            android:id="@+id/button_desired_pace_raise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+    </LinearLayout>
+   
+</LinearLayout>
