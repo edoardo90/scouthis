@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <declare-styleable name="CircleButton">
+
+    <declare-styleable name="CircleButton">
         <attr name="cb_color" format="color" />
         <attr name="cb_pressed_ring_width" format="dimension" />
         <attr name="cb_radius" format="dimension" />
         <attr name="cb_percent_scale" format="integer" />
-        <attr name="cb_percent_left"  format="integer" />
-        <attr name="cb_percent_down"  format="integer" />
+        <attr name="cb_percent_left" format="integer" />
+        <attr name="cb_percent_down" format="integer" />
     </declare-styleable>
-   
-   <attr name="fragmentTitleStyle"    format="reference" />
-   <attr name="app_background"        format="reference" />
-   <attr name="circle_background"     format="reference" />
 
-   <attr name="tab_view_background"   format="reference" />
-   
+    <attr name="fragmentTitleStyle" format="reference" />
+    <attr name="app_background" format="reference" />
+    <attr name="tabSelectorStyle" format="reference" />
+    <attr name="Tab" format="reference" />
+    <attr name="circle_background" format="reference" />
+    <attr name="tab_view_background" format="reference" />
+
 </resources>

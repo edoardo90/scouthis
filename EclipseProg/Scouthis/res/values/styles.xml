@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android" 
-           xmlns:app="http://schemas.android.com/apk/res/it.poli.android.scouthisme"
-          >    	
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res/it.poli.android.scouthisme">
 
     <style name="AppBaseTheme" parent="android:Theme.Light"></style>
 
@@ -11,20 +9,10 @@
     </style>
 
     <!-- START Start tabbed iconed browsing -->
+
     <style name="Tab">
-        
         <item name="android:layout_height">@dimen/abc_action_bar_default_height</item>
-        <item name="android:background">@drawable/view_tab_gradient</item>
-    </style>
-
-    <style name="FragmentContainer">
-        <item name="android:background">@drawable/gradient_fragment_bg</item>
-    </style>
-
-    <style name="FragmentTitle">
-        <item name="android:textColor">@color/fragment_title</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:background">?tabSelectorStyle</item>
     </style>
 
     <style name="FragmentTextIndication">
@@ -38,29 +26,21 @@
     </style>
 
     <style name="StyledIndicators" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="vpiTabPageIndicatorStyle">
-            @style/CustomTabPageIndicator
-        </item>
-        
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
     </style>
-    
-    
+
     <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light">
-    	<item name="android:windowContentOverlay">@null</item>
-    	<item name="actionBarStyle">@style/MyActionBar</item>
-	</style>
-    
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
     <style name="MyActionBar" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-    <item name="background">@color/azure</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="windowActionBarOverlay">false</item>
-</style>
-	
-    
-    
+        <item name="background">@color/azure</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">false</item>
+    </style>
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:background">@drawable/custom_tab_indicator</item>
         <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
         <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
         <item name="android:paddingLeft">7dp</item>
@@ -83,7 +63,7 @@
     <!-- START Trovamici -->
     <style name="FacebookLoginButton">
         <item name="android:textSize">@dimen/small_text</item>
-        <item name="android:background">@drawable/btn_facebook_login</item>
+        <item name="android:background">@drawable/app_btn_facebook_login</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
@@ -91,7 +71,7 @@
 
     <style name="FacebookLogoutButton">
         <item name="android:textSize">@dimen/small_text</item>
-        <item name="android:background">@drawable/btn_facebook_logout</item>
+        <item name="android:background">@drawable/app_btn_facebook_logout</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
@@ -178,92 +158,118 @@
         <item name="android:background">@color/divider</item>
     </style>
     <!-- END Undobar -->
-    
-    
-    
-  <!--   prova flessibilità maggiore per la scelta runtime dello stile -->
-  
-  <!--    approccio stile temi del cellulare, cioè si definiscono dei temi (es. green wood, sky ecc.) e in una seconda
+
+
+    <!-- Prova flessibilità maggiore per la scelta runtime dello stile -->
+
+
+    <!--
+          approccio stile temi del cellulare, cioè si definiscono dei temi (es. green wood, sky ecc.) e in una seconda
   		  fase si precisano nel  dettaglio**
   		  
   		  nei fragment, ad esempio nei layout, si specifica quale dettaglio** si sta usando,
   		  l'implementazione effettiva di quel dettaglio varia in funziona del tema scelto, 
-  		  tema che può essere scelto anche a runtime
-  		  
-  -->
-	
-	<!--  se nessun tema viene specificato si parte così con le opzioni "base" -->	  
-  <style name="Theme" parent="android:Theme">
-      	<item name="android:textColor">#aa000000</item>
-      	
-  </style>
-	
+  		  tema che può essere scelto anche a runtime
+    -->
 
-  <!--  altrimenti nella main activity (.java) si può settare un tema -->
-  
-  <style name="Theme.DarkForest">
-     <item name="fragmentTitleStyle">@style/dark_forest_fragment_title</item>
-	 <item name="app_background">@style/dark_forest_background</item>
-     <item name="circle_background">@style/dark_forest_circle_background</item> 
-  </style>
 
-  <style name="Theme.Sky">
-      <item name="fragmentTitleStyle">@style/blue_sky_fragment_title</item>
-      <item name="app_background">@style/blue_sky_background</item>
-      <item name="circle_background">@style/blue_sky_circle_background</item>
-  </style>
- 
-  
-  <!--   dark forest theme - dettagli -->
-  <style name="dark_forest_fragment_title">
-      <item name="android:textSize">22sp</item>
-      <item name="android:textColor">@color/green_dark</item>
-      <item name="android:textStyle">normal</item>
-      <item name="android:paddingBottom">5dip</item>
-   </style>
-	
-  <style name="dark_forest_background">
-      <item name="android:background">@color/blanched</item>
-  </style>
-  
-  <style name="dark_forest_circle_background">
-     <item name="cb_color">@color/green</item>
-  </style>   
-  
-  
-  
-  <!--   fine dark forest -->
-  
-  <!--   blue sky theme - dettagli -->
-  
-  <style name="blue_sky_fragment_title">
-      <item name="android:textSize">22sp</item>
-      <item name="android:textColor">@color/blue</item>
-      <item name="android:textStyle">normal</item>
-      <item name="android:paddingBottom">5dip</item>
-      
-  </style>
-  	
-  <style name="blue_sky_background">
-      <item name="android:background">@color/azure_light</item>
-  </style> 
+    <!-- se nessun tema viene specificato si parte così con le opzioni "base" -->
+    <style name="Theme" parent="android:Theme">
+        <item name="android:textColor">#aa000000</item>
+    </style>
 
-  <style name="blue_sky_circle_background">
-     <item name="cb_color">@color/azure</item>
-  </style>   
-  
-    
-   <!--  fine blue sky theme -->
-    <!--    fine prova flessibilità maggiore scelta runtime dello stile -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    <!-- TEMI: nella main activity (.java) si può settare un tema -->
+
+    <style name="Theme.ScouthisMe" parent="AppBaseTheme">
+        <item name="fragmentTitleStyle">@style/scouthisme_fragment_title</item>
+        <item name="app_background">@style/scouthisme_background</item>
+        <item name="circle_background">@style/scouthisme_circle_background</item>
+        <item name="vpiTabPageIndicatorStyle">@style/scouthisme_ctpi</item>
+        <item name="tabSelectorStyle">@drawable/sfnd_tit_tabs</item>
+    </style>
+
+    <style name="Theme.DarkForest" parent="AppBaseTheme">
+        <item name="fragmentTitleStyle">@style/dark_forest_fragment_title</item>
+        <item name="app_background">@style/dark_forest_background</item>
+        <item name="circle_background">@style/dark_forest_circle_background</item>
+        <item name="vpiTabPageIndicatorStyle">@style/dark_forest_ctpi</item>
+        <item name="tabSelectorStyle">@drawable/app_view_tab_gradient</item>
+    </style>
+
+    <style name="Theme.Sky" parent="AppBaseTheme">
+        <item name="fragmentTitleStyle">@style/blue_sky_fragment_title</item>
+        <item name="app_background">@style/blue_sky_background</item>
+        <item name="circle_background">@style/blue_sky_circle_background</item>
+        <item name="tabSelectorStyle">@drawable/app_view_tab_gradient</item>
+    </style>
+
+    <!-- BEGIN Scouthis.me theme -->
+
+    <style name="scouthisme_fragment_title">
+        <item name="android:textColor">@color/fragment_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="scouthisme_background">
+        <item name="android:background">@drawable/gradient_fragment_bg</item>
+    </style>
+
+    <style name="scouthisme_circle_background">
+        <item name="cb_color">@color/azure</item>
+    </style>
+
+    <style name="scouthisme_ctpi" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/app_custom_tab_indicator_darkforest</item>
+    </style>
+
+    <!-- END ScouthisMe theme -->
+
+
+    <!-- BEGIN DarkForest theme -->
+
+    <style name="dark_forest_fragment_title">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/green_dark</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingBottom">5dip</item>
+    </style>
+
+    <style name="dark_forest_background">
+        <item name="android:background">@color/blanched</item>
+    </style>
+
+    <style name="dark_forest_circle_background">
+        <item name="cb_color">@color/green</item>
+    </style>
+
+    <style name="dark_forest_ctpi" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/app_custom_tab_indicator_darkforest</item>
+    </style>
+
+    <!-- END DarkForest -->
+
+
+    <!-- BEGIN Sky theme -->
+
+    <style name="blue_sky_fragment_title">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingBottom">5dip</item>
+    </style>
+
+    <style name="blue_sky_background">
+        <item name="android:background">@color/azure_light</item>
+    </style>
+
+    <style name="blue_sky_circle_background">
+        <item name="cb_color">@color/azure</item>
+    </style>
+
+    <!-- END Sky -->
+
+
+    <!-- fine prova flessibilità maggiore scelta runtime dello stile -->
 
 </resources>

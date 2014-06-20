@@ -19,7 +19,7 @@
         android:layout_marginTop="10dp"
         android:divider="#b5b5b5"
         android:dividerHeight="1dp"
-        android:listSelector="@drawable/list_selector" >
+        android:listSelector="@drawable/app_stepcounter_history_list_selector" >
     </ListView>
 
     <RelativeLayout

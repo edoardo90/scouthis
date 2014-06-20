@@ -94,7 +94,7 @@
 
         <TextView
             android:id="@+id/txtNewsProgressBar"
-            style="@style/FragmentTitle"
+            style="?fragmentTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

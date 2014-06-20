@@ -25,47 +25,30 @@ public class MainActivityWithIcons extends ActionBarActivity
 {
 	private String[] CONTENT;
 	private int[] ICONS = new int[] {R.drawable.actionb_news, R.drawable.actionb_gps,
-		R.drawable.actionb_foot, R.drawable.actionb_friends1, R.drawable.actionb_alarm};
-	
+			R.drawable.actionb_foot, R.drawable.actionb_friends1, R.drawable.actionb_alarm};
+
 	FragmentPagerAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
+		setTheme(R.style.Theme_ScouthisMe);
+
 		CONTENT = new String[] {getString(R.string.fragments_1_title),
 				getString(R.string.fragments_2_title), getString(R.string.fragments_3_title),
 				getString(R.string.fragments_4_title), getString(R.string.fragments_5_title)};
-		
-		setContentView(R.layout.activity_main_iconed_tabs); //home tabbed 
-		
-		setTheme(R.style.Theme_DarkForest);
-		
-		/* QUESTO ORA 17:17  12/06  CERCO DI CAPIRE COME FARE
-		Drawable d = (Drawable) (getResources().getDrawable(R.drawable.gradient_actionbar_bg));
-		actionbar.setBackgroundDrawable(d);
-		*/
-		
-		
-		/*  QUESTO NON SERVE PIU'
-		 * 
-		d = (Drawable) (getResources().getDrawable(R.drawable.scout_icon));
-		getSupportActionBar().setIcon(d);
 
-		*/
-		
+		setContentView(R.layout.activity_main_iconed_tabs);
+
 		adapter = new ScouthisMeAdapter(getSupportFragmentManager());
 		ViewPager pager = (ViewPager)findViewById(R.id.pager);
 		pager.setAdapter(adapter);
-		
-		
-		
+
 		TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
 	}
 
-	
 	class ScouthisMeAdapter extends FragmentPagerAdapter implements IconPagerAdapter
 	{
 		public ScouthisMeAdapter(FragmentManager fm)
@@ -106,9 +89,7 @@ public class MainActivityWithIcons extends ActionBarActivity
 			return CONTENT.length;
 		}
 	}
-	
+
 	@Override
-	public void onBackPressed() {
-	    // Do Here what ever you want do on back press;
-	}
+	public void onBackPressed() { }
 }

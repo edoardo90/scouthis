@@ -13,7 +13,7 @@
             android:id="@+id/main_viewpager_background"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/view_tab_gradient"
+            android:background="@drawable/app_view_tab_gradient"
             android:contentDescription="@string/home_alternative_description"
             android:scaleType="fitXY" />
 
@@ -32,14 +32,14 @@
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/edo_tab_selected_green" />
+                android:src="@drawable/app_custom_tab_selected_darkforest" />
             
             <ImageView
                 android:contentDescription="@string/abc_action_bar_up_description"
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/edo_tab_selected_pressed_green" />
+                android:src="@drawable/app_custom_tab_selected_pressed_darkforest" />
             
             <ImageView
                 
@@ -47,14 +47,14 @@
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/edo_tab_unselected_green" />
+                android:src="@drawable/app_custom_tab_unselected_darkforest" />
             
             <ImageView
                 android:contentDescription="@string/abc_action_bar_up_description"
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/edo_tab_unselected_pressed_green" />
+                android:src="@drawable/app_custom_tab_unselected_pressed_darkforest" />
             
             
             
