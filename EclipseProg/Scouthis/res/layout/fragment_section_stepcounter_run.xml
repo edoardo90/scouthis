@@ -60,6 +60,13 @@
             android:layout_height="wrap_content"
             android:text="@string/stepcounter_statistic" />
 
+        <TextView
+            android:id="@+id/txtNull"
+            android:layout_width="wrap_content"
+            android:layout_height="1sp"
+            android:visibility="gone"
+            android:text="TextView" />
+
         <TableRow
             android:id="@+id/tableRowSC2"
             android:layout_width="wrap_content"
