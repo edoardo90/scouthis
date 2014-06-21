@@ -5,7 +5,6 @@ import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.gps.utils.GpsHandler;
 import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.stepcounter.utils.LegMovementDetector;
-import it.poli.android.scoutthisme.stepcounter.utils.LegMovementDetector.ILegMovementListener;
 import it.poli.android.scoutthisme.stepcounter.utils.RunEpisode;
 import it.poli.android.scoutthisme.stepreload.stats.PedometerSettings;
 import it.poli.android.scoutthisme.stepreload.stats.StepService;
@@ -14,11 +13,9 @@ import it.poli.android.scoutthisme.tools.CircleButton;
 import it.poli.android.scoutthisme.tools.ImageToolz;
 import it.poli.android.scoutthisme.tools.TextFilesUtils;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -26,7 +23,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -51,7 +47,6 @@ import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 /**
  * Step Counter fragment:
@@ -60,7 +55,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
  * The user path is displayed on the google map as a spline.
  */
 public  class StepCounterRunFragment extends StepCounterFragmentArchetype 
-		implements GpsListener, ILegMovementListener
+		implements GpsListener
 {
 	public static final String strLatitudeExtra = "it.poli.latitude";
 	public static final String strLongitudeExtra = "it.poli.longitude";
@@ -85,7 +80,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 	private float speed = 0;
 	private float distance = 0;
 	private int elapsedTime = 0;
-	private int secondsNow = 0;
+	
 
 
 	private int id;
@@ -101,7 +96,6 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
     private TextView txtDistance;
     private TextView txtAverageSpeed;
     private TextView mCaloriesValueView;
-    private TextView mDesiredPaceView;
     private int mStepValue;
     private int mPaceValue;
     private float mDistanceValue;
@@ -109,8 +103,6 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
     private int mCaloriesValue;
     private float mDesiredPaceOrSpeed;
     private int mMaintain;
-    private boolean mIsMetric = true;
-    private float mMaintainInc;
     private boolean mQuitting = false;
     private long startRunMilliSeconds = 0;
 
@@ -137,13 +129,13 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 		super.onCreate(savedInstanceState);
 
 		gpsHandler = new GpsHandler(this);
+		gpsHandler.setListener(this);
 
+		
 		mAct = getActivity();
 
 		mSensorManager = (SensorManager) mAct.getSystemService(Context.SENSOR_SERVICE);
-		legDect = new LegMovementDetector(mSensorManager);
-		legDect.addListener(this);
-
+		
 		needDefaultZoom = true;
 		steps = 0;
 
@@ -180,61 +172,6 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
         
         mPedometerSettings.clearServiceRunning();
 
-        
-        mIsMetric = true;//mPedometerSettings.isMetric();
-        /** NOT NOW **/
-//        ((TextView) findViewById(R.id.distance_units)).setText(getString(
-//                mIsMetric
-//                ? R.string.kilometers
-//                : R.string.miles
-//        ));
-//        ((TextView) findViewById(R.id.speed_units)).setText(getString(
-//                mIsMetric
-//                ? R.string.kilometers_per_hour
-//                : R.string.miles_per_hour
-//        ));
-        
-//        mMaintain = mPedometerSettings.getMaintainOption();
-//        ((LinearLayout) this.findViewById(R.id.desired_pace_control)).setVisibility(
-//                mMaintain != PedometerSettings.M_NONE
-//                ? View.VISIBLE
-//                : View.GONE
-//            );
-        if (mMaintain == PedometerSettings.M_PACE) {
-            mMaintainInc = 5f;
-            mDesiredPaceOrSpeed = (float)mPedometerSettings.getDesiredPace();
-        }
-        else 
-        if (mMaintain == PedometerSettings.M_SPEED) {
-            mDesiredPaceOrSpeed = mPedometerSettings.getDesiredSpeed();
-            mMaintainInc = 0.1f;
-        }
-//        Button button1 = (Button) findViewById(R.id.button_desired_pace_lower);
-//        button1.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                mDesiredPaceOrSpeed -= mMaintainInc;
-//                mDesiredPaceOrSpeed = Math.round(mDesiredPaceOrSpeed * 10) / 10f;
-//                displayDesiredPaceOrSpeed();
-//                setDesiredPaceOrSpeed(mDesiredPaceOrSpeed);
-//            }
-//        });
-//        Button button2 = (Button) findViewById(R.id.button_desired_pace_raise);
-//        button2.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                mDesiredPaceOrSpeed += mMaintainInc;
-//                mDesiredPaceOrSpeed = Math.round(mDesiredPaceOrSpeed * 10) / 10f;
-//                displayDesiredPaceOrSpeed();
-//                setDesiredPaceOrSpeed(mDesiredPaceOrSpeed);
-//            }
-//        });
-//        if (mMaintain != PedometerSettings.M_NONE) {
-//            ((TextView) findViewById(R.id.desired_pace_label)).setText(
-//                    mMaintain == PedometerSettings.M_PACE
-//                    ? R.string.desired_pace
-//                    : R.string.desired_speed
-//            );
-//        }
-//        
         /** end things with components **/
         
         displayDesiredPaceOrSpeed();
@@ -295,6 +232,8 @@ private void displayDesiredPaceOrSpeed() {
 	{
 		super.onResume();
 
+		gpsHandler.setViewActive(false);  /**  SERVE? E' DANNOSO?  **/
+		
 		new Thread(new Runnable() 
 		{
 			public void run() 
@@ -309,12 +248,8 @@ private void displayDesiredPaceOrSpeed() {
         txtAverageSpeed    = (TextView) findViewById(R.id.txtAverageSpeed);
         
         mCaloriesValueView = (TextView) findViewById(R.id.txtNull);
-        mDesiredPaceView   = (TextView) findViewById(R.id.txtNull);
 
-		
-		
-
-		CircleButton btnEndRun = (CircleButton)this.mAct.findViewById(R.id.step_btn_end_run);
+        CircleButton btnEndRun = (CircleButton)this.mAct.findViewById(R.id.step_btn_end_run);
 		btnEndRun.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -329,6 +264,9 @@ private void displayDesiredPaceOrSpeed() {
     @Override
 	public void onPause() {
         Log.i(TAG, "[ACTIVITY] onPause");
+        
+        gpsHandler.setViewActive(false); /** serve?  E' DANNOSO? **/
+        
         if (mIsRunning) {
             unbindStepService();
         }
@@ -409,79 +347,16 @@ private void displayDesiredPaceOrSpeed() {
 	@Override
 	public void onLocationChanged(Location location) {
 		this.loc = location;
+		
+		Log.i("PEDOMETER", "LOCATION CHANGED: " + location.getLatitude() + ", " + location.getLongitude());
+		
 		if (lastSensorLoc == null) {
 			this.lastSensorLoc = location;
 		}
 		updateMap();
 	}
 
-	private float getStepsize()
-	{
-		float result;
-		result = (stepSize != 0) ? stepSize : userHeight * Constants.STEP_HEIGHT_CONST;
-		return result;
-	}
-
-	/**
-	 * Computes some stats like speed, elapsed time
-	 * and writes them on txtViews
-	 */
-	private void updateStats()
-	{
-		secondsNow = Calendar.getInstance().get(Calendar.SECOND);
-
-		// seconds
-		elapsedTime = Math.abs(secondsNow - secondsAtTheBeginning);
-
-		// metres
-		distance = steps * getStepsize();
-		BigDecimal distB = new BigDecimal(distance).round(new MathContext(3, RoundingMode.HALF_UP));
-		distance = distB.floatValue();
-
-		elapsedTime = (elapsedTime == 0) ? elapsedTime + 1 : elapsedTime;
-
-		// metres per second
-		speed = distance / elapsedTime;
-
-		// km per hour
-		speed = 3.6f * speed;
-
-		BigDecimal speedB = new BigDecimal(speed).round(new MathContext(3, RoundingMode.HALF_UP));
-		speed = speedB.floatValue();
-
-	}
-
-	@Override
-	public void onLegActivity(int activity)
-	{
-		if (loc != null && lastSensorLoc != null && activity == LegMovementDetector.LEG_MOVEMENT_FORWARD) {
-			gMap.addPolyline(new PolylineOptions()
-			.add(new LatLng(lastSensorLoc.getLatitude(), lastSensorLoc.getLongitude()),
-					new LatLng(loc.getLatitude(), loc.getLongitude()))
-					.width(4)
-					.color(Color.WHITE));
-			steps++;
-			lastSensorLoc = loc;
-		}
-
-		updateStats();
-	}
 	
-	
-	
-	
-    private void setDesiredPaceOrSpeed(float desiredPaceOrSpeed) {
-        if (mService != null) {
-            if (mMaintain == PedometerSettings.M_PACE) {
-                mService.setDesiredPace((int)desiredPaceOrSpeed);
-            }
-            else
-            if (mMaintain == PedometerSettings.M_SPEED) {
-                mService.setDesiredSpeed(desiredPaceOrSpeed);
-            }
-        }
-    }
-    
     private void savePaceSetting() {
         mPedometerSettings.savePaceOrSpeedSetting(mMaintain, mDesiredPaceOrSpeed);
     }
@@ -560,7 +435,7 @@ private void displayDesiredPaceOrSpeed() {
         }
     }
 
-    private static final int MENU_SETTINGS = 8;
+    
     private static final int MENU_QUIT     = 9;
 
     private static final int MENU_PAUSE = 1;
@@ -649,7 +524,8 @@ private void displayDesiredPaceOrSpeed() {
     private static final int SPEED_MSG = 4;
     private static final int CALORIES_MSG = 5;
     
-    private Handler mHandler = new Handler() {
+    @SuppressLint("HandlerLeak")
+	private Handler mHandler = new Handler() {
         
 
 		@Override public void handleMessage(Message msg) {
@@ -715,7 +591,7 @@ private void displayDesiredPaceOrSpeed() {
                     mSpeedValue = convertMilesToKm(mSpeedValue);
                     speed = mSpeedValue;
                     
-                    float time_sec = mUtils.currentTimeInMillis() - startRunMilliSeconds;
+                    float time_sec = Utils.currentTimeInMillis() - startRunMilliSeconds;
                     time_sec = time_sec / 1000;
                     
                     elapsedTime = (int) time_sec;

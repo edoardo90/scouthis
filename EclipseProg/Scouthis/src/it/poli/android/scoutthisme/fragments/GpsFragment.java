@@ -39,7 +39,6 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 	
 		sensorHandler = new SensorHandler(this);
 		gpsHandler = new GpsHandler(this);
-
 		gpsHandler.setListener(this);
 	}
 
