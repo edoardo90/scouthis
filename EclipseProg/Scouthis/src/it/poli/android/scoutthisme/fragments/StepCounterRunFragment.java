@@ -152,7 +152,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
         
         mUtils = Utils.getInstance();
 
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        mSettings = PreferenceManager.getDefaultSharedPreferences(mAct);
         mPedometerSettings = new PedometerSettings(mSettings);
         
         mUtils.setSpeak(mSettings.getBoolean("speak", false));
@@ -185,7 +185,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 	
 
 private View findViewById(int desiredPaceLabel) {
-		return this.getActivity()
+		return mAct
 				.findViewById(desiredPaceLabel);
 	}
 
@@ -353,7 +353,7 @@ private void displayDesiredPaceOrSpeed() {
 		
 		Log.i("PEDOMETER", "LOCATION CHANGED: " + location.getLatitude() + ", " + location.getLongitude());
 		
-		Toast.makeText(this.getActivity().getApplicationContext(),
+		Toast.makeText(mAct.getApplicationContext(),
 				"" + location.getLatitude() + ", " + location.getLongitude()
 				, Toast.LENGTH_SHORT).show();
 		
@@ -389,22 +389,22 @@ private void displayDesiredPaceOrSpeed() {
         if (! mIsRunning) {
             Log.i(TAG, "[SERVICE] Start");
             mIsRunning = true;
-            this.getActivity().getApplicationContext()
-            .startService(new Intent(this.getActivity(),     StepService.class));
+            mAct.getApplicationContext()
+            .startService(new Intent(mAct,     StepService.class));
         }
     }
     
     private void bindStepService() {
         Log.i(TAG, "[SERVICE] Bind");
-        this.getActivity()
+        mAct
         .getApplicationContext()
-        .bindService(new Intent(this.getActivity(), 
+        .bindService(new Intent(mAct, 
                 StepService.class), mConnection, Context.BIND_AUTO_CREATE + Context.BIND_DEBUG_UNBIND);
     }
 
     private void unbindStepService() {
         Log.i(TAG, "[SERVICE] Unbind");
-        this.getActivity().getApplicationContext().
+        mAct.getApplicationContext().
         unbindService(mConnection);
     }
     
@@ -412,8 +412,8 @@ private void displayDesiredPaceOrSpeed() {
         Log.i(TAG, "[SERVICE] Stop");
         if (mService != null) {
             Log.i(TAG, "[SERVICE] stopService");
-            this.getActivity().getApplicationContext().
-            stopService(new Intent(this.getActivity(),
+            mAct.getApplicationContext().
+            stopService(new Intent(mAct,
                   StepService.class));
         }
         mIsRunning = false;
@@ -429,7 +429,7 @@ private void displayDesiredPaceOrSpeed() {
             txtDistance.setText("0");
             txtAverageSpeed.setText("0");
             mCaloriesValueView.setText("0");
-            SharedPreferences state = this.getActivity().getApplicationContext() 
+            SharedPreferences state = mAct.getApplicationContext() 
             		.getSharedPreferences("state", 0);
             SharedPreferences.Editor stateEditor = state.edit();
             if (updateDisplay) {
@@ -472,7 +472,7 @@ private void displayDesiredPaceOrSpeed() {
 //        menu.add(0, MENU_SETTINGS, 0, R.string.settings)
 //        .setIcon(android.R.drawable.ic_menu_preferences)
 //        .setShortcut('8', 's')
-//        .setIntent(new Intent(this.getActivity()
+//        .setIntent(new Intent(mAct
 //        		, Settings.class));
 //        menu.add(0, MENU_QUIT, 0, R.string.quit)
 //        .setIcon(android.R.drawable.ic_lock_power_off)
@@ -500,7 +500,7 @@ private void displayDesiredPaceOrSpeed() {
                 unbindStepService();
                 stopStepService();
                 mQuitting = true;
-                this.getActivity()
+                mAct
                 .finish();
                 return true;
         }
