@@ -39,6 +39,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -267,6 +268,7 @@ private void displayDesiredPaceOrSpeed() {
         
         gpsHandler.setViewActive(false); /** serve?  E' DANNOSO? **/
         
+        /*
         if (mIsRunning) {
             unbindStepService();
         }
@@ -276,6 +278,7 @@ private void displayDesiredPaceOrSpeed() {
         else {
             mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning);
         }
+		*/
 
         super.onPause();
         savePaceSetting();
@@ -349,6 +352,10 @@ private void displayDesiredPaceOrSpeed() {
 		this.loc = location;
 		
 		Log.i("PEDOMETER", "LOCATION CHANGED: " + location.getLatitude() + ", " + location.getLongitude());
+		
+		Toast.makeText(this.getActivity().getApplicationContext(),
+				"" + location.getLatitude() + ", " + location.getLongitude()
+				, Toast.LENGTH_SHORT).show();
 		
 		if (lastSensorLoc == null) {
 			this.lastSensorLoc = location;
@@ -551,7 +558,7 @@ private void displayDesiredPaceOrSpeed() {
                 case DISTANCE_MSG:
                     
                 	mDistanceValue = ((int)msg.arg1)/1000f;
-                    Log.i("Stepper", "distance [miles] : " + mDistanceValue);
+                    
                   
                     mDistanceValue = convertMilesToKm(mDistanceValue);
                     distance = mDistanceValue;
@@ -587,7 +594,7 @@ private void displayDesiredPaceOrSpeed() {
                 case SPEED_MSG:
                     mSpeedValue = ((int)msg.arg1)/1000f;
                     
-                    Log.i("Stepper", "speed [miles/hour] : " + mSpeedValue);
+                    
                     
                     mSpeedValue = convertMilesToKm(mSpeedValue);
                     speed = mSpeedValue;
