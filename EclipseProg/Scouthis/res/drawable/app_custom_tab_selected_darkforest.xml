@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-  
-    <item android:top="0dp" android:left="0dp" android:bottom="0dp" android:right="0dp">
-        <shape android:shape="rectangle">
-            <size android:width="9dp"
-                android:height="5dp"/>
-            <solid android:color="#0f00"/>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:bottom="0dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp">
+        <shape android:shape="rectangle" >
+            <size android:height="5dp" />
+
+            <solid android:color="#0f00" />
+        </shape>
+    </item>
+    <item
+        android:bottom="0dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="@dimen/tab_mid_place">
+        <shape android:shape="rectangle" >
+            <size
+                android:height="@dimen/tab_big_line"
+                android:width="30dp" />
+
+            <solid android:color="@color/green_dark" />
         </shape>
     </item>
 
-
-    <item android:top="@dimen/tab_mid_place"
-         android:left="0dp" android:bottom="0dp" android:right="0dp">
-        <shape android:shape="rectangle">
-            <size android:width="80dp"
-                android:height="@dimen/tab_big_line"/>
-            <solid android:color="@color/green_dark"/>
-        </shape>
-    </item>
 </layer-list>

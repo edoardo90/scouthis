@@ -57,6 +57,7 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
     </style>
+
     <!-- END Start tabbed browsing -->
 
 
@@ -169,7 +170,7 @@
   		  
   		  nei fragment, ad esempio nei layout, si specifica quale dettaglio** si sta usando,
   		  l'implementazione effettiva di quel dettaglio varia in funziona del tema scelto, 
-  		  tema che può essere scelto anche a runtime
+  		  tema che può essere scelto anche a runtime
     -->
 
 
@@ -219,7 +220,7 @@
         <item name="cb_color">@color/azure</item>
     </style>
 
-    <style name="scouthisme_ctpi" parent="Widget.TabPageIndicator">
+    <style name="scouthisme_ctpi" parent="CustomTabPageIndicator">
         <item name="android:background">@drawable/app_custom_tab_indicator_darkforest</item>
     </style>
 
@@ -243,7 +244,7 @@
         <item name="cb_color">@color/green</item>
     </style>
 
-    <style name="dark_forest_ctpi" parent="Widget.TabPageIndicator">
+    <style name="dark_forest_ctpi" parent="CustomTabPageIndicator">
         <item name="android:background">@drawable/app_custom_tab_indicator_darkforest</item>
     </style>
 
