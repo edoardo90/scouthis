@@ -254,6 +254,8 @@ private void displayDesiredPaceOrSpeed() {
 		btnEndRun.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+		        resetValues(true);
+				Log.i(TAG, "STOPPED SERVICE!");
 				saveRunEpisodeOnFile();	
 				transitionTowars(new StepCounterFragment());
 			}
@@ -267,6 +269,7 @@ private void displayDesiredPaceOrSpeed() {
         Log.i(TAG, "[ACTIVITY] onPause");
         
         ///// gpsHandler.setViewActive(false); /** serve?  E' DANNOSO? **/
+        mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning);
         
         /*
         if (mIsRunning) {
