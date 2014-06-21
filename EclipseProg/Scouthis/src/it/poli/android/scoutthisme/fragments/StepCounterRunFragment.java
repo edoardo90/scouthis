@@ -233,6 +233,8 @@ private void displayDesiredPaceOrSpeed() {
 	{
 		super.onResume();
 
+		Log.i(TAG, "on resume, clear?");
+		
 		////// gpsHandler.setViewActive(false);  /**  SERVE? E' DANNOSO?  **/
 		
 		new Thread(new Runnable() 
