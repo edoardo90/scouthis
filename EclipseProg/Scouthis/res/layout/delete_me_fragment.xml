@@ -13,7 +13,7 @@
             android:id="@+id/main_viewpager_background"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/app_view_tab_gradient"
+            android:background="@drawable/app_view_tab_gradient_yellow"
             android:contentDescription="@string/home_alternative_description"
             android:scaleType="fitXY" />
 

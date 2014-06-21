@@ -194,14 +194,14 @@
         <item name="app_background">@style/dark_forest_background</item>
         <item name="circle_background">@style/dark_forest_circle_background</item>
         <item name="vpiTabPageIndicatorStyle">@style/dark_forest_ctpi</item>
-        <item name="tabSelectorStyle">@drawable/app_view_tab_gradient</item>
+        <item name="tabSelectorStyle">@drawable/app_view_tab_gradient_yellow</item>
     </style>
 
     <style name="Theme.Sky" parent="AppBaseTheme">
         <item name="fragmentTitleStyle">@style/blue_sky_fragment_title</item>
         <item name="app_background">@style/blue_sky_background</item>
         <item name="circle_background">@style/blue_sky_circle_background</item>
-        <item name="tabSelectorStyle">@drawable/app_view_tab_gradient</item>
+        <item name="tabSelectorStyle">@drawable/app_view_tab_gradient_azure</item>
     </style>
 
     <!-- BEGIN Scouthis.me theme -->

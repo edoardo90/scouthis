@@ -33,7 +33,7 @@ public class MainActivityWithIcons extends ActionBarActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setTheme(R.style.Theme_ScouthisMe);
+		setTheme(R.style.Theme_Sky);
 
 		CONTENT = new String[] {getString(R.string.fragments_1_title),
 				getString(R.string.fragments_2_title), getString(R.string.fragments_3_title),

@@ -141,6 +141,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 		steps = 0;
 
 		secondsAtTheBeginning = Calendar.getInstance().get(Calendar.SECOND);
+		resetValues(true);
 		
 		gpsHandler.setListener(this);
 		
@@ -431,11 +432,21 @@ private void displayDesiredPaceOrSpeed() {
             mService.resetValues();                    
         }
         else {
+        	
+        	txtPassi     = (TextView) findViewById(R.id.txtPassi);
+            txtElapsedTime     = (TextView) findViewById(R.id.txtElapsedTime);
+            txtDistance = (TextView) findViewById(R.id.txtDistance);
+            txtAverageSpeed    = (TextView) findViewById(R.id.txtAverageSpeed);
+            
+        	
+        	if(txtPassi != null)
+        	{
             txtPassi.setText("0");
             txtElapsedTime.setText("0");
             txtDistance.setText("0");
             txtAverageSpeed.setText("0");
             mCaloriesValueView.setText("0");
+        	}
             SharedPreferences state = this.getActivity().getApplicationContext() 
             		.getSharedPreferences("state", 0);
             SharedPreferences.Editor stateEditor = state.edit();
