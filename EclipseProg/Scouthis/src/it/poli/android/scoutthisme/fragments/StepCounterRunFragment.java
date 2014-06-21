@@ -135,7 +135,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 		
 		mAct = getActivity();
 
-		mSensorManager = (SensorManager) mAct.getSystemService(Context.SENSOR_SERVICE);
+		mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
 		
 		needDefaultZoom = true;
 		steps = 0;
@@ -152,7 +152,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
         
         mUtils = Utils.getInstance();
 
-        mSettings = PreferenceManager.getDefaultSharedPreferences(mAct);
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         mPedometerSettings = new PedometerSettings(mSettings);
         
         mUtils.setSpeak(mSettings.getBoolean("speak", false));
@@ -185,7 +185,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 	
 
 private View findViewById(int desiredPaceLabel) {
-		return mAct
+		return this.getActivity()
 				.findViewById(desiredPaceLabel);
 	}
 
@@ -233,13 +233,13 @@ private void displayDesiredPaceOrSpeed() {
 	{
 		super.onResume();
 
-		gpsHandler.setViewActive(false);  /**  SERVE? E' DANNOSO?  **/
+		////// gpsHandler.setViewActive(false);  /**  SERVE? E' DANNOSO?  **/
 		
 		new Thread(new Runnable() 
 		{
 			public void run() 
 			{
-				id = TextFilesUtils.getLastIdFromXml(mAct, Constants.XML_PATH_STEPCOUNTER);
+				id = TextFilesUtils.getLastIdFromXml(getActivity(), Constants.XML_PATH_STEPCOUNTER);
 			}
 		}).start();
 
@@ -249,8 +249,8 @@ private void displayDesiredPaceOrSpeed() {
         txtAverageSpeed    = (TextView) findViewById(R.id.txtAverageSpeed);
         
         mCaloriesValueView = (TextView) findViewById(R.id.txtNull);
-
-        CircleButton btnEndRun = (CircleButton)this.mAct.findViewById(R.id.step_btn_end_run);
+        
+        CircleButton btnEndRun = (CircleButton)this.getActivity().findViewById(R.id.step_btn_end_run);
 		btnEndRun.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -266,7 +266,7 @@ private void displayDesiredPaceOrSpeed() {
 	public void onPause() {
         Log.i(TAG, "[ACTIVITY] onPause");
         
-        gpsHandler.setViewActive(false); /** serve?  E' DANNOSO? **/
+        ///// gpsHandler.setViewActive(false); /** serve?  E' DANNOSO? **/
         
         /*
         if (mIsRunning) {
@@ -304,7 +304,7 @@ private void displayDesiredPaceOrSpeed() {
 		this.id++;
 		this.saveMapAsImage();
 		RunEpisode rep = new RunEpisode(this.id, this.distance, this.steps, this.elapsedTime, this.speed);
-		TextFilesUtils.appendXmlElement(mAct,
+		TextFilesUtils.appendXmlElement(getActivity(),
 				Constants.XML_PATH_STEPCOUNTER,
 				rep.getXmlTagFieldMap(), 
 				Constants.XML_TAG_RUNEPISODES);
@@ -353,7 +353,7 @@ private void displayDesiredPaceOrSpeed() {
 		
 		Log.i("PEDOMETER", "LOCATION CHANGED: " + location.getLatitude() + ", " + location.getLongitude());
 		
-		Toast.makeText(mAct.getApplicationContext(),
+		Toast.makeText(this.getActivity().getApplicationContext(),
 				"" + location.getLatitude() + ", " + location.getLongitude()
 				, Toast.LENGTH_SHORT).show();
 		
@@ -389,22 +389,22 @@ private void displayDesiredPaceOrSpeed() {
         if (! mIsRunning) {
             Log.i(TAG, "[SERVICE] Start");
             mIsRunning = true;
-            mAct.getApplicationContext()
-            .startService(new Intent(mAct,     StepService.class));
+            this.getActivity().getApplicationContext()
+            .startService(new Intent(this.getActivity(),     StepService.class));
         }
     }
     
     private void bindStepService() {
         Log.i(TAG, "[SERVICE] Bind");
-        mAct
+        this.getActivity()
         .getApplicationContext()
-        .bindService(new Intent(mAct, 
+        .bindService(new Intent(this.getActivity(), 
                 StepService.class), mConnection, Context.BIND_AUTO_CREATE + Context.BIND_DEBUG_UNBIND);
     }
 
     private void unbindStepService() {
         Log.i(TAG, "[SERVICE] Unbind");
-        mAct.getApplicationContext().
+        this.getActivity().getApplicationContext().
         unbindService(mConnection);
     }
     
@@ -412,8 +412,8 @@ private void displayDesiredPaceOrSpeed() {
         Log.i(TAG, "[SERVICE] Stop");
         if (mService != null) {
             Log.i(TAG, "[SERVICE] stopService");
-            mAct.getApplicationContext().
-            stopService(new Intent(mAct,
+            this.getActivity().getApplicationContext().
+            stopService(new Intent(this.getActivity(),
                   StepService.class));
         }
         mIsRunning = false;
@@ -429,7 +429,7 @@ private void displayDesiredPaceOrSpeed() {
             txtDistance.setText("0");
             txtAverageSpeed.setText("0");
             mCaloriesValueView.setText("0");
-            SharedPreferences state = mAct.getApplicationContext() 
+            SharedPreferences state = this.getActivity().getApplicationContext() 
             		.getSharedPreferences("state", 0);
             SharedPreferences.Editor stateEditor = state.edit();
             if (updateDisplay) {
@@ -472,7 +472,7 @@ private void displayDesiredPaceOrSpeed() {
 //        menu.add(0, MENU_SETTINGS, 0, R.string.settings)
 //        .setIcon(android.R.drawable.ic_menu_preferences)
 //        .setShortcut('8', 's')
-//        .setIntent(new Intent(mAct
+//        .setIntent(new Intent(this.getActivity()
 //        		, Settings.class));
 //        menu.add(0, MENU_QUIT, 0, R.string.quit)
 //        .setIcon(android.R.drawable.ic_lock_power_off)
@@ -500,7 +500,7 @@ private void displayDesiredPaceOrSpeed() {
                 unbindStepService();
                 stopStepService();
                 mQuitting = true;
-                mAct
+                this.getActivity()
                 .finish();
                 return true;
         }
@@ -594,7 +594,7 @@ private void displayDesiredPaceOrSpeed() {
                 case SPEED_MSG:
                     mSpeedValue = ((int)msg.arg1)/1000f;
                     
-                    
+                    Log.i("Stepper", "speed [miles/hour] : " + mSpeedValue);
                     
                     mSpeedValue = convertMilesToKm(mSpeedValue);
                     speed = mSpeedValue;
