@@ -65,7 +65,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 
 	GpsHandler gpsHandler;
 	SensorManager mSensorManager;
-	LegMovementDetector legDect;
+	
 	Location loc, lastSensorLoc;
 	Marker marker;
 	boolean needDefaultZoom;
@@ -142,7 +142,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 		secondsAtTheBeginning = Calendar.getInstance().get(Calendar.SECOND);
 		
 		gpsHandler.setListener(this);
-		legDect.startDetector();
+		
 		
 		/** new things **/
 		
@@ -287,7 +287,7 @@ private void displayDesiredPaceOrSpeed() {
 		super.onDestroy();
 		
 		gpsHandler.removeListener();
-		legDect.stopDetector();
+		
 	}
 	
 	protected void onRestart() {
@@ -389,7 +389,8 @@ private void displayDesiredPaceOrSpeed() {
     
     private void bindStepService() {
         Log.i(TAG, "[SERVICE] Bind");
-        this.getActivity().getApplicationContext()
+        this.getActivity()
+        .getApplicationContext()
         .bindService(new Intent(this.getActivity(), 
                 StepService.class), mConnection, Context.BIND_AUTO_CREATE + Context.BIND_DEBUG_UNBIND);
     }
