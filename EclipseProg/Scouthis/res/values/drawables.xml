@@ -4,6 +4,6 @@
     <drawable name="root_background">@drawable/toast_frame</drawable>
     <drawable name="message_background">@android:color/transparent</drawable>
     <drawable name="button_wrapper_background">@android:color/transparent</drawable>
-    <drawable name="button_background">@drawable/button</drawable>
+    <drawable name="button_background">@drawable/app_button</drawable>
 
 </resources>

@@ -57,15 +57,15 @@ public class FindFriendsDisconnectedFragment extends Fragment
 	}
 	
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         Session.getActiveSession().addCallback(statusCallback);
         updateView();
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         Session.getActiveSession().removeCallback(statusCallback);
     }
 
