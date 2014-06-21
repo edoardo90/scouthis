@@ -345,7 +345,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 						try {
 							marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
 						} catch(Throwable ex) {
-							
+
 						}}
 
 					marker.setAnchor(0.5f, 1);
@@ -411,7 +411,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				usersMarkers.add(um);
 			}
 		} catch (JSONException e) {
-			
+
 		}
 		return usersMarkers;
 	}
@@ -455,7 +455,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 				}
 				if (response.getError() != null) {
 					// Handle errors, will do so later.
-						
+
 				}
 			}
 		});

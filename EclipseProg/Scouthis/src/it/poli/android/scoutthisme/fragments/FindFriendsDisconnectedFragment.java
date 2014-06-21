@@ -74,7 +74,7 @@ public class FindFriendsDisconnectedFragment extends Fragment
         if (session.isOpened()) {
             switchToLoggedFragment();
         } else {
-            setLoginButton();
+        	setLoginButton();
         }
     }
 	
@@ -95,15 +95,15 @@ public class FindFriendsDisconnectedFragment extends Fragment
      */
     private void setLoginButton()
     {
-        TextView textInstructionsOrLink = (TextView)mAct.findViewById(R.id.txtFFLoginMessage);
+        TextView textInstructionsOrLink = (TextView)getView().findViewById(R.id.txtFFLoginMessage);
     	textInstructionsOrLink.setText(getString(R.string.findfriends_login_message));
 
     	textInstructionsOrLink.setText(Html.fromHtml(getString(R.string.findfriends_login_message)));
     	
-    	TextView textDontWarry = (TextView)mAct.findViewById(R.id.txtFFDontWorryMessage);
+    	TextView textDontWarry = (TextView)getView().findViewById(R.id.txtFFDontWorryMessage);
     	textDontWarry.setText(getString(R.string.findfriends_dontwarry_message));
     	
-    	Button buttonLogin = (Button) this.getActivity().findViewById(R.id.btnLogIn);
+    	Button buttonLogin = (Button)getView().findViewById(R.id.btnLogIn);
     	
         buttonLogin.setOnClickListener(
         	new OnClickListener() {
