@@ -233,8 +233,6 @@ private void displayDesiredPaceOrSpeed() {
 	{
 		super.onResume();
 
-		Log.i(TAG, "on resume, clear?");
-		
 		////// gpsHandler.setViewActive(false);  /**  SERVE? E' DANNOSO?  **/
 		
 		new Thread(new Runnable() 
@@ -262,6 +260,10 @@ private void displayDesiredPaceOrSpeed() {
 				transitionTowars(new StepCounterFragment());
 			}
 		});
+		
+		Log.i(TAG, "on resume, clear?");
+		resetValues(true);  //l'alternativa è salvare i secondi trascorsi 
+		
 		
 		updateMap();
 	}
