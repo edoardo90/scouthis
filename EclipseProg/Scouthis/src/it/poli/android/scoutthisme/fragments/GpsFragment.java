@@ -120,7 +120,7 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 		TextView txtLong = (TextView) rootView.findViewById(R.id.txtLongitude);
 		TextView txtAlt = (TextView) rootView.findViewById(R.id.txtAltitude);
 		TextView txtSpd = (TextView) rootView.findViewById(R.id.txtSpeed);    
-		TextView txtPrc = (TextView) rootView.findViewById(R.id.txtDistance);    
+		TextView txtPrc = (TextView) rootView.findViewById(R.id.txtDistanceGPS);    
 		TextView txtBea = (TextView) rootView.findViewById(R.id.txtBearing); 
 
 		if (location != null)
