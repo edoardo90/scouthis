@@ -151,7 +151,6 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 		needDefaultZoom = true;
 		steps = 0;
 
-		resetValues(true);
 		
 		gpsHandler.setListener(this);
 		
@@ -271,9 +270,6 @@ private void displayDesiredPaceOrSpeed() {
 				transitionTowars(new StepCounterFragment());
 			}
 		});
-		
-		Log.i(TAG, "on resume, clear?");
-		resetValues(true);  //l'alternativa è salvare i secondi trascorsi 
 		
 		
 		updateMap();
