@@ -6,15 +6,13 @@ import it.poli.android.scoutthisme.gps.utils.GpsHandler;
 import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.stepcounter.utils.LegMovementDetector;
 import it.poli.android.scoutthisme.stepcounter.utils.RunEpisode;
+import it.poli.android.scoutthisme.stepreload.stats.Pedometer;
 import it.poli.android.scoutthisme.stepreload.stats.PedometerSettings;
 import it.poli.android.scoutthisme.stepreload.stats.StepService;
 import it.poli.android.scoutthisme.stepreload.stats.Utils;
 import it.poli.android.scoutthisme.tools.CircleButton;
 import it.poli.android.scoutthisme.tools.ImageToolz;
 import it.poli.android.scoutthisme.tools.TextFilesUtils;
-
-import java.util.Calendar;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -74,7 +72,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 
 	/* Stepcounter's path variables */
 	int steps;
-	int secondsAtTheBeginning = 0;
+	
 	int secondsAtTheEnd = 0;
 	float stepSize = 0;
 	float userHeight = 1.7f;
@@ -105,8 +103,7 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
     private float mDesiredPaceOrSpeed;
     private int mMaintain;
     private boolean mQuitting = false;
-    private long startRunMilliSeconds = 0;
-
+    
     private String unitaDiMisura  = "";
     
     /**
@@ -129,6 +126,20 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		if (Pedometer.isRunning == false)
+		{
+			//se non è running significa:
+			//1) è appena stato fatto partire
+			//2) si è dopo uno STOP
+			Pedometer.isRunning = true;
+			Pedometer.secondsAtBeginning = Utils.currentTimeInMillis();
+		}
+		else
+		{
+			//isRunning == true
+			
+		}
+			
 		gpsHandler = new GpsHandler(this);
 		gpsHandler.setListener(this);
 
@@ -140,7 +151,6 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
 		needDefaultZoom = true;
 		steps = 0;
 
-		secondsAtTheBeginning = Calendar.getInstance().get(Calendar.SECOND);
 		resetValues(true);
 		
 		gpsHandler.setListener(this);
@@ -170,7 +180,6 @@ public  class StepCounterRunFragment extends StepCounterFragmentArchetype
             bindStepService();
         }
         
-        this.startRunMilliSeconds = Utils.currentTimeInMillis();
         
         mPedometerSettings.clearServiceRunning();
 
@@ -256,6 +265,7 @@ private void displayDesiredPaceOrSpeed() {
 			@Override
 			public void onClick(View v) {
 		        resetValues(true);
+		        Pedometer.isRunning = false;
 				Log.i(TAG, "STOPPED SERVICE!");
 				saveRunEpisodeOnFile();	
 				transitionTowars(new StepCounterFragment());
@@ -599,7 +609,8 @@ private void displayDesiredPaceOrSpeed() {
                     distance = mDistanceValue;
                     
                     if (mDistanceValue <= 0) { 
-                        txtDistance.setText("0");
+                        mDistanceValue = 0;
+                    	txtDistance.setText("0");
                     }
                     else {
                         txtDistance.setText(
@@ -617,7 +628,7 @@ private void displayDesiredPaceOrSpeed() {
                     mSpeedValue = convertMilesToKm(mSpeedValue);
                     speed = mSpeedValue;
                     
-                    float time_sec = Utils.currentTimeInMillis() - startRunMilliSeconds;
+                    float time_sec = Utils.currentTimeInMillis() - Pedometer.secondsAtBeginning;
                     time_sec = time_sec / 1000;
                     
                     elapsedTime = (int) time_sec;

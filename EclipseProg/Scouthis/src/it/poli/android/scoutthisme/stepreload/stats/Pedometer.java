@@ -42,6 +42,11 @@ import android.widget.TextView;
 
 
 public class Pedometer extends Activity {
+	
+	public static long secondsAtBeginning = 0;
+	public static boolean isRunning = false;
+	
+	
 	private static final String TAG = "Pedometer";
     private SharedPreferences mSettings;
     private PedometerSettings mPedometerSettings;

@@ -1,6 +1,7 @@
 package it.poli.android.scoutthisme.fragments;
 
 import it.poli.android.scouthisme.R;
+import it.poli.android.scoutthisme.stepreload.stats.Pedometer;
 import it.poli.android.scoutthisme.tools.CircleButton;
 import it.poli.android.scoutthisme.tools.GifAnimationDrawable;
 
@@ -22,7 +23,6 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		/* Inflate the layout for this fragment */
 		rootView = inflater.inflate(R.layout.fragment_section_stepcounter_home, container, false);
 		return rootView;
 	}
@@ -53,6 +53,12 @@ public class StepCounterFragment extends StepCounterFragmentArchetype
 	public void onResume()
 	{
 		super.onResume();
+		
+		if(Pedometer.isRunning == true)
+		{
+			transitionTowars(new StepCounterRunFragment());	
+		}
+		
 		this.setGifImage();
 
 		CircleButton btnNewRun = (CircleButton)rootView.findViewById(R.id.step_button_newrun);

@@ -5,6 +5,7 @@ import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.stepcounter.utils.RunEpisode;
 import it.poli.android.scoutthisme.stepcounter.utils.StepCounterLazyAdapter;
 import it.poli.android.scoutthisme.stepcounter.utils.StepCounterUtilXML;
+import it.poli.android.scoutthisme.stepreload.stats.Pedometer;
 import it.poli.android.scoutthisme.tools.CircleButton;
 import it.poli.android.scoutthisme.tools.TextFilesUtils;
 import it.poli.android.scoutthisme.undobar.UndoBar;
@@ -33,8 +34,8 @@ public class StepCounterHistoryFragment extends StepCounterFragmentArchetype imp
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		/* Inflate the layout for this fragment */
-		View view = inflater.inflate(R.layout.fragment_section_stepcounter_history, container, false);
+		View view;
+		view = inflater.inflate(R.layout.fragment_section_stepcounter_history, container, false);
 		return view;
 	}
 

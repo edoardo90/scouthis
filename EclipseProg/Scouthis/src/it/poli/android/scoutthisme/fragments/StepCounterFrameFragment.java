@@ -18,10 +18,9 @@ public class StepCounterFrameFragment extends Fragment {
 		
 		FragmentTransaction transaction = getFragmentManager()
 		.beginTransaction();
-		/*
-		* When this container fragment is created, we fill it with stepcounter home fragment
-		*/
+		
 		transaction.replace(R.id.stepcounter_frame, new StepCounterFragment());
+		
 		transaction.commit();
 		
 		return view;
