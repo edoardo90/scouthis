@@ -618,7 +618,7 @@ private void displayDesiredPaceOrSpeed() {
                     	if (distance.length() >= 5)
                     	{
                     		distance = distance.substring(0, 4);
-                    	}
+                    	}   
                     	
                         txtDistance.setText(
                                 	distance
