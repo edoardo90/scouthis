@@ -56,6 +56,7 @@
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!-- END Start tabbed browsing -->
@@ -160,21 +161,17 @@
     </style>
     <!-- END Undobar -->
 
-
-    <!-- Prova flessibilità maggiore per la scelta runtime dello stile -->
-
-
     <!--
-          approccio stile temi del cellulare, cioè si definiscono dei temi (es. green wood, sky ecc.) e in una seconda
+          Approccio stile temi del cellulare, cioè si definiscono dei temi (es. green wood, sky ecc.) e in una seconda
   		  fase si precisano nel  dettaglio**
   		  
   		  nei fragment, ad esempio nei layout, si specifica quale dettaglio** si sta usando,
   		  l'implementazione effettiva di quel dettaglio varia in funziona del tema scelto, 
-  		  tema che può essere scelto anche a runtime
+  		  tema che può essere scelto anche a runtime.
+  		  
+  		  Se nessun tema viene specificato si parte così con le opzioni "base"
     -->
-
-
-    <!-- se nessun tema viene specificato si parte così con le opzioni "base" -->
+    
     <style name="Theme" parent="android:Theme">
         <item name="android:textColor">#aa000000</item>
     </style>
@@ -226,14 +223,13 @@
 
     <!-- END ScouthisMe theme -->
 
-
     <!-- BEGIN DarkForest theme -->
 
     <style name="dark_forest_fragment_title">
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/green_dark</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:paddingBottom">5dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">0dip</item>
     </style>
 
     <style name="dark_forest_background">
@@ -250,14 +246,13 @@
 
     <!-- END DarkForest -->
 
-
     <!-- BEGIN Sky theme -->
 
     <style name="blue_sky_fragment_title">
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/blue</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:paddingBottom">5dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">0dip</item>
     </style>
 
     <style name="blue_sky_background">
@@ -269,8 +264,5 @@
     </style>
 
     <!-- END Sky -->
-
-
-    <!-- fine prova flessibilità maggiore scelta runtime dello stile -->
 
 </resources>

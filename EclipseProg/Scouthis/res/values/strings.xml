@@ -25,6 +25,9 @@
     <string name="app_id">754990904532470</string>
     <string name="title_activity_facebook">FacebookActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="action_theme_sky">Tema Sky</string>
+    <string name="action_theme_darkforest">Tema Darkforest</string>
+    <string name="action_theme_scouthisme">Tema Scouthisme</string>
     <string name="hello_world">Hello world!</string>
     <string name="undo">UNDO</string>
     <string name="title_activity_main">MainActivity</string>

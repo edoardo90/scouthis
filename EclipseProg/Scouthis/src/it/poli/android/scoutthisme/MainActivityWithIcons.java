@@ -9,14 +9,18 @@ import it.poli.android.scoutthisme.fragments.StepCounterFrameFragment;
 
 import java.util.Locale;
 
-import android.graphics.drawable.Drawable;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
@@ -28,12 +32,16 @@ public class MainActivityWithIcons extends ActionBarActivity
 			R.drawable.actionb_foot, R.drawable.actionb_friends1, R.drawable.actionb_alarm};
 
 	FragmentPagerAdapter adapter;
+	
+	static int currentTheme = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setTheme(R.style.Theme_ScouthisMe);
+		if (currentTheme < 0)
+			currentTheme = R.style.Theme_ScouthisMe;
+		setTheme(currentTheme);
 
 		CONTENT = new String[] {getString(R.string.fragments_1_title),
 				getString(R.string.fragments_2_title), getString(R.string.fragments_3_title),
@@ -47,6 +55,44 @@ public class MainActivityWithIcons extends ActionBarActivity
 
 		TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.scouthisme_actionbar_menu, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	@SuppressLint("NewApi")
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_theme_sky:
+	        	currentTheme = R.style.Theme_Sky;
+	            break;
+	        case R.id.action_theme_darkforest:
+	        	currentTheme = R.style.Theme_DarkForest;
+	        	break;
+	        default:
+	        case R.id.action_theme_scouthisme:
+	        	currentTheme = R.style.Theme_ScouthisMe;
+	        	break;
+	    }
+	    
+        if (android.os.Build.VERSION.SDK_INT >= 11)
+        {
+            super.recreate();
+        }
+        else
+        {
+            startActivity(getIntent());
+            finish();
+        }
+        
+	    return true;
 	}
 
 	class ScouthisMeAdapter extends FragmentPagerAdapter implements IconPagerAdapter

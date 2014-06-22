@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/action_theme_sky"
+        android:showAsAction="never"
+        android:title="@string/action_theme_sky"/>
+    <item
+        android:id="@+id/action_theme_darkforest"
+        android:showAsAction="never"
+        android:title="@string/action_theme_darkforest"/>
+    <item
+        android:id="@+id/action_theme_scouthisme"
+        android:showAsAction="never"
+        android:title="@string/action_theme_scouthisme"/>
+</menu>

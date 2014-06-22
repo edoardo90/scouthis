@@ -49,12 +49,12 @@ public class GpsHandler implements LocationListener
 		this.viewActive = viewActive;
 		if (viewActive) {
 			schedTimerTask(true);
-			if (lastUnCommittedWork >= 0 && lastUnCommittedWork < 2)
+			if (lastUnCommittedWork == COMMIT_ADDALERTVIEW || lastUnCommittedWork == COMMIT_REMOVEALERTVIEW)
 			{
 				switch (lastUnCommittedWork) {
-				case 0:
+				case COMMIT_ADDALERTVIEW:
 					addAlertView();
-				case 1:
+				case COMMIT_REMOVEALERTVIEW:
 				default:
 					removeAlertView();
 				}
