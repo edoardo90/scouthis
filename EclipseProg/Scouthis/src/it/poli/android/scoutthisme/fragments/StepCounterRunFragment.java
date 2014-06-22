@@ -613,8 +613,15 @@ private void displayDesiredPaceOrSpeed() {
                     	txtDistance.setText("0");
                     }
                     else {
+                    	String distance = ("" + (mDistanceValue + 0.000001f));
+                    	
+                    	if (distance.length() >= 5)
+                    	{
+                    		distance = distance.substring(0, 4);
+                    	}
+                    	
                         txtDistance.setText(
-                                ("" + (mDistanceValue + 0.000001f)).substring(0, 5)
+                                	distance
                                     +  " " + unitaDiMisura
                         );
                         
