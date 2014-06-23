@@ -3,6 +3,7 @@ package it.poli.android.scoutthisme;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsFragment;
 import it.poli.android.scoutthisme.fragments.FindFriendsFrameFragment;
+import it.poli.android.scoutthisme.fragments.FindFriendsLoggedFragment;
 import it.poli.android.scoutthisme.fragments.GpsFrameFragment;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterFrameFragment;
@@ -34,6 +35,16 @@ public class MainActivityWithIcons extends ActionBarActivity
 	FragmentPagerAdapter adapter;
 	
 	static int currentTheme = -1;
+	
+	private boolean activityIsDestroying;
+
+	public boolean isActivityIsDestroying() {
+		return activityIsDestroying;
+	}
+
+	public void setActivityIsDestroying(boolean activityIsDestroying) {
+		this.activityIsDestroying = activityIsDestroying;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -84,10 +95,12 @@ public class MainActivityWithIcons extends ActionBarActivity
 	    
         if (android.os.Build.VERSION.SDK_INT >= 11)
         {
+        	setActivityIsDestroying(true);
             super.recreate();
         }
         else
         {
+        	setActivityIsDestroying(true);
             startActivity(getIntent());
             finish();
         }

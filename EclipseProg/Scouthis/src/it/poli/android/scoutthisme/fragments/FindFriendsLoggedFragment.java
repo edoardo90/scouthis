@@ -1,6 +1,7 @@
 package it.poli.android.scoutthisme.fragments;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.Constants;
+import it.poli.android.scoutthisme.MainActivityWithIcons;
 import it.poli.android.scoutthisme.gps.utils.GpsHandler;
 import it.poli.android.scoutthisme.gps.utils.GpsListener;
 import it.poli.android.scoutthisme.social.FriendshipsUpdatesNotifier;
@@ -24,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -99,6 +101,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		facebookHandler = new FacebookHandler(mAct);
 		markersMap = new HashMap<String, Marker>();
 
+		isNetworkOk = true;
+
 		Session session = Session.getActiveSession();
 		if (session == null) {
 			if (savedInstanceState != null) {
@@ -113,7 +117,7 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 			}
 		}
 
-		gpsHandler.setListener(this);
+		gpsHandler.setListener(this);		
 	}
 
 	@Override
@@ -133,10 +137,15 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 			gMap.clear();
 		}
 
-		Fragment fragment = (getFragmentManager().findFragmentById(R.id.mapFindFriends));  
-		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-		ft.remove(fragment);
-		ft.commit();
+		boolean destroying = ((MainActivityWithIcons) mAct).isActivityIsDestroying();
+		if (!destroying) {
+			Fragment fragment = (getFragmentManager().findFragmentById(R.id.mapFindFriends));
+			if (fragment != null) {
+				FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+				ft.remove(fragment);
+				ft.commitAllowingStateLoss();
+			}
+		}
 	}
 
 	@Override
@@ -147,7 +156,8 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 		fbUpdateFriendsAlarm.cancel(friendshipsUpdatesPendingIntent);
 		gpsHandler.removeListener();
 
-		notifyFriendsAsyncTask.cancel(false);
+		if (notifyFriendsAsyncTask != null)
+			notifyFriendsAsyncTask.cancel(false);
 	}
 
 	@Override
