@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
@@ -223,14 +222,12 @@ public class AlarmsHomeFragment extends Fragment implements Listener, TimePicker
 
 	public void setMyAlarmsTxt(int numberOfItems)
 	{
-		
-		
-		TextView tv = (TextView)this.mAct.findViewById(R.id.alarm_txt_helpDesctiption);
+		/*TextView tv = (TextView)this.mAct.findViewById(R.id.alarm_txt_helpDesctiption);
 
 		if (tv != null)
 			if(numberOfItems > 0)
 				tv.setVisibility(View.GONE);
 			else
-				tv.setVisibility(View.VISIBLE);
+				tv.setVisibility(View.VISIBLE);*/
 	}
 }

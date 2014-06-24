@@ -29,25 +29,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 @SuppressLint("SimpleDateFormat")
-public class AlarmsSetClockFragment extends Fragment
-{
-	boolean[] activeDays = new boolean[]{true, true, true, true, true, false, false}; 
+public class AlarmsSetClockFragment extends Fragment {
+	boolean[] activeDays = new boolean[] { true, true, true, true, true, false,
+			false };
 	private String timeChoosed;
 	private String birdChoosed = "bird_cardellino";
 	private boolean activeAlarm = true;
-	Animation swingAnimation ;
+	Animation swingAnimation;
 
-	public static Map<String, String> birdsImageMap  = new HashMap<String, String>();
+	public static Map<String, String> birdsImageMap = new HashMap<String, String>();
 
 	private Activity mAct;
 	private MediaPlayer alarmPlayer = null;
-	private AudioManager am ;
+	private AudioManager am;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View rootView = inflater.inflate(R.layout.fragment_section_alarms_set_clock, container, false);
+		View rootView = inflater.inflate(
+				R.layout.fragment_section_alarms_set_clock, container, false);
 		return rootView;
 	}
 
@@ -56,16 +57,18 @@ public class AlarmsSetClockFragment extends Fragment
 		super.onCreate(savedInstanceState);
 
 		mAct = getActivity();
-		
+
 		this.initClickListeners();
-		
+
 		updateDaysColor();
-		
+
 		swingAnimation = AnimationUtils.loadAnimation(mAct, R.anim.swing_bird);
 
-		ImageView imgCaredellino = (ImageView)mAct.findViewById(R.id.imgCardellino);
+		ImageView imgCaredellino = (ImageView) mAct
+				.findViewById(R.id.imgCardellino);
 
-		this.addClickListenerBirds(R.id.alarm_firstline_birds, R.id.alarm_secondline_birds, R.id.alarms_centerline_birds);
+		this.addClickListenerBirds(R.id.alarm_firstline_birds,
+				R.id.alarm_secondline_birds, R.id.alarms_centerline_birds);
 
 		imgCaredellino.bringToFront();
 		imgCaredellino.startAnimation(swingAnimation);
@@ -78,18 +81,16 @@ public class AlarmsSetClockFragment extends Fragment
 		this.initDoneButton();
 	}
 
-	private void initDays()
-	{	
+	private void initDays() {
 		LinearLayout ll = (LinearLayout) mAct.findViewById(R.id.weekdayll);
-		for(int i=0; i< ll.getChildCount(); i++)
-		{
+		for (int i = 0; i < ll.getChildCount(); i++) {
 			View v = ll.getChildAt(i);
-			if(v instanceof TextView)
-				addClickListenerToDayView((TextView)v);
+			if (v instanceof TextView)
+				addClickListenerToDayView((TextView) v);
 		}
 	}
-	private void addClickListenerToDayView(TextView tv)
-	{
+
+	private void addClickListenerToDayView(TextView tv) {
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -98,24 +99,22 @@ public class AlarmsSetClockFragment extends Fragment
 		});
 	}
 
-	private void initDoneButton()
-	{
-		CircleButton b = (CircleButton)mAct.findViewById(R.id.btnAlarmSetOk);
+	private void initDoneButton() {
+		CircleButton b = (CircleButton) mAct.findViewById(R.id.btnAlarmSetOk);
 		b.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
-				if(alarmPlayer != null)
+
+				if (alarmPlayer != null)
 					alarmPlayer.stop();
 				addCurrentAlarmClock(v);
 			}
 		});
 	}
 
-	private void increaseArea()
-	{
-		final LinearLayout subCategoryLayout = (LinearLayout)
-				mAct.findViewById(R.id.weekdayll);
+	private void increaseArea() {
+		final LinearLayout subCategoryLayout = (LinearLayout) mAct
+				.findViewById(R.id.weekdayll);
 		subCategoryLayout.post(new Runnable() {
 			@Override
 			public void run() {
@@ -128,92 +127,96 @@ public class AlarmsSetClockFragment extends Fragment
 					delegateArea.left += 100;
 					delegateArea.right += 100;
 
-					TouchDelegate expandedArea = new TouchDelegate(delegateArea, d);
+					TouchDelegate expandedArea = new TouchDelegate(
+							delegateArea, d);
 					subCategoryLayout.setTouchDelegate(expandedArea);
 				}
 			}
 		});
 	}
 
-	private void addClickListenerToBirdView(View birdImageView)
-	{
+	private void addClickListenerToBirdView(View birdImageView) {
 		int id = birdImageView.getId();
-		final String imageId = getResources().getResourceEntryName(id); // ritorna ad es. "imgCardellino
-		if (Constants.birdsImageMap.containsKey(imageId))
-		{
+		final String imageId = getResources().getResourceEntryName(id); // ritorna
+																		// ad
+																		// es.
+																		// "imgCardellino
+		if (Constants.birdsImageMap.containsKey(imageId)) {
 			birdImageView.setOnClickListener(new OnClickListener() {
 				// Start new listViewAlarms activity
 				public void onClick(View birdImgView) {
-					birdChoosed = Constants.birdsImageMap.get(imageId);  // a questo punto es. "bird_cardellino"
+					birdChoosed = Constants.birdsImageMap.get(imageId); // a
+																		// questo
+																		// punto
+																		// es.
+																		// "bird_cardellino"
 
-					this.stopAll(R.id.alarm_firstline_birds, R.id.alarm_secondline_birds, R.id.alarms_centerline_birds);
+					this.stopAll(R.id.alarm_firstline_birds,
+							R.id.alarm_secondline_birds,
+							R.id.alarms_centerline_birds);
 					birdImgView.startAnimation(swingAnimation);
 
-					if(alarmPlayer != null)
+					if (alarmPlayer != null)
 						alarmPlayer.stop();
 					Activity getAct = getActivity();
 					Resources res = getResources();
-					int idRawSound = res.getIdentifier(birdChoosed, "raw", getAct.getPackageName());
+					int idRawSound = res.getIdentifier(birdChoosed, "raw",
+							getAct.getPackageName());
 
-					alarmPlayer = MediaPlayer.create( getAct, idRawSound);
-					
-					getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
-					
+					alarmPlayer = MediaPlayer.create(getAct, idRawSound);
+
+					getActivity().setVolumeControlStream(
+							AudioManager.STREAM_MUSIC);
+
 					alarmPlayer.setLooping(false);
 					alarmPlayer.start();
 				}
 
-				public void stopAll(int...birdsLines)
-				{
+				public void stopAll(int... birdsLines) {
 					View view;
-					for(int birdsLine : birdsLines)
-					{
-						ViewGroup groupBirdsLine = (ViewGroup) mAct.findViewById(birdsLine);
-						for(int i=0; i< groupBirdsLine.getChildCount(); i++)
-						{
+					for (int birdsLine : birdsLines) {
+						ViewGroup groupBirdsLine = (ViewGroup) mAct
+								.findViewById(birdsLine);
+						for (int i = 0; i < groupBirdsLine.getChildCount(); i++) {
 							view = groupBirdsLine.getChildAt(i);
-							if(view instanceof ImageView)
+							if (view instanceof ImageView)
 								view.clearAnimation();
 						}
 					}
-	
-				}			
+
+				}
 			});
 		}
 	}
-	
+
 	/**
-	 * birdsLines are the layouts that contains the birds
-	 * to be called e.g.   addClickListenerBirds(R.id.line1,  R.id.line2)
+	 * birdsLines are the layouts that contains the birds to be called e.g.
+	 * addClickListenerBirds(R.id.line1, R.id.line2)
 	 */
-	private void addClickListenerBirds(int... birdsLines)
-	{
-		for(int birdsLine : birdsLines)
-		{
+	private void addClickListenerBirds(int... birdsLines) {
+		for (int birdsLine : birdsLines) {
 			ViewGroup groupBirdsLine = (ViewGroup) mAct.findViewById(birdsLine);
-			for(int i=0; i< groupBirdsLine.getChildCount(); i++)
-			{
+			for (int i = 0; i < groupBirdsLine.getChildCount(); i++) {
 				View v = groupBirdsLine.getChildAt(i);
-				if(v instanceof ImageView)
+				if (v instanceof ImageView)
 					addClickListenerToBirdView(v);
 			}
 		}
 
 	}
 
-	public void addCurrentAlarmClock(View view)
-	{
-		
+	public void addCurrentAlarmClock(View view) {
+
 		Integer hours = getArguments().getInt(Constants.ALARM_HOUR);
 		Integer minutes = getArguments().getInt(Constants.ALARM_MINUTE);
-		this.timeChoosed = AlarmUtils.addZeroToOneDigit(hours) + ":" + 
-						   AlarmUtils.addZeroToOneDigit(minutes) ;
+		this.timeChoosed = AlarmUtils.addZeroToOneDigit(hours) + ":"
+				+ AlarmUtils.addZeroToOneDigit(minutes);
 
 		// Start the main alarms fragment
 		Fragment alarmsHomeFrag = new AlarmsHomeFragment();
 
 		Bundle i = new Bundle();
-		i.putString("edttext", "From Activity"); //TODO Remove?
+		i.putString("edttext", "From Activity"); // TODO Remove?
 		i.putBooleanArray(Constants.PARAM_ALARM_DAYS, this.activeDays);
 		i.putString(Constants.PARAM_ALARM_TIME, this.timeChoosed);
 		i.putSerializable(Constants.PARAM_ALARM_BIRD, this.birdChoosed);
@@ -222,8 +225,10 @@ public class AlarmsSetClockFragment extends Fragment
 		alarmsHomeFrag.setArguments(i);
 
 		// Create new fragment and transaction
-		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		// Replace whatever is in the fragment_container view with this fragment,
+		FragmentTransaction transaction = getFragmentManager()
+				.beginTransaction();
+		// Replace whatever is in the fragment_container view with this
+		// fragment,
 		// and add the transaction to the back stack
 		transaction.replace(R.id.alarms_frame, alarmsHomeFrag);
 		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -232,40 +237,33 @@ public class AlarmsSetClockFragment extends Fragment
 		transaction.commit();
 	}
 
-	public void updateAfterDayClick(View view)
-	{
+	public void updateAfterDayClick(View view) {
 		/* Toggle day status */
-		int pos = AlarmUtils.dayToPos(getResources().getResourceEntryName(view.getId()));
+		int pos = AlarmUtils.dayToPos(getResources().getResourceEntryName(
+				view.getId()));
 		activeDays[pos] = !activeDays[pos];
 		/* Toggle day color */
 		updateDaysColor();
-		
 	}
 
-	
-	private void updateDaysColor()
-	{
+	private void updateDaysColor() {
 		LinearLayout ll = (LinearLayout) mAct.findViewById(R.id.weekdayll);
-		for(int i=0; i< ll.getChildCount(); i++)
-		{
+		for (int i = 0; i < ll.getChildCount(); i++) {
 			View v = ll.getChildAt(i);
-			if(v instanceof TextView)
-			{
-				TextView dayOfWeekTxt = (TextView)v;
-				if(this.activeDays[i] == true)
-					dayOfWeekTxt.setTextAppearance(mAct.getApplicationContext(), R.style.FragmentAlarmDayOff);
+			if (v instanceof TextView) {
+				TextView dayOfWeekTxt = (TextView) v;
+				if (this.activeDays[i] == true)
+					dayOfWeekTxt.setTextAppearance(
+							mAct.getApplicationContext(),
+							R.style.FragmentAlarmDayOn);
 				else
-					dayOfWeekTxt.setTextAppearance(mAct.getApplicationContext(), R.style.FragmentAlarmDayOn);
-			
+					dayOfWeekTxt.setTextAppearance(
+							mAct.getApplicationContext(),
+							R.style.FragmentAlarmDayOff);
+
 			}
 		}
-	
+
 	}
-	
-	
-	
-	
-	
-	
 
 }

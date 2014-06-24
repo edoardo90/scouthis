@@ -132,7 +132,11 @@ public  class FindFriendsLoggedFragment extends Fragment implements GpsListener,
 
 		// Destroy map
 		if (gMap != null) {
-			gMap.clear();
+			try {
+				gMap.clear();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		boolean destroying = ((MainActivityWithIcons) mAct).isActivityIsDestroying();
