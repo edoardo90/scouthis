@@ -8,7 +8,6 @@ import java.util.TimeZone;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
 
 public class AlarmDailyService extends IntentService
 {

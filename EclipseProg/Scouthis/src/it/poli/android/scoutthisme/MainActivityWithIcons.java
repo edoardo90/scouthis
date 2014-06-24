@@ -3,7 +3,6 @@ package it.poli.android.scoutthisme;
 import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsFragment;
 import it.poli.android.scoutthisme.fragments.FindFriendsFrameFragment;
-import it.poli.android.scoutthisme.fragments.FindFriendsLoggedFragment;
 import it.poli.android.scoutthisme.fragments.GpsFrameFragment;
 import it.poli.android.scoutthisme.fragments.NewsFeedFragment;
 import it.poli.android.scoutthisme.fragments.StepCounterFrameFragment;
@@ -11,8 +10,6 @@ import it.poli.android.scoutthisme.fragments.StepCounterFrameFragment;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

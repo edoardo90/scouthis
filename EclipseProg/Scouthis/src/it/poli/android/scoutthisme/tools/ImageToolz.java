@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.util.Log;
 
 public class ImageToolz {
 	

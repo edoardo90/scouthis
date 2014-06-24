@@ -138,11 +138,9 @@ public class GpsHandler implements LocationListener
 				// Commit the transaction
 				transaction.commit();
 			}
-			if (mFragment instanceof FindFriendsLoggedFragment) {
-				TextView txtStatus = (TextView) view.findViewById(R.id.txtFindFriendsStatus);
-				txtStatus.setText(Html.fromHtml(mFragment.getString(R.string.generic_status_gps_deactivated)));
-			}
 		}
+		
+		onLocationChanged(null);
 	}
 
 	public void removeAlertView()

@@ -10,7 +10,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +30,15 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 	SensorHandler sensorHandler;
 	GpsHandler gpsHandler;
 	TextView txtDegrees;
+	
+	Location location;
 
 	String[] latlongOrient = {"N", "N-NE", "NE", "E-NE", "E", "E-SE", "SE", "S-SE", "S", "S-SO", "SO", "O-SO", "O", "O-NO", "NO", "N-NO"};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	
+
 		sensorHandler = new SensorHandler(this);
 		gpsHandler = new GpsHandler(this);
 		gpsHandler.setListener(this);
@@ -46,10 +48,6 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{    		
 		View rootView = inflater.inflate(R.layout.fragment_section_gps, container, false);
-		imgCompass = (ImageView) rootView.findViewById(R.id.imageViewCompass); // Our compass image
-		txtDegrees = (TextView) rootView.findViewById(R.id.txtDegrees); // TextView that will tell the user what degree is he heading
-		
-
 		return rootView;
 	}
 
@@ -58,7 +56,8 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 		super.onResume();
 		gpsHandler.setViewActive(true);
 		sensorHandler.setListener(this);
-		
+
+		updateView();
 	}
 
 	@Override
@@ -66,7 +65,6 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 		super.onPause();
 		gpsHandler.setViewActive(false);
 		sensorHandler.removeListener(this);
-		
 	}
 
 	@Override
@@ -88,6 +86,9 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 
 		} else {
 			float degree = Math.round(event.values[0]); // Get the angle around the z-axis rotated
+			
+			View rootView = getView();
+			txtDegrees = (TextView) rootView.findViewById(R.id.txtDegrees); // TextView that will tell the user what degree is he heading
 			txtDegrees.setText(String.format("%.0f", degree)+"°");
 
 			// Create a rotation animation (reverse turn degree degrees)
@@ -100,8 +101,10 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 
 			ra.setDuration(210); // How long the animation will take place
 			ra.setFillAfter(true); // Set the animation after the end of the reservation status
-
+			
+			imgCompass = (ImageView) rootView.findViewById(R.id.imageViewCompass); // Our compass image			
 			imgCompass.startAnimation(ra); // Start the animation
+			
 			currentDegree = -degree;
 
 			int orient = (int)(Math.round((Math.abs(degree))/22.5)%16);
@@ -113,6 +116,11 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 
 	@Override
 	public void onLocationChanged(Location location) {
+		this.location = location;
+		updateView();
+	}
+	
+	public void updateView() {
 		View rootView = getView();
 
 		TextView txtLat = (TextView) rootView.findViewById(R.id.txtLatitude);
@@ -122,31 +130,46 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 		TextView txtPrc = (TextView) rootView.findViewById(R.id.txtDistanceGPS);    
 		TextView txtBea = (TextView) rootView.findViewById(R.id.txtBearing); 
 
-		if (location != null)
-		{
-			double latitude = location.getLatitude();
-			double longitude = location.getLongitude();
-			double altitude = location.getAltitude();
-			double accuracy = location.getAccuracy();
-			double bearing = location.getBearing();
-			double speed = location.getSpeed()*3.6;
+		TextView txtStatus = (TextView) rootView.findViewById(R.id.txtGpsStatus); 
 
-			int locDegrees = (int)latitude;
-			double locMinutes = ((latitude - locDegrees)*60);
-			String locOrient = latitude >= 0 ? "N" : "S";
+		if (gpsHandler.isGpsEnabled()) {
+			if (location != null)
+			{
+				double latitude = location.getLatitude();
+				double longitude = location.getLongitude();
+				double altitude = location.getAltitude();
+				double accuracy = location.getAccuracy();
+				double bearing = location.getBearing();
+				double speed = location.getSpeed()*3.6;
 
-			int lonDegrees = (int)longitude;
-			double lonMinutes = ((longitude - lonDegrees)*60);
-			String lonOrient = longitude >= 0 ? "E" : "O";
+				int locDegrees = (int)latitude;
+				double locMinutes = ((latitude - locDegrees)*60);
+				String locOrient = latitude >= 0 ? "N" : "S";
 
-			int orient = (int)(Math.round((bearing)/22.5)%16);   
+				int lonDegrees = (int)longitude;
+				double lonMinutes = ((longitude - lonDegrees)*60);
+				String lonOrient = longitude >= 0 ? "E" : "O";
 
-			txtLat.setText(String.format("%d", Math.abs(locDegrees))+"°"+String.format("%.2f", Math.abs(locMinutes))+"'"+locOrient);
-			txtLong.setText(String.format("%d", Math.abs(lonDegrees))+"°"+String.format("%.2f", Math.abs(lonMinutes))+"'"+lonOrient);
-			txtAlt.setText(String.format("%.0f", altitude)+"m (WGS)");
-			txtSpd.setText(String.format("%.0f", speed)+"km/h");
-			txtPrc.setText(String.format("%.0f", accuracy)+"m");
-			txtBea.setText(String.format("%.0f", bearing)+"°"+" "+latlongOrient[orient]);
+				int orient = (int)(Math.round((bearing)/22.5)%16);   
+
+				txtLat.setText(String.format("%d", Math.abs(locDegrees))+"°"+String.format("%.2f", Math.abs(locMinutes))+"'"+locOrient);
+				txtLong.setText(String.format("%d", Math.abs(lonDegrees))+"°"+String.format("%.2f", Math.abs(lonMinutes))+"'"+lonOrient);
+				txtAlt.setText(String.format("%.0f", altitude)+"m (WGS)");
+				txtSpd.setText(String.format("%.0f", speed)+"km/h");
+				txtPrc.setText(String.format("%.0f", accuracy)+"m");
+				txtBea.setText(String.format("%.0f", bearing)+"°"+" "+latlongOrient[orient]);
+
+				txtStatus.setText(Html.fromHtml(getString(R.string.generic_status_ready)));
+			} else {
+				txtLat.setText(getString(R.string.fragments_waiting_dots));
+				txtLong.setText(getString(R.string.fragments_waiting_dots));
+				txtAlt.setText(getString(R.string.fragments_waiting_dots));
+				txtSpd.setText(getString(R.string.fragments_waiting_dots));
+				txtPrc.setText(getString(R.string.fragments_waiting_dots));
+				txtBea.setText(getString(R.string.fragments_waiting_dots));
+
+				txtStatus.setText(Html.fromHtml(getString(R.string.generic_status_waiting_gps)));
+			}
 		} else {
 			txtLat.setText(getString(R.string.fragments_waiting_dots));
 			txtLong.setText(getString(R.string.fragments_waiting_dots));
@@ -154,6 +177,8 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 			txtSpd.setText(getString(R.string.fragments_waiting_dots));
 			txtPrc.setText(getString(R.string.fragments_waiting_dots));
 			txtBea.setText(getString(R.string.fragments_waiting_dots));
+			
+			txtStatus.setText(Html.fromHtml(getString(R.string.generic_status_gps_deactivated)));
 		}
 	}
 }

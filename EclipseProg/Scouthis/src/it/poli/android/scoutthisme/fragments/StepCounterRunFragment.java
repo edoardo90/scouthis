@@ -30,11 +30,9 @@ import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,13 +49,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 /**
- * Step Counter fragment:
- * Fragment used to display user position on the google map,
- * used to count user's steps.
- * The user path is displayed on the google map as a spline.
+ * Step Counter fragment: Fragment used to display user position on the google
+ * map, used to count user's steps. The user path is displayed on the google map
+ * as a spline.
  */
-public  class StepCounterRunFragment extends StepCounterFragmentArchetype 
-implements GpsListener
+public class StepCounterRunFragment extends StepCounterFragmentArchetype implements GpsListener
 {
 	public static final String strLatitudeExtra = "it.poli.latitude";
 	public static final String strLongitudeExtra = "it.poli.longitude";
@@ -83,8 +79,6 @@ implements GpsListener
 	private float distance = 0;
 	private int elapsedTime = 0;
 
-
-
 	private int id;
 
 	/** new vars **/
@@ -107,45 +101,34 @@ implements GpsListener
 	private int mMaintain;
 	private boolean mQuitting = false;
 
-	private String unitaDiMisura  = "";
+	private String unitaDiMisura = "";
 
 	/**
 	 * True, when service is running.
 	 */
 	private boolean mIsRunning;
 
-
-
 	/** fine news vars **/
 
-
 	/**
-	 * Initialize gpsHandler (used to know user gps position)
-	 * Initialize legDetector (used to know each user step)
-	 * see: {@link GpsHandler}
-	 * see: {@link LegMovementDetector}
+	 * Initialize gpsHandler (used to know user gps position) Initialize
+	 * legDetector (used to know each user step) see: {@link GpsHandler} see:
+	 * {@link LegMovementDetector}
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (Pedometer.isRunning == false)
-		{
-			//se non è running significa:
-			//1) è appena stato fatto partire
-			//2) si è dopo uno STOP
+		if (Pedometer.isRunning == false) {
+			// se non è running significa:
+			// 1) è appena stato fatto partire
+			// 2) si è dopo uno STOP
 			Pedometer.isRunning = true;
 			Pedometer.secondsAtBeginning = Utils.currentTimeInMillis();
-		}
-		else
-		{
-			//isRunning == true
-
 		}
 
 		gpsHandler = new GpsHandler(this);
 		gpsHandler.setListener(this);
-
 
 		mAct = getActivity();
 
@@ -154,9 +137,7 @@ implements GpsListener
 		needDefaultZoom = true;
 		steps = 0;
 
-
 		gpsHandler.setListener(this);
-
 
 		/** new things **/
 
@@ -165,7 +146,7 @@ implements GpsListener
 
 		mUtils = Utils.getInstance();
 
-		mSettings = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+		mSettings = PreferenceManager.getDefaultSharedPreferences(mAct);
 		mPedometerSettings = new PedometerSettings(mSettings);
 
 		mUtils.setSpeak(mSettings.getBoolean("speak", false));
@@ -173,62 +154,34 @@ implements GpsListener
 		// Read from preferences if the service was running on the last onPause
 		mIsRunning = mPedometerSettings.isServiceRunning();
 
-		// Start the service if this is considered to be an application start (last onPause was long ago)
+		// Start the service if this is considered to be an application start
+		// (last onPause was long ago)
 		if (!mIsRunning && mPedometerSettings.isNewStart()) {
 			startStepService();
 			bindStepService();
-		}
-		else if (mIsRunning) {
+		} else if (mIsRunning) {
 			bindStepService();
 		}
-
 
 		mPedometerSettings.clearServiceRunning();
 
 		/** end things with components **/
-
-		displayDesiredPaceOrSpeed();
 	}
-
-
-
-
-
-
-
-	private View findViewById(int desiredPaceLabel) {
-		return this.getActivity()
-				.findViewById(desiredPaceLabel);
-	}
-
-
-
-
-
-
-
-	private void displayDesiredPaceOrSpeed() {
-		//    if (mMaintain == PedometerSettings.M_PACE) {
-		//        mDesiredPaceView.setText("" + (int)mDesiredPaceOrSpeed);
-		//    }
-		//    else {
-		//        mDesiredPaceView.setText("" + mDesiredPaceOrSpeed);
-		//    }
-	}
-
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		View rootView = inflater.inflate(R.layout.fragment_section_stepcounter_run, container, false);
-		this.gMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapStepCounter)).getMap();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(
+				R.layout.fragment_section_stepcounter_run, container, false);
+		this.gMap = ((SupportMapFragment) getFragmentManager()
+				.findFragmentById(R.id.mapStepCounter)).getMap();
 		return rootView;
 	}
+
 	/**
-	 * Unregisters  listeners (gps and leg detector)
+	 * Unregisters listeners (gps and leg detector)
 	 */
-	public void onDestroyView()
-	{
+	public void onDestroyView() {
 		super.onDestroyView();
 
 		// Destroy map
@@ -236,11 +189,14 @@ implements GpsListener
 			gMap.clear();
 		}
 
-		boolean destroying = ((MainActivityWithIcons) mAct).isActivityIsDestroying();
+		boolean destroying = ((MainActivityWithIcons) mAct)
+				.isActivityIsDestroying();
 		if (!destroying) {
-			Fragment fragment = (getFragmentManager().findFragmentById(R.id.mapStepCounter));
+			Fragment fragment = (getFragmentManager()
+					.findFragmentById(R.id.mapStepCounter));
 			if (fragment != null) {
-				FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+				FragmentTransaction ft = getActivity()
+						.getSupportFragmentManager().beginTransaction();
 				ft.remove(fragment);
 				ft.commitAllowingStateLoss();
 			}
@@ -248,39 +204,36 @@ implements GpsListener
 	}
 
 	@Override
-	public void onResume()
-	{
+	public void onResume() {
 		super.onResume();
 
-		////// gpsHandler.setViewActive(false);  /**  SERVE? E' DANNOSO?  **/
+		// //// gpsHandler.setViewActive(false); /** SERVE? E' DANNOSO? **/
 
-		new Thread(new Runnable() 
-		{
-			public void run() 
-			{
-				id = TextFilesUtils.getLastIdFromXml(getActivity(), Constants.XML_PATH_STEPCOUNTER);
+		new Thread(new Runnable() {
+			public void run() {
+				id = TextFilesUtils.getLastIdFromXml(getActivity(),
+						Constants.XML_PATH_STEPCOUNTER);
 			}
 		}).start();
 
-		txtPassi     = (TextView) findViewById(R.id.txtPassi);
-		txtElapsedTime     = (TextView) findViewById(R.id.txtElapsedTime);
-		txtDistance = (TextView) findViewById(R.id.txtDistance);
-		txtAverageSpeed    = (TextView) findViewById(R.id.txtAverageSpeed);
+		txtPassi = (TextView) mAct.findViewById(R.id.txtPassi);
+		txtElapsedTime = (TextView) mAct.findViewById(R.id.txtElapsedTime);
+		txtDistance = (TextView) mAct.findViewById(R.id.txtDistance);
+		txtAverageSpeed = (TextView) mAct.findViewById(R.id.txtAverageSpeed);
 
-		mCaloriesValueView = (TextView) findViewById(R.id.txtNull);
+		mCaloriesValueView = (TextView) mAct.findViewById(R.id.txtNull);
 
-		CircleButton btnEndRun = (CircleButton)this.getActivity().findViewById(R.id.step_btn_end_run);
+		CircleButton btnEndRun = (CircleButton) mAct.findViewById(R.id.step_btn_end_run);
 		btnEndRun.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetValues(true);
 				Pedometer.isRunning = false;
 				Log.i(TAG, "STOPPED SERVICE!");
-				saveRunEpisodeOnFile();	
+				saveRunEpisodeOnFile();
 				transitionTowars(new StepCounterFragment());
 			}
 		});
-
 
 		updateMap();
 	}
@@ -289,19 +242,14 @@ implements GpsListener
 	public void onPause() {
 		Log.i(TAG, "[ACTIVITY] onPause");
 
-		///// gpsHandler.setViewActive(false); /** serve?  E' DANNOSO? **/
+		// /// gpsHandler.setViewActive(false); /** serve? E' DANNOSO? **/
 		mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning);
 
 		/*
-        if (mIsRunning) {
-            unbindStepService();
-        }
-        if (mQuitting) {
-            mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning);
-        }
-        else {
-            mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning);
-        }
+		 * if (mIsRunning) { unbindStepService(); } if (mQuitting) {
+		 * mPedometerSettings.saveServiceRunningWithNullTimestamp(mIsRunning); }
+		 * else {
+		 * mPedometerSettings.saveServiceRunningWithTimestamp(mIsRunning); }
 		 */
 
 		super.onPause();
@@ -309,8 +257,7 @@ implements GpsListener
 	}
 
 	@Override
-	public void onDestroy()
-	{
+	public void onDestroy() {
 		super.onDestroy();
 
 		gpsHandler.removeListener();
@@ -322,52 +269,44 @@ implements GpsListener
 		super.onDestroy();
 	}
 
-
-	private void saveRunEpisodeOnFile()
-	{	
+	private void saveRunEpisodeOnFile() {
 		this.id++;
 		this.saveMapAsImage();
-		RunEpisode rep = new RunEpisode(this.id, this.distance, this.steps, this.elapsedTime, this.speed);
+		RunEpisode rep = new RunEpisode(this.id, this.distance, this.steps,
+				this.elapsedTime, this.speed);
 		TextFilesUtils.appendXmlElement(getActivity(),
-				Constants.XML_PATH_STEPCOUNTER,
-				rep.getXmlTagFieldMap(), 
+				Constants.XML_PATH_STEPCOUNTER, rep.getXmlTagFieldMap(),
 				Constants.XML_TAG_RUNEPISODES);
 	}
 
-	private void saveMapAsImage()
-	{
-		SnapshotReadyCallback callback = new SnapshotReadyCallback()
-		{
+	private void saveMapAsImage() {
+		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
 			@Override
-			public void onSnapshotReady(Bitmap snapshot) 
-			{
-				ImageToolz.storeImage(snapshot, Constants.SD_IMAGE_DIR, Constants.IMAGE_MAP_PREFIX + id);
+			public void onSnapshotReady(Bitmap snapshot) {
+				ImageToolz.storeImage(snapshot, Constants.SD_IMAGE_DIR,
+						Constants.IMAGE_MAP_PREFIX + id);
 			}
 		};
 
 		gMap.snapshot(callback);
 	}
 
-	private void clearMap() {
-		gMap.clear();
-	}
-
 	/**
-	 * Executed each time the user changes its position
-	 * Information from position comes from the gps andler
-	 * see {@link OnLocationChangedListener}
+	 * Executed each time the user changes its position Information from
+	 * position comes from the gps andler see {@link OnLocationChangedListener}
 	 */
 	public void updateMap() {
 		if (loc == null) {
-			gMap.moveCamera(CameraUpdateFactory.
-					newLatLngZoom(new LatLng(41.29246, 12.5736108), 5));
-		}
-		else if (needDefaultZoom) {
+			gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
+					41.29246, 12.5736108), 5));
+		} else if (needDefaultZoom) {
 			needDefaultZoom = false;
-			gMap.moveCamera(CameraUpdateFactory.
-					newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), defaultZoom));
+			gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+					new LatLng(loc.getLatitude(), loc.getLongitude()),
+					defaultZoom));
 		} else {
-			gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(loc.getLatitude(), loc.getLongitude())));
+			gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(loc
+					.getLatitude(), loc.getLongitude())));
 		}
 	}
 
@@ -375,11 +314,12 @@ implements GpsListener
 	public void onLocationChanged(Location location) {
 		this.loc = location;
 
-		Log.i("PEDOMETER", "LOCATION CHANGED: " + location.getLatitude() + ", " + location.getLongitude());
+		Log.i("PEDOMETER", "LOCATION CHANGED: " + location.getLatitude() + ", "
+				+ location.getLongitude());
 
 		Toast.makeText(this.getActivity().getApplicationContext(),
-				"" + location.getLatitude() + ", " + location.getLongitude()
-				, Toast.LENGTH_SHORT).show();
+				"" + location.getLatitude() + ", " + location.getLongitude(),
+				Toast.LENGTH_SHORT).show();
 
 		if (lastSensorLoc == null) {
 			this.lastSensorLoc = location;
@@ -387,16 +327,16 @@ implements GpsListener
 		updateMap();
 	}
 
-
 	private void savePaceSetting() {
-		mPedometerSettings.savePaceOrSpeedSetting(mMaintain, mDesiredPaceOrSpeed);
+		mPedometerSettings.savePaceOrSpeedSetting(mMaintain,
+				mDesiredPaceOrSpeed);
 	}
 
 	private StepService mService;
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
-			mService = ((StepService.StepBinder)service).getService();
+			mService = ((StepService.StepBinder) service).getService();
 
 			mService.registerCallback(mCallback);
 			mService.reloadSettings();
@@ -408,64 +348,64 @@ implements GpsListener
 		}
 	};
 
-
 	private void startStepService() {
-		if (! mIsRunning) {
+		if (!mIsRunning) {
 			Log.i(TAG, "[SERVICE] Start");
 			mIsRunning = true;
-			this.getActivity().getApplicationContext()
-			.startService(new Intent(this.getActivity(),     StepService.class));
+			this.getActivity()
+					.getApplicationContext()
+					.startService(
+							new Intent(this.getActivity(), StepService.class));
 		}
 	}
 
 	private void bindStepService() {
 		Log.i(TAG, "[SERVICE] Bind");
 		this.getActivity()
-		.getApplicationContext()
-		.bindService(new Intent(this.getActivity(), 
-				StepService.class), mConnection, Context.BIND_AUTO_CREATE + Context.BIND_DEBUG_UNBIND);
+				.getApplicationContext()
+				.bindService(new Intent(this.getActivity(), StepService.class),
+						mConnection,
+						Context.BIND_AUTO_CREATE + Context.BIND_DEBUG_UNBIND);
 	}
 
 	private void unbindStepService() {
 		Log.i(TAG, "[SERVICE] Unbind");
-		this.getActivity().getApplicationContext().
-		unbindService(mConnection);
+		this.getActivity().getApplicationContext().unbindService(mConnection);
 	}
 
 	private void stopStepService() {
 		Log.i(TAG, "[SERVICE] Stop");
 		if (mService != null) {
 			Log.i(TAG, "[SERVICE] stopService");
-			this.getActivity().getApplicationContext().
-			stopService(new Intent(this.getActivity(),
-					StepService.class));
+			this.getActivity()
+					.getApplicationContext()
+					.stopService(
+							new Intent(this.getActivity(), StepService.class));
 		}
 		mIsRunning = false;
 	}
 
 	private void resetValues(boolean updateDisplay) {
 		if (mService != null && mIsRunning) {
-			mService.resetValues();                    
-		}
-		else {
+			mService.resetValues();
+		} else {
+			txtPassi = (TextView) mAct.findViewById(R.id.txtPassi);
+			txtElapsedTime = (TextView) mAct.findViewById(R.id.txtElapsedTime);
+			txtDistance = (TextView) mAct.findViewById(R.id.txtDistance);
+			txtAverageSpeed = (TextView) mAct.findViewById(R.id.txtAverageSpeed);
 
-			txtPassi     = (TextView) findViewById(R.id.txtPassi);
-			txtElapsedTime     = (TextView) findViewById(R.id.txtElapsedTime);
-			txtDistance = (TextView) findViewById(R.id.txtDistance);
-			txtAverageSpeed    = (TextView) findViewById(R.id.txtAverageSpeed);
-
-
-			if(txtPassi != null)
-			{
+			if (txtPassi != null) {
 				txtPassi.setText("0");
 				txtElapsedTime.setText("0");
 				txtDistance.setText("0");
 				txtAverageSpeed.setText("0");
 				mCaloriesValueView.setText("0");
 			}
-			SharedPreferences state = this.getActivity().getApplicationContext() 
-					.getSharedPreferences("state", 0);
+
+			SharedPreferences state = this.getActivity()
+					.getApplicationContext().getSharedPreferences("state", 0);
 			SharedPreferences.Editor stateEditor = state.edit();
+
 			if (updateDisplay) {
 				stateEditor.putInt("steps", 0);
 				stateEditor.putInt("pace", 0);
@@ -477,43 +417,10 @@ implements GpsListener
 		}
 	}
 
-
-	private static final int MENU_QUIT     = 9;
-
+	private static final int MENU_QUIT = 9;
 	private static final int MENU_PAUSE = 1;
 	private static final int MENU_RESUME = 2;
 	private static final int MENU_RESET = 3;
-
-	/* Creates the menu items */
-	public void onPrepareOptionsMenu(Menu menu) {
-
-		/***  NOT NOW... ***/
-		//        menu.clear();
-		//        if (mIsRunning) {
-		//            menu.add(0, MENU_PAUSE, 0, R.string.pause)
-		//            .setIcon(android.R.drawable.ic_media_pause)
-		//            .setShortcut('1', 'p');
-		//        }
-		//        else {
-		//            menu.add(0, MENU_RESUME, 0, R.string.resume)
-		//            .setIcon(android.R.drawable.ic_media_play)
-		//            .setShortcut('1', 'p');
-		//        }
-		//        
-		//        menu.add(0, MENU_RESET, 0, R.string.reset)
-		//        .setIcon(android.R.drawable.ic_menu_close_clear_cancel)
-		//        .setShortcut('2', 'r');
-		//        menu.add(0, MENU_SETTINGS, 0, R.string.settings)
-		//        .setIcon(android.R.drawable.ic_menu_preferences)
-		//        .setShortcut('8', 's')
-		//        .setIntent(new Intent(this.getActivity()
-		//        		, Settings.class));
-		//        menu.add(0, MENU_QUIT, 0, R.string.quit)
-		//        .setIcon(android.R.drawable.ic_lock_power_off)
-		//        .setShortcut('9', 'q');
-		//      
-		//        return;
-	}
 
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -534,8 +441,7 @@ implements GpsListener
 			unbindStepService();
 			stopStepService();
 			mQuitting = true;
-			this.getActivity()
-			.finish();
+			this.getActivity().finish();
 			return true;
 		}
 		return false;
@@ -546,17 +452,24 @@ implements GpsListener
 		public void stepsChanged(int value) {
 			mHandler.sendMessage(mHandler.obtainMessage(STEPS_MSG, value, 0));
 		}
+
 		public void paceChanged(int value) {
 			mHandler.sendMessage(mHandler.obtainMessage(PACE_MSG, value, 0));
 		}
+
 		public void distanceChanged(float value) {
-			mHandler.sendMessage(mHandler.obtainMessage(DISTANCE_MSG, (int)(value*1000), 0));
+			mHandler.sendMessage(mHandler.obtainMessage(DISTANCE_MSG,
+					(int) (value * 1000), 0));
 		}
+
 		public void speedChanged(float value) {
-			mHandler.sendMessage(mHandler.obtainMessage(SPEED_MSG, (int)(value*1000), 0));
+			mHandler.sendMessage(mHandler.obtainMessage(SPEED_MSG,
+					(int) (value * 1000), 0));
 		}
+
 		public void caloriesChanged(float value) {
-			mHandler.sendMessage(mHandler.obtainMessage(CALORIES_MSG, (int)(value), 0));
+			mHandler.sendMessage(mHandler.obtainMessage(CALORIES_MSG,
+					(int) (value), 0));
 		}
 	};
 
@@ -569,11 +482,11 @@ implements GpsListener
 	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler() {
 
-
-		@Override public void handleMessage(Message msg) {
+		@Override
+		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case STEPS_MSG:
-				mStepValue = (int)msg.arg1;
+				mStepValue = (int) msg.arg1;
 
 				steps = mStepValue;
 
@@ -582,30 +495,25 @@ implements GpsListener
 				break;
 			case PACE_MSG:
 				mPaceValue = msg.arg1;
-				if (mPaceValue <= 0) { 
+				if (mPaceValue <= 0) {
 					txtElapsedTime.setText("0");
-				}
-				else {
-					txtElapsedTime.setText("" + (int)mPaceValue);
+				} else {
+					txtElapsedTime.setText("" + (int) mPaceValue);
 				}
 				break;
 			case DISTANCE_MSG:
 
-				mDistanceValue = ((int)msg.arg1)/1000f;
-
+				mDistanceValue = ((int) msg.arg1) / 1000f;
 
 				mDistanceValue = convertMilesToKm(mDistanceValue);
 				distance = mDistanceValue;
 
 				float multiplier = 1;
 
-				if (mDistanceValue < 1) 
-				{	
+				if (mDistanceValue < 1) {
 					unitaDiMisura = "m";
 					multiplier = 1000;
-				}
-				else
-				{
+				} else {
 					unitaDiMisura = "km";
 					multiplier = 1;
 				}
@@ -614,72 +522,62 @@ implements GpsListener
 
 				distance = mDistanceValue;
 
-				if (mDistanceValue <= 0) { 
+				if (mDistanceValue <= 0) {
 					mDistanceValue = 0;
 					txtDistance.setText("0");
-				}
-				else {
+				} else {
 					String distance = ("" + (mDistanceValue + 0.000001f));
 
-					if (distance.length() >= 5)
-					{
+					if (distance.length() >= 5) {
 						distance = distance.substring(0, 4);
-					}   
+					}
 
-					txtDistance.setText(
-							distance
-							+  " " + unitaDiMisura
-							);
+					txtDistance.setText(distance + " " + unitaDiMisura);
 
 				}
 				break;
 			case SPEED_MSG:
-				mSpeedValue = ((int)msg.arg1)/1000f;
+				mSpeedValue = ((int) msg.arg1) / 1000f;
 
 				Log.i("Stepper", "speed [miles/hour] : " + mSpeedValue);
 
 				mSpeedValue = convertMilesToKm(mSpeedValue);
 				speed = mSpeedValue;
 
-				float time_sec = Utils.currentTimeInMillis() - Pedometer.secondsAtBeginning;
+				float time_sec = Utils.currentTimeInMillis()
+						- Pedometer.secondsAtBeginning;
 				time_sec = time_sec / 1000;
 
 				elapsedTime = (int) time_sec;
 
 				unitaDiMisura = "s";
-				if (time_sec > 60)
-				{
+				if (time_sec > 60) {
 					unitaDiMisura = "min";
 					time_sec = time_sec / 60f;
 				}
-				if (time_sec > 60)
-				{
+				if (time_sec > 60) {
 					unitaDiMisura = "ore";
 					time_sec = time_sec / 60f;
 				}
 
-				elapsedTime =(int) time_sec;
+				elapsedTime = (int) time_sec;
 
-				txtElapsedTime.setText("" + elapsedTime +  " "+ unitaDiMisura);
+				txtElapsedTime.setText("" + elapsedTime + " " + unitaDiMisura);
 
-				if (mSpeedValue <= 0) { 
+				if (mSpeedValue <= 0) {
 					txtAverageSpeed.setText("0");
-				}
-				else {
-					txtAverageSpeed.setText(
-							("" + (mSpeedValue + 0.000001f)).substring(0, 4)
-							+  " " +  "km/h"
-							);
+				} else {
+					txtAverageSpeed.setText(("" + (mSpeedValue + 0.000001f))
+							.substring(0, 4) + " " + "km/h");
 				}
 				break;
 			case CALORIES_MSG:
 				mCaloriesValue = msg.arg1;
 
-				if (mCaloriesValue <= 0) { 	
+				if (mCaloriesValue <= 0) {
 					mCaloriesValueView.setText("0");
-				}
-				else {
-					mCaloriesValueView.setText("" + (int)mCaloriesValue);
+				} else {
+					mCaloriesValueView.setText("" + (int) mCaloriesValue);
 				}
 				break;
 			default:
@@ -689,18 +587,8 @@ implements GpsListener
 
 	};
 
-
-
 	protected float convertMilesToKm(float sizeInMiles) {
 		return sizeInMiles * 1.609344f;
 	}
-
-
-
-
-
-
-
-
 
 }

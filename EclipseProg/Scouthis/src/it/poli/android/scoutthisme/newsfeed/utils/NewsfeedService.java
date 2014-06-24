@@ -81,16 +81,16 @@ public class NewsfeedService  extends AsyncTask<NewsFeedFragment, Void, String>
 						if (insideItem) {
 							imageUrlString = xpp.getAttributeValue(null, "url");
 							imageUrl = new URL(imageUrlString);
-							//Drawable d = Drawable.createFromPath(imageUrlString);
 							Bitmap bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+							if (bmp.getWidth() >= 192 || bmp.getHeight() >= 144)
+								bmp = Bitmap.createScaledBitmap(bmp, 192, 144, false);
 							rssI.setImage(bmp);
-							//xpp.nextText();
 						}
 					}
 				} else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")) {
 					RSSItems.add(rssI);
 					rssI = new NewsItem();
-					insideItem=false;
+					insideItem = false;
 				}
 				eventType = xpp.next(); //move to next element
 			}			

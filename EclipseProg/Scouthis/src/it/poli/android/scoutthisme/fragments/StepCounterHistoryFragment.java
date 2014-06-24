@@ -5,7 +5,6 @@ import it.poli.android.scoutthisme.Constants;
 import it.poli.android.scoutthisme.stepcounter.utils.RunEpisode;
 import it.poli.android.scoutthisme.stepcounter.utils.StepCounterLazyAdapter;
 import it.poli.android.scoutthisme.stepcounter.utils.StepCounterUtilXML;
-import it.poli.android.scoutthisme.stepreload.stats.Pedometer;
 import it.poli.android.scoutthisme.tools.CircleButton;
 import it.poli.android.scoutthisme.tools.TextFilesUtils;
 import it.poli.android.scoutthisme.undobar.UndoBar;

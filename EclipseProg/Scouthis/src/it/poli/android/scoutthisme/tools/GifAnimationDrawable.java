@@ -15,15 +15,15 @@
  */
 package it.poli.android.scoutthisme.tools;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.Bitmap;
 
 /**
  * <p>Creates an AnimationDrawable from a GIF image.</p>

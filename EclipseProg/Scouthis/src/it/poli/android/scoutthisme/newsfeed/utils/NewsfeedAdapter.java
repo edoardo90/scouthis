@@ -41,7 +41,7 @@ public class NewsfeedAdapter extends ArrayAdapter<NewsItem>
  
             // 4. Set the text for textView
             labelView.setText(itemsList.get(position).getTitle());
-            descView.setText(itemsList.get(position).getDescription());
+            descView.setText(itemsList.get(position).getDescription());            
             imageView.setImageBitmap(itemsList.get(position).getImage());     
  
             // 5. Return rowView

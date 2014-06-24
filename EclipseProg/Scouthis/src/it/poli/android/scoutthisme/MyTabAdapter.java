@@ -1,6 +1,5 @@
 package it.poli.android.scoutthisme;
 
-import it.poli.android.scouthisme.R;
 import it.poli.android.scoutthisme.fragments.AlarmsFragment;
 import it.poli.android.scoutthisme.fragments.FindFriendsFrameFragment;
 import it.poli.android.scoutthisme.fragments.GpsFrameFragment;
