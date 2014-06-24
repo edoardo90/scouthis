@@ -82,8 +82,10 @@ public class NewsfeedService  extends AsyncTask<NewsFeedFragment, Void, String>
 							imageUrlString = xpp.getAttributeValue(null, "url");
 							imageUrl = new URL(imageUrlString);
 							Bitmap bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-							if (bmp.getWidth() >= 192 || bmp.getHeight() >= 144)
-								bmp = Bitmap.createScaledBitmap(bmp, 192, 144, false);
+							if (bmp != null) {
+								if (bmp.getWidth() >= 192 || bmp.getHeight() >= 144)
+									bmp = Bitmap.createScaledBitmap(bmp, 192, 144, false);
+							}
 							rssI.setImage(bmp);
 						}
 					}
