@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -33,12 +34,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,6 +46,7 @@ import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 /**
  * Step Counter fragment: Fragment used to display user position on the google
@@ -67,7 +67,7 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 	Location loc, lastSensorLoc;
 	Marker marker;
 	boolean needDefaultZoom;
-	final int defaultZoom = 13;
+	final int defaultZoom = 18;
 
 	/* Stepcounter's path variables */
 	int steps;
@@ -90,6 +90,7 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 	private TextView txtPassi;
 	private TextView txtElapsedTime;
 	private TextView txtDistance;
+	private TextView txtCurrentSpeed;
 	private TextView txtAverageSpeed;
 	private TextView mCaloriesValueView;
 	private int mStepValue;
@@ -99,7 +100,6 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 	private int mCaloriesValue;
 	private float mDesiredPaceOrSpeed;
 	private int mMaintain;
-	private boolean mQuitting = false;
 
 	private String unitaDiMisura = "";
 
@@ -207,7 +207,7 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 	public void onResume() {
 		super.onResume();
 
-		// //// gpsHandler.setViewActive(false); /** SERVE? E' DANNOSO? **/
+		gpsHandler.setViewActive(true); /** SERVE? E' DANNOSO? **/
 
 		new Thread(new Runnable() {
 			public void run() {
@@ -219,6 +219,7 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 		txtPassi = (TextView) mAct.findViewById(R.id.txtPassi);
 		txtElapsedTime = (TextView) mAct.findViewById(R.id.txtElapsedTime);
 		txtDistance = (TextView) mAct.findViewById(R.id.txtDistance);
+		txtCurrentSpeed = (TextView) mAct.findViewById(R.id.txtSpeedCurrent);
 		txtAverageSpeed = (TextView) mAct.findViewById(R.id.txtAverageSpeed);
 
 		mCaloriesValueView = (TextView) mAct.findViewById(R.id.txtNull);
@@ -254,14 +255,22 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 
 		super.onPause();
 		savePaceSetting();
+
+		gpsHandler.setViewActive(false);
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 
-		gpsHandler.removeListener();
+		if (mIsRunning && !mPedometerSettings.isNewStart()) {
+			unbindStepService();
+			stopStepService();
+		} else if (!mIsRunning) {
+			unbindStepService();
+		}
 
+		gpsHandler.removeListener();
 	}
 
 	protected void onRestart() {
@@ -295,7 +304,17 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 	 * Executed each time the user changes its position Information from
 	 * position comes from the gps andler see {@link OnLocationChangedListener}
 	 */
-	public void updateMap() {
+	public void updateMap()
+	{	
+		if (loc != null && lastSensorLoc != null && !loc.equals(lastSensorLoc)) {
+			gMap.addPolyline(new PolylineOptions()
+			.add(new LatLng(lastSensorLoc.getLatitude(), lastSensorLoc.getLongitude()),
+					new LatLng(loc.getLatitude(), loc.getLongitude()))
+					.width(4)
+					.color(Color.WHITE));
+			lastSensorLoc = loc;
+		}
+
 		if (loc == null) {
 			gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
 					41.29246, 12.5736108), 5));
@@ -313,17 +332,10 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 	@Override
 	public void onLocationChanged(Location location) {
 		this.loc = location;
-
-		Log.i("PEDOMETER", "LOCATION CHANGED: " + location.getLatitude() + ", "
-				+ location.getLongitude());
-
-		Toast.makeText(this.getActivity().getApplicationContext(),
-				"" + location.getLatitude() + ", " + location.getLongitude(),
-				Toast.LENGTH_SHORT).show();
-
 		if (lastSensorLoc == null) {
 			this.lastSensorLoc = location;
 		}
+
 		updateMap();
 	}
 
@@ -353,19 +365,19 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 			Log.i(TAG, "[SERVICE] Start");
 			mIsRunning = true;
 			this.getActivity()
-					.getApplicationContext()
-					.startService(
-							new Intent(this.getActivity(), StepService.class));
+			.getApplicationContext()
+			.startService(
+					new Intent(this.getActivity(), StepService.class));
 		}
 	}
 
 	private void bindStepService() {
 		Log.i(TAG, "[SERVICE] Bind");
 		this.getActivity()
-				.getApplicationContext()
-				.bindService(new Intent(this.getActivity(), StepService.class),
-						mConnection,
-						Context.BIND_AUTO_CREATE + Context.BIND_DEBUG_UNBIND);
+		.getApplicationContext()
+		.bindService(new Intent(this.getActivity(), StepService.class),
+				mConnection,
+				Context.BIND_AUTO_CREATE + Context.BIND_DEBUG_UNBIND);
 	}
 
 	private void unbindStepService() {
@@ -378,9 +390,9 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 		if (mService != null) {
 			Log.i(TAG, "[SERVICE] stopService");
 			this.getActivity()
-					.getApplicationContext()
-					.stopService(
-							new Intent(this.getActivity(), StepService.class));
+			.getApplicationContext()
+			.stopService(
+					new Intent(this.getActivity(), StepService.class));
 		}
 		mIsRunning = false;
 	}
@@ -392,12 +404,14 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 			txtPassi = (TextView) mAct.findViewById(R.id.txtPassi);
 			txtElapsedTime = (TextView) mAct.findViewById(R.id.txtElapsedTime);
 			txtDistance = (TextView) mAct.findViewById(R.id.txtDistance);
+			txtCurrentSpeed = (TextView) mAct.findViewById(R.id.txtSpeedCurrent);
 			txtAverageSpeed = (TextView) mAct.findViewById(R.id.txtAverageSpeed);
 
 			if (txtPassi != null) {
 				txtPassi.setText("0");
 				txtElapsedTime.setText("0");
 				txtDistance.setText("0");
+				txtCurrentSpeed.setText("0");
 				txtAverageSpeed.setText("0");
 				mCaloriesValueView.setText("0");
 			}
@@ -415,36 +429,6 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 				stateEditor.commit();
 			}
 		}
-	}
-
-	private static final int MENU_QUIT = 9;
-	private static final int MENU_PAUSE = 1;
-	private static final int MENU_RESUME = 2;
-	private static final int MENU_RESET = 3;
-
-	/* Handles item selections */
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case MENU_PAUSE:
-			unbindStepService();
-			stopStepService();
-			return true;
-		case MENU_RESUME:
-			startStepService();
-			bindStepService();
-			return true;
-		case MENU_RESET:
-			resetValues(true);
-			return true;
-		case MENU_QUIT:
-			resetValues(false);
-			unbindStepService();
-			stopStepService();
-			mQuitting = true;
-			this.getActivity().finish();
-			return true;
-		}
-		return false;
 	}
 
 	// TODO: unite all into 1 type of message
@@ -480,111 +464,115 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 	private static final int CALORIES_MSG = 5;
 
 	@SuppressLint("HandlerLeak")
-	private Handler mHandler = new Handler() {
+	private Handler mHandler = new Handler() 
+	{
+		private float multiplier;
 
 		@Override
 		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case STEPS_MSG:
-				mStepValue = (int) msg.arg1;
+			if (getView() != null) {
+				switch (msg.what) {
+				case STEPS_MSG:
+					mStepValue = (int) msg.arg1;
+					steps = mStepValue;
+					txtPassi.setText("" + mStepValue);
+					break;
+				case PACE_MSG:
+					mPaceValue = msg.arg1;
+					if (mPaceValue <= 0) {
+						txtElapsedTime.setText("0");
+					} else {
+						txtElapsedTime.setText("" + (int) mPaceValue);
+					}
+					break;
+				case DISTANCE_MSG:
 
-				steps = mStepValue;
+					mDistanceValue = ((int) msg.arg1) / 1000f;
 
-				txtPassi.setText("" + mStepValue);
+					mDistanceValue = convertMilesToKm(mDistanceValue);
+					distance = mDistanceValue;
 
-				break;
-			case PACE_MSG:
-				mPaceValue = msg.arg1;
-				if (mPaceValue <= 0) {
-					txtElapsedTime.setText("0");
-				} else {
-					txtElapsedTime.setText("" + (int) mPaceValue);
-				}
-				break;
-			case DISTANCE_MSG:
-
-				mDistanceValue = ((int) msg.arg1) / 1000f;
-
-				mDistanceValue = convertMilesToKm(mDistanceValue);
-				distance = mDistanceValue;
-
-				float multiplier = 1;
-
-				if (mDistanceValue < 1) {
-					unitaDiMisura = "m";
-					multiplier = 1000;
-				} else {
-					unitaDiMisura = "km";
 					multiplier = 1;
-				}
 
-				mDistanceValue *= multiplier;
-
-				distance = mDistanceValue;
-
-				if (mDistanceValue <= 0) {
-					mDistanceValue = 0;
-					txtDistance.setText("0");
-				} else {
-					String distance = ("" + (mDistanceValue + 0.000001f));
-
-					if (distance.length() >= 5) {
-						distance = distance.substring(0, 4);
+					if (mDistanceValue < 1) {
+						unitaDiMisura = "m";
+						multiplier = 1000;
+					} else {
+						unitaDiMisura = "km";
+						multiplier = 1;
 					}
 
-					txtDistance.setText(distance + " " + unitaDiMisura);
+					mDistanceValue *= multiplier;
 
+					distance = mDistanceValue;
+
+					if (mDistanceValue <= 0) {
+						mDistanceValue = 0;
+						txtDistance.setText("0");
+					} else {
+						String distance = ("" + (mDistanceValue + 0.000001f));
+
+						if (distance.length() >= 5) {
+							distance = distance.substring(0, 4);
+						}
+
+						txtDistance.setText(distance + " " + unitaDiMisura);
+
+					}
+					break;
+				case SPEED_MSG:
+					mSpeedValue = ((int) msg.arg1) / 1000f;
+
+					//Log.i("Stepper", "speed [miles/hour] : " + mSpeedValue);
+
+					mSpeedValue = convertMilesToKm(mSpeedValue);
+
+					float time_sec = Utils.currentTimeInMillis() - Pedometer.secondsAtBeginning;
+					float averageSpeed = (float) ((mDistanceValue*multiplier/time_sec)*3.6) + 0.000001f;
+
+					speed = averageSpeed;
+					time_sec = time_sec / 1000;
+
+					elapsedTime = (int) time_sec;
+
+					unitaDiMisura = "s";
+					if (time_sec > 60) {
+						unitaDiMisura = "min";
+						time_sec = time_sec / 60f;
+					}
+					if (time_sec > 60) {
+						unitaDiMisura = "ore";
+						time_sec = time_sec / 60f;
+					}
+
+					elapsedTime = (int) time_sec;
+					txtElapsedTime.setText("" + elapsedTime + " " + unitaDiMisura);
+
+					if (averageSpeed > 0.1f)
+						txtAverageSpeed.setText(String.valueOf(averageSpeed).substring(0, 4) + " " + "km/h");
+					else
+						txtAverageSpeed.setText("0" + " " + "km/h");
+
+					if (mSpeedValue <= 0) {
+						txtCurrentSpeed.setText("0" + " " + "km/h");
+					} else {
+						txtCurrentSpeed.setText(String.valueOf(mSpeedValue + 0.000001f).substring(0, 4) + " " + "km/h");
+					}
+					break;
+				case CALORIES_MSG:
+					mCaloriesValue = msg.arg1;
+
+					if (mCaloriesValue <= 0) {
+						mCaloriesValueView.setText("0");
+					} else {
+						mCaloriesValueView.setText("" + (int) mCaloriesValue);
+					}
+					break;
+				default:
+					super.handleMessage(msg);
 				}
-				break;
-			case SPEED_MSG:
-				mSpeedValue = ((int) msg.arg1) / 1000f;
-
-				Log.i("Stepper", "speed [miles/hour] : " + mSpeedValue);
-
-				mSpeedValue = convertMilesToKm(mSpeedValue);
-				speed = mSpeedValue;
-
-				float time_sec = Utils.currentTimeInMillis()
-						- Pedometer.secondsAtBeginning;
-				time_sec = time_sec / 1000;
-
-				elapsedTime = (int) time_sec;
-
-				unitaDiMisura = "s";
-				if (time_sec > 60) {
-					unitaDiMisura = "min";
-					time_sec = time_sec / 60f;
-				}
-				if (time_sec > 60) {
-					unitaDiMisura = "ore";
-					time_sec = time_sec / 60f;
-				}
-
-				elapsedTime = (int) time_sec;
-
-				txtElapsedTime.setText("" + elapsedTime + " " + unitaDiMisura);
-
-				if (mSpeedValue <= 0) {
-					txtAverageSpeed.setText("0");
-				} else {
-					txtAverageSpeed.setText(("" + (mSpeedValue + 0.000001f))
-							.substring(0, 4) + " " + "km/h");
-				}
-				break;
-			case CALORIES_MSG:
-				mCaloriesValue = msg.arg1;
-
-				if (mCaloriesValue <= 0) {
-					mCaloriesValueView.setText("0");
-				} else {
-					mCaloriesValueView.setText("" + (int) mCaloriesValue);
-				}
-				break;
-			default:
-				super.handleMessage(msg);
 			}
 		}
-
 	};
 
 	protected float convertMilesToKm(float sizeInMiles) {

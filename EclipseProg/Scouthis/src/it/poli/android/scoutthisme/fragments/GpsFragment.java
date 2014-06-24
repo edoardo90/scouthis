@@ -85,7 +85,7 @@ public class GpsFragment extends Fragment implements SensorListener, GpsListener
 				txtAcl.setText(String.format("%.2f", 0.00));
 
 		} else {
-			float degree = Math.round(event.values[0]); // Get the angle around the z-axis rotated
+			float degree = Math.round(event.values[0]) % 360; // Get the angle around the z-axis rotated
 			
 			View rootView = getView();
 			txtDegrees = (TextView) rootView.findViewById(R.id.txtDegrees); // TextView that will tell the user what degree is he heading
