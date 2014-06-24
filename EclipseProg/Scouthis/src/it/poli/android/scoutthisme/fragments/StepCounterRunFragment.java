@@ -32,6 +32,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -335,7 +336,19 @@ public class StepCounterRunFragment extends StepCounterFragmentArchetype impleme
 		if (lastSensorLoc == null) {
 			this.lastSensorLoc = location;
 		}
-
+		
+		TextView txtStatus = (TextView) mAct.findViewById(R.id.txtStepcounterStatus); 
+		if (gpsHandler.isGpsEnabled()) {
+			if (location != null)
+			{
+				txtStatus.setText(Html.fromHtml(getString(R.string.generic_status_ready)));
+			} else {
+				txtStatus.setText(Html.fromHtml(getString(R.string.generic_status_waiting_gps)));
+			}
+		} else {			
+			txtStatus.setText(Html.fromHtml(getString(R.string.generic_status_gps_deactivated)));
+		}
+		
 		updateMap();
 	}
 

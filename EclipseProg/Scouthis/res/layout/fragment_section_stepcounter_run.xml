@@ -44,7 +44,7 @@
         android:id="@+id/step_statistics_table"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
+        android:layout_above="@+id/txtStepcounterStatus" >
 
         <TextView
             android:id="@+id/txtSeeHistory"
@@ -171,5 +171,11 @@
                 android:textSize="24sp" />
         </TableRow>
     </TableLayout>
+
+    <TextView
+        android:id="@+id/txtStepcounterStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

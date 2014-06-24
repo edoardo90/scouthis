@@ -31,7 +31,7 @@ public class StepCounterLazyAdapter extends BaseAdapter {
 	public StepCounterLazyAdapter(Activity a,  
 			LinkedList<RunEpisode> runList, StepCounterHistoryFragment historyFragment) {
 		this.activity = a;
-		this.data=runList;
+		this.data = runList;
 		StepCounterLazyAdapter.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.imageLoader=new ImageLoader(activity.getApplicationContext());
 		this.historyFragment = historyFragment;
@@ -66,13 +66,12 @@ public class StepCounterLazyAdapter extends BaseAdapter {
 			runEspisode = data.get(position);
 
 			String fotoname = runEspisode.getFotoName();
-			distance.setText(Html.fromHtml("<b>" + runEspisode.getStringDistance() + "</b>" + " m"));
-			speed.setText( Html.fromHtml("<b>" + runEspisode.getStringSpeed() + "</b>"+ " km/h"));
+			distance.setText(Html.fromHtml("<b>" + String.format("%.2f", Float.valueOf(runEspisode.getStringDistance())) + "</b>" + " m"));
+			speed.setText( Html.fromHtml("<b>" + String.format("%.2f", Float.valueOf(runEspisode.getStringSpeed())) + "</b>"+ " km/h"));
 			runDate.setText(runEspisode.getDateReadable());
 			
 			Bitmap bmp = ImageToolz.loadBitmapFromDisk(Constants.SD_IMAGE_DIR, fotoname);
 			thumb_image.setImageBitmap(bmp);
-			
 		}
 		
 		trash_image.setOnClickListener(new OnClickListener() {
